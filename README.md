@@ -1,4 +1,5 @@
-
+## Pet project
+React + TS + Node.js + Exspress + Sequelize
 ## Installation and start (backend)
 
 Download project
