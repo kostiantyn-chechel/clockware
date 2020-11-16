@@ -32,7 +32,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function UploadPhoto(props) {
+interface IUploadPhoto {
+    photoURL: string,
+    handlePhotoURL(url: string): void;
+}
+
+const UploadPhoto:React.FC<IUploadPhoto> = (props) => {
     const classes = useStyles();
     const { photoURL } = props;
 
@@ -56,6 +61,7 @@ function UploadPhoto(props) {
     },[errorSize]);
 
     const loadPhoto =  () => {
+        // @ts-ignore
         let file = document.getElementById('load-file').files[0];
 
         if (file) {
@@ -99,6 +105,6 @@ function UploadPhoto(props) {
             {placePhoto()}
         </>
     );
-}
+};
 
 export default UploadPhoto;
