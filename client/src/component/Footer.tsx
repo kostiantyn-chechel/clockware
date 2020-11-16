@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
@@ -21,7 +21,7 @@ function Copyright() {
     );
 }
 
-function Footer(props) {
+const Footer: React.FC = () => {
     const classes = useStyles();
 
     return (

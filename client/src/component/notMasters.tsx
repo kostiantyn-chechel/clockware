@@ -23,7 +23,7 @@ interface INotMastrs {
     handleCancelBtn(event: React.MouseEvent):void
 }
 
-const NotMasters: React.FC<INotMastrs> = props => {
+const NotMasters: React.FC<INotMastrs> = ({handleCancelBtn}) => {
     const classes = useStyles();
     return (
         <div className={classes.paper}>
@@ -38,7 +38,7 @@ const NotMasters: React.FC<INotMastrs> = props => {
                         color="secondary"
                         className={classes.submit}
                         size="large"
-                        onClick={props.handleCancelBtn}
+                        onClick={handleCancelBtn}
                     >
                         Вернуться к заказу
                     </Button>
