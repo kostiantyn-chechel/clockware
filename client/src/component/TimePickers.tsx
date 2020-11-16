@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
@@ -14,11 +14,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function TimePickers(props) {
+interface ItimePickers {
+    onChange(): void;
+}
+
+const TimePickers: React.FC<ItimePickers> = (props) => {
     const classes = useStyles();
 
     return (
-        // <form className={classes.container} noValidate>
         <div className={classes.container}>
             <TextField
                 onChange={props.onChange}
@@ -36,4 +39,6 @@ export default function TimePickers(props) {
             />
         </div>
     );
-}
+};
+
+export default TimePickers;

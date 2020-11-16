@@ -1,19 +1,23 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
-function Warning(props) {
+interface IWarning {
+    valid: boolean
+}
+
+const Warning: React.FC<IWarning> = ({valid, children}) => {
     return (
         <React.Fragment>
-            {!props.valid
+            {!valid
                 ?
                 <Typography component="h4" variant="h5" align="center" color="secondary">
-                    {props.children}
+                    {children}
                 </Typography>
                 :
                 null
             }
         </React.Fragment>
     );
-}
+};
 
 export default Warning;
