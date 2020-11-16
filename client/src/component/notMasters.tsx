@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -19,8 +19,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+interface INotMastrs {
+    handleCancelBtn(event: React.MouseEvent):void
+}
 
-function NotMasters(props) {
+const NotMasters: React.FC<INotMastrs> = props => {
     const classes = useStyles();
     return (
         <div className={classes.paper}>
