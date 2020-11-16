@@ -21,7 +21,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Header(props) {
+interface IHeader {
+    setIsToken(isToken: boolean):void,
+    emptyBooking():void
+}
+
+const Header: React.FC<IHeader> = (props) => {
     const classes = useStyles();
 
     const handlerAdmin = () => {
@@ -75,6 +80,6 @@ function Header(props) {
             </Toolbar>
         </AppBar>
     );
-}
+};
 
 export default Header;
