@@ -13,6 +13,7 @@ import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { isEmail } from '../helpers/validation';
 import UploadPhoto from './UploadPhoto';
+import {ICity} from "../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -41,7 +42,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function BookingFillingFields(props) {
+interface IBookingFillingFields {
+    cityId: number,
+    name: string,
+    email: string,
+    date: string,
+    time: string,
+    size: number,
+    photoURL: string,
+    cities: ICity[],
+    findMaster(cityId: number, date: string, time: string, size: number): void,
+    changeName(name: string): void,
+    changeEmail(email: string): void,
+    handleSizeChange(): void,
+    handlePhotoURL(): void,
+    handleSelectCity(): void,
+    handleSelectDate(): void,
+    handleSelectTime(): void,
+}
+
+const BookingFillingFields: React.FC<IBookingFillingFields> = (props) => {
     const classes = useStyles();
     const [noValidName, setNoValidName] = useState(false);
     const [noValidEmail, setNoValidEmail] = useState(false);
@@ -51,7 +71,7 @@ function BookingFillingFields(props) {
         if (props.cityId) setNoValidCity(false)
     },[props.cityId]);
 
-    const changeNameText = event => {
+    const changeNameText = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.value;
         props.changeName(name);
         if (name.trim().length > 2) {
@@ -61,7 +81,7 @@ function BookingFillingFields(props) {
         }
     };
 
-    const changeEmailText = event => {
+    const changeEmailText = (event: React.ChangeEvent<HTMLInputElement>) => {
         const email = event.target.value;
         props.changeEmail(email);
         if (isEmail(email)) {
@@ -78,7 +98,7 @@ function BookingFillingFields(props) {
         return props.name && props.email && props.cityId
     };
 
-    const   handleFindMaster = event => {
+    const   handleFindMaster = (event: React.MouseEvent) => {
         event.preventDefault();
         const isValid = isNoEmpty() && !noValidName && !noValidEmail ;
         if (isValid) props.findMaster(props.cityId, props.date, props.time, props.size);
@@ -197,6 +217,6 @@ function BookingFillingFields(props) {
             </form>
         </div>
     );
-}
+};
 
 export default BookingFillingFields;
