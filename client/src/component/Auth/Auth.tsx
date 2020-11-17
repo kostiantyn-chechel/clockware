@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {IAuthUser} from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -28,20 +29,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Auth(props) {
+interface IAuth {
+    userLoginFetch(user: IAuthUser): void,
+    authUserMessage(msg: string | null): void,
+    message: string
+}
+
+const Auth: React.FC<IAuth> = props => {
     const classes = useStyles();
-    const [user, setUser] = useState({
+    const [user, setUser] = useState<IAuthUser>({
         login: '',
         password: '',
     });
 
-    const handleChange = event => {
+    const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
         setUser({
             ...user, [event.target.name]: event.target.value
         })
     };
 
-    const handleSubmit = event => {
+    const handleSubmit = (event:React.MouseEvent) => {
         event.preventDefault();
         props.userLoginFetch(user);
         props.authUserMessage(null);
@@ -108,6 +115,6 @@ function Auth(props) {
             </div>
         </Container>
     );
-}
+};
 
 export default Auth;
