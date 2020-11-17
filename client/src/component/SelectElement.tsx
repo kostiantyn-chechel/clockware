@@ -4,6 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { ICity } from "../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -15,13 +16,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SelectElement(props) {
-    const classes = useStyles();
-    const [city, setCity] = React.useState(props.cityId || '');
+interface ISelectElement {
+    noValidCity: boolean,
+    arrItems: ICity[],
+    onChange(value: string): void,
+}
 
-    const handleChange = (event) => {
-        setCity(event.target.value);
-        props.onChange(event.target.value);
+const SelectElement:React.FC<ISelectElement> = (props) => {
+    const classes = useStyles();
+    // const [city, setCity] = React.useState(props.cityId || '');
+    const [city, setCity] = React.useState('');
+
+    const handleChange = (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => {
+        const selectValue = event.target.value as string;
+        setCity(selectValue);
+        props.onChange(selectValue);
     };
 
     const menuItemList = () => {
@@ -51,4 +60,6 @@ export default function SelectElement(props) {
             </FormControl>
         </div>
     );
-}
+};
+
+export default SelectElement;

@@ -15,7 +15,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function DatePickers(props) {
+interface IDatePickers {
+    onChange(): void;
+}
+
+const DatePickers:React.FC<IDatePickers> = (props) => {
     const classes = useStyles();
 
     return (
@@ -33,4 +37,6 @@ export default function DatePickers(props) {
             />
         </div>
     );
-}
+};
+
+export default DatePickers;
