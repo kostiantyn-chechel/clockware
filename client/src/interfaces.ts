@@ -14,3 +14,8 @@ export interface IAuthUser {
     login: string,
     password: string,
 }
+
+export interface IClient {
+    name: string,
+    email: string,
+}

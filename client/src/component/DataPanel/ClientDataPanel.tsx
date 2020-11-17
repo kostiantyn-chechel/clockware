@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {isEmail} from '../../helpers/validation';
+import {IClient} from "../../interfaces";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,14 +40,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function ClientDataPanel(props) {
+interface IClientDataPanel {
+    clientEdit: IClient,
+    changeClientName(name: string): void,
+    changeClientEmail(email: string): void,
+    handleClientSave(): void,
+    handleClientCancel(): void,
+    addNew: boolean,
+}
+
+const ClientDataPanel:React.FC<IClientDataPanel> = (props) => {
     const classes = useStyles();
     const [valid, setValid] = useState({
         name: true,
         email: true,
     });
 
-    const changeName = event => {
+    const changeName = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.value;
         props.changeClientName(name);
         if (name.length < 3) {
@@ -56,7 +66,7 @@ function ClientDataPanel(props) {
         }
     };
 
-    const changeEmailText = event => {
+    const changeEmailText = (event: React.ChangeEvent<HTMLInputElement>) => {
         const email = event.target.value;
         props.changeClientEmail(email);
         if (isEmail(email)) {
@@ -133,6 +143,6 @@ function ClientDataPanel(props) {
             </form>
         </div>
     );
-}
+};
 
 export default ClientDataPanel;
