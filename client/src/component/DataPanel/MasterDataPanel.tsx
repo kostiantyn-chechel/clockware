@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import SelectElement from '../SelectElement';
+import {ICity, IMaster} from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -38,13 +39,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function MasterDataPanel(props) {
+interface IMasterDataPanel {
+    masterEdit: IMaster,
+    handleMasterSave(): void,
+    handleMasterCancel(): void,
+    handleSelectCity(): void,
+    changeMasterName(name: string): void,
+    arrCity: ICity[],
+    addNew: boolean
+}
+
+const MasterDataPanel: React.FC<IMasterDataPanel> = (props) => {
     const classes = useStyles();
     const [valid, setValid] = useState({
         name: true,
     });
 
-    const changeName = event => {
+    const changeName = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.value;
             props.changeMasterName(name);
         if (name.length < 3) {
@@ -116,6 +127,6 @@ function MasterDataPanel(props) {
             </form>
         </div>
     );
-}
+};
 
 export default MasterDataPanel;

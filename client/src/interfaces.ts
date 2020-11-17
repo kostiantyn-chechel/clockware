@@ -6,7 +6,8 @@ export interface ICity {
 export interface IMaster {
     id: number,
     name: string,
-    rating: number
+    rating: number,
+    cityId: number
 }
 
 export interface IAuthUser {
