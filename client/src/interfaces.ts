@@ -5,5 +5,5 @@ export interface ICity {
 export interface IMaster {
     id: number,
     name: string,
-
+    rating: number
 }

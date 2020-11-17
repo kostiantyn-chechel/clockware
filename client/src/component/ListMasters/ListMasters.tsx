@@ -8,6 +8,7 @@ import Box from '@material-ui/core/Box';
 import Rating from '@material-ui/lab/Rating';
 import IconButton from '@material-ui/core/IconButton';
 import CommentIcon from '@material-ui/icons/Comment';
+import {IMaster} from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     masters: {
@@ -27,13 +28,18 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+interface IListMasters {
+    arrMasters: IMaster[],
+    onChange(): void,
+    handleMasterReview(id: number): void
+}
 
-function ListMasters(props) {
+const ListMasters: React.FC<IListMasters> = (props) => {
     const classes = useStyles();
 
     const itemList = () => {
         return props.arrMasters.map((master, index) => {
-            const item = (name, rating) => {
+            const item = (name: string, rating: number) => {
                 return (
                     <React.Fragment>
                         <Grid className={classes.masters} container spacing={1}>
@@ -80,6 +86,6 @@ function ListMasters(props) {
                 {itemList()}
             </RadioGroup>
     );
-}
+};
 
 export default ListMasters;
