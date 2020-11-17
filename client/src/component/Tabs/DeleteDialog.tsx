@@ -6,7 +6,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 
-function DeleteDialog(props) {
+interface IDeleteDialog {
+    context: string,
+    setDelete(flag: boolean): void,
+    deleteEntry(): void,
+}
+
+const DeleteDialog: React.FC<IDeleteDialog> = (props) => {
     const { context, setDelete, deleteEntry } = props;
     const [open, setOpen] = React.useState(true);
 
@@ -32,7 +38,7 @@ function DeleteDialog(props) {
                 <DialogTitle id="alert-dialog-title">{'Удаление записи!'}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Вы подтверждаете удаление следующей записи: {context} ?
+                        Вы подтверждаете удаление следующей записи: { context } ?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -46,6 +52,6 @@ function DeleteDialog(props) {
             </Dialog>
         </div>
     );
-}
+};
 
 export default DeleteDialog;
