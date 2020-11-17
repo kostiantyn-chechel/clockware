@@ -17,11 +17,16 @@ const theme = createMuiTheme({
     },
 });
 
-function AddButton(props) {
-    const {nameAdd} = props;
+interface IAddButton {
+    nameAdd: string,
+    handleButton(): void,
+}
+
+const AddButton: React.FC<IAddButton> = (props) => {
+    const { nameAdd } = props;
     const classes = useStyles();
 
-    const handleBtn = (event) => {
+    const handleBtn = (event: React.MouseEvent) => {
         event.preventDefault();
         props.handleButton();
     };
@@ -40,6 +45,6 @@ function AddButton(props) {
             </Button>
         </ThemeProvider>
     );
-}
+};
 
 export default AddButton;
