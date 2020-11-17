@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-
+import {ICity} from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -27,14 +27,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function CityDataPanel(props) {
+interface ICityDataPanel {
+    cityEdit: ICity,
+    handleCitySave(): void,
+    handleCityCancel(): void,
+    changeCityName(name: string): void,
+    addNew: boolean
+}
+
+const CityDataPanel: React.FC<ICityDataPanel> = (props) => {
     const classes = useStyles();
     const [valid, setValid] = useState({
         name: true,
     });
 
-    const changeName = event => {
-        const name = event.target.value;
+    const changeName = (event: React.ChangeEvent) => {
+        const name = (event.target as HTMLInputElement).value;
         props.changeCityName(name);
         if (name.length < 3) {
             setValid({name: false})
