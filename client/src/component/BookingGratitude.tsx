@@ -9,7 +9,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function BookingGratitude(props) {
+interface IBookingGratitude {
+    masterName: string,
+    date: string,
+    time: string,
+    size: number,
+    email: string,
+}
+
+const BookingGratitude:React.FC<IBookingGratitude> = (props) => {
     const classes = useStyles();
 
     return (
