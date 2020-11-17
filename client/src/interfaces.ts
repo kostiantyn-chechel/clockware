@@ -7,7 +7,8 @@ export interface IMaster {
     id: number,
     name: string,
     rating: number,
-    cityId: number
+    cityId: number,
+    review: string[],
 }
 
 export interface IAuthUser {

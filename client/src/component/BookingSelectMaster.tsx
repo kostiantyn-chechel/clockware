@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Warning from './Warning';
 import MastersReview from './ListMasters/MastersReview';
+import { IMaster } from "../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -27,15 +28,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function BookingSelectMaster(props) {
+interface IBookingSelectMaster {
+    masterId: number,
+    arrMasters: IMaster[],
+    handleSendOrder(): void,
+    handleSelectMaster(): void,
+    handleCancelBtn(): void,
+}
+
+const BookingSelectMaster:React.FC<IBookingSelectMaster> = (props) => {
     const classes = useStyles();
 
     const [valid, setValid] = useState({allIsFull: true});
 
-    const [review, setReview] = useState([]);
-    const [reviewMasterName, setReviewMasterName] = useState([]);
+    const [review, setReview] = useState<string[]>([]);
+    const [reviewMasterName, setReviewMasterName] = useState('');
 
-    const handleSendOrder = event => {
+    const handleSendOrder = (event: React.MouseEvent) => {
         event.preventDefault();
         if (props.masterId) {
             props.handleSendOrder();
@@ -45,8 +54,8 @@ function BookingSelectMaster(props) {
         }
     };
 
-    const handleMasterReview = masterId => {
-        props.arrMasters.forEach(master => {
+    const handleMasterReview = (masterId: number) => {
+        props.arrMasters.forEach((master) => {
             if (master.id === masterId) {
                 setReview(master.review);
                 setReviewMasterName(master.name);
@@ -105,6 +114,6 @@ function BookingSelectMaster(props) {
             />
         </div>
     );
-}
+};
 
 export default BookingSelectMaster;
