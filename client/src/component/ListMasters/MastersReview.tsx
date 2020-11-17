@@ -12,7 +12,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function MastersReview(props) {
+interface IMastersReview {
+    masterName: string,
+    masterReviews: string[]
+}
+
+const MastersReview: React.FC<IMastersReview> = (props) => {
     const classes = useStyles();
     const { masterReviews, masterName} = props;
 
@@ -22,7 +27,7 @@ function MastersReview(props) {
                 return (
                     <FilledInput
                         fullWidth
-                        variant="filled"
+                        // variant='filled'
                         key={review}
                         id="standard-textarea"
                         multiline
@@ -58,6 +63,6 @@ function MastersReview(props) {
             {reviewShow()}
         </>
     );
-}
+};
 
 export default MastersReview;

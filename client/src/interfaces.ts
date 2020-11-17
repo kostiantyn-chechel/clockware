@@ -2,6 +2,8 @@ export interface ICity {
     id: number,
     name: string
 }
-export interface ICities {
+export interface IMaster {
+    id: number,
+    name: string,
 
 }
