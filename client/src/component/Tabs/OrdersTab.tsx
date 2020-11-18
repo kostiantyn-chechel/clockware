@@ -13,6 +13,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import PaginationTable from './Tables/PaginationTable';
 import InfiniteTable from './Tables/InfiniteTable';
 import DeleteDialog from './DeleteDialog';
+import {IFetchFilterAndPaginOrders, IOrder} from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,21 +57,47 @@ const RECORDS_PER_SCROLL = 6;
 const FIRST_SCROLL = 12;
 const START_PAGE = 0;
 
-function OrdersTab(props) {
+interface IOrdersTab {
+    orders: {
+        count: number,
+        rows: IOrder[],
+    },
+    ordersInfinite: {
+        count: number,
+        rows: IOrder[],
+    },
+    clearInfiniteOrders(): void,
+    deleteOrder(id: number): void,
+    fetchFilterAndPaginOrders(param: IFetchFilterAndPaginOrders): number,
+    fetchFilterAndInfiniteOrders(param: IFetchFilterAndPaginOrders): void,
+}
+
+interface IRow {
+    id: number,
+    date: string,
+    time: string,
+    hours: string,
+    client: string,
+    master: string,
+    city: string,
+    photoURL: string,
+}
+
+const OrdersTab: React.FC<IOrdersTab> = (props) => {
     const classes = useStyles();
 
-    const searchValue = useRef('');
+    const searchValue = useRef<string>('');
 
     const [typePagination, setTypePagination] = useState(true);
 
     const [sortBy, setSortBy] = useState('');
     const [sort, setSort] = useState('asc');
 
-    const [ordersPagination, setOrdersPagination] = useState([]);
+    const [ordersPagination, setOrdersPagination] = useState<IRow[]>([]);
     const [paginationPage, setPaginationPage] = useState(1);
 
     const [showDelDialog, setShowDelDialog] = useState(false);
-    const [delId, setDelId] = useState('');
+    const [delId, setDelId] = useState<number>(0);
 
     /* eslint-disable */
     useEffect(() => {
@@ -97,7 +124,7 @@ function OrdersTab(props) {
         }
     },[props.orders]);
 
-    const [ordersInfinite, setOrdersInfinite] = useState([]);
+    const [ordersInfinite, setOrdersInfinite] = useState<IRow[]>([]);
     const [fullInfinite, setFullInfinite] = useState([]);
     const [currentScrollOffset, setCurrentScrollOffset] = useState(FIRST_SCROLL);
     const [clearList, setClearList] = useState(true);
@@ -111,8 +138,8 @@ function OrdersTab(props) {
         }
     },[props.ordersInfinite]);
 
-    const createRows = orders => {
-        return orders.map(order => {
+    const createRows = (orders: IOrder[]): IRow[] => {
+        return orders.map((order) => {
             return({
                 id: order.id,
                 date: dayToString(order.date),
@@ -139,7 +166,7 @@ function OrdersTab(props) {
         setUrlPhoto('');
         setOpen(false);
     };
-    const handleToggle = url => {
+    const handleToggle = (url: string) => {
         setUrlPhoto(url);
         setOpen(!open);
     };
@@ -157,9 +184,9 @@ function OrdersTab(props) {
 
     const namePagination = () => typePagination ? 'infinite' : 'pagination';
 
-    const handleChangeSearch = event => searchValue.current = event.target.value;
+    const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => searchValue.current = event.target.value;
 
-    const handleSearch = event => {
+    const handleSearch = (event: React.MouseEvent) => {
         event.preventDefault();
         if (typePagination) {
             refreshPagination(START_PAGE);
@@ -181,7 +208,7 @@ function OrdersTab(props) {
         }
     };
 
-    const clickDel = id => {
+    const clickDel = (id: number) => {
         setDelId(id);
         setShowDelDialog(true);
     };
@@ -200,29 +227,42 @@ function OrdersTab(props) {
         }
     };
 
-    const contextOrder = orders => {
-        const delOrder = orders.find((order) => order.id === delId);
-        return `id:${delOrder.id} ${delOrder.date} ${delOrder.client}`;
+    const contextOrder = (orders: IRow[]) => {
+        const delOrder: IRow | undefined = orders.find((order) => order.id === delId);
+        return `id:${delOrder!.id} ${delOrder!.date} ${delOrder!.client}`;
     };
 
-    const ordersTablesArr = orders => orders[0] ? orders : [];
+    const ordersTablesArr = (orders: IRow[]) => orders[0] ? orders : [];
 
     /* eslint-disable */
     const scrollPortion = useMemo(() => ordersTablesArr(ordersInfinite), [ordersInfinite]);
     /* eslint-enable */
 
-    const handlePaginator = (event, number) =>{
+    const handlePaginator = (event: React.ChangeEvent<unknown>, number: number) =>{
         setPaginationPage(number);
         refreshPagination((number - 1) * RECORDS_PER_PAGE);
     };
 
+    // @ts-ignore
     const numberOfPages = () => Math.trunc(countOrders / RECORDS_PER_PAGE) + !!(countOrders % RECORDS_PER_PAGE);
 
-    const refreshPagination = numberPage => props.fetchFilterAndPaginOrders({ word: searchValue.current,
-                                                            limit: RECORDS_PER_PAGE, offset: numberPage, sortBy, sort });
+    const refreshPagination = (numberPage: number) => {
+        props.fetchFilterAndPaginOrders({
+            word: searchValue.current,
+            limit: RECORDS_PER_PAGE,
+            offset: numberPage,
+            sortBy,
+            sort
+        })};
 
-    const refreshInfinite = (scroll, numberPage) => props.fetchFilterAndInfiniteOrders({ word: searchValue.current,
-                                                            limit: scroll, offset: numberPage, sortBy, sort });
+    const refreshInfinite = (scroll: number, numberPage: number) => {
+        props.fetchFilterAndInfiniteOrders({
+                word: searchValue.current,
+                limit: scroll,
+                offset: numberPage,
+                sortBy,
+                sort
+        })};
 
     const listOrders = () => {
         if (typePagination) {
@@ -306,6 +346,6 @@ function OrdersTab(props) {
             {deleteDialog()}
         </>
     );
-}
+};
 
 export default OrdersTab;

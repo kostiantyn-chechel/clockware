@@ -4,11 +4,29 @@ export interface ICity {
 }
 
 export interface IMaster {
-    id?: number,
+    id: number,
     name: string,
-    rating?: number,
+    rating: number,
     cityId: number,
-    review?: string[],
+    review: string[],
+}
+
+export interface IClient {
+    name: string,
+    email: string,
+}
+
+export interface IOrder {
+    id: number,
+    date: number,
+    time: string,
+    hours: number,
+    photoURL: string,
+    count: number,
+    client: string,
+    order_client: {},
+    order_master: {},
+    order_city: {},
 }
 
 export interface IAuthUser {
@@ -16,7 +34,11 @@ export interface IAuthUser {
     password: string,
 }
 
-export interface IClient {
-    name: string,
-    email: string,
+export  interface IFetchFilterAndPaginOrders {
+    word: string,
+    limit: number,
+    offset: number,
+    sortBy: string,
+    sort: string,
 }
+

@@ -17,8 +17,11 @@ interface IMastersTab {
 
 const MastersTab: React.FC<IMastersTab> = (props) => {
     const [masterEdit, setMasterEdit] = useState<IMaster>({
+        id: 0,
         name: '',
         cityId: 0,
+        rating: 0,
+        review: [],
     });
     const [flag, setFlag] = useState({
         showPanel: false,
@@ -47,14 +50,24 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
                 props.editMaster(masterEdit);
             }
             setFlag({ ...flag, showPanel: false });
-            setMasterEdit({ name: '', cityId: 0 });
+            setMasterEdit({
+                id: 0,
+                name: '',
+                cityId: 0,
+                rating: 0,
+                review: [], });
         }
     };
 
     const handleMasterCancel = (event: React.MouseEvent) => {
         event.preventDefault();
         setFlag({ ...flag, showPanel: false });
-        setMasterEdit({ name: '', cityId: 0 });
+        setMasterEdit({
+            id: 0,
+            name: '',
+            cityId: 0,
+            rating: 0,
+            review: [], });
     };
 
     const clickEdit = (id: number) => {
