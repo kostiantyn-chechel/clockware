@@ -4,11 +4,11 @@ export interface ICity {
 }
 
 export interface IMaster {
-    id: number,
+    id?: number,
     name: string,
-    rating: number,
+    rating?: number,
     cityId: number,
-    review: string[],
+    review?: string[],
 }
 
 export interface IAuthUser {

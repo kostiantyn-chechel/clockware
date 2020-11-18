@@ -41,9 +41,9 @@ const useStyles = makeStyles((theme) => ({
 
 interface IMasterDataPanel {
     masterEdit: IMaster,
-    handleMasterSave(): void,
-    handleMasterCancel(): void,
-    handleSelectCity(): void,
+    handleMasterSave(event: React.MouseEvent): void,
+    handleMasterCancel(event: React.MouseEvent): void,
+    handleSelectCity(id: number): void,
     changeMasterName(name: string): void,
     arrCity: ICity[],
     addNew: boolean

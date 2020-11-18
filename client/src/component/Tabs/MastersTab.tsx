@@ -4,11 +4,21 @@ import MasterDataPanel from '../DataPanel/MasterDataPanel';
 import { cityById } from '../../helpers/dataProcessing';
 import MastersTable from './Tables/MastersTable';
 import DeleteDialog from './DeleteDialog';
+import {ICity, IMaster} from "../../interfaces";
 
-function MastersTab(props) {
-    const [masterEdit, setMasterEdit] = useState({
+interface IMastersTab {
+    masters: IMaster[],
+    cities: ICity[],
+    fetchMasters(): void,
+    addMaster(master: IMaster): void,
+    editMaster(master: IMaster): void,
+    deleteMaster(id: number): void,
+}
+
+const MastersTab: React.FC<IMastersTab> = (props) => {
+    const [masterEdit, setMasterEdit] = useState<IMaster>({
         name: '',
-        cityId: null
+        cityId: 0,
     });
     const [flag, setFlag] = useState({
         showPanel: false,
@@ -16,7 +26,7 @@ function MastersTab(props) {
     });
 
     const [showDelDialog, setShowDelDialog] = useState(false);
-    const [delId, setDelId] = useState('');
+    const [delId, setDelId] = useState<number>(0);
 
     /* eslint-disable */
     useEffect(() => {
@@ -24,11 +34,11 @@ function MastersTab(props) {
     }, []);
     /* eslint-enable */
 
-    const changeMasterName = name => setMasterEdit({ ...masterEdit, name: name });
-    const handleSelectCity = id => setMasterEdit({ ...masterEdit, cityId: id });
+    const changeMasterName = (name: string) => setMasterEdit({ ...masterEdit, name: name });
+    const handleSelectCity = (id: number) => setMasterEdit({ ...masterEdit, cityId: id });
     const handleAddButton = () => setFlag({ showPanel: true, addNew: true });
 
-    const handleMasterSave = event => {
+    const handleMasterSave = (event: React.MouseEvent) => {
         event.preventDefault();
         if (masterEdit.name.length >=3 && masterEdit.cityId) {
             if (flag.addNew) {
@@ -37,17 +47,17 @@ function MastersTab(props) {
                 props.editMaster(masterEdit);
             }
             setFlag({ ...flag, showPanel: false });
-            setMasterEdit({ name: '', cityId: null });
+            setMasterEdit({ name: '', cityId: 0 });
         }
     };
 
-    const handleMasterCancel = event => {
+    const handleMasterCancel = (event: React.MouseEvent) => {
         event.preventDefault();
         setFlag({ ...flag, showPanel: false });
-        setMasterEdit({ name: '', cityId: null });
+        setMasterEdit({ name: '', cityId: 0 });
     };
 
-    const clickEdit = id => {
+    const clickEdit = (id: number) => {
         props.masters.forEach((master) => {
             if (master.id === id) {
                 setMasterEdit(master);
@@ -58,7 +68,7 @@ function MastersTab(props) {
 
     const masterDelete = () => props.deleteMaster(delId);
 
-    const clickDel = id => {
+    const clickDel = (id: number) => {
         setDelId(id);
         setShowDelDialog(true);
     };
@@ -137,6 +147,6 @@ function MastersTab(props) {
             {deleteDialog()}
         </React.Fragment>
     );
-}
+};
 
 export default MastersTab;

@@ -19,17 +19,17 @@ const useStyles = makeStyles((theme) => ({
 interface ISelectElement {
     noValidCity?: boolean,
     arrItems: ICity[],
-    onChange(value: string): void,
+    onChange(value: number): void,
     cityId?: number
 }
 
 const SelectElement:React.FC<ISelectElement> = (props) => {
     const classes = useStyles();
-    const [city, setCity] = React.useState(props.cityId || '');
+    const [city, setCity] = React.useState<number>(props.cityId || 0);
     // const [city, setCity] = React.useState('');
 
     const handleChange = (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => {
-        const selectValue = event.target.value as string;
+        const selectValue = event.target.value as number;
         setCity(selectValue);
         props.onChange(selectValue);
     };
