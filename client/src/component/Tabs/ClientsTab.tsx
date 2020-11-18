@@ -4,9 +4,19 @@ import ClientDataPanel from '../DataPanel/ClientDataPanel';
 import {isEmail} from '../../helpers/validation';
 import ClientsTable from './Tables/ClientsTable';
 import DeleteDialog from './DeleteDialog';
+import {IClient} from "../../interfaces";
 
-function ClientsTab(props) {
-    const [clientEdit, setClientEdit] = useState({
+interface IClientsTab {
+    clients: IClient[],
+    fetchClients(): void,
+    deleteClient(id: number): void,
+    addClient(client: IClient): void,
+    editClient(client: IClient): void,
+}
+
+const ClientsTab: React.FC<IClientsTab> = (props) => {
+    const [clientEdit, setClientEdit] = useState<IClient>({
+        id: 0,
         name: '',
         email: '',
     });
@@ -16,7 +26,7 @@ function ClientsTab(props) {
     });
 
     const [showDelDialog, setShowDelDialog] = useState(false);
-    const [delId, setDelId] = useState('');
+    const [delId, setDelId] = useState<number>(0);
 
     /* eslint-disable */
     useEffect(() => {
@@ -24,11 +34,11 @@ function ClientsTab(props) {
     }, []);
     /* eslint-enable */
 
-    const changeClientName = name => setClientEdit({ ...clientEdit, name: name });
-    const changeClientEmail = email => setClientEdit({ ...clientEdit, email: email });
+    const changeClientName = (name: string) => setClientEdit({ ...clientEdit, name: name });
+    const changeClientEmail = (email: string) => setClientEdit({ ...clientEdit, email: email });
     const handleAddButton = () => setFlag({ showPanel: true, addNew: true });
 
-    const handleClientSave = event => {
+    const handleClientSave = (event: React.MouseEvent) => {
         event.preventDefault();
         if (clientEdit.name.length >= 3 && isEmail(clientEdit.email)) {
             if (flag.addNew) {
@@ -41,13 +51,13 @@ function ClientsTab(props) {
         }
     };
 
-    const handleClientCancel = event => {
+    const handleClientCancel = (event: React.MouseEvent) => {
         event.preventDefault();
         setFlag({ ...flag, showPanel: false });
         setClientEdit({ name: '', email: '' });
     };
 
-    const clickEdit = id => {
+    const clickEdit = (id: number) => {
         props.clients.forEach((client) => {
             if (client.id === id) {
                 setClientEdit(client);
@@ -59,7 +69,7 @@ function ClientsTab(props) {
 
     const clientDelete = () => props.deleteClient(delId);
 
-    const clickDel = id => {
+    const clickDel = (id: number) => {
         setDelId(id);
         setShowDelDialog(true);
     };
@@ -135,6 +145,6 @@ function ClientsTab(props) {
             {deleteDialog()}
         </React.Fragment>
     );
-}
+};
 
 export default ClientsTab;

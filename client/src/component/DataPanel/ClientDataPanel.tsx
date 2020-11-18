@@ -44,8 +44,8 @@ interface IClientDataPanel {
     clientEdit: IClient,
     changeClientName(name: string): void,
     changeClientEmail(email: string): void,
-    handleClientSave(): void,
-    handleClientCancel(): void,
+    handleClientSave(event: React.MouseEvent): void,
+    handleClientCancel(event: React.MouseEvent): void,
     addNew: boolean,
 }
 
