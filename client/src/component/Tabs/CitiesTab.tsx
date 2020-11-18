@@ -3,9 +3,18 @@ import AddButton from './AddButton';
 import CityDataPanel from '../DataPanel/CityDataPanel';
 import CitiesTable from './Tables/CitiesTable';
 import DeleteDialog from './DeleteDialog';
+import {ICity} from "../../interfaces";
 
-function CitiesTab(props) {
-    const [cityEdit, setCityEdit] = useState({
+interface ICitiesTab {
+    cities: ICity[],
+    fetchCities(): void,
+    deleteCity(id: number): void,
+    addCity(city: ICity): void,
+    editCity(city: ICity): void,
+}
+
+const CitiesTab: React.FC<ICitiesTab> = (props) => {
+    const [cityEdit, setCityEdit] = useState<ICity>({
         name: '',
     });
 
@@ -15,7 +24,7 @@ function CitiesTab(props) {
     });
 
     const [showDelDialog, setShowDelDialog] = useState(false);
-    const [delId, setDelId] = useState('');
+    const [delId, setDelId] = useState<number>(0);
 
     /* eslint-disable */
     useEffect(() => {
@@ -23,10 +32,10 @@ function CitiesTab(props) {
     }, []);
     /* eslint-enable */
 
-    const changeCityName = name => setCityEdit({ ...cityEdit, name: name });
+    const changeCityName = (name: string) => setCityEdit({ ...cityEdit, name: name });
     const handleAddButton = () => setFlag({ showPanel: true, addNew: true });
 
-    const handleCitySave = event => {
+    const handleCitySave = (event: React.MouseEvent) => {
         event.preventDefault();
         if (cityEdit.name.length >=3) {
             if (flag.addNew) {
@@ -39,13 +48,13 @@ function CitiesTab(props) {
         }
     };
 
-    const handleCityCancel = event => {
+    const handleCityCancel = (event: React.MouseEvent): void => {
         event.preventDefault();
         setFlag({ ...flag, showPanel: false });
         setCityEdit({ name: '' });
     };
 
-    const clickEdit = id => {
+    const clickEdit = (id: number) => {
         props.cities.forEach((city) => {
             if (city.id === id) {
                 setCityEdit(city);
@@ -56,7 +65,7 @@ function CitiesTab(props) {
 
     const cityDelete = () => props.deleteCity(delId);
 
-    const clickDel = id => {
+    const clickDel = (id: number) => {
         setDelId(id);
         setShowDelDialog(true);
     };
@@ -130,6 +139,6 @@ function CitiesTab(props) {
             {deleteDialog()}
         </React.Fragment>
     );
-}
+};
 
 export default CitiesTab;

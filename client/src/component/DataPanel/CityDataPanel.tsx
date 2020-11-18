@@ -29,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
 
 interface ICityDataPanel {
     cityEdit: ICity,
-    handleCitySave(): void,
-    handleCityCancel(): void,
+    handleCitySave(event: React.MouseEvent): void,
+    handleCityCancel(event: React.MouseEvent): void,
     changeCityName(name: string): void,
     addNew: boolean
 }
@@ -105,6 +105,6 @@ const CityDataPanel: React.FC<ICityDataPanel> = (props) => {
             </form>
         </div>
     );
-}
+};
 
 export default CityDataPanel;
