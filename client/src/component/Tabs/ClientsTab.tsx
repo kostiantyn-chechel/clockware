@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import AddButton from './AddButton';
 import ClientDataPanel from '../DataPanel/ClientDataPanel';
-import {isEmail} from '../../helpers/validation';
+import { isEmail } from '../../helpers/validation';
 import ClientsTable from './Tables/ClientsTable';
 import DeleteDialog from './DeleteDialog';
-import {IClient} from "../../interfaces";
+import { IClient, IClientsTab } from "../../interfaces";
 
-interface IClientsTab {
-    clients: IClient[],
-    fetchClients(): void,
-    deleteClient(id: number): void,
-    addClient(client: IClient): void,
-    editClient(client: IClient): void,
-}
+// interface IClientsTab {
+//     clients: IClient[],
+//     fetchClients(): void,
+//     deleteClient(id: number): void,
+//     addClient(client: IClient): void,
+//     editClient(client: IClient): void,
+// }
 
 const ClientsTab: React.FC<IClientsTab> = (props) => {
     const [clientEdit, setClientEdit] = useState<IClient>({

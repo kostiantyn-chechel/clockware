@@ -3,15 +3,15 @@ import AddButton from './AddButton';
 import CityDataPanel from '../DataPanel/CityDataPanel';
 import CitiesTable from './Tables/CitiesTable';
 import DeleteDialog from './DeleteDialog';
-import {ICity} from "../../interfaces";
+import { ICitiesTab, ICity } from "../../interfaces";
 
-interface ICitiesTab {
-    cities: ICity[],
-    fetchCities(): void,
-    deleteCity(id: number): void,
-    addCity(city: ICity): void,
-    editCity(city: ICity): void,
-}
+// interface ICitiesTab {
+//     cities: ICity[],
+//     fetchCities(): void,
+//     deleteCity(id: number): void,
+//     addCity(city: ICity): void,
+//     editCity(city: ICity): void,
+// }
 
 const CitiesTab: React.FC<ICitiesTab> = (props) => {
     const [cityEdit, setCityEdit] = useState<ICity>({

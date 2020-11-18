@@ -35,6 +35,46 @@ export interface IAuthUser {
     password: string,
 }
 
+export interface IMastersTab {
+    masters: IMaster[],
+    cities: ICity[],
+    fetchMasters(): void,
+    addMaster(master: IMaster): void,
+    editMaster(master: IMaster): void,
+    deleteMaster(id: number): void,
+}
+
+export interface ICitiesTab {
+    cities: ICity[],
+    fetchCities(): void,
+    deleteCity(id: number): void,
+    addCity(city: ICity): void,
+    editCity(city: ICity): void,
+}
+
+export interface IClientsTab {
+    clients: IClient[],
+    fetchClients(): void,
+    deleteClient(id: number): void,
+    addClient(client: IClient): void,
+    editClient(client: IClient): void,
+}
+
+export interface IOrdersTab {
+    orders: {
+        count: number,
+        rows: IOrder[],
+    },
+    ordersInfinite: {
+        count: number,
+        rows: IOrder[],
+    },
+    clearInfiniteOrders(): void,
+    deleteOrder(id: number): void,
+    fetchFilterAndPaginOrders(param: IFetchFilterAndPaginOrders): number,
+    fetchFilterAndInfiniteOrders(param: IFetchFilterAndPaginOrders): void,
+}
+
 export  interface IFetchFilterAndPaginOrders {
     word: string,
     limit: number,

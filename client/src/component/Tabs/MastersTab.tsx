@@ -4,16 +4,16 @@ import MasterDataPanel from '../DataPanel/MasterDataPanel';
 import { cityById } from '../../helpers/dataProcessing';
 import MastersTable from './Tables/MastersTable';
 import DeleteDialog from './DeleteDialog';
-import {ICity, IMaster} from "../../interfaces";
+import { IMastersTab, IMaster } from "../../interfaces";
 
-interface IMastersTab {
-    masters: IMaster[],
-    cities: ICity[],
-    fetchMasters(): void,
-    addMaster(master: IMaster): void,
-    editMaster(master: IMaster): void,
-    deleteMaster(id: number): void,
-}
+// interface IMastersTab {
+//     masters: IMaster[],
+//     cities: ICity[],
+//     fetchMasters(): void,
+//     addMaster(master: IMaster): void,
+//     editMaster(master: IMaster): void,
+//     deleteMaster(id: number): void,
+// }
 
 const MastersTab: React.FC<IMastersTab> = (props) => {
     const [masterEdit, setMasterEdit] = useState<IMaster>({

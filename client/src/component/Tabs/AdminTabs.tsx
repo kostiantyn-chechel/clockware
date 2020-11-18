@@ -9,10 +9,9 @@ import OrdersTab from './OrdersTab';
 import CitiesTab from './CitiesTab';
 import MastersTab from './MastersTab';
 import { validToken } from '../../helpers/authProcessing';
+import {ICitiesTab, IClientsTab, IMastersTab, IOrdersTab} from "../../interfaces";
 
-
-
-function TabPanel(props) {
+function TabPanel(props: any) {
     const { children, value, index, ...other } = props;
 
     return (
@@ -32,7 +31,7 @@ function TabPanel(props) {
     );
 }
 
-function a11yProps(index) {
+function a11yProps(index: number) {
     return {
         id: `simple-tab-${index}`,
         'aria-controls': `simple-tabpanel-${index}`,
@@ -47,11 +46,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function AdminTabs(props) {
-    const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+interface IAdminTabs extends IMastersTab, ICitiesTab, IClientsTab, IOrdersTab {
+    setIsToken(valid: boolean): void,
+}
 
-    const handleChange = async (event, newValue) => {
+const AdminTabs: React.FC<IAdminTabs> = (props) => {
+    const classes = useStyles();
+    const [value, setValue] = React.useState<number>(0);
+
+    const handleChange = async (event: React.ChangeEvent<{}>, newValue: any) => {
         props.setIsToken(validToken());
         setValue(newValue);
     };
@@ -61,7 +64,6 @@ export default function AdminTabs(props) {
             <AppBar position="static">
                 <Tabs value={value}
                       onChange={handleChange}
-
                       variant='fullWidth'
                       aria-label="simple tabs example"
                 >
@@ -111,4 +113,6 @@ export default function AdminTabs(props) {
             </TabPanel>
         </div>
     );
-}
+};
+
+export default AdminTabs;
