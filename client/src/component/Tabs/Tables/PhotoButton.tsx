@@ -2,7 +2,12 @@ import React from 'react';
 import PhotoIcon from '@material-ui/icons/Photo';
 import IconButton from '@material-ui/core/IconButton';
 
-function PhotoButton(props) {
+interface IPhotoButton {
+    photoURL: string,
+    handleToggle(photoUrl: string): void,
+}
+
+const PhotoButton: React.FC<IPhotoButton> = (props) => {
     const { photoURL, handleToggle } = props;
 
     if (photoURL) {
@@ -20,6 +25,6 @@ function PhotoButton(props) {
             </>
         )
     }
-}
+};
 
 export default PhotoButton;
