@@ -3,9 +3,10 @@ import TableHead from '@material-ui/core/TableHead';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles';
 import TableRow from '@material-ui/core/TableRow';
+import {ISortDirection} from "../../../interfaces";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -31,10 +32,17 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function GeneralTableHead(props) {
+interface IGeneralTableHead {
+    headCells: any[],
+    order: ISortDirection,
+    orderBy: string,
+    onRequestSort(event: React.MouseEvent, property: string): void,
+}
+
+const GeneralTableHead: React.FC<IGeneralTableHead> = (props) => {
     const classes = useStyles();
     const { headCells, order, orderBy, onRequestSort} = props;
-    const createSortHandler = (property) => (event) => {
+    const createSortHandler = (property: string) => (event: React.MouseEvent) => {
         onRequestSort(event, property);
     };
 
@@ -66,13 +74,13 @@ function GeneralTableHead(props) {
                 </TableRow>
         </TableHead>
     );
-}
-
-GeneralTableHead.propTypes = {
-    headCells: PropTypes.array.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
 };
+
+// GeneralTableHead.propTypes = {
+//     headCells: PropTypes.array.isRequired,
+//     onRequestSort: PropTypes.func.isRequired,
+//     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+//     orderBy: PropTypes.string.isRequired,
+// };
 
 export default GeneralTableHead;
