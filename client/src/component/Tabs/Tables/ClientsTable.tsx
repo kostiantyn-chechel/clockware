@@ -12,6 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import withStyles from '@material-ui/core/styles/withStyles';
 import GeneralTableHead from './GeneralTableHead';
 import {stableSort} from './TablesHelpers/tableSort';
+import {ISortDirection} from "../../../interfaces";
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -27,13 +28,19 @@ const useStyles = makeStyles({
     },
 });
 
-function ClientsTable(props) {
+interface IClientsTable {
+    listArr: any[],
+    clickEdit(id: number): void,
+    clickDel(id: number): void,
+}
+
+const ClientsTable: React.FC<IClientsTable> = (props) => {
     const classes = useStyles();
     const {listArr} = props;
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('');
+    const [order, setOrder] = useState<ISortDirection>('asc');
+    const [orderBy, setOrderBy] = useState<string>('');
 
-    const handleRequestSort = (event, property) => {
+    const handleRequestSort = (event: React.MouseEvent, property: string) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
@@ -85,6 +92,6 @@ function ClientsTable(props) {
 
         </TableContainer>
     );
-}
+};
 
 export default ClientsTable;
