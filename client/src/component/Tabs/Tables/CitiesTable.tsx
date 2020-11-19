@@ -6,13 +6,13 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
-import {Edit} from '@material-ui/icons';
+import { Edit } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import withStyles from '@material-ui/core/styles/withStyles';
 import GeneralTableHead from './GeneralTableHead';
-import {stableSort} from './TablesHelpers/tableSort';
-import {ISortDirection} from "../../../interfaces";
+import { stableSort } from './TablesHelpers/tableSort';
+import { ISortDirection, ITable } from "../../../interfaces";
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -28,13 +28,7 @@ const useStyles = makeStyles({
     },
 });
 
-interface ICitiesTable {
-    listArr: any[],
-    clickEdit(id: number): void,
-    clickDel(id: number): void,
-}
-
-const CitiesTable: React.FC<ICitiesTable> = (props) => {
+const CitiesTable: React.FC<ITable> = (props) => {
     const classes = useStyles();
     const {listArr} = props;
     const [order, setOrder] = useState<ISortDirection>('asc');

@@ -75,6 +75,12 @@ export interface IOrdersTab {
     fetchFilterAndInfiniteOrders(param: IFetchFilterAndPaginOrders): void,
 }
 
+export interface ITable {
+    listArr: any[],
+    clickEdit(id: number): void,
+    clickDel(id: number): void,
+}
+
 export  interface IFetchFilterAndPaginOrders {
     word: string,
     limit: number,

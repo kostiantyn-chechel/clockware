@@ -6,13 +6,14 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
-import {Edit} from '@material-ui/icons';
+import { Edit } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import withStyles from '@material-ui/core/styles/withStyles';
 import GeneralTableHead from './GeneralTableHead';
-import {stableSort} from './TablesHelpers/tableSort';
+import { stableSort } from './TablesHelpers/tableSort';
 import CommentIcon from '@material-ui/icons/Comment';
+import { ITable, ISortDirection } from "../../../interfaces";
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -28,13 +29,13 @@ const useStyles = makeStyles({
     },
 });
 
-function MastersTable(props) {
+const MastersTable: React.FC<ITable> = (props) => {
     const classes = useStyles();
     const {listArr} = props;
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('');
+    const [order, setOrder] = useState<ISortDirection>('asc');
+    const [orderBy, setOrderBy] = useState<string>('');
 
-    const handleRequestSort = (event, property) => {
+    const handleRequestSort = (event: React.MouseEvent, property: string) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
@@ -51,7 +52,10 @@ function MastersTable(props) {
                                 <TableCell>{row.city}</TableCell>
                                 <TableCell align='center'>{row.rating.toFixed(2)}</TableCell>
                                 <TableCell align='center'>
-                                    <IconButton variant="contained" color="primary" href={`/master/${row.id}`}>
+                                    <IconButton
+                                        // variant="contained"
+                                        color="primary"
+                                        href={`/master/${row.id}`}>
                                         <CommentIcon />
                                     </IconButton>
                                 </TableCell>
@@ -94,6 +98,6 @@ function MastersTable(props) {
 
         </TableContainer>
     );
-}
+};
 
 export default MastersTable;
