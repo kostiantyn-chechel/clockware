@@ -17,7 +17,7 @@ function getComparator(order: ISortDirection, orderBy: string) {
         : (a: any, b: any) => -descendingComparator(a, b, orderBy);
 }
 
-export function stableSort(array: any[], order: ISortDirection, orderBy: string) {
+export function stableSort(array: any[], order: ISortDirection, orderBy: string): any[] {
     const comparator = getComparator(order, orderBy);
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
