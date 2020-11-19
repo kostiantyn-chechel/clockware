@@ -1,12 +1,13 @@
 import React from 'react';
 import TableBody from '@material-ui/core/TableBody';
-import {stableSort} from './TablesHelpers/tableSort';
+import { stableSort } from './TablesHelpers/tableSort';
 import TableCell from '@material-ui/core/TableCell';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TableRow from '@material-ui/core/TableRow';
 import PhotoButton from './PhotoButton';
+import { ISortDirection } from "../../../interfaces";
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -16,7 +17,15 @@ const StyledTableRow = withStyles((theme) => ({
     },
 }))(TableRow);
 
-function OrdersTableBody(props) {
+interface IOrdersTableBody {
+    listArr: any[],
+    order: ISortDirection,
+    orderBy: string,
+    handleToggle():void,
+    clickDel(id: number): void,
+}
+
+const OrdersTableBody: React.FC<IOrdersTableBody> = (props) => {
     const { listArr, order, orderBy, handleToggle } = props;
 
     return (
@@ -48,6 +57,6 @@ function OrdersTableBody(props) {
                 : null}
         </>
     )
-}
+};
 
 export default OrdersTableBody;
