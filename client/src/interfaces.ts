@@ -83,3 +83,4 @@ export  interface IFetchFilterAndPaginOrders {
     sort: string,
 }
 
+export type ISortDirection = 'asc' | 'desc';

@@ -25,7 +25,7 @@ interface ISelectElement {
 
 const SelectElement:React.FC<ISelectElement> = (props) => {
     const classes = useStyles();
-    const [city, setCity] = React.useState<number>(props.cityId || 0);
+    const [city, setCity] = React.useState<any>(props.cityId || '');
     // const [city, setCity] = React.useState('');
 
     const handleChange = (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => {
