@@ -5,6 +5,7 @@ import GeneralTableHead from './GeneralTableHead';
 import TableContainer from '@material-ui/core/TableContainer';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import OrdersTableBody from './OrdersTableBody';
+import {ISortDirection} from "../../../interfaces";
 
 const useStyles = makeStyles({
     table: {
@@ -12,13 +13,21 @@ const useStyles = makeStyles({
     },
 });
 
-function PaginationTable(props) {
+interface IPaginationTable {
+    listArr: any[],
+    clickDel(id: number): void,
+    handleToggle(url: string): void,
+    setSortBy(property: string): void,
+    setSort(sort: ISortDirection): void,
+}
+
+const PaginationTable: React.FC<IPaginationTable> = (props) => {
     const classes = useStyles();
     const { listArr, clickDel, handleToggle, setSortBy, setSort } = props;
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('');
+    const [order, setOrder] = useState<ISortDirection>('asc');
+    const [orderBy, setOrderBy] = useState<string>('');
 
-    const handleRequestSort = (event, property) => {
+    const handleRequestSort = (event: React.MouseEvent, property: string) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
@@ -48,10 +57,12 @@ function PaginationTable(props) {
                     listArr={listArr}
                     clickDel={clickDel}
                     handleToggle={handleToggle}
+                    order={order}
+                    orderBy={orderBy}
                 />
             </Table>
         </TableContainer>
     );
-}
+};
 
 export default PaginationTable;
