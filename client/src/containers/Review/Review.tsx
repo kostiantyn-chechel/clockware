@@ -49,10 +49,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Review(props) {
-    const {match} = props;
+interface IReview {
+    match: any,
+}
+
+const Review: React.FC<IReview> = (props) => {
+    const { match } = props;
     const classes = useStyles();
-    const [rating, setRating] = useState(null);
+    const [rating, setRating] = useState<number | null>(null);
     const [review, setReview] = useState('');
     const [view, setView] = useState('');
 
@@ -63,7 +67,7 @@ function Review(props) {
     },[]);
     /* eslint-enable */
 
-    const sendReview = event => {
+    const sendReview = (event: React.MouseEvent) => {
         event.preventDefault();
         setView('');
         postServerRequest('/rev', {
@@ -74,7 +78,9 @@ function Review(props) {
             .then(() => setView('success'));
     };
 
-    const OtherStatuses = ({message}) => {
+
+    const OtherStatuses: React.FC<{message: string}> = (props) => {
+        const {message} = props;
         return (
             <>
                 <div className={classes.logoBloc}>
@@ -82,7 +88,7 @@ function Review(props) {
                 </div>
 
                 <Typography component="h1" variant="h5" align="center" color="textPrimary">
-                    {message}
+                    { message }
                 </Typography>
             </>
         )
@@ -163,6 +169,6 @@ function Review(props) {
             {pageReview()}
         </Container>
     );
-}
+};
 
 export default Review;
