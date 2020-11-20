@@ -41,20 +41,36 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function ReviewMaster(props) {
-    const {match} = props;
+interface IReviewMaster {
+    match: any,
+}
+
+interface IReviews {
+    id: number,
+    review: string,
+    rating: number,
+    review_order: IOrder,
+}
+ interface IOrder {
+     id: number,
+     date: string,
+     time: string,
+ }
+
+const ReviewMaster: React.FC<IReviewMaster> = (props) => {
+    const { match } = props;
     const classes = useStyles();
 
-    const [reviews, setReview] = useState([]);
+    const [reviews, setReviews] = useState<IReviews[]>([]);
 
     const URL= `/rev/master?masterId=${match.params.id}`;
     /* eslint-disable */
     useEffect(() => {
-        getAuthServerRequest(URL).then(review => setReview(review));
+        getAuthServerRequest(URL).then(review => setReviews(review));
     },[]);
     /* eslint-enable */
 
-    const orderData = order => {
+    const orderData = (order: IOrder) => {
         return (
             <div className={classes.orderBlock}>
                 <div># {order.id}</div>
@@ -108,6 +124,6 @@ function ReviewMaster(props) {
             </TableContainer>
         </Container>
     );
-}
+};
 
 export default ReviewMaster;
