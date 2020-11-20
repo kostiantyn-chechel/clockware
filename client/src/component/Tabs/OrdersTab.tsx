@@ -13,7 +13,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import PaginationTable from './Tables/PaginationTable';
 import InfiniteTable from './Tables/InfiniteTable';
 import DeleteDialog from './DeleteDialog';
-import {IFetchFilterAndPaginOrders, IOrder} from "../../interfaces";
+import {IFetchFilterAndPaginOrders, IOrder, ISortDirection} from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -90,8 +90,8 @@ const OrdersTab: React.FC<IOrdersTab> = (props) => {
 
     const [typePagination, setTypePagination] = useState(true);
 
-    const [sortBy, setSortBy] = useState('');
-    const [sort, setSort] = useState('asc');
+    const [sortBy, setSortBy] = useState<string>('');
+    const [sort, setSort] = useState<ISortDirection>('asc');
 
     const [ordersPagination, setOrdersPagination] = useState<IRow[]>([]);
     const [paginationPage, setPaginationPage] = useState(1);
@@ -125,7 +125,7 @@ const OrdersTab: React.FC<IOrdersTab> = (props) => {
     },[props.orders]);
 
     const [ordersInfinite, setOrdersInfinite] = useState<IRow[]>([]);
-    const [fullInfinite, setFullInfinite] = useState([]);
+    const [fullInfinite, setFullInfinite] = useState<any[]>([]);
     const [currentScrollOffset, setCurrentScrollOffset] = useState(FIRST_SCROLL);
     const [clearList, setClearList] = useState(true);
 
@@ -166,7 +166,7 @@ const OrdersTab: React.FC<IOrdersTab> = (props) => {
         setUrlPhoto('');
         setOpen(false);
     };
-    const handleToggle = (url: string) => {
+    const handleToggle = (url: string): void => {
         setUrlPhoto(url);
         setOpen(!open);
     };

@@ -1,25 +1,41 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import GeneralTableHead from './GeneralTableHead';
 import OrdersTableBody from './OrdersTableBody';
 import TableContainer from '@material-ui/core/TableContainer';
+import {ISortDirection} from "../../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     block: {
         overflow: 'auto',
         maxHeight: '700px',
-    }
+    },
+    table: {
+        minWidth: 650,
+    },
 }));
 
-function InfiniteTable(props) {
+interface IInfiniteTable {
+    listArr: any[],
+    clearList: boolean,
+    nextPortion(): void,
+    setClearList(flag: boolean): void,
+    clickDel(id: number): void,
+    handleToggle(url: string): void,
+    setSortBy(property: string): void,
+    setSort(sort: ISortDirection): void,
+    setFullInfinite(item: any[]): void,
+}
+
+const InfiniteTable: React.FC<IInfiniteTable> = (props) => {
     const classes = useStyles();
     const { listArr, nextPortion, clearList, setClearList, clickDel,
                     handleToggle, setSortBy, setSort, setFullInfinite } = props;
-    const [items, setItems] = useState([]);
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('');
+    const [items, setItems] = useState<any[]>([]);
+    const [order, setOrder] = useState<ISortDirection>('asc');
+    const [orderBy, setOrderBy] = useState<string>('');
 
     /* eslint-disable */
     useEffect(() => {
@@ -39,12 +55,12 @@ function InfiniteTable(props) {
     useEffect(() => setFullInfinite(items), [items]);
     /* eslint-enable */
 
-    const handleScroll = event => {
-        const bottom = event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight;
+    const handleScroll = (event: React.UIEvent<HTMLElement>) => {
+        const bottom = event.currentTarget.scrollHeight - event.currentTarget.scrollTop === event.currentTarget.clientHeight;
         if (bottom) nextPortion();
     };
 
-    const handleRequestSort = (event, property) => {
+    const handleRequestSort = (event: React.MouseEvent, property: string) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
@@ -76,11 +92,13 @@ function InfiniteTable(props) {
                         listArr={items}
                         clickDel={clickDel}
                         handleToggle={handleToggle}
+                        order={order}
+                        orderBy={orderBy}
                     />
                 </Table>
             </TableContainer>
         </div>
     );
-}
+};
 
 export default InfiniteTable;

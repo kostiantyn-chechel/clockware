@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 interface IPhotoButton {
     photoURL: string,
-    handleToggle(photoUrl: string): void,
+    handleToggle(url: string): void,
 }
 
 const PhotoButton: React.FC<IPhotoButton> = (props) => {

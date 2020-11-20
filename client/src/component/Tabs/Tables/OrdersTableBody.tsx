@@ -21,7 +21,7 @@ interface IOrdersTableBody {
     listArr: any[],
     order: ISortDirection,
     orderBy: string,
-    handleToggle():void,
+    handleToggle(url: string): void,
     clickDel(id: number): void,
 }
 

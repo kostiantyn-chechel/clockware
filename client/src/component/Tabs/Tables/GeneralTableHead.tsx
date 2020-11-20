@@ -3,7 +3,6 @@ import TableHead from '@material-ui/core/TableHead';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-// import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles';
 import TableRow from '@material-ui/core/TableRow';
 import {ISortDirection} from "../../../interfaces";
@@ -75,12 +74,5 @@ const GeneralTableHead: React.FC<IGeneralTableHead> = (props) => {
         </TableHead>
     );
 };
-
-// GeneralTableHead.propTypes = {
-//     headCells: PropTypes.array.isRequired,
-//     onRequestSort: PropTypes.func.isRequired,
-//     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-//     orderBy: PropTypes.string.isRequired,
-// };
 
 export default GeneralTableHead;
