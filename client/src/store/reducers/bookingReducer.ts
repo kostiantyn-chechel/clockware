@@ -4,7 +4,7 @@ import {
     SET_BOOKING_SHOW,
 } from '../actions/actionTypes';
 
-// export type BookingShowType = 'filling' | 'select' | 'gratitude';
+// export type BookingShowType = 'filling' | 'select' | 'gratitude'; // --++--
 
 export type BookingReduceType = {
     bookingShow: string,

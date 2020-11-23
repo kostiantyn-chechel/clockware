@@ -8,7 +8,16 @@ import {
     SHOW_ERROR,
 } from '../actions/actionTypes';
 
-const initialState = {
+export type AdminInitialStateType = {
+    masters: any[],
+    cities: any[],
+    clients: any[],
+    ordersInfinite: any[],
+    orders: any[],
+    hasError: boolean,
+};
+
+const initialState: AdminInitialStateType = {
     masters: [],
     cities: [],
     clients: [],
@@ -17,7 +26,7 @@ const initialState = {
     hasError: false,
 };
 
-export default function adminReducer(state = initialState, action) {
+export default function adminReducer(state = initialState, action: any) {
     switch (action.type) {
         case FETCH_MASTERS:
             return {
