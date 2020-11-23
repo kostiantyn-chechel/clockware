@@ -13,7 +13,7 @@ interface IBookingGratitude {
     masterName: string,
     date: string,
     time: string,
-    size: number,
+    size: string,
     email: string,
 }
 

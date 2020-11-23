@@ -54,11 +54,11 @@ interface IBookingFillingFields {
     findMaster(cityId: number, date: string, time: string, size: number): void,
     changeName(name: string): void,
     changeEmail(email: string): void,
-    handleSizeChange(): void,
-    handlePhotoURL(): void,
-    handleSelectCity(): void,
-    handleSelectDate(): void,
-    handleSelectTime(): void,
+    handleSizeChange(event: React.ChangeEvent<{ value: string; }>): void,
+    handlePhotoURL(url: string): void,
+    handleSelectCity(id: number): void,
+    handleSelectDate(event: React.ChangeEvent<{ value: string; }>): void,
+    handleSelectTime(event: React.ChangeEvent<{ value: string; }>): void,
 }
 
 const BookingFillingFields: React.FC<IBookingFillingFields> = (props) => {

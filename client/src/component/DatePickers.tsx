@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IDatePickers {
-    onChange(): void;
+    onChange(event: React.ChangeEvent<{ value: string; }>): void;
 }
 
 const DatePickers:React.FC<IDatePickers> = (props) => {

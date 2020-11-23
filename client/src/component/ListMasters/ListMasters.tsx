@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface IListMasters {
     arrMasters: IMaster[],
-    onChange(): void,
+    onChange(event: React.ChangeEvent<HTMLInputElement>, value: string): void,
     handleMasterReview(id: number): void
 }
 

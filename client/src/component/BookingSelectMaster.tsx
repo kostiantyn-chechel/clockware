@@ -32,8 +32,8 @@ interface IBookingSelectMaster {
     masterId: number,
     arrMasters: IMaster[],
     handleSendOrder(): void,
-    handleSelectMaster(): void,
-    handleCancelBtn(): void,
+    handleSelectMaster(event: React.ChangeEvent<HTMLInputElement>, value: string): void,
+    handleCancelBtn(event: React.MouseEvent): void,
 }
 
 const BookingSelectMaster:React.FC<IBookingSelectMaster> = (props) => {

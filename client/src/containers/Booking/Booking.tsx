@@ -18,15 +18,34 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Booking (props) {
+interface IBooking {
+    proposal: any, //--++--
+    cities: any, //--++--
+    bookingShow: string,
+    findMaster(): void, //--++--
+    sendOrder(order: IOrder): void,
+    emptyBooking(): void,
+}
+interface IOrder {
+    size: string,
+    date: string,
+    time: string,
+    cityId: number,
+    masterId: number,
+    clientName: string,
+    clientEmail: string,
+    photoURL: string,
+}
+
+const Booking: React.FC<IBooking> = (props) => {
     const classes = useStyles();
-    const [isOrderSend, setIsOrderSend] = useState(false);
-    const [order, setOrder] = useState({
+    const [isOrderSend, setIsOrderSend] = useState<boolean>(false);
+    const [order, setOrder] = useState<IOrder>({
         size: '1',
         date: today(),
         time: '10:00',
-        cityId: null,
-        masterId: null,
+        cityId: 0,
+        masterId: 0,
         clientName: '',
         clientEmail: '',
         photoURL: '',
@@ -40,8 +59,8 @@ function Booking (props) {
                     size: '1',
                     date: today(),
                     time: '10:00',
-                    cityId: null,
-                    masterId: null,
+                    cityId: 0,
+                    masterId: 0,
                     clientName: '',
                     clientEmail: '',
                     photoURL: '',
@@ -55,8 +74,8 @@ function Booking (props) {
                     size: '1',
                     date: today(),
                     time: '10:00',
-                    cityId: null,
-                    masterId: null,
+                    cityId: 0,
+                    masterId: 0,
                     photoURL: '',
                 });
             }
@@ -64,18 +83,21 @@ function Booking (props) {
     }, [props.bookingShow, isOrderSend]);
     /* eslint-enable */
 
-    const changeName = name => setOrder({...order, clientName: name});
-    const changeEmail = email => setOrder({...order, clientEmail: email});
+    const changeName = (name: string) => setOrder({...order, clientName: name});
+    const changeEmail = (email: string) => setOrder({...order, clientEmail: email});
 
-    const handleSizeChange = event => setOrder({ ...order, size: event.target.value });
-    const handleSelectDate = event => setOrder({ ...order, date: event.target.value });
-    const handleSelectTime = event => setOrder({ ...order, time: event.target.value });
-    const handleSelectCity = id => setOrder({ ...order, cityId: id });
-    const handlePhotoURL = url => setOrder({...order, photoURL: url});
+    const handleSizeChange = (event: React.ChangeEvent<{ value: string; }>) => setOrder({
+                                                                ...order, size: event.target.value });
+    const handleSelectDate = (event: React.ChangeEvent<{ value: string; }>) => setOrder({
+                                                                ...order, date: event.target.value });
+    const handleSelectTime = (event: React.ChangeEvent<{ value: string; }>) => setOrder({
+                                                                ...order, time: event.target.value });
+    const handleSelectCity = (id: number) => setOrder({ ...order, cityId: id });
+    const handlePhotoURL = (url: string) => setOrder({...order, photoURL: url});
 
-    const handleSelectMaster = event => {
+    const handleSelectMaster = (event: React.ChangeEvent<HTMLInputElement>, value: string) => {
         event.preventDefault();
-        setOrder({...order, masterId: event.target.value})
+        setOrder({...order, masterId: +value})
     };
 
     const handleSendOrder = () => {
@@ -83,17 +105,14 @@ function Booking (props) {
         setIsOrderSend(true);
     };
 
-    const handleCancelBtn = event => {
+    const handleCancelBtn = (event: React.MouseEvent) => {
         event.preventDefault();
         props.emptyBooking();
     };
 
-    const getMasterName = masterId => {
+    const getMasterName = (masterId: number) => {
         for(let master of props.proposal) {
-            const id = master.id + '';
-            if (id === masterId) {
-                return master.name;
-            }
+            if (master.id === masterId) return master.name;
         }
         return 'null';
     };
@@ -141,7 +160,7 @@ function Booking (props) {
                         handleSelectDate={handleSelectDate}
                         handleSelectTime={handleSelectTime}
                         handlePhotoURL={handlePhotoURL}
-                        size={order.size}
+                        size={+order.size}
                         date={order.date}
                         time={order.time}
                         photoURL={order.photoURL}
@@ -160,23 +179,23 @@ function Booking (props) {
             {showStage()}
         </Container>
     );
-}
+};
 
-function mapStateToProps(state) {
+const mapStateToProps = (state:any) => {  //--++--
     return {
         cities: state.admin.cities,
         bookingShow: state.booking.bookingShow,
         proposal: state.booking.proposal,
         masterId: state.booking.masterId,
     }
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch: any) => {  //--++--
     return {
-        findMaster: (cityId, date, time, size) => dispatch(findMaster(cityId, date, time, size)),
-        sendOrder: order => dispatch(sendOrder(order)),
+        findMaster: (cityId: number, date: string, time: string, size: number) => dispatch(findMaster(cityId, date, time, size)),
+        sendOrder: (order: IOrder)  => dispatch(sendOrder(order)),
         emptyBooking: () => dispatch(emptyBooking()),
     }
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Booking);
+export default connect<any>(mapStateToProps, mapDispatchToProps)(Booking);  //--++--

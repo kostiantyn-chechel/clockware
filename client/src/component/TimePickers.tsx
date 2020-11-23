@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface ItimePickers {
-    onChange(): void;
+    onChange(event: React.ChangeEvent<{ value: string; }>): void;
 }
 
 const TimePickers: React.FC<ItimePickers> = (props) => {
