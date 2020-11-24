@@ -1,4 +1,4 @@
-export const today = () => {
+export const today = (): string => {
     const day = new Date();
 
     const arrDay = [
@@ -9,7 +9,7 @@ export const today = () => {
     return arrDay.join('-');
 };
 
-export const hoursByWords = number => {
+export const hoursByWords = (number: string): string => {
     switch (number) {
         case '1':
             return 'один час';
@@ -22,6 +22,6 @@ export const hoursByWords = number => {
     }
 };
 
-export const dayToString = day => {
+export const dayToString = (day: string): string => {
     return day.slice(0,10)
 };

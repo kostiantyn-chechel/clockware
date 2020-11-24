@@ -17,17 +17,34 @@ export interface IClient {
     email: string,
 }
 
+export type OrderClientType = {
+    id: number,
+    name: string,
+    email: string,
+}
+
+export type OrderMasterType = {
+    id: number,
+    name: string,
+    cityId: number,
+}
+
+export type OrderCityType = {
+    id: number,
+    name: string,
+}
+
 export interface IOrder {
     id: number,
-    date: number,
+    date: string,
     time: string,
     hours: number,
     photoURL: string,
     count: number,
     client: string,
-    order_client: {},
-    order_master: {},
-    order_city: {},
+    order_client: OrderClientType,
+    order_master: OrderMasterType,
+    order_city: OrderCityType,
 }
 
 export interface IAuthUser {

@@ -6,15 +6,6 @@ import MastersTable from './Tables/MastersTable';
 import DeleteDialog from './DeleteDialog';
 import { IMastersTab, IMaster } from "../../interfaces";
 
-// interface IMastersTab {
-//     masters: IMaster[],
-//     cities: ICity[],
-//     fetchMasters(): void,
-//     addMaster(master: IMaster): void,
-//     editMaster(master: IMaster): void,
-//     deleteMaster(id: number): void,
-// }
-
 const MastersTab: React.FC<IMastersTab> = (props) => {
     const [masterEdit, setMasterEdit] = useState<IMaster>({
         id: 0,

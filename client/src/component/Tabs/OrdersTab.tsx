@@ -146,8 +146,8 @@ const OrdersTab: React.FC<IOrdersTab> = (props) => {
                 time: order.time,
                 hours: hoursByWords('' + order.hours),
                 client: validClient(order.order_client),
-                master: validName(order.order_master, 'name'),
-                city: validName(order.order_city, 'name'),
+                master: validName(order.order_master),
+                city: validName(order.order_city),
                 photoURL: order.photoURL,
             })
         })
