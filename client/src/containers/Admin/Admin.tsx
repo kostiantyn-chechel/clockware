@@ -1,27 +1,30 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
-import AdminTabs from '../../component/Tabs/AdminTabs';
+import AdminTabs, {IAdminTabs} from '../../component/Tabs/AdminTabs';
 import { connect } from 'react-redux';
 import {
-    addCity, addClient,
-    addMaster, clearInfiniteOrders, deleteCity, deleteClient, deleteMaster, deleteOrder, editCity, editClient,
-    editMaster,
-    fetchCities,
-    fetchClients, fetchFilterAndInfiniteOrders, fetchFilterAndPaginOrders,
-    fetchMasters,
+    addCity, editCity, deleteCity, fetchCities,
+    addMaster, editMaster, deleteMaster, fetchMasters,
+    addClient, editClient, deleteClient, fetchClients,
+    deleteOrder,
+    fetchFilterAndInfiniteOrders, fetchFilterAndPaginOrders,
+    clearInfiniteOrders,
 } from '../../store/actions/adminAction';
-import Auth from '../../component/Auth/Auth';
-import {authUserMessage, setIsToken, userLoginFetch} from '../../store/actions/authAction';
-import {validToken} from '../../helpers/authProcessing';
+import Auth, { IAuth } from '../../component/Auth/Auth';
+import { authUserMessage, setIsToken, userLoginFetch } from '../../store/actions/authAction';
+import { validToken } from '../../helpers/authProcessing';
+import {IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster} from "../../interfaces";
 
-function Admin(props) {
+interface IAdmin extends IAdminTabs, IAuth{}
+
+const Admin: React.FC<IAdmin> = (props) => {
 
     const adminRender = () => {
         if (validToken() ) {
             return (
                 <Container component="main" maxWidth="xl">
                     <AdminTabs
-                        getListOrders={props.fetchOrders}
+                        // getListOrders={props.fetchOrders}
                         setIsToken={props.setIsToken}
 
                         fetchMasters={props.fetchMasters}
@@ -59,7 +62,7 @@ function Admin(props) {
                     userLoginFetch={props.userLoginFetch}
                     authUserMessage={props.authUserMessage}
                     message={props.message}
-                    setIsToken={props.setIsToken}
+                    // setIsToken={props.setIsToken}
                 />
             )
         }
@@ -72,7 +75,7 @@ function Admin(props) {
     );
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         isToken: state.auth.isToken,
         message: state.auth.message,
@@ -84,31 +87,31 @@ function mapStateToProps(state) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: any) {
     return {
         fetchMasters: () => dispatch(fetchMasters()),
-        addMaster: master => dispatch(addMaster(master)),
-        editMaster: master => dispatch(editMaster(master)),
-        deleteMaster: masterId => dispatch(deleteMaster(masterId)),
+        addMaster: (master: IMaster) => dispatch(addMaster(master)),
+        editMaster: (master: IMaster) => dispatch(editMaster(master)),
+        deleteMaster: (masterId: number) => dispatch(deleteMaster(masterId)),
 
         fetchCities: () => dispatch(fetchCities()),
-        addCity: city => dispatch(addCity(city)),
-        editCity: city => dispatch(editCity(city)),
-        deleteCity: cityId => dispatch(deleteCity(cityId)),
+        addCity: (city: ICity) => dispatch(addCity(city)),
+        editCity: (city: ICity) => dispatch(editCity(city)),
+        deleteCity: (cityId: number) => dispatch(deleteCity(cityId)),
 
         fetchClients: () => dispatch(fetchClients()),
-        addClient: client => dispatch(addClient(client)),
-        editClient: client => dispatch(editClient(client)),
-        deleteClient: clientId => dispatch(deleteClient(clientId)),
+        addClient: (client: IClient) => dispatch(addClient(client)),
+        editClient: (client: IClient) => dispatch(editClient(client)),
+        deleteClient: (clientId: number) => dispatch(deleteClient(clientId)),
 
-        fetchFilterAndPaginOrders: (param) => dispatch(fetchFilterAndPaginOrders(param)),
-        fetchFilterAndInfiniteOrders: (word, limit, offset) => dispatch(fetchFilterAndInfiniteOrders(word, limit, offset)),
+        fetchFilterAndPaginOrders: (param: IFetchFilterOrders) => dispatch(fetchFilterAndPaginOrders(param)),
+        fetchFilterAndInfiniteOrders: (param: IFetchFilterOrders) => dispatch(fetchFilterAndInfiniteOrders(param)),
         clearInfiniteOrders: () => dispatch(clearInfiniteOrders()),
-        deleteOrder: orderId => dispatch(deleteOrder(orderId)),
+        deleteOrder: (orderId: number) => dispatch(deleteOrder(orderId)),
 
-        userLoginFetch: userInfo => dispatch(userLoginFetch(userInfo)),
-        authUserMessage: message => dispatch(authUserMessage(message)),
-        setIsToken: status => dispatch(setIsToken(status)),
+        userLoginFetch: (userInfo: IAuthUser) => dispatch(userLoginFetch(userInfo)),
+        authUserMessage: (message: string) => dispatch(authUserMessage(message)),
+        setIsToken: (status: boolean) => dispatch(setIsToken(status)),
     }
 }
 

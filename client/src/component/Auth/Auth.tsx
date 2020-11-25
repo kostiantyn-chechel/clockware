@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface IAuth {
+export interface IAuth {
     userLoginFetch(user: IAuthUser): void,
     authUserMessage(msg: string | null): void,
     message: string

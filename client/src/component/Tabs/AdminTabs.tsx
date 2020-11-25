@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface IAdminTabs extends IMastersTab, ICitiesTab, IClientsTab, IOrdersTab {
+export interface IAdminTabs extends IMastersTab, ICitiesTab, IClientsTab, IOrdersTab {
     setIsToken(valid: boolean): void,
 }
 
