@@ -100,8 +100,8 @@ export interface IOrdersTab {
     },
     clearInfiniteOrders(): void,
     deleteOrder(id: number): void,
-    fetchFilterAndPaginOrders(param: IFetchFilterAndPaginOrders): number,
-    fetchFilterAndInfiniteOrders(param: IFetchFilterAndPaginOrders): void,
+    fetchFilterAndPaginOrders(param: IFetchFilterOrders): number,
+    fetchFilterAndInfiniteOrders(param: IFetchFilterOrders): void,
 }
 
 export interface ITable {
@@ -110,7 +110,7 @@ export interface ITable {
     clickDel(id: number): void,
 }
 
-export  interface IFetchFilterAndPaginOrders {
+export  interface IFetchFilterOrders {
     word: string,
     limit: number,
     offset: number,

@@ -13,7 +13,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import PaginationTable from './Tables/PaginationTable';
 import InfiniteTable from './Tables/InfiniteTable';
 import DeleteDialog from './DeleteDialog';
-import { IFetchFilterAndPaginOrders, IOrder, ISortDirection } from "../../interfaces";
+import { IFetchFilterOrders, IOrder, ISortDirection } from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -68,8 +68,8 @@ interface IOrdersTab {
     },
     clearInfiniteOrders(): void,
     deleteOrder(id: number): void,
-    fetchFilterAndPaginOrders(param: IFetchFilterAndPaginOrders): number,
-    fetchFilterAndInfiniteOrders(param: IFetchFilterAndPaginOrders): void,
+    fetchFilterAndPaginOrders(param: IFetchFilterOrders): number,
+    fetchFilterAndInfiniteOrders(param: IFetchFilterOrders): void,
 }
 
 interface IRow {

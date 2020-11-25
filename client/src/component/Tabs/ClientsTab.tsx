@@ -6,14 +6,6 @@ import ClientsTable from './Tables/ClientsTable';
 import DeleteDialog from './DeleteDialog';
 import { IClient, IClientsTab } from "../../interfaces";
 
-// interface IClientsTab {
-//     clients: IClient[],
-//     fetchClients(): void,
-//     deleteClient(id: number): void,
-//     addClient(client: IClient): void,
-//     editClient(client: IClient): void,
-// }
-
 const ClientsTab: React.FC<IClientsTab> = (props) => {
     const [clientEdit, setClientEdit] = useState<IClient>({
         id: 0,

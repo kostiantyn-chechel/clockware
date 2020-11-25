@@ -101,7 +101,7 @@ function mapDispatchToProps(dispatch) {
         editClient: client => dispatch(editClient(client)),
         deleteClient: clientId => dispatch(deleteClient(clientId)),
 
-        fetchFilterAndPaginOrders: (word, limit, offset) => dispatch(fetchFilterAndPaginOrders(word, limit, offset)),
+        fetchFilterAndPaginOrders: (param) => dispatch(fetchFilterAndPaginOrders(param)),
         fetchFilterAndInfiniteOrders: (word, limit, offset) => dispatch(fetchFilterAndInfiniteOrders(word, limit, offset)),
         clearInfiniteOrders: () => dispatch(clearInfiniteOrders()),
         deleteOrder: orderId => dispatch(deleteOrder(orderId)),
