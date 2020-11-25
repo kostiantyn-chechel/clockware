@@ -7,13 +7,20 @@ import classes from './App.module.css';
 import { fetchCities } from './store/actions/adminAction';
 import Header from './component/Header';
 import Footer from './component/Footer';
-import {emptyBooking} from './store/actions/bookingAction';
-import {setIsToken} from './store/actions/authAction';
+import { emptyBooking } from './store/actions/bookingAction';
+import { setIsToken } from './store/actions/authAction';
 import SomeError from './component/SomeError';
 import Review from './containers/Review/Review';
 import ReviewMaster from './containers/Review/ReviewMaster';
 
-class App extends Component {
+interface IApp {
+    fetchCities(): void,
+    emptyBooking(): void,
+    setIsToken(status: boolean): void,
+    hasError: boolean,
+}
+
+class App extends Component<IApp> {
 
     componentDidMount() {
         this.props.fetchCities();
@@ -44,17 +51,17 @@ class App extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         hasError: state.admin.hasError,
     }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: any) {
     return {
         fetchCities: () => dispatch(fetchCities()),
         emptyBooking: () => dispatch(emptyBooking()),
-        setIsToken: status => dispatch(setIsToken(status)),
+        setIsToken: (status: boolean) => dispatch(setIsToken(status)),
     }
 }
 

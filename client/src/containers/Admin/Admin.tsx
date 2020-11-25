@@ -24,7 +24,6 @@ const Admin: React.FC<IAdmin> = (props) => {
             return (
                 <Container component="main" maxWidth="xl">
                     <AdminTabs
-                        // getListOrders={props.fetchOrders}
                         setIsToken={props.setIsToken}
 
                         fetchMasters={props.fetchMasters}
@@ -62,7 +61,6 @@ const Admin: React.FC<IAdmin> = (props) => {
                     userLoginFetch={props.userLoginFetch}
                     authUserMessage={props.authUserMessage}
                     message={props.message}
-                    // setIsToken={props.setIsToken}
                 />
             )
         }
