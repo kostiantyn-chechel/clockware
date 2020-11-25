@@ -13,7 +13,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import PaginationTable from './Tables/PaginationTable';
 import InfiniteTable from './Tables/InfiniteTable';
 import DeleteDialog from './DeleteDialog';
-import {IFetchFilterAndPaginOrders, IOrder, ISortDirection} from "../../interfaces";
+import { IFetchFilterAndPaginOrders, IOrder, ISortDirection } from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     root: {

@@ -8,7 +8,8 @@ export interface IMaster {
     name: string,
     rating: number,
     cityId: number,
-    review: string[],
+    // review: string[],
+    review: TReview,
 }
 
 export interface IClient {
@@ -45,6 +46,17 @@ export interface IOrder {
     order_client: OrderClientType,
     order_master: OrderMasterType,
     order_city: OrderCityType,
+}
+
+export interface ISendOrder {
+    size: string,
+    date: string,
+    time: string,
+    cityId: number,
+    masterId: number,
+    clientName: string,
+    clientEmail: string,
+    photoURL: string,
 }
 
 export interface IAuthUser {
@@ -107,3 +119,5 @@ export  interface IFetchFilterAndPaginOrders {
 }
 
 export type ISortDirection = 'asc' | 'desc';
+export type TBookingShow = 'filling' | 'select' | 'gratitude';
+export type TReview = string[] | [];

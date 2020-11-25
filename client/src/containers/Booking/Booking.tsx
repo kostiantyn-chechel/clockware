@@ -7,7 +7,8 @@ import NotMasters from '../../component/notMasters';
 import BookingGratitude from '../../component/BookingGratitude';
 import BookingSelectMaster from '../../component/BookingSelectMaster';
 import BookingFillingFields from '../../component/BookingFillingFields';
-import {today} from '../../helpers/dateTime';
+import { today } from '../../helpers/dateTime';
+import { ISendOrder } from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -23,24 +24,14 @@ interface IBooking {
     cities: any, //--++--
     bookingShow: string,
     findMaster(): void, //--++--
-    sendOrder(order: IOrder): void,
+    sendOrder(order: ISendOrder): void,
     emptyBooking(): void,
-}
-interface IOrder {
-    size: string,
-    date: string,
-    time: string,
-    cityId: number,
-    masterId: number,
-    clientName: string,
-    clientEmail: string,
-    photoURL: string,
 }
 
 const Booking: React.FC<IBooking> = (props) => {
     const classes = useStyles();
     const [isOrderSend, setIsOrderSend] = useState<boolean>(false);
-    const [order, setOrder] = useState<IOrder>({
+    const [order, setOrder] = useState<ISendOrder>({
         size: '1',
         date: today(),
         time: '10:00',
@@ -193,7 +184,7 @@ const mapStateToProps = (state:any) => {  //--++--
 const mapDispatchToProps = (dispatch: any) => {  //--++--
     return {
         findMaster: (cityId: number, date: string, time: string, size: number) => dispatch(findMaster(cityId, date, time, size)),
-        sendOrder: (order: IOrder)  => dispatch(sendOrder(order)),
+        sendOrder: (order: ISendOrder)  => dispatch(sendOrder(order)),
         emptyBooking: () => dispatch(emptyBooking()),
     }
 };
