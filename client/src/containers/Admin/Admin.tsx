@@ -13,7 +13,7 @@ import {
 import Auth, { IAuth } from '../../component/Auth/Auth';
 import { authUserMessage, setIsToken, userLoginFetch } from '../../store/actions/authAction';
 import { validToken } from '../../helpers/authProcessing';
-import {IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster} from "../../interfaces";
+import { IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
 
 interface IAdmin extends IAdminTabs, IAuth{}
 
