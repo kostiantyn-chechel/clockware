@@ -1,9 +1,10 @@
 import {postServerRequest} from '../../helpers/axios/axiosClockware';
 import { AUTH_USER_MESSAGE, SET_CURRENT_USER, SET_IS_TOKEN} from './actionTypes';
-import {saveToken} from '../../helpers/authProcessing';
+import { saveToken } from '../../helpers/authProcessing';
+import { IAuthUser } from "../../interfaces";
 
-export const userLoginFetch = userInfo => {
-    return async dispatch => postServerRequest('/auth', userInfo)
+export const userLoginFetch = (userInfo: IAuthUser) => {
+    return async (dispatch: any) => postServerRequest('/auth', userInfo) //--++--
         .then(response => {
             if (response.token) {
                 saveToken(response.token);
@@ -20,5 +21,5 @@ export const userLoginFetch = userInfo => {
         })
 };
 
-export const authUserMessage = message => ({ type: AUTH_USER_MESSAGE, payload: message });
-export const setIsToken = status => ({ type: SET_IS_TOKEN, payload: status });
+export const authUserMessage = (message: string) => ({ type: AUTH_USER_MESSAGE, payload: message });
+export const setIsToken = (status: boolean) => ({ type: SET_IS_TOKEN, payload: status });
