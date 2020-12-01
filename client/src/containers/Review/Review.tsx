@@ -5,9 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
-import { postServerRequest } from '../../helpers/axios/axiosClockware';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {getServerRequest} from "../../helpers/axios/axiosClockwareAPI";
+import {getServerRequest, postServerRequest} from "../../helpers/axios/axiosClockwareAPI";
 
 const LOGO_PHOTO = `${process.env.PUBLIC_URL + '/logo_blue.png'}`;
 const useStyles = makeStyles((theme) => ({

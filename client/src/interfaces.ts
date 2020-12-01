@@ -121,3 +121,8 @@ export  interface IFetchFilterOrders {
 export type ISortDirection = 'asc' | 'desc';
 export type TBookingShow = 'filling' | 'select' | 'gratitude';
 export type TReview = string[] | [];
+export type TAuthUser = {
+    token: string,
+    user: any,
+    message: string,
+}

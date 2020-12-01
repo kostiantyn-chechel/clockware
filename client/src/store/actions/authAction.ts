@@ -1,10 +1,10 @@
-import {postServerRequest} from '../../helpers/axios/axiosClockware';
 import { AUTH_USER_MESSAGE, SET_CURRENT_USER, SET_IS_TOKEN} from './actionTypes';
 import { saveToken } from '../../helpers/authProcessing';
 import { IAuthUser } from "../../interfaces";
+import { postServerRequest } from "../../helpers/axios/axiosClockwareAPI";
 
 export const userLoginFetch = (userInfo: IAuthUser) => {
-    return async (dispatch: any) => postServerRequest('/auth', userInfo) //--++--
+    return async (dispatch: any) => postServerRequest('/auth', userInfo)
         .then(response => {
             if (response.token) {
                 saveToken(response.token);
