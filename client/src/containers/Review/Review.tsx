@@ -5,8 +5,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
-import { postServerRequest, getServerRequest } from '../../helpers/axios/axiosClockware';
+import { postServerRequest } from '../../helpers/axios/axiosClockware';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {getServerRequest} from "../../helpers/axios/axiosClockwareAPI";
 
 const LOGO_PHOTO = `${process.env.PUBLIC_URL + '/logo_blue.png'}`;
 const useStyles = makeStyles((theme) => ({
@@ -58,12 +59,12 @@ const Review: React.FC<IReview> = (props) => {
     const classes = useStyles();
     const [rating, setRating] = useState<number | null>(null);
     const [review, setReview] = useState('');
-    const [view, setView] = useState('');
+    const [view, setView] = useState<string>('');
 
     const URL= `/rev?orderId=${match.params.id}`;
     /* eslint-disable */
     useEffect(() => {
-        getServerRequest(URL).then(res => setView(res))
+        getServerRequest(URL).then(res => setView(res as string))
     },[]);
     /* eslint-enable */
 

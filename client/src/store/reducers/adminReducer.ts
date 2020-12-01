@@ -7,13 +7,14 @@ import {
     FETCH_MASTERS,
     SHOW_ERROR,
 } from '../actions/actionTypes';
+import { ICity, IClient, IMaster, IOrder } from "../../interfaces";
 
 export type AdminInitialStateType = {
-    masters: any[],
-    cities: any[],
-    clients: any[],
-    ordersInfinite: any[],
-    orders: any[],
+    masters: IMaster[],
+    cities: ICity[],
+    clients: IClient[],
+    ordersInfinite: IOrder[],
+    orders: IOrder[],
     hasError: boolean,
 };
 

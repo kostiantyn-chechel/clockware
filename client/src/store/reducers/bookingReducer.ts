@@ -2,11 +2,11 @@ import {
     FETCH_MASTER_SUCCESS,
     SET_BOOKING_SHOW,
 } from '../actions/actionTypes';
-import { TBookingShow } from "../../interfaces";
+import { IMaster, TBookingShow } from "../../interfaces";
 
 export type BookingReduceType = {
     bookingShow: TBookingShow,
-    proposal: any[],
+    proposal: IMaster[],
 };
 
 const initialState: BookingReduceType = {
