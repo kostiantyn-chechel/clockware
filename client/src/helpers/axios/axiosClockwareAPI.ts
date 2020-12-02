@@ -1,6 +1,7 @@
 import axios from 'axios';
-import {IAuthUser, ICity, IClient, IMaster, ISendOrder, TAuthUser} from "../../interfaces";
+import {IAuthUser, ICity, IClient, IMaster, IOrder, ISendOrder, TAuthUser} from "../../interfaces";
 import {authHeader} from "../authProcessing";
+import {IReviews} from "../../containers/Review/ReviewMaster";
 
 let baseURL;
 if (process.env.NODE_ENV === 'development') {
@@ -36,6 +37,16 @@ type PostAuthServerRequestBodyType = IMaster | ICity | IClient;
 export const postAuthServerRequest = async (relativeURL: string, body: PostAuthServerRequestBodyType) => {
     try {
         const { data } = await axios.post(relativeURL, body, { headers: authHeader() });
+        return data;
+    } catch (err) {
+        throw new Error(err);
+    }
+};
+
+type GetAuthServerResponseType = IClient[] | IMaster[] | IOrder[] | IReviews[];
+export const getAuthServerRequest = async (relativeURL: string): Promise<GetAuthServerResponseType> => {
+    try {
+        const { data } = await axios.get(relativeURL, { headers: authHeader() });
         return data;
     } catch (err) {
         throw new Error(err);

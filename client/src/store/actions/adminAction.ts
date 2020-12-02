@@ -1,6 +1,6 @@
 import {
     deleteAuthServerRequest,
-    getAuthServerRequest,
+    // getAuthServerRequest,
     // getServerRequest,
     // postAuthServerRequest,
     putAuthServerRequest,
@@ -15,7 +15,7 @@ import {
     SHOW_ERROR,
 } from './actionTypes';
 import { ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
-import { getServerRequest, postAuthServerRequest } from "../../helpers/axios/axiosClockwareAPI";
+import {getAuthServerRequest, getServerRequest, postAuthServerRequest} from "../../helpers/axios/axiosClockwareAPI";
 
 export const fetchClients = () => {
     return async (dispatch: any) => getAuthServerRequest('/clients')

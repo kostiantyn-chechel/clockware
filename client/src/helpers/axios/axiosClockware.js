@@ -42,17 +42,17 @@ axios.defaults.baseURL = baseURL;
 //     }
 // };
 
-export const getAuthServerRequest = async (relativeURL) => {
-    try {
-        const { data } = await axios.get(relativeURL, { headers: authHeader() });
-        if (data.isError) {
-            throw data.data;
-        }
-        return data;
-    } catch (err) {
-        throw new Error(err);
-    }
-};
+// export const getAuthServerRequest = async (relativeURL) => {
+//     try {
+//         const { data } = await axios.get(relativeURL, { headers: authHeader() });
+//         if (data.isError) {
+//             throw data.data;
+//         }
+//         return data;
+//     } catch (err) {
+//         throw new Error(err);
+//     }
+// };
 
 export const putAuthServerRequest = async (relativeURL, body) => {
     try {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAuthServerRequest } from '../../helpers/axios/axiosClockware';
+// import { getAuthServerRequest } from '../../helpers/axios/axiosClockware';
 import TableBody from '@material-ui/core/TableBody';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,6 +11,7 @@ import Table from '@material-ui/core/Table';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { dayToString } from '../../helpers/dateTime';
 import Container from '@material-ui/core/Container';
+import { getAuthServerRequest } from "../../helpers/axios/axiosClockwareAPI";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -45,7 +46,7 @@ interface IReviewMaster {
     match: any,
 }
 
-interface IReviews {
+export interface IReviews {
     id: number,
     review: string,
     rating: number,
@@ -66,7 +67,7 @@ const ReviewMaster: React.FC<IReviewMaster> = (props) => {
     const URL= `/rev/master?masterId=${match.params.id}`;
     /* eslint-disable */
     useEffect(() => {
-        getAuthServerRequest(URL).then(review => setReviews(review));
+        getAuthServerRequest(URL).then(review => setReviews(review as IReviews[]));
     },[]);
     /* eslint-enable */
 
