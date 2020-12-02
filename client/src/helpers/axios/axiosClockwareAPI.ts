@@ -52,3 +52,13 @@ export const getAuthServerRequest = async (relativeURL: string): Promise<GetAuth
         throw new Error(err);
     }
 };
+
+type PutAuthServerRequestBodyType = IMaster | ICity | IClient;
+export const putAuthServerRequest = async (relativeURL: string, body: PutAuthServerRequestBodyType) => {
+    try {
+        const { data } = await axios.put(relativeURL, body, { headers: authHeader() });
+        return data;
+    } catch (err) {
+        throw new Error(err);
+    }
+};
