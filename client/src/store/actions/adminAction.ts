@@ -2,7 +2,7 @@ import {
     deleteAuthServerRequest,
     getAuthServerRequest,
     // getServerRequest,
-    postAuthServerRequest,
+    // postAuthServerRequest,
     putAuthServerRequest,
 } from '../../helpers/axios/axiosClockware';
 import {
@@ -14,8 +14,8 @@ import {
     FETCH_MASTERS,
     SHOW_ERROR,
 } from './actionTypes';
-import {ICity, IClient, IFetchFilterOrders, IMaster} from "../../interfaces";
-import { getServerRequest } from "../../helpers/axios/axiosClockwareAPI";
+import { ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
+import { getServerRequest, postAuthServerRequest } from "../../helpers/axios/axiosClockwareAPI";
 
 export const fetchClients = () => {
     return async (dispatch: any) => getAuthServerRequest('/clients')

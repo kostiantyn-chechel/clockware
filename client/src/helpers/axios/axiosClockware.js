@@ -17,7 +17,7 @@ axios.defaults.baseURL = baseURL;
 //         throw new Error(err);
 //     }
 // };
-//
+
 // export const postServerRequest = async (relativeURL, body) => {
 //     try {
 //         const { data } = await axios.post(relativeURL, body);
@@ -30,18 +30,17 @@ axios.defaults.baseURL = baseURL;
 //     }
 // };
 
-export const postAuthServerRequest = async (relativeURL, body) => {
-    try {
-        const { data } = await axios.post(relativeURL, body, { headers: authHeader() });
-        if (data.isError) {
-            throw data.data;
-        }
-        return data;
-    } catch (err) {
-        throw new Error(err);
-    }
-};
-
+// export const postAuthServerRequest = async (relativeURL, body) => {
+//     try {
+//         const { data } = await axios.post(relativeURL, body, { headers: authHeader() });
+//         if (data.isError) {
+//             throw data.data;
+//         }
+//         return data;
+//     } catch (err) {
+//         throw new Error(err);
+//     }
+// };
 
 export const getAuthServerRequest = async (relativeURL) => {
     try {

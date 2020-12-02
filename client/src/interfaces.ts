@@ -67,25 +67,37 @@ export interface IAuthUser {
 export interface IMastersTab {
     masters: IMaster[],
     cities: ICity[],
+
     fetchMasters(): void,
+
     addMaster(master: IMaster): void,
+
     editMaster(master: IMaster): void,
+
     deleteMaster(id: number): void,
 }
 
 export interface ICitiesTab {
     cities: ICity[],
+
     fetchCities(): void,
+
     deleteCity(id: number): void,
+
     addCity(city: ICity): void,
+
     editCity(city: ICity): void,
 }
 
 export interface IClientsTab {
     clients: IClient[],
+
     fetchClients(): void,
+
     deleteClient(id: number): void,
+
     addClient(client: IClient): void,
+
     editClient(client: IClient): void,
 }
 
@@ -98,19 +110,25 @@ export interface IOrdersTab {
         count: number,
         rows: IOrder[],
     },
+
     clearInfiniteOrders(): void,
+
     deleteOrder(id: number): void,
+
     fetchFilterAndPaginOrders(param: IFetchFilterOrders): number,
+
     fetchFilterAndInfiniteOrders(param: IFetchFilterOrders): void,
 }
 
 export interface ITable {
     listArr: any[],
+
     clickEdit(id: number): void,
+
     clickDel(id: number): void,
 }
 
-export  interface IFetchFilterOrders {
+export interface IFetchFilterOrders {
     word: string,
     limit: number,
     offset: number,
