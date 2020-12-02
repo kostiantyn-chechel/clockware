@@ -1,11 +1,4 @@
 import {
-    deleteAuthServerRequest,
-    // getAuthServerRequest,
-    // getServerRequest,
-    // postAuthServerRequest,
-    // putAuthServerRequest,
-} from '../../helpers/axios/axiosClockware';
-import {
     CLEAR_INFINITE_ORDERS,
     FETCH_CITIES,
     FETCH_CLIENTS,
@@ -16,6 +9,7 @@ import {
 } from './actionTypes';
 import { ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
 import {
+    deleteAuthServerRequest,
     getAuthServerRequest,
     getServerRequest,
     postAuthServerRequest,
@@ -34,7 +28,6 @@ export const fetchMasters = () => {
         .catch(() => dispatch(showError()));
 };
 
-// export const fetchFilterAndPaginOrders = ({word, limit, offset, sortBy, sort}) => {
 export const fetchFilterAndPaginOrders: (param: IFetchFilterOrders) => Promise<any> =
                                                         (param: IFetchFilterOrders): Promise<any> => {
     const {word, limit, offset, sortBy, sort} = param;
@@ -55,7 +48,6 @@ export const fetchFilterAndInfiniteOrders: (param: IFetchFilterOrders) => Promis
         .catch(() => dispatch(showError()));
 };
 
-//***
 export const fetchCities = () => {
     return async (dispatch: any) => getServerRequest('/cities')
         .then(cities => dispatch({ type: FETCH_CITIES, payload: cities }))
@@ -118,7 +110,6 @@ export const deleteClient = (clientId: number) => {
 
 export const deleteOrder = (orderId: number) => {
     return async (dispatch: any) => deleteAuthServerRequest(`/orders/${orderId}`)
-        // .then(() => dispatch(fetchOrders()))
         .catch(() => dispatch(showError()));
 };
 

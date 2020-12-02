@@ -62,3 +62,12 @@ export const putAuthServerRequest = async (relativeURL: string, body: PutAuthSer
         throw new Error(err);
     }
 };
+
+export const deleteAuthServerRequest = async (relativeURL: string) => {
+    try {
+        const { data } = await axios.delete(relativeURL, { headers: authHeader() });
+        return data;
+    } catch (err) {
+        throw new Error(err);
+    }
+};
