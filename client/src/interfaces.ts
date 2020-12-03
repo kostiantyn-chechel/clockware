@@ -144,3 +144,8 @@ export type TAuthUser = {
     user: any,
     message: string,
 }
+
+export interface IAuthUser22 {
+    login: string,
+    ring: boolean,
+}

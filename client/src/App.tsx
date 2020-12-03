@@ -12,15 +12,21 @@ import { setIsToken } from './store/actions/authAction';
 import SomeError from './component/SomeError';
 import Review from './containers/Review/Review';
 import ReviewMaster from './containers/Review/ReviewMaster';
+import {RootStateType} from "./store/reducers/rootReducer";
 
-interface IApp {
-    fetchCities(): void,
-    emptyBooking(): void,
-    setIsToken(status: boolean): void,
+type StatePropsType = {
     hasError: boolean,
 }
 
-class App extends Component<IApp> {
+type DispatchPropsType = {
+    fetchCities(): void,
+    emptyBooking(): void,
+    setIsToken(status: boolean): void,
+}
+
+type PropsType = StatePropsType & DispatchPropsType;
+
+class App extends Component<PropsType> {
 
     componentDidMount() {
         this.props.fetchCities();
@@ -41,7 +47,6 @@ class App extends Component<IApp> {
                         <Route path='/admin' component={Admin} />
                         <Route path='/review/:id' component={Review} />
                         <Route path='/master/:id' component={ReviewMaster} />
-                        {/*<Route path='/' component={Booking} />*/}
                         <Route path='/' exact={true} component={Booking} />
                     </Switch>
                 }
@@ -51,7 +56,7 @@ class App extends Component<IApp> {
     }
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: RootStateType) {
     return {
         hasError: state.admin.hasError,
     }

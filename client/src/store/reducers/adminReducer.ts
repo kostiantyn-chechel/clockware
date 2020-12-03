@@ -27,7 +27,7 @@ const initialState: AdminInitialStateType = {
     hasError: false,
 };
 
-export default function adminReducer(state = initialState, action: any) {
+export default function adminReducer(state = initialState, action: any): AdminInitialStateType {
     switch (action.type) {
         case FETCH_MASTERS:
             return {
