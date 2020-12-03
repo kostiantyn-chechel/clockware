@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Booking from './containers/Booking/Booking';
 import Admin from './containers/Admin/Admin';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import classes from './App.module.css';
 import { fetchCities } from './store/actions/adminAction';
 import Header from './component/Header';
@@ -12,19 +12,9 @@ import { setIsToken } from './store/actions/authAction';
 import SomeError from './component/SomeError';
 import Review from './containers/Review/Review';
 import ReviewMaster from './containers/Review/ReviewMaster';
-import {RootStateType} from "./store/reducers/rootReducer";
+import { RootStateType } from "./store/reducers/rootReducer";
 
-type StatePropsType = {
-    hasError: boolean,
-}
-
-type DispatchPropsType = {
-    fetchCities(): void,
-    emptyBooking(): void,
-    setIsToken(status: boolean): void,
-}
-
-type PropsType = StatePropsType & DispatchPropsType;
+interface PropsType extends PropsFromRedux {}
 
 class App extends Component<PropsType> {
 
@@ -70,4 +60,7 @@ function mapDispatchToProps(dispatch: any) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+export default connector(App);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
