@@ -1,4 +1,5 @@
 import {
+    BookingActionTypes,
     FETCH_MASTER_SUCCESS,
     SET_BOOKING_SHOW,
 } from '../actions/actionTypes';
@@ -14,7 +15,7 @@ const initialState: BookingReduceType = {
     proposal: [],
 };
 
-export default function bookingReducer(state= initialState, action: any): BookingReduceType {
+export default function bookingReducer(state= initialState, action: BookingActionTypes): BookingReduceType {
     switch (action.type) {
         case FETCH_MASTER_SUCCESS:
             return {

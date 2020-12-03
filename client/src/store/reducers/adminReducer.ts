@@ -1,4 +1,5 @@
 import {
+    AdminActionTypes,
     CLEAR_INFINITE_ORDERS,
     FETCH_CITIES,
     FETCH_CLIENTS,
@@ -27,7 +28,7 @@ const initialState: AdminInitialStateType = {
     hasError: false,
 };
 
-export default function adminReducer(state = initialState, action: any): AdminInitialStateType {
+export default function adminReducer(state = initialState, action: AdminActionTypes): AdminInitialStateType {
     switch (action.type) {
         case FETCH_MASTERS:
             return {
