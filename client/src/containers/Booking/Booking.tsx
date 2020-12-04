@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import {connect, ConnectedProps} from 'react-redux';
 import { emptyBooking, findMaster, sendOrder } from '../../store/actions/bookingAction';
 import Container from '@material-ui/core/Container';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -9,6 +9,7 @@ import BookingSelectMaster from '../../component/BookingSelectMaster';
 import BookingFillingFields from '../../component/BookingFillingFields';
 import { today } from '../../helpers/dateTime';
 import { ISendOrder } from "../../interfaces";
+import {RootStateType} from "../../store/reducers/rootReducer";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -19,16 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface IBooking {
-    proposal: any, //--++--
-    cities: any, //--++--
-    bookingShow: string,
-    findMaster(): void, //--++--
-    sendOrder(order: ISendOrder): void,
-    emptyBooking(): void,
-}
-
-const Booking: React.FC<IBooking> = (props) => {
+const Booking: React.FC<PropsFromRedux> = (props) => {
     const classes = useStyles();
     const [isOrderSend, setIsOrderSend] = useState<boolean>(false);
     const [order, setOrder] = useState<ISendOrder>({
@@ -172,12 +164,11 @@ const Booking: React.FC<IBooking> = (props) => {
     );
 };
 
-const mapStateToProps = (state:any) => {  //--++--
+const mapStateToProps = (state:RootStateType) => {
     return {
         cities: state.admin.cities,
         bookingShow: state.booking.bookingShow,
         proposal: state.booking.proposal,
-        masterId: state.booking.masterId,
     }
 };
 
@@ -189,4 +180,7 @@ const mapDispatchToProps = (dispatch: any) => {  //--++--
     }
 };
 
-export default connect<any>(mapStateToProps, mapDispatchToProps)(Booking);  //--++--
+const connector = connect(mapStateToProps, mapDispatchToProps);
+export default connector(Booking);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
