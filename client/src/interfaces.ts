@@ -134,3 +134,4 @@ export type TAuthUser = {
     user: any,
     message: string,
 }
+export type TMashId = { match: {params: { id: number }}}

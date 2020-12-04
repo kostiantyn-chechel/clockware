@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {getServerRequest, postServerRequest} from "../../helpers/axios/axiosClockwareAPI";
+import {TMashId} from "../../interfaces";
 
 const LOGO_PHOTO = `${process.env.PUBLIC_URL + '/logo_blue.png'}`;
 const useStyles = makeStyles((theme) => ({
@@ -49,11 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface IReview {
-    match: any,
-}
-
-const Review: React.FC<IReview> = (props) => {
+const Review: React.FC<TMashId> = (props) => {
     const { match } = props;
     const classes = useStyles();
     const [rating, setRating] = useState<number | null>(null);

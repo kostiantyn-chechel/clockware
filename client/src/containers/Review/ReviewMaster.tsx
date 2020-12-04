@@ -12,6 +12,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { dayToString } from '../../helpers/dateTime';
 import Container from '@material-ui/core/Container';
 import { getAuthServerRequest } from "../../helpers/axios/axiosClockwareAPI";
+import {TMashId} from "../../interfaces";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -42,10 +43,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-interface IReviewMaster {
-    match: any,
-}
-
 export interface IReviews {
     id: number,
     review: string,
@@ -58,7 +55,7 @@ export interface IReviews {
      time: string,
  }
 
-const ReviewMaster: React.FC<IReviewMaster> = (props) => {
+const ReviewMaster: React.FC<TMashId> = (props) => {
     const { match } = props;
     const classes = useStyles();
 
