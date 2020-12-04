@@ -9,7 +9,7 @@ import OrdersTab from './OrdersTab';
 import CitiesTab from './CitiesTab';
 import MastersTab from './MastersTab';
 import { validToken } from '../../helpers/authProcessing';
-import {ICitiesTab, IClientsTab, IMastersTab, IOrdersTab} from "../../interfaces";
+import { ICitiesTab, IClientsTab, IMastersTab, IOrdersTab } from "../../interfaces";
 
 function TabPanel(props: any) {
     const { children, value, index, ...other } = props;

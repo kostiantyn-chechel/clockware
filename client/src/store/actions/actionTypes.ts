@@ -1,4 +1,4 @@
-import { ICity, IClient, IMaster, IOrder, TBookingShow } from "../../interfaces";
+import {ICity, IClient, IMaster, IOrderPac, TBookingShow} from "../../interfaces";
 
 //BOOKING
 export const FETCH_MASTER_SUCCESS = 'FETCH_MASTER_SUCCESS';
@@ -21,8 +21,8 @@ export type AdminActionTypes =
     { type: typeof FETCH_CITIES, payload: ICity[] } |
     { type: typeof FETCH_CLIENTS, payload: IClient[] } |
     { type: typeof FETCH_MASTERS, payload: IMaster[] } |
-    { type: typeof FETCH_FILTER_PAGIN_ORDERS, payload: IOrder[] } |
-    { type: typeof FETCH_FILTER_INFINITE_ORDERS, payload: IOrder[]  } |
+    { type: typeof FETCH_FILTER_PAGIN_ORDERS, payload: IOrderPac } |
+    { type: typeof FETCH_FILTER_INFINITE_ORDERS, payload: IOrderPac } |
     { type: typeof SHOW_ERROR } |
     { type: typeof CLEAR_INFINITE_ORDERS }
 

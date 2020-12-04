@@ -8,7 +8,6 @@ export interface IMaster {
     name: string,
     rating: number,
     cityId: number,
-    // review: string[],
     review: TReview,
 }
 
@@ -48,6 +47,11 @@ export interface IOrder {
     order_city: OrderCityType,
 }
 
+export interface IOrderPac {
+    count: number,
+    rows: IOrder[] | [],
+}
+
 export interface ISendOrder {
     size: string,
     date: string,
@@ -68,37 +72,28 @@ export interface IMastersTab {
     masters: IMaster[],
     cities: ICity[],
 
-    fetchMasters(): void,
-
-    addMaster(master: IMaster): void,
-
-    editMaster(master: IMaster): void,
-
-    deleteMaster(id: number): void,
+    fetchMasters: () => void,
+    addMaster: (master: IMaster) => void,
+    editMaster: (master: IMaster) => void,
+    deleteMaster: (id: number) => void,
 }
 
 export interface ICitiesTab {
     cities: ICity[],
 
-    fetchCities(): void,
-
-    deleteCity(id: number): void,
-
-    addCity(city: ICity): void,
-
-    editCity(city: ICity): void,
+    fetchCities: () => void,
+    deleteCity: (id: number) => void,
+    addCity: (city: ICity) => void,
+    editCity: (city: ICity) => void,
 }
 
 export interface IClientsTab {
     clients: IClient[],
 
-    fetchClients(): void,
-
-    deleteClient(id: number): void,
-
-    addClient(client: IClient): void,
-
-    editClient(client: IClient): void,
+    fetchClients: () => void,
+    deleteClient: (id: number) => void,
+    addClient: (client: IClient) => void,
+    editClient: (client: IClient) => void,
 }
 
 export interface IOrdersTab {
@@ -111,21 +106,16 @@ export interface IOrdersTab {
         rows: IOrder[],
     },
 
-    clearInfiniteOrders(): void,
-
-    deleteOrder(id: number): void,
-
-    fetchFilterAndPaginOrders(param: IFetchFilterOrders): number,
-
-    fetchFilterAndInfiniteOrders(param: IFetchFilterOrders): void,
+    clearInfiniteOrders: () => void,
+    deleteOrder: (id: number) => void,
+    fetchFilterAndPaginOrders: (param: IFetchFilterOrders) => number,
+    fetchFilterAndInfiniteOrders: (param: IFetchFilterOrders) => void,
 }
 
 export interface ITable {
     listArr: any[],
-
-    clickEdit(id: number): void,
-
-    clickDel(id: number): void,
+    clickEdit: (id: number) => void,
+    clickDel: (id: number) => void,
 }
 
 export interface IFetchFilterOrders {
@@ -143,9 +133,4 @@ export type TAuthUser = {
     token: string,
     user: any,
     message: string,
-}
-
-export interface IAuthUser22 {
-    login: string,
-    ring: boolean,
 }

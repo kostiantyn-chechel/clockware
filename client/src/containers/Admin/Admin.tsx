@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
-import AdminTabs, {IAdminTabs} from '../../component/Tabs/AdminTabs';
-import { connect } from 'react-redux';
+import AdminTabs from '../../component/Tabs/AdminTabs';
+import {connect, ConnectedProps} from 'react-redux';
 import {
     addCity, editCity, deleteCity, fetchCities,
     addMaster, editMaster, deleteMaster, fetchMasters,
@@ -10,14 +10,13 @@ import {
     fetchFilterAndInfiniteOrders, fetchFilterAndPaginOrders,
     clearInfiniteOrders,
 } from '../../store/actions/adminAction';
-import Auth, { IAuth } from '../../component/Auth/Auth';
+import Auth from '../../component/Auth/Auth';
 import { authUserMessage, setIsToken, userLoginFetch } from '../../store/actions/authAction';
 import { validToken } from '../../helpers/authProcessing';
 import { IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
+import {RootStateType} from "../../store/reducers/rootReducer";
 
-interface IAdmin extends IAdminTabs, IAuth{}
-
-const Admin: React.FC<IAdmin> = (props) => {
+const Admin: React.FC<PropsFromRedux> = (props) => {
 
     const adminRender = () => {
         if (validToken() ) {
@@ -73,7 +72,7 @@ const Admin: React.FC<IAdmin> = (props) => {
     );
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: RootStateType) {
     return {
         isToken: state.auth.isToken,
         message: state.auth.message,
@@ -113,4 +112,8 @@ function mapDispatchToProps(dispatch: any) {
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Admin);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+export default connector(Admin);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+

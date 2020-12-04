@@ -13,7 +13,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import PaginationTable from './Tables/PaginationTable';
 import InfiniteTable from './Tables/InfiniteTable';
 import DeleteDialog from './DeleteDialog';
-import { IFetchFilterOrders, IOrder, ISortDirection } from "../../interfaces";
+import {IFetchFilterOrders, IOrder, IOrderPac, ISortDirection} from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,10 +58,7 @@ const FIRST_SCROLL = 12;
 const START_PAGE = 0;
 
 interface IOrdersTab {
-    orders: {
-        count: number,
-        rows: IOrder[],
-    },
+    orders: IOrderPac,
     ordersInfinite: {
         count: number,
         rows: IOrder[],

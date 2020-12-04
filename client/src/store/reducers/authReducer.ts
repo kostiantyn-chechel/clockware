@@ -7,7 +7,7 @@ export type AuthInitialStateType = {
 };
 
 const initialState: AuthInitialStateType = {
-    currentUser: {},
+    currentUser: {}, //--++-- any???
     message: null,
     isToken: false,
 };

@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 export interface IAuth {
     userLoginFetch(user: IAuthUser): void,
     authUserMessage(msg: string | null): void,
-    message: string
+    message: string | null
 }
 
 const Auth: React.FC<IAuth> = props => {

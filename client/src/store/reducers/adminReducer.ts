@@ -8,14 +8,14 @@ import {
     FETCH_MASTERS,
     SHOW_ERROR,
 } from '../actions/actionTypes';
-import { ICity, IClient, IMaster, IOrder } from "../../interfaces";
+import {ICity, IClient, IMaster, IOrderPac} from "../../interfaces";
 
 export type AdminInitialStateType = {
     masters: IMaster[],
     cities: ICity[],
     clients: IClient[],
-    ordersInfinite: IOrder[],
-    orders: IOrder[],
+    ordersInfinite: IOrderPac,
+    orders: IOrderPac,
     hasError: boolean,
 };
 
@@ -23,8 +23,14 @@ const initialState: AdminInitialStateType = {
     masters: [],
     cities: [],
     clients: [],
-    ordersInfinite: [],
-    orders: [],
+    ordersInfinite: {
+        count: 0,
+        rows: [],
+    },
+    orders: {
+        count: 0,
+        rows: [],
+    },
     hasError: false,
 };
 
@@ -58,7 +64,7 @@ export default function adminReducer(state = initialState, action: AdminActionTy
         case CLEAR_INFINITE_ORDERS:
             return {
                 ...state,
-                ordersInfinite: [],
+                ordersInfinite: { count: 0, rows: [] },
             };
         case SHOW_ERROR:
             return {
