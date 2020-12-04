@@ -11,7 +11,7 @@ import MastersTab from './MastersTab';
 import { validToken } from '../../helpers/authProcessing';
 import { ICitiesTab, IClientsTab, IMastersTab, IOrdersTab } from "../../interfaces";
 
-function TabPanel(props: any) {
+function TabPanel(props: any) {  // +++OK+++
     const { children, value, index, ...other } = props;
 
     return (

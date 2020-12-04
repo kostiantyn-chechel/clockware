@@ -5,13 +5,7 @@ import CitiesTable from './Tables/CitiesTable';
 import DeleteDialog from './DeleteDialog';
 import { ICitiesTab, ICity } from "../../interfaces";
 
-// interface ICitiesTab {
-//     cities: ICity[],
-//     fetchCities(): void,
-//     deleteCity(id: number): void,
-//     addCity(city: ICity): void,
-//     editCity(city: ICity): void,
-// }
+export type CityTables = { id: number, name: string} | []
 
 const CitiesTab: React.FC<ICitiesTab> = (props) => {
     const [cityEdit, setCityEdit] = useState<ICity>({
@@ -92,12 +86,11 @@ const CitiesTab: React.FC<ICitiesTab> = (props) => {
         return context;
     };
 
-
-    const cityTablesArr = () => {
+    const cityTablesArr = (): CityTables[] => {
         if (props.cities[0]) {
-            return props.cities.map((city) => {
+            return props.cities.map((city): CityTables => {
                 return ({
-                    id: city.id,
+                    id: city.id!,
                     name: city.name,
                 })
             })

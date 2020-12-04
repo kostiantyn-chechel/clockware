@@ -6,6 +6,8 @@ import MastersTable from './Tables/MastersTable';
 import DeleteDialog from './DeleteDialog';
 import { IMastersTab, IMaster } from "../../interfaces";
 
+export type MasterTables = { id: number, name: string, rating: number, city: string} | []
+
 const MastersTab: React.FC<IMastersTab> = (props) => {
     const [masterEdit, setMasterEdit] = useState<IMaster>({
         id: 0,
@@ -100,9 +102,9 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
     };
 
 
-    const mastersTablesArr = () => {
+    const mastersTablesArr = (): MasterTables[] => {
         if (props.masters[0]) {
-            return props.masters.map((master) => {
+            return props.masters.map((master): MasterTables => {
                 return ({
                     id: master.id,
                     name: master.name,

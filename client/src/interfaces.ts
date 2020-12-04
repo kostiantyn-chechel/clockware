@@ -1,3 +1,7 @@
+import {CityTables} from "./component/Tabs/CitiesTab";
+import {ClientTables} from "./component/Tabs/ClientsTab";
+import {MasterTables} from "./component/Tabs/MastersTab";
+
 export interface ICity {
     id?: number,
     name: string
@@ -113,7 +117,7 @@ export interface IOrdersTab {
 }
 
 export interface ITable {
-    listArr: any[],
+    listArr: CityTables[] | ClientTables[] | MasterTables[],
     clickEdit: (id: number) => void,
     clickDel: (id: number) => void,
 }
