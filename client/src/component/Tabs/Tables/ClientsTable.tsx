@@ -12,7 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import withStyles from '@material-ui/core/styles/withStyles';
 import GeneralTableHead from './GeneralTableHead';
 import { stableSort } from './TablesHelpers/tableSort';
-import { ISortDirection, ITable } from "../../../interfaces";
+import {ISortDirection, ITable} from "../../../interfaces";
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
