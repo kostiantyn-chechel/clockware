@@ -90,10 +90,10 @@ const ClientsTab: React.FC<IClientsTab> = (props) => {
         return context;
     };
 
-
     const clientsTablesArr = (): ClientTableType[] => {
         if (props.clients[0]) {
             return props.clients.map((client): ClientTableType => {
+
                 return ({
                     id: client.id!,
                     name:client.name,

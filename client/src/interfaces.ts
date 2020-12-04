@@ -2,6 +2,7 @@ import {CityTableType} from "./component/Tabs/CitiesTab";
 import {ClientTableType} from "./component/Tabs/ClientsTab";
 import {MasterTableType} from "./component/Tabs/MastersTab";
 
+
 export interface ICity {
     id?: number,
     name: string
@@ -124,6 +125,7 @@ export interface IOrdersTab {
 
 export interface ITable {
     listArr: CityTableType[] | ClientTableType[] | MasterTableType[],
+
     clickEdit: (id: number) => void,
     clickDel: (id: number) => void,
 }

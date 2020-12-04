@@ -7,6 +7,7 @@ import { ICitiesTab, ICity } from "../../interfaces";
 
 export type CityTableType = {id: number, name: string}
 
+
 const CitiesTab: React.FC<ICitiesTab> = (props) => {
     const [cityEdit, setCityEdit] = useState<ICity>({
         name: '',
@@ -86,10 +87,10 @@ const CitiesTab: React.FC<ICitiesTab> = (props) => {
         return context;
     };
 
-
     const cityTablesArr = (): CityTableType[] => {
         if (props.cities[0]) {
             return props.cities.map((city): CityTableType => {
+
                 return ({
                     id: city.id!,
                     name: city.name,

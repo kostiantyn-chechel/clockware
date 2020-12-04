@@ -101,10 +101,10 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
         return context;
     };
 
-
     const mastersTablesArr = (): MasterTableType[] => {
         if (props.masters[0]) {
             return props.masters.map((master): MasterTableType => {
+
                 return ({
                     id: master.id,
                     name: master.name,
