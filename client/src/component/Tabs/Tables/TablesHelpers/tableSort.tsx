@@ -1,9 +1,8 @@
 import { ISortDirection } from "../../../../interfaces";
 
-function descendingComparator(a: any, b: any, orderBy: string) {
+function descendingComparator(a: any, b: any, orderBy: string) { // --- OK
     if (b[orderBy] < a[orderBy]) {
         return -1;
-
     }
     if (b[orderBy] > a[orderBy]) {
         return 1;
@@ -13,11 +12,11 @@ function descendingComparator(a: any, b: any, orderBy: string) {
 
 function getComparator(order: ISortDirection, orderBy: string) {
     return order === 'desc'
-        ? (a: any, b: any) => descendingComparator(a, b, orderBy)
-        : (a: any, b: any) => -descendingComparator(a, b, orderBy);
+        ? (a: any, b: any) => descendingComparator(a, b, orderBy) // --- OK
+        : (a: any, b: any) => -descendingComparator(a, b, orderBy); // --- OK
 }
 
-export function stableSort(array: any[], order: ISortDirection, orderBy: string): any[] {
+export function stableSort(array: any[], order: ISortDirection, orderBy: string): any[] { // --- OK
     const comparator = getComparator(order, orderBy);
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {

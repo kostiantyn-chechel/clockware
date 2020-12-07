@@ -27,11 +27,9 @@ export type AdminActionTypes =
     { type: typeof CLEAR_INFINITE_ORDERS }
 
 //AUTH
-export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const AUTH_USER_MESSAGE = 'AUTH_USER_MESSAGE';
 export const SET_IS_TOKEN = 'SET_IS_TOKEN';
 
 export type AuthActionTypes =
-    { type: typeof SET_CURRENT_USER, payload: {} } |
     { type: typeof AUTH_USER_MESSAGE, payload: string | null } |
     { type: typeof SET_IS_TOKEN, payload: boolean }

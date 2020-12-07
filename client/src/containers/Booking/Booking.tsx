@@ -172,7 +172,7 @@ const mapStateToProps = (state:RootStateType) => {
     }
 };
 
-const mapDispatchToProps = (dispatch: any) => {  //--++--
+const mapDispatchToProps = (dispatch: any) => {
     return {
         findMaster: (cityId: number, date: string, time: string, size: number) => dispatch(findMaster(cityId, date, time, size)),
         sendOrder: (order: ISendOrder)  => dispatch(sendOrder(order)),

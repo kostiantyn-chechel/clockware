@@ -137,7 +137,6 @@ export type TBookingShow = 'filling' | 'select' | 'gratitude';
 export type TReview = string[] | [];
 export type TAuthUser = {
     token: string,
-    user: any,
     message: string,
 }
 export type TMashId = { match: {params: { id: number }}}

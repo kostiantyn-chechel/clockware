@@ -1,4 +1,7 @@
-import { AUTH_USER_MESSAGE, SET_CURRENT_USER, SET_IS_TOKEN} from './actionTypes';
+import {
+    AUTH_USER_MESSAGE,
+    SET_IS_TOKEN
+} from './actionTypes';
 import { saveToken } from '../../helpers/authProcessing';
 import { IAuthUser } from "../../interfaces";
 import { postServerRequest } from "../../helpers/axios/axiosClockwareAPI";
@@ -8,7 +11,6 @@ export const userLoginFetch = (userInfo: IAuthUser) => {
         .then(response => {
             if (response.token) {
                 saveToken(response.token);
-                dispatch({ type: SET_CURRENT_USER, payload: response.user });
                 dispatch(setIsToken(true));
             } else {
                 if(response.message) {

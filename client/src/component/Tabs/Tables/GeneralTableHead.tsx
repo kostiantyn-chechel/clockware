@@ -31,8 +31,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+export type HeadCellsType = {id: string, name: string, align?: "left" | "right" | "inherit" | "center" | "justify" | undefined}
 interface IGeneralTableHead {
-    headCells: any[],
+    headCells: HeadCellsType[],
     order: ISortDirection,
     orderBy: string,
     onRequestSort(event: React.MouseEvent, property: string): void,

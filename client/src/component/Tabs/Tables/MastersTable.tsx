@@ -10,7 +10,7 @@ import { Edit } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import withStyles from '@material-ui/core/styles/withStyles';
-import GeneralTableHead from './GeneralTableHead';
+import GeneralTableHead, {HeadCellsType} from './GeneralTableHead';
 import { stableSort } from './TablesHelpers/tableSort';
 import CommentIcon from '@material-ui/icons/Comment';
 import { ISortDirection, ITable } from "../../../interfaces";
@@ -77,7 +77,7 @@ const MastersTable: React.FC<ITable> = (props) => {
         return null
     };
 
-    const headCells = [
+    const headCells: HeadCellsType[] = [
         {id: 'name', name: 'Имя'},
         {id: 'city', align: 'left', name: 'Город'},
         {id: 'rating', name: 'Рейтинг'},

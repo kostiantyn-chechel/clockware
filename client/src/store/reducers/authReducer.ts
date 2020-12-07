@@ -1,25 +1,21 @@
-import {AUTH_USER_MESSAGE, AuthActionTypes, SET_CURRENT_USER, SET_IS_TOKEN} from '../actions/actionTypes';
+import {
+    AUTH_USER_MESSAGE,
+    SET_IS_TOKEN,
+    AuthActionTypes,
+} from '../actions/actionTypes';
 
 export type AuthInitialStateType = {
-    currentUser: {},
     message: string | null,
     isToken: boolean,
 };
 
 const initialState: AuthInitialStateType = {
-    currentUser: {}, //--++-- any???
     message: null,
     isToken: false,
 };
 
 export default function authReducer(state = initialState, action: AuthActionTypes): AuthInitialStateType {
     switch (action.type) {
-        case SET_CURRENT_USER:
-            return {
-                ...state,
-                currentUser: action.payload,
-            };
-
         case AUTH_USER_MESSAGE:
             return {
                 ...state,

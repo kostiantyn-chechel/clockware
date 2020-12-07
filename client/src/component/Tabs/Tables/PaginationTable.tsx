@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
-import GeneralTableHead from './GeneralTableHead';
+import GeneralTableHead, {HeadCellsType} from './GeneralTableHead';
 import TableContainer from '@material-ui/core/TableContainer';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import OrdersTableBody from './OrdersTableBody';
@@ -36,7 +36,7 @@ const PaginationTable: React.FC<IPaginationTable> = (props) => {
         setSortBy(property);
     };
 
-    const headCells = [
+    const headCells: HeadCellsType[] = [
         {id: 'date', name: 'Дата/время'},
         {id: 'photo', name: 'Фото'},
         {id: 'client', name: 'Клиент'},

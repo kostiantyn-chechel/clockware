@@ -10,7 +10,7 @@ import { Edit } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import withStyles from '@material-ui/core/styles/withStyles';
-import GeneralTableHead from './GeneralTableHead';
+import GeneralTableHead, {HeadCellsType} from './GeneralTableHead';
 import { stableSort } from './TablesHelpers/tableSort';
 import { ISortDirection, ITable } from "../../../interfaces";
 
@@ -66,7 +66,7 @@ const CitiesTable: React.FC<ITable> = (props) => {
         return null
     };
 
-    const headCells = [
+    const headCells: HeadCellsType[] = [
         {id: 'name', name: 'Город'},
     ];
 

@@ -122,7 +122,7 @@ const OrdersTab: React.FC<IOrdersTab> = (props) => {
     },[props.orders]);
 
     const [ordersInfinite, setOrdersInfinite] = useState<IRow[]>([]);
-    const [fullInfinite, setFullInfinite] = useState<any[]>([]);//---+++---
+    const [fullInfinite, setFullInfinite] = useState<IRow[]>([]);
     const [currentScrollOffset, setCurrentScrollOffset] = useState(FIRST_SCROLL);
     const [clearList, setClearList] = useState(true);
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
-import GeneralTableHead from './GeneralTableHead';
+import GeneralTableHead, {HeadCellsType} from './GeneralTableHead';
 import OrdersTableBody from './OrdersTableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import {ISortDirection} from "../../../interfaces";
@@ -27,14 +27,14 @@ interface IInfiniteTable {
     handleToggle(url: string): void,
     setSortBy(property: string): void,
     setSort(sort: ISortDirection): void,
-    setFullInfinite(item: any[]): void,
+    setFullInfinite(item: IRow[]): void,
 }
 
 const InfiniteTable: React.FC<IInfiniteTable> = (props) => {
     const classes = useStyles();
     const { listArr, nextPortion, clearList, setClearList, clickDel,
                     handleToggle, setSortBy, setSort, setFullInfinite } = props;
-    const [items, setItems] = useState<any[]>([]); //---+++---
+    const [items, setItems] = useState<IRow[]>([]);
     const [order, setOrder] = useState<ISortDirection>('asc');
     const [orderBy, setOrderBy] = useState<string>('');
 
@@ -70,7 +70,7 @@ const InfiniteTable: React.FC<IInfiniteTable> = (props) => {
         setItems([]);
     };
 
-    const headCells = [
+    const headCells: HeadCellsType[] = [
         {id: 'date', name: 'Дата/время'},
         {id: 'photo', name: 'Фото'},
         {id: 'client', name: 'Клиент'},
