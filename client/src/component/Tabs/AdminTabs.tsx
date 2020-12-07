@@ -54,7 +54,7 @@ const AdminTabs: React.FC<IAdminTabs> = (props) => {
     const classes = useStyles();
     const [value, setValue] = React.useState<number>(0);
 
-    const handleChange = async (event: React.ChangeEvent<{}>, newValue: any) => {
+    const handleChange = async (event: React.ChangeEvent<{}>, newValue: number) => {
         props.setIsToken(validToken());
         setValue(newValue);
     };

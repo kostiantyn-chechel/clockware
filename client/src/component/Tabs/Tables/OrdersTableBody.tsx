@@ -8,6 +8,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import TableRow from '@material-ui/core/TableRow';
 import PhotoButton from './PhotoButton';
 import { ISortDirection } from "../../../interfaces";
+import {IRow} from "../OrdersTab";
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -18,7 +19,7 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 interface IOrdersTableBody {
-    listArr: any[],
+    listArr: IRow[],
     order: ISortDirection,
     orderBy: string,
     handleToggle(url: string): void,

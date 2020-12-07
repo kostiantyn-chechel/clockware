@@ -69,7 +69,7 @@ interface IOrdersTab {
     fetchFilterAndInfiniteOrders(param: IFetchFilterOrders): void,
 }
 
-interface IRow {
+export interface IRow {
     id: number,
     date: string,
     time: string,
@@ -122,7 +122,7 @@ const OrdersTab: React.FC<IOrdersTab> = (props) => {
     },[props.orders]);
 
     const [ordersInfinite, setOrdersInfinite] = useState<IRow[]>([]);
-    const [fullInfinite, setFullInfinite] = useState<any[]>([]);
+    const [fullInfinite, setFullInfinite] = useState<any[]>([]);//---+++---
     const [currentScrollOffset, setCurrentScrollOffset] = useState(FIRST_SCROLL);
     const [clearList, setClearList] = useState(true);
 
@@ -229,7 +229,7 @@ const OrdersTab: React.FC<IOrdersTab> = (props) => {
         return `id:${delOrder!.id} ${delOrder!.date} ${delOrder!.client}`;
     };
 
-    const ordersTablesArr = (orders: IRow[]) => orders[0] ? orders : [];
+    const ordersTablesArr = (orders: IRow[]): IRow[] => orders[0] ? orders : [];
 
     /* eslint-disable */
     const scrollPortion = useMemo(() => ordersTablesArr(ordersInfinite), [ordersInfinite]);

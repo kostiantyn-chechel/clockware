@@ -6,6 +6,7 @@ import GeneralTableHead from './GeneralTableHead';
 import OrdersTableBody from './OrdersTableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import {ISortDirection} from "../../../interfaces";
+import {IRow} from "../OrdersTab";
 
 const useStyles = makeStyles((theme) => ({
     block: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IInfiniteTable {
-    listArr: any[],
+    listArr: IRow[],
     clearList: boolean,
     nextPortion(): void,
     setClearList(flag: boolean): void,
@@ -33,7 +34,7 @@ const InfiniteTable: React.FC<IInfiniteTable> = (props) => {
     const classes = useStyles();
     const { listArr, nextPortion, clearList, setClearList, clickDel,
                     handleToggle, setSortBy, setSort, setFullInfinite } = props;
-    const [items, setItems] = useState<any[]>([]);
+    const [items, setItems] = useState<any[]>([]); //---+++---
     const [order, setOrder] = useState<ISortDirection>('asc');
     const [orderBy, setOrderBy] = useState<string>('');
 

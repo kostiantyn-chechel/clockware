@@ -117,12 +117,6 @@ export interface IOrdersTab {
     fetchFilterAndInfiniteOrders: (param: IFetchFilterOrders) => void,
 }
 
-// export interface ITable {
-//     listArr: any[],
-//     clickEdit: (id: number) => void,
-//     clickDel: (id: number) => void,
-// }
-
 export interface ITable {
     listArr: CityTableType[] | ClientTableType[] | MasterTableType[],
 

@@ -6,6 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import OrdersTableBody from './OrdersTableBody';
 import {ISortDirection} from "../../../interfaces";
+import {IRow} from "../OrdersTab";
 
 const useStyles = makeStyles({
     table: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles({
 });
 
 interface IPaginationTable {
-    listArr: any[],
+    listArr: IRow[],
     clickDel(id: number): void,
     handleToggle(url: string): void,
     setSortBy(property: string): void,
