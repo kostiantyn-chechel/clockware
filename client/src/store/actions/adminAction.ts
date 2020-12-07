@@ -32,7 +32,7 @@ export const fetchFilterAndPaginOrders: (param: IFetchFilterOrders) => Promise<a
                                                         (param: IFetchFilterOrders): Promise<any> => {
     const {word, limit, offset, sortBy, sort} = param;
     const url = `/orders/filter?word=${word}&limit=${limit}&offset=${offset}&sortBy=${sortBy}&sort=${sort}`;
-    // @ts-ignore //--++--
+    // @ts-ignore
     return async (dispatch: any) => getAuthServerRequest(url)
         .then(orders => dispatch({type: FETCH_FILTER_PAGIN_ORDERS, payload: orders}))
         .catch(() => dispatch(showError()));
@@ -42,7 +42,7 @@ export const fetchFilterAndInfiniteOrders: (param: IFetchFilterOrders) => Promis
                                                         (param: IFetchFilterOrders): Promise<any> => {
     const {word, limit, offset, sortBy, sort} = param;
     const url = `/orders/filter?word=${word}&limit=${limit}&offset=${offset}&sortBy=${sortBy}&sort=${sort}`;
-    // @ts-ignore //--++--
+    // @ts-ignore
     return async (dispatch: any): Promise<any> => getAuthServerRequest(url)
         .then(orders => dispatch({type: FETCH_FILTER_INFINITE_ORDERS, payload: orders}))
         .catch(() => dispatch(showError()));

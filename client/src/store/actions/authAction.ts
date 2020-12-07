@@ -1,5 +1,5 @@
 import {
-    AUTH_USER_MESSAGE,
+    AUTH_USER_MESSAGE, AuthActionTypes,
     SET_IS_TOKEN
 } from './actionTypes';
 import { saveToken } from '../../helpers/authProcessing';
@@ -23,5 +23,5 @@ export const userLoginFetch = (userInfo: IAuthUser) => {
         })
 };
 
-export const authUserMessage = (message: string) => ({ type: AUTH_USER_MESSAGE, payload: message });
-export const setIsToken = (status: boolean) => ({ type: SET_IS_TOKEN, payload: status });
+export const authUserMessage = (message: string): AuthActionTypes => ({ type: AUTH_USER_MESSAGE, payload: message });
+export const setIsToken = (status: boolean): AuthActionTypes => ({ type: SET_IS_TOKEN, payload: status });

@@ -2,7 +2,6 @@ import {
     FETCH_MASTER_SUCCESS,
     SET_BOOKING_SHOW,
 } from './actionTypes';
-// import { postServerRequest } from '../../helpers/axios/axiosClockware'
 import { IMaster, ISendOrder, TBookingShow } from "../../interfaces";
 import { getServerRequest, postServerRequest } from "../../helpers/axios/axiosClockwareAPI";
 
@@ -22,6 +21,3 @@ export const sendOrder = (order: ISendOrder) => {
             dispatch(setBookingShow('gratitude'));
         })
 };
-
-//start booking
-export const emptyBooking = () => ({ type: SET_BOOKING_SHOW, payload: 'filling' });

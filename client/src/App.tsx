@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Booking from './containers/Booking/Booking';
 import Admin from './containers/Admin/Admin';
-import { connect, ConnectedProps } from 'react-redux';
+import {connect, ConnectedProps, MapDispatchToPropsFactory} from 'react-redux';
 import classes from './App.module.css';
 import { fetchCities } from './store/actions/adminAction';
 import Header from './component/Header';
 import Footer from './component/Footer';
-import { emptyBooking } from './store/actions/bookingAction';
+import { setBookingShow } from './store/actions/bookingAction';
 import { setIsToken } from './store/actions/authAction';
 import SomeError from './component/SomeError';
 import Review from './containers/Review/Review';
 import ReviewMaster from './containers/Review/ReviewMaster';
 import { RootStateType } from "./store/reducers/rootReducer";
+import {ICity} from "./interfaces";
+import {Dispatch} from "redux";
 
 interface PropsType extends PropsFromRedux {}
 
@@ -46,16 +48,24 @@ class App extends Component<PropsType> {
     }
 }
 
-function mapStateToProps(state: RootStateType) {
+type MapStateType = {
+    hasError: boolean
+}
+function mapStateToProps(state: RootStateType): MapStateType {
     return {
         hasError: state.admin.hasError,
     }
 }
 
-function mapDispatchToProps(dispatch: any) {
+type MapDispatchType = {
+    fetchCities: () => void,
+    emptyBooking: () => void,
+    setIsToken: (status: boolean) => void,
+}
+function mapDispatchToProps(dispatch: any): MapDispatchType {
     return {
         fetchCities: () => dispatch(fetchCities()),
-        emptyBooking: () => dispatch(emptyBooking()),
+        emptyBooking: () => dispatch(setBookingShow("filling")),
         setIsToken: (status: boolean) => dispatch(setIsToken(status)),
     }
 }
