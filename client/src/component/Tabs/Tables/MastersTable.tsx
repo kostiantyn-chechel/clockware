@@ -13,7 +13,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import GeneralTableHead from './GeneralTableHead';
 import { stableSort } from './TablesHelpers/tableSort';
 import CommentIcon from '@material-ui/icons/Comment';
-import { ITable, ISortDirection } from "../../../interfaces";
+import { ISortDirection, ITable } from "../../../interfaces";
 
 const StyledTableRow = withStyles((theme) => ({
     root: {

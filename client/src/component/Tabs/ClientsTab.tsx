@@ -6,7 +6,7 @@ import ClientsTable from './Tables/ClientsTable';
 import DeleteDialog from './DeleteDialog';
 import { IClient, IClientsTab } from "../../interfaces";
 
-export type ClientTables = { id: number, name: string, email: string} | []
+export type ClientTableType = {id: number, name: string, email: string}
 
 const ClientsTab: React.FC<IClientsTab> = (props) => {
     const [clientEdit, setClientEdit] = useState<IClient>({
@@ -90,10 +90,10 @@ const ClientsTab: React.FC<IClientsTab> = (props) => {
         return context;
     };
 
-
-    const clientsTablesArr = (): ClientTables[] => {
+    const clientsTablesArr = (): ClientTableType[] => {
         if (props.clients[0]) {
-            return props.clients.map((client): ClientTables => {
+            return props.clients.map((client): ClientTableType => {
+
                 return ({
                     id: client.id!,
                     name:client.name,

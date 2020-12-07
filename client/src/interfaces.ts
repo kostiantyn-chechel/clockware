@@ -1,6 +1,7 @@
-import {CityTables} from "./component/Tabs/CitiesTab";
-import {ClientTables} from "./component/Tabs/ClientsTab";
-import {MasterTables} from "./component/Tabs/MastersTab";
+import {CityTableType} from "./component/Tabs/CitiesTab";
+import {ClientTableType} from "./component/Tabs/ClientsTab";
+import {MasterTableType} from "./component/Tabs/MastersTab";
+
 
 export interface ICity {
     id?: number,
@@ -116,8 +117,15 @@ export interface IOrdersTab {
     fetchFilterAndInfiniteOrders: (param: IFetchFilterOrders) => void,
 }
 
+// export interface ITable {
+//     listArr: any[],
+//     clickEdit: (id: number) => void,
+//     clickDel: (id: number) => void,
+// }
+
 export interface ITable {
-    listArr: CityTables[] | ClientTables[] | MasterTables[],
+    listArr: CityTableType[] | ClientTableType[] | MasterTableType[],
+
     clickEdit: (id: number) => void,
     clickDel: (id: number) => void,
 }
