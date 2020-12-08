@@ -1,3 +1,5 @@
+import { Request, Response, NextFunction} from 'express'
+import { IError } from "../Type/interfaces";
 const db = require('../models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -5,13 +7,13 @@ require('dotenv').config();
 const User = db.user;
 
 
-const authUser = async (req, res, next) => {
+const authUser = async (req: Request, res: Response, next: NextFunction) => {
     User.findOne({
         where: {
             login: req.body.login
         }
     })
-        .then(user => {
+        .then((user: any) => {
             if(!user) {
                 res.send({ message: 'Неверный логин!' })
             } else {
@@ -24,14 +26,14 @@ const authUser = async (req, res, next) => {
         })
 };
 
-const generateToken = (login) => {
+const generateToken = (login: string) => {
     return jwt.sign({ login: login }, process.env.SECRET_KEY, {
         expiresIn: 720 // 12 min - token lifetime
         // expiresIn: 6060 // 101 min - token lifetime
     });
 };
 
-const verifyToken = (req, res, next) => {
+const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     let token = req.headers["x-access-token"];
 
     if (!token) {
@@ -40,7 +42,7 @@ const verifyToken = (req, res, next) => {
         });
     }
 
-    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+    jwt.verify(token, process.env.SECRET_KEY, (err: IError, decoded: any) => {
         if (err) {
             return res.send({
                 message: "Unauthorized!"

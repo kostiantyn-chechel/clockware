@@ -41,7 +41,7 @@ exports.findOne = (req: Request, res: Response) => {
         .then((data: any) => {
             res.send(data);
         })
-        .catch((err: IError) => {
+        .catch(() => {
             res.status(500).send({
                 message: "Error retrieving City with id=" + id
             });
@@ -65,7 +65,7 @@ exports.update = (req: Request, res: Response) => {
                 });
             }
         })
-        .catch((err: IError) => {
+        .catch(() => {
             res.status(500).send({
                 message: "Error updating City with id=" + id
             });
@@ -89,7 +89,7 @@ exports.delete = (req: Request, res: Response) => {
                 });
             }
         })
-        .catch((err: IError) => {
+        .catch(() => {
             res.status(500).send({
                 message: "Could not delete City with id=" + id
             });

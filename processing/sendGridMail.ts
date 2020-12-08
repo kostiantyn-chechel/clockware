@@ -1,5 +1,7 @@
+import {IError} from "../Type/interfaces";
 require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
+// @ts-ignore
 const { timesByWords, dayToString } = require('./dateTime');
 
 let baseURL = 'http://localhost:3000/review/';
@@ -7,7 +9,7 @@ if (process.env.NODE_ENV === 'production') baseURL = 'https://db-clockware.herok
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const sendSGEmail = order => {
+const sendSGEmail = (order: any) => {
 
     const msg = {
         to: order.clientEmail, // Change to your recipient
@@ -37,8 +39,8 @@ const sendSGEmail = order => {
         .then(() => {
             console.log('Email sent', order.clientEmail);
         })
-        .catch((error) => {
-            console.error(error)
+        .catch((err: IError) => {
+            console.error(err)
         })
 };
 

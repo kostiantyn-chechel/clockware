@@ -2,11 +2,13 @@ require('dotenv').config();
 const nodemailer = require('nodemailer');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-const { timesByWords, dayToString } = require('./dateTime');
+// const { timesByWords, dayToString } = require('./dateTime');
+// @ts-ignore
+import { timesByWords, dayToString } from './dateTime';
 
 const linkURL = 'http://localhost:3000/review/';
 
-async function sendEmails(order) {
+async function sendEmails(order: any) {
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -25,7 +27,7 @@ async function sendEmails(order) {
     console.log('Message sent: %s', info.messageId)
 }
 
-function createEmailBody(order) {
+function createEmailBody(order: any) {
     const dom = new JSDOM(
         '<html>' +
         '<head></head>' +
