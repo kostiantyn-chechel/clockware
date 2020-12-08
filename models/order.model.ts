@@ -1,4 +1,12 @@
-module.exports = (sequelize, Sequelize) => {
+export interface OrderAttributes {
+    id?: number
+    date: string
+    time: string
+    hours: number
+    photoUrl: string
+}
+
+module.exports = (sequelize: any, Sequelize: any): OrderAttributes => {
     const Order = sequelize.define('order', {
         date: {
             type: Sequelize.DATE,
