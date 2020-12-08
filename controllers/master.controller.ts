@@ -1,10 +1,12 @@
+import { Request, Response } from 'express'
+import { IError } from "../Type/interfaces";
 const { selectMasters, masterRating } = require('../processing/selectMasters');
 const db = require("../models");
 const Master = db.masters;
 const Order = db.orders;
 const Review = db.reviews;
 
-exports.create = (req, res) => {
+exports.create = (req: Request, res: Response) => {
 
     const master = {
         name: req.body.name,
@@ -13,10 +15,10 @@ exports.create = (req, res) => {
     };
 
     Master.create(master)
-        .then(data => {
+        .then((data: any) => {
             res.send(data);
         })
-        .catch(err => {
+        .catch((err: IError) => {
             res.status(500).send({
                 message:
                     err.message || "Some error occurred while creating the Master."
@@ -24,16 +26,16 @@ exports.create = (req, res) => {
         });
 };
 
-exports.findAll = (req, res) => {
+exports.findAll = (req: Request, res: Response) => {
     Master.findAll({
         include: [{
             model: Review,
         }],
     })
-        .then(data => {
+        .then((data: any) => {
             res.send(masterRating(data));
         })
-        .catch(err => {
+        .catch((err: IError) => {
             res.status(500).send({
                 message:
                     err.message || "Some error occurred while retrieving masters."
@@ -41,15 +43,15 @@ exports.findAll = (req, res) => {
         });
 };
 
-exports.findAllFreeMasters = (req, res) => {
+exports.findAllFreeMasters = (req: Request, res: Response) => {
     const {date, time, cityId, size} = req.query;
-    let ordersOnDate = [];
+    let ordersOnDate = <any>[];
 
     Order.findAll({where: {
             date: date + 'T00:00:00.000Z',
             cityId: cityId,
         }})
-        .then(data => {
+        .then((data: any) => {
             ordersOnDate = data
         })
         .then(() => {
@@ -62,33 +64,33 @@ exports.findAllFreeMasters = (req, res) => {
                 }],
                 // raw: true,
             })
-                .then(masters => {
+                .then((masters: any) => {
                     res.send(selectMasters(ordersOnDate, masters, time, size));
                 })
         });
 };
 
-exports.findOne = (req, res) => {
+exports.findOne = (req: Request, res: Response) => {
     const id = req.params.id;
 
     Master.findByPk(id)
-        .then(data => {
+        .then((data: any) => {
             res.send(data);
         })
-        .catch(err => {
+        .catch((err: IError) => {
             res.status(500).send({
                 message: "Error retrieving Master with id=" + id
             });
         });
 };
 
-exports.update = (req, res) => {
+exports.update = (req: Request, res: Response) => {
     const id = req.params.id;
     console.log('Master update', id);
     Master.update(req.body, {
         where: { id: id }
     })
-        .then(num => {
+        .then((num: number) => {
             if (num == 1) {
                 res.send({
                     message: `Master with id=${id} was updated successfully.`
@@ -99,20 +101,20 @@ exports.update = (req, res) => {
                 });
             }
         })
-        .catch(err => {
+        .catch((err: IError) => {
             res.status(500).send({
                 message: "Error updating Master with id=" + id
             });
         });
 };
 
-exports.delete = (req, res) => {
+exports.delete = (req: Request, res: Response) => {
     const id = req.params.id;
 
     Master.destroy({
         where: { id: id }
     })
-        .then(num => {
+        .then((num: number) => {
             if (num == 1) {
                 res.send({
                     message: `Master with id=${id} was deleted successfully!`
@@ -123,7 +125,7 @@ exports.delete = (req, res) => {
                 });
             }
         })
-        .catch(err => {
+        .catch((err: IError) => {
             res.status(500).send({
                 message: "Could not delete Master with id=" + id
             });

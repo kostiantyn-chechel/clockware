@@ -1,11 +1,13 @@
+import { Request, Response } from 'express'
+import { IError } from "../Type/interfaces"
 const db = require('../models');
 const Review = db.reviews;
 const Order = db.orders;
 
-exports.create = (req, res) => {
+exports.create = (req: Request, res: Response) => {
     let review = req.body;
     Order.findOne({where: {id: review.orderId}})
-        .then(order => {
+        .then((order: any) => {
             review['masterId'] = order.masterId;
             Review.create(review)
                 .then(() => {
@@ -14,14 +16,14 @@ exports.create = (req, res) => {
         });
 };
 
-exports.verify = (req,res) => {
+exports.verify = (req: Request, res: Response) => {
     const orderId = req.query.orderId;
 
     Order.findOne({where: {id: orderId}})
-        .then(order => {
+        .then((order: any) => {
             if (order) {
                 Review.findOne({where: {orderId: orderId}})
-                    .then(result => {
+                    .then((result: any) => {
                         console.log('result Review.findOne:', result);
                         if (result) {
                             res.send(JSON.stringify('completed'))
@@ -29,7 +31,7 @@ exports.verify = (req,res) => {
                             res.send(JSON.stringify('review'))
                         }
                     })
-                    .catch(err => {
+                    .catch((err: IError) => {
                         res.status(500).send({
                             message:
                                 err.message || "Some error occurred while find the Review."
@@ -41,7 +43,7 @@ exports.verify = (req,res) => {
         });
 };
 
-exports.reviews = (req, res) => {
+exports.reviews = (req: Request, res: Response) => {
 
     Review.findAll({
         where: {
@@ -52,10 +54,10 @@ exports.reviews = (req, res) => {
             as: 'review_order',
         }
     })
-        .then(review => {
+        .then((review: any) => {
             res.send(review);
         })
-        .catch(err => {
+        .catch((err: IError) => {
             res.status(500).send({
                 message:
                     err.message || "Some error occurred while find the Master Reviews."

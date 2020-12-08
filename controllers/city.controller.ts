@@ -1,17 +1,19 @@
+import { Request, Response} from 'express'
+import { IError } from "../Type/interfaces";
 const db = require("../models");
 const City = db.cities;
 
-exports.create = (req, res) => {
+exports.create = (req: Request, res: Response) => {
 
     const city = {
         name: req.body.name,
     };
 
     City.create(city)
-        .then(data => {
+        .then((data: any) => {
             res.send(data);
         })
-        .catch(err => {
+        .catch((err: IError) => {
             res.status(500).send({
                 message:
                     err.message || "Some error occurred while creating the City."
@@ -19,12 +21,12 @@ exports.create = (req, res) => {
         });
 };
 
-exports.findAll = (req, res) => {
+exports.findAll = (req: Request, res: Response) => {
     City.findAll()
-        .then(data => {
+        .then((data: any) => {
             res.send(data);
         })
-        .catch(err => {
+        .catch((err: IError) => {
             res.status(500).send({
                 message:
                     err.message || "Some error occurred while retrieving cities."
@@ -32,27 +34,27 @@ exports.findAll = (req, res) => {
         });
 };
 
-exports.findOne = (req, res) => {
+exports.findOne = (req: Request, res: Response) => {
     const id = req.params.id;
 
     City.findByPk(id)
-        .then(data => {
+        .then((data: any) => {
             res.send(data);
         })
-        .catch(err => {
+        .catch((err: IError) => {
             res.status(500).send({
                 message: "Error retrieving City with id=" + id
             });
         });
 };
 
-exports.update = (req, res) => {
+exports.update = (req: Request, res: Response) => {
     const id = req.params.id;
     console.log('city update', id);
     City.update(req.body, {
         where: { id: id }
     })
-        .then(num => {
+        .then((num: number) => {
             if (num == 1) {
                 res.send({
                     message: `City with id=${id} was updated successfully.`
@@ -63,20 +65,20 @@ exports.update = (req, res) => {
                 });
             }
         })
-        .catch(err => {
+        .catch((err: IError) => {
             res.status(500).send({
                 message: "Error updating City with id=" + id
             });
         });
 };
 
-exports.delete = (req, res) => {
+exports.delete = (req: Request, res: Response) => {
     const id = req.params.id;
 
     City.destroy({
         where: { id: id }
     })
-        .then(num => {
+        .then((num: number) => {
             if (num == 1) {
                 res.send({
                     message: `City with id=${id} was deleted successfully!`
@@ -87,7 +89,7 @@ exports.delete = (req, res) => {
                 });
             }
         })
-        .catch(err => {
+        .catch((err: IError) => {
             res.status(500).send({
                 message: "Could not delete City with id=" + id
             });

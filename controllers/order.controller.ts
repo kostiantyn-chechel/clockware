@@ -1,4 +1,6 @@
-const sendEmails = require('../processing/sendEmails');
+import { Request, Response } from 'express'
+import { IError } from "../Type/interfaces"
+// const sendEmails = require('../processing/sendEmails');
 const sendSGEmail  = require('../processing/sendGridMail');
 const db = require("../models");
 const Op = db.Sequelize.Op;
@@ -8,7 +10,7 @@ const Master = db.masters;
 const City = db.cities;
 const { sortingOrders } = require('../processing/sortingOptions');
 
-exports.create = (req, res) => {
+exports.create = (req: Request, res: Response) => {
 
     let order = {
         ...req.body,
@@ -21,7 +23,7 @@ exports.create = (req, res) => {
     };
 
     Client.findOne({where: {email: client.email}})
-        .then(data => {
+        .then((data: any) => {
             if (data){
                 order = {
                     ...order,
@@ -31,7 +33,7 @@ exports.create = (req, res) => {
                 return data.id;
             } else {
                 Client.create(client)
-                    .then(data => {
+                    .then((data: any) => {
                         order = {
                             ...order,
                             clientId: data.id,
@@ -39,7 +41,7 @@ exports.create = (req, res) => {
                         creteOrder(order);
                         return data.id;
                     })
-                    .catch(err => {
+                    .catch((err: IError) => {
                         res.status(500).send({
                             message:
                                 err.message || "Some error occurred while creating the Client."
@@ -49,16 +51,16 @@ exports.create = (req, res) => {
         });
 
 
-    const creteOrder = (order) => {
+    const creteOrder = (order: any) => {
         Order.create(order)
-            .then(data => {
+            .then((data: any) => {
                 Order.findByPk(data.id, {
                     include: [
                         {model: Client, as: 'order_client',},
                         {model: Master, as: 'order_master',}
                     ]
                 })
-                    .then(resOrder => {
+                    .then((resOrder: any) => {
                         const fullOrder = {
                             id: resOrder.id,
                             clientName: resOrder.order_client.dataValues.name,
@@ -74,7 +76,7 @@ exports.create = (req, res) => {
                 res.send(data);
 
             })
-            .catch(err => {
+            .catch((err: IError) => {
                 res.status(500).send({
                     message:
                         err.message || "Some error occurred while creating the Order."
@@ -85,12 +87,12 @@ exports.create = (req, res) => {
 
 };
 
-exports.findAll = (req, res) => {
+exports.findAll = (req: Request, res: Response) => {
     Order.findAll()
-        .then(data => {
+        .then((data: any) => {
             res.send(data);
         })
-        .catch(err => {
+        .catch((err: IError) => {
             res.status(500).send({
                 message:
                     err.message || "Some error occurred while retrieving orders."
@@ -98,10 +100,10 @@ exports.findAll = (req, res) => {
         });
 };
 
-exports.findFilter = (req, res) => {
+exports.findFilter = (req: Request, res: Response) => {
     let word = req.query.word;
-    let limit = parseInt(req.query.limit);
-    let offset = parseInt(req.query.offset);
+    let limit = parseInt(req.query.limit as string);
+    let offset = parseInt(req.query.offset as string);
     const sorting = sortingOrders(req.query.sortBy, req.query.sort);
 
     Order.findAndCountAll({
@@ -126,33 +128,33 @@ exports.findFilter = (req, res) => {
             model: Master,
             as: 'order_master'
         }],
-    }).then(data => {
+    }).then((data: any) => {
         res.send(data)
     });
 };
 
 
-exports.findOne = (req, res) => {
+exports.findOne = (req: Request, res: Response) => {
     const id = req.params.id;
 
     Order.findByPk(id)
-        .then(data => {
+        .then((data: any) => {
             res.send(data);
         })
-        .catch(err => {
+        .catch(() => {
             res.status(500).send({
                 message: "Error retrieving Order with id=" + id
             });
         });
 };
 
-exports.update = (req, res) => {
+exports.update = (req: Request, res: Response) => {
     const id = req.params.id;
     console.log('Order update', id);
     Order.update(req.body, {
         where: { id: id }
     })
-        .then(num => {
+        .then((num: number) => {
             if (num == 1) {
                 res.send({
                     message: `Order with id=${id} was updated successfully.`
@@ -163,20 +165,20 @@ exports.update = (req, res) => {
                 });
             }
         })
-        .catch(err => {
+        .catch(() => {
             res.status(500).send({
                 message: "Error updating Order with id=" + id
             });
         });
 };
 
-exports.delete = (req, res) => {
+exports.delete = (req: Request, res: Response) => {
     const id = req.params.id;
 
     Order.destroy({
         where: { id: id }
     })
-        .then(num => {
+        .then((num: number) => {
             if (num == 1) {
                 res.send({
                     message: `Order with id=${id} was deleted successfully!`
@@ -187,7 +189,7 @@ exports.delete = (req, res) => {
                 });
             }
         })
-        .catch(err => {
+        .catch(() => {
             res.status(500).send({
                 message: "Could not delete Order with id=" + id
             });
