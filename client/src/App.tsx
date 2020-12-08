@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Booking from './containers/Booking/Booking';
 import Admin from './containers/Admin/Admin';
-import {connect, ConnectedProps, MapDispatchToPropsFactory} from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import classes from './App.module.css';
 import { fetchCities } from './store/actions/adminAction';
 import Header from './component/Header';
@@ -13,8 +13,6 @@ import SomeError from './component/SomeError';
 import Review from './containers/Review/Review';
 import ReviewMaster from './containers/Review/ReviewMaster';
 import { RootStateType } from "./store/reducers/rootReducer";
-import {ICity} from "./interfaces";
-import {Dispatch} from "redux";
 
 interface PropsType extends PropsFromRedux {}
 

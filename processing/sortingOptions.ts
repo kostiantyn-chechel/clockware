@@ -1,11 +1,12 @@
-const sortingOrders = (sortBy, sort) => {
+import { TSortBy, TSortIn, TSortOut } from "../Type/interfaces";
+
+const sortingOrders = (sortBy: TSortBy, sort: TSortIn): string[] => {
     const sortArr = sortColumn(sortBy);
     sortArr.push(sortDirection(sort));
     return sortArr
 };
 
-const sortColumn = sortBy => {
-    console.log('sortBy', sortBy);
+const sortColumn = (sortBy: TSortBy): string[] => {
     switch (sortBy) {
         case 'date':
             return ['date'];
@@ -26,7 +27,7 @@ const sortColumn = sortBy => {
     }
 };
 
-const sortDirection = sort => sort === 'asc' ? 'ASC' : 'DESC';
+const sortDirection = (sort: TSortIn): TSortOut => sort === 'asc' ? 'ASC' : 'DESC';
 
 module.exports = {
     sortingOrders,

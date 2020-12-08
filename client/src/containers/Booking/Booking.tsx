@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {connect, ConnectedProps} from 'react-redux';
-import { emptyBooking, findMaster, sendOrder } from '../../store/actions/bookingAction';
+import { connect, ConnectedProps } from 'react-redux';
+import { findMaster, sendOrder, setBookingShow } from '../../store/actions/bookingAction';
 import Container from '@material-ui/core/Container';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import NotMasters from '../../component/notMasters';
@@ -9,7 +9,7 @@ import BookingSelectMaster from '../../component/BookingSelectMaster';
 import BookingFillingFields from '../../component/BookingFillingFields';
 import { today } from '../../helpers/dateTime';
 import { ISendOrder } from "../../interfaces";
-import {RootStateType} from "../../store/reducers/rootReducer";
+import { RootStateType } from "../../store/reducers/rootReducer";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -176,7 +176,7 @@ const mapDispatchToProps = (dispatch: any) => {
     return {
         findMaster: (cityId: number, date: string, time: string, size: number) => dispatch(findMaster(cityId, date, time, size)),
         sendOrder: (order: ISendOrder)  => dispatch(sendOrder(order)),
-        emptyBooking: () => dispatch(emptyBooking()),
+        emptyBooking: () => dispatch(setBookingShow("filling")),
     }
 };
 

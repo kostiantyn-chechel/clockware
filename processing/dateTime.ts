@@ -1,4 +1,4 @@
-const timesByWords = number => {
+const timesByWords = (number: string): string => {
     switch (number + '') {
         case '1':
             return 'один час';
@@ -11,7 +11,7 @@ const timesByWords = number => {
     }
 };
 
-const dayToString = day => {
+const dayToString = (day: Date): string => {
     return [
         day.getFullYear(),
         day.getMonth() < 9 ? '0' + (day.getMonth() + 1) : day.getMonth() + 1,
