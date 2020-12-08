@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
+import * as express from 'express';
 const master = require('../controllers/master.controller');
 const { verifyToken } = require('../processing/auth');
+const router = express.Router();
 
 router.post('/', verifyToken, master.create);
 router.get('/', verifyToken, master.findAll);

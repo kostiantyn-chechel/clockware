@@ -1,4 +1,4 @@
-const express = require('express');
+import * as express from 'express';
 const router = express.Router();
 const city = require('../controllers/city.controller');
 const { verifyToken } = require('../processing/auth');
