@@ -21,17 +21,29 @@ const sequelize = new Sequelize(
     }
 );
 
-const db = {};
+type DBType = {
+    Sequelize: any,
+    sequelize: any,
+    clients: any,
+    cities: any,
+    masters: any,
+    orders: any,
+    user: any,
+    token: any,
+    reviews: any,
+}
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-db.clients = require('./client.model')(sequelize, Sequelize);
-db.cities = require('./city.model')(sequelize, Sequelize);
-db.masters = require('./master.model')(sequelize, Sequelize);
-db.orders = require('./order.model')(sequelize, Sequelize);
-db.user = require('./user.model')(sequelize, Sequelize);
-db.token = require('./token.model')(sequelize, Sequelize);
-db.reviews = require('./review.model')(sequelize, Sequelize);
+const db: DBType = {
+    Sequelize: Sequelize,
+    sequelize: sequelize,
+    clients: require('./client.model')(sequelize, Sequelize),
+    cities: require('./city.model')(sequelize, Sequelize),
+    masters: require('./master.model')(sequelize, Sequelize),
+    orders: require('./order.model')(sequelize, Sequelize),
+    user: require('./user.model')(sequelize, Sequelize),
+    token: require('./token.model')(sequelize, Sequelize),
+    reviews: require('./review.model')(sequelize, Sequelize)
+};
 
 db.cities.hasMany(db.masters);
 db.masters.belongsTo(db.cities);
