@@ -1,3 +1,5 @@
+import { Request, Response, NextFunction } from 'express'
+import {IError} from "./Type/interfaces";
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -35,14 +37,14 @@ app.use('/orders', ordersRouter);
 app.use('/auth', authRouter);
 app.use('/rev', reviewRouter);
 
-app.get('/zzz', (req, res) => {
+app.get('/zzz', (req: Request, res: Response) => {
     res.send(JSON.stringify('777'))
 });
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 
-  app.get('*', (req, res) => {
+  app.get('*', (req: Request, res: Response) => {
     res.sendFile(
         path.resolve(
             __dirname, 'client', 'static', 'index.html'
@@ -52,12 +54,12 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function(req: Request, res: Response, next: NextFunction) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(err: IError, req: Request, res: Response, next: NextFunction) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
