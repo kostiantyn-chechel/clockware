@@ -17,7 +17,7 @@ or
 You can open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 ####For use local DB:
-Create folder `/config` and copy `db.config.js` from `db_dump`  <br>
+Create folder `/config` and copy `db.config.ts` from `db_dump`  <br>
 Create a local database using the `clockware.sql` from `db_dump`
 
 ####These are our routes:
