@@ -60,6 +60,7 @@ const Admin: React.FC<PropsFromRedux> = (props) => {
                     userLoginFetch={props.userLoginFetch}
                     authUserMessage={props.authUserMessage}
                     message={props.message}
+                    nameAuthPanel='Вход администратора'
                 />
             )
         }
@@ -70,7 +71,7 @@ const Admin: React.FC<PropsFromRedux> = (props) => {
             {adminRender()}
         </React.Fragment>
     );
-}
+};
 
 function mapStateToProps(state: RootStateType) {
     return {

@@ -38,7 +38,7 @@ app.use('/auth', authRouter);
 app.use('/rev', reviewRouter);
 
 app.get('/zzz', (req: Request, res: Response) => {
-    res.send(JSON.stringify('777'))
+    res.send(JSON.stringify('ZZZ'))
 });
 
 if (process.env.NODE_ENV === 'production') {
