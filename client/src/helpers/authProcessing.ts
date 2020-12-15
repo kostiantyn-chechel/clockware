@@ -5,7 +5,8 @@ export const saveToken = (token: string | null, status: TUserStatus): void => {
         localStorage.setItem('token', token);
         localStorage.setItem('userStatus', status);
         const expiredTime = new Date().getTime();
-        localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 600000)); // 10 min - token validity time
+        // localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 600000)); // 10 min - token validity time
+        localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 20000)); // 20 sec - token validity time
         // localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 6000000)); // 100 min - token validity time
     }
 };

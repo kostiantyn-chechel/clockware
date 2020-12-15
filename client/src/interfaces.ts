@@ -81,6 +81,10 @@ export interface IAuthUser {
     password: string,
 }
 
+export interface IRegUser extends IAuthUser{
+    name: string
+}
+
 export interface IMastersTab {
     masters: IMaster[],
     cities: ICity[],
