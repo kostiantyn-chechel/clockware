@@ -5,9 +5,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import TextField from "@material-ui/core/TextField";
-import {IRegUser} from "../../interfaces";
+import { IRegUser } from "../../interfaces";
 import Button from "@material-ui/core/Button";
-import {comparePass, isEmail, isName} from "../../helpers/validation";
+import { comparePass, isEmail, isName } from "../../helpers/validation";
+import { userRegistrationFetch } from "../../store/actions/authAction";
+import { RootStateType } from "../../store/reducers/rootReducer";
+import { connect, ConnectedProps } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -20,10 +23,6 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         width: theme.spacing(5),
         height: theme.spacing(5),
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
@@ -41,7 +40,7 @@ interface IRegistrationUser extends IRegUser{
     password2: string
 }
 
-const Registration: React.FC = props => {
+const Registration: React.FC<PropsFromRedux> = props => {
     const classes = useStyles();
 
     const [user, setUser] = useState<IRegistrationUser>({
@@ -49,6 +48,7 @@ const Registration: React.FC = props => {
         login: '',
         password: '',
         password2: '',
+        status: "client"
     });
 
     const [error, setError] = useState<ErrorFieldType>({
@@ -58,11 +58,14 @@ const Registration: React.FC = props => {
         password2: false,
     });
 
+    /* eslint-disable */
     useEffect(() => {
-        if (!error.name && !error.login && !error.password && !error.password2){
-            console.log('send user :', user); //TODO send new User
+        if (user.name && !error.name && !error.login && !error.password && !error.password2){
+            props.userRegistrationFetch(user as IRegUser);
+            console.log('send user :', user);
         }
     },[error]);
+    /* eslint-enable */
 
     const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
         setUser({
@@ -77,8 +80,6 @@ const Registration: React.FC = props => {
             password: !isName(user.password, 8),
             password2: !comparePass(user.password, user.password2),
         });
-        console.log('user:', user);
-        console.log('error', error);
     };
 
     return (
@@ -97,7 +98,7 @@ const Registration: React.FC = props => {
 
                 <TextField
                     error={error.name}
-                    helperText={'текст должен быть не менее 3 знаков'}
+                    helperText={error.name ? 'текст должен быть не менее 3 знаков': ''}
                     variant="outlined"
                     margin="normal"
                     required
@@ -111,7 +112,7 @@ const Registration: React.FC = props => {
 
                 <TextField
                     error={error.login}
-                    helperText={'Логином должен быть e-mail'}
+                    helperText={error.login ?'Логином должен быть e-mail': ''}
                     variant="outlined"
                     margin="normal"
                     required
@@ -124,7 +125,7 @@ const Registration: React.FC = props => {
 
                 <TextField
                     error={error.password}
-                    helperText={'пароль должен быть не менее 8 знаков'}
+                    helperText={error.password ?'пароль должен быть не менее 8 знаков': ''}
                     variant="outlined"
                     margin="normal"
                     required
@@ -137,7 +138,7 @@ const Registration: React.FC = props => {
                 />
                 <TextField
                     error={error.password2}
-                    helperText={'Пароль должен совпадать'}
+                    helperText={error.password2 ?'Пароль должен совпадать': ''}
                     variant="outlined"
                     margin="normal"
                     required
@@ -164,4 +165,19 @@ const Registration: React.FC = props => {
     );
 };
 
-export default Registration;
+function mapStateToProps(state: RootStateType) {
+    return {
+    }
+}
+
+function mapDispatchToProps(dispatch: any) {
+    return{
+        userRegistrationFetch: (userRegInfo: IRegUser) => dispatch(userRegistrationFetch(userRegInfo))
+    }
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+export default connector(Registration);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+

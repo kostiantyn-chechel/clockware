@@ -83,6 +83,7 @@ export interface IAuthUser {
 
 export interface IRegUser extends IAuthUser{
     name: string
+    status: TUserStatus
 }
 
 export interface IMastersTab {

@@ -155,4 +155,3 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connector(AuthCommon);
 
 type PropsFromRedux = ConnectedProps<typeof connector>
-// export default AuthCommon;

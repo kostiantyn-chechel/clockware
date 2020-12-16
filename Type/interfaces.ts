@@ -15,3 +15,13 @@ export interface IUser {
     login: string
     token: string
 }
+
+export interface IUserReg {
+    id?: number
+    login: string
+    password: string
+    salt: string
+    status: TUserStatus
+    name: string
+    clientId?: number
+}
