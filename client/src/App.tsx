@@ -48,7 +48,7 @@ class App extends Component<PropsType> {
                         <Route path='/review/:id' component={ Review } />
                         <Route path='/master/:id' component={ ReviewMaster } />
                         <Route path='/' exact={true} component={ Booking } />
-                        <Route path='/*' component={ AuthCommon } />
+                        {/*<Route path='/*' component={ AuthCommon } />*/}
                     </Switch>
                 }
                 <Footer/>

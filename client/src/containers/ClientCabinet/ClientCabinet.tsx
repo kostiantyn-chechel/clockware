@@ -58,16 +58,16 @@ const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
 
     const clientChangeReg = (event: React.MouseEvent) => {
         event.preventDefault();
-        console.log('error', error);
-        console.log('user', user);
         const userChangeData: IChangeRegUser ={
             id: props.id,
             name: compareChangeField(props.name, user.name),
             login: compareChangeField(props.login, user.login),
             password: user.password,
         };
+        if (userChangeData.name || userChangeData.login || userChangeData.password){
+            props.userRegistrationChange(userChangeData);
+        }
         console.log('userChangeData', userChangeData);
-        // userRegistrationChange(userChangeData);
     };
 
     return (

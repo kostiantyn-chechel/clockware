@@ -48,19 +48,20 @@ export const userRegistrationFetch = (userRegInfo: IRegUser) => {
 };
 
 export const userRegistrationChange = (userChangeRegInfo: IChangeRegUser) => {
-    return async (dispatch: any) => postServerRequest('/auth/reg', userChangeRegInfo)
+    console.log('userRegistrationChange');
+    return async (dispatch: any) => postServerRequest('/auth/change', userChangeRegInfo)
         .then(response => {
-            console.log('response RegUser', response);
-            if (response.token) {
-                dispatch({ type: SET_USER, payload: response });
-                saveToken(response.token, response.status);
-                dispatch(setIsToken(true)); //TODO ???
-            } else {
-                if(response.message) {
-                    console.log('registration: ',response.message);
-                    // dispatch(authUserMessage(response.message));
-                }
-            }
+            console.log('response userChangeRegInfo', response);
+            // if (response.token) {
+            //     dispatch({ type: SET_USER, payload: response });
+            //     saveToken(response.token, response.status);
+            //     dispatch(setIsToken(true)); //TODO ???
+            // } else {
+            //     if(response.message) {
+            //         console.log('registration: ',response.message);
+            //         // dispatch(authUserMessage(response.message));
+            //     }
+            // }
         })
         .catch(err => {
             console.log(err.message);

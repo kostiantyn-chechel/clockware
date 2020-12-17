@@ -25,3 +25,10 @@ export interface IUserReg {
     name: string
     clientId?: number
 }
+
+export interface IUserChangeReg {
+    login?: string
+    name?: string
+    password?: string
+    salt?: string
+}

@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from 'express'
-import {IError} from "../Type/interfaces";
+import {IError, IUserChangeReg} from "../Type/interfaces";
 const db = require("../models");
 const User = db.users;
 const { generateToken, generateSalt, generatePassCrypt } = require('../processing/auth');
@@ -47,7 +47,6 @@ exports.userAdd = (req: Request, res: Response) => {
             password: generatePassCrypt(req.body.password, salt),
             salt: salt,
         }
-
     };
 
     User.create(user())
@@ -66,4 +65,26 @@ exports.userAdd = (req: Request, res: Response) => {
                     err.message || "Some error occurred while creating the User."
             });
         });
+};
+
+exports.userChangeData = (req: Request, res: Response) => {
+    const user: IUserChangeReg = {};
+    if(req.body.login) user.login = req.body.login;
+    if(req.body.name) user.name = req.body.name;
+    if(req.body.password) {
+        user.salt = generateSalt();
+        user.password = generatePassCrypt(req.body.password, user.salt)
+    }
+
+    User.update(user, {
+        where: {
+            id: req.body.id 
+        }})
+        .then((result: any)=>{
+            console.log('result', result);
+            res.send(result);
+            }
+        );
+    console.log('userChangeData', user);
+
 };
