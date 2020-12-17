@@ -5,12 +5,13 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import TextField from "@material-ui/core/TextField";
-import { IRegUser } from "../../interfaces";
+import {IRegistrationUser, IRegUser} from "../../interfaces";
 import Button from "@material-ui/core/Button";
 import { comparePass, isEmail, isName } from "../../helpers/validation";
 import { userRegistrationFetch } from "../../store/actions/authAction";
 import { RootStateType } from "../../store/reducers/rootReducer";
 import { connect, ConnectedProps } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -29,19 +30,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-type ErrorFieldType = {
+export type ErrorFieldType = {
     name: boolean
     login: boolean
     password: boolean
     password2: boolean
 }
 
-interface IRegistrationUser extends IRegUser{
-    password2: string
-}
-
 const Registration: React.FC<PropsFromRedux> = props => {
     const classes = useStyles();
+    const { userStatus } = props;
+    const { push } = useHistory();
 
     const [user, setUser] = useState<IRegistrationUser>({
         name: '',
@@ -65,6 +64,12 @@ const Registration: React.FC<PropsFromRedux> = props => {
             console.log('send user :', user);
         }
     },[error]);
+
+    useEffect(() => {
+        if (userStatus === 'client') {
+            push('/client');
+        }
+    }, [userStatus]);
     /* eslint-enable */
 
     const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
@@ -167,6 +172,8 @@ const Registration: React.FC<PropsFromRedux> = props => {
 
 function mapStateToProps(state: RootStateType) {
     return {
+        message: state.auth.message,
+        userStatus: state.auth.user.status,
     }
 }
 

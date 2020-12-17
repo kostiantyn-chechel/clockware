@@ -85,6 +85,14 @@ export interface IRegUser extends IAuthUser{
     name: string
     status: TUserStatus
 }
+export interface IRegistrationUser extends IRegUser{
+    password2: string
+}
+
+export interface IChangeRegUser extends IAuthUser{
+    id: number
+    name: string
+}
 
 export interface IMastersTab {
     masters: IMaster[],

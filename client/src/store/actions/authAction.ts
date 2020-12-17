@@ -5,7 +5,7 @@ import {
     SET_IS_TOKEN, SET_USER
 } from './actionTypes';
 import { saveToken } from '../../helpers/authProcessing';
-import {IAuthUser, IRegUser} from "../../interfaces";
+import {IAuthUser, IChangeRegUser, IRegUser} from "../../interfaces";
 import { postServerRequest } from "../../helpers/axios/axiosClockwareAPI";
 
 export const userLoginFetch = (userInfo: IAuthUser) => {
@@ -46,6 +46,31 @@ export const userRegistrationFetch = (userRegInfo: IRegUser) => {
             console.log(err.message);
         })
 };
+
+export const userRegistrationChange = (userChangeRegInfo: IChangeRegUser) => {
+    return async (dispatch: any) => postServerRequest('/auth/reg', userChangeRegInfo)
+        .then(response => {
+            console.log('response RegUser', response);
+            if (response.token) {
+                dispatch({ type: SET_USER, payload: response });
+                saveToken(response.token, response.status);
+                dispatch(setIsToken(true)); //TODO ???
+            } else {
+                if(response.message) {
+                    console.log('registration: ',response.message);
+                    // dispatch(authUserMessage(response.message));
+                }
+            }
+        })
+        .catch(err => {
+            console.log(err.message);
+        })
+};
+
+
+
+
+
 
 export const authUserMessage = (message: string): AuthActionTypes => ({ type: AUTH_USER_MESSAGE, payload: message });
 export const setIsToken = (status: boolean): AuthActionTypes => ({ type: SET_IS_TOKEN, payload: status });

@@ -6,3 +6,8 @@ export const isName = (name: string, len: number): boolean => name.length >= len
 
 export const comparePass = (pass1: string, pass2: string): boolean => pass1 === pass2;
 
+export const compareChangeField = (oldValue: string, newValue: string): string => {
+    if (newValue !== oldValue) return newValue;
+    return ''
+};
+

@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import { RootStateType} from "../../store/reducers/rootReducer";
+import { IChangeRegUser, IRegistrationUser } from "../../interfaces";
+import { userRegistrationChange } from "../../store/actions/authAction";
+import { connect, ConnectedProps} from "react-redux";
+import { ErrorFieldType } from "../AuthRegistration/Registration";
+import { compareChangeField, comparePass, isEmail, isName } from "../../helpers/validation";
 
 const useStyles = makeStyles((theme) => ({
     text: {
@@ -16,89 +22,124 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface IClientCabinet {
-}
-
-const ClientCabinet: React.FC<IClientCabinet> = (props) => {
+const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
     const classes = useStyles();
 
-    const clientLoginFetch = () => { //TODO
+    const [error, setError] = useState<ErrorFieldType>({
+        name: false,
+        login: false,
+        password: false,
+        password2: false,
+    });
 
+    // const verificationField =(event: React.FocusEvent<HTMLInputElement>) => {
+    const verificationField =() => {
+        setError({
+            name: !isName(user.name, 3),
+            login: !isEmail(user.login),
+            password: !(!user.password.length || isName(user.password, 8)),
+            password2: !(!user.password.length || comparePass(user.password, user.password2)),
+        });
     };
 
-    const clientAuthUserMessage = () => { //TODO
+    const [user, setUser] = useState<IRegistrationUser>({
+        name: props.name,
+        login: props.login,
+        password: '',
+        password2: '',
+        status: "client"
+    });
 
+    const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setUser({
+            ...user, [event.target.name]: event.target.value
+        })
+    };
+
+    const clientChangeReg = (event: React.MouseEvent) => {
+        event.preventDefault();
+        console.log('error', error);
+        console.log('user', user);
+        const userChangeData: IChangeRegUser ={
+            id: props.id,
+            name: compareChangeField(props.name, user.name),
+            login: compareChangeField(props.login, user.login),
+            password: user.password,
+        };
+        console.log('userChangeData', userChangeData);
+        // userRegistrationChange(userChangeData);
     };
 
     return (
             <Container component="main" maxWidth="xl">
 
-                <Typography component="h1" variant="h4" align="center" color="textPrimary">
+                <Typography className={classes.text} component="h1" variant="h4" align="center" color="textPrimary">
                     CLIENT
                 </Typography>
 
                 <TextField
-                    className={classes.text}
-                    // error={false}
-                    // helperText={true ? 'Имя не менее 3 знаков' : null}
-                    // onChange={changeNameText}
-                    name="firstName"
+                    error={error.name}
+                    helperText={error.name ? 'текст должен быть не менее 3 знаков': ''}
                     variant="outlined"
+                    margin="normal"
                     required
                     fullWidth
-                    id="firstName"
-                    label="Ваше имя"
+                    id="name"
+                    label="Имя"
+                    name="name"
                     autoFocus
-                    value={'Vasia'}
-                    // value={props.name}
+                    onChange={handleChange}
+                    onBlur={verificationField}
+                    defaultValue={user.name}
                 />
 
                 <TextField
-                    className={classes.text}
-                    // error={true}
-                    // helperText={true ? 'Некорректный email' : null}
-                    // onChange={changeEmailText}
+                    error={error.login}
+                    helperText={error.login ?'Логином должен быть e-mail': ''}
                     variant="outlined"
+                    margin="normal"
                     required
                     fullWidth
-                    id="email"
-                    label="Ваш email"
-                    name="email"
-                    autoComplete="email"
-                    value={'props@email.my'}
+                    id="login"
+                    label="Login(email)"
+                    name="login"
+                    onChange={handleChange}
+                    onBlur={verificationField}
+                    value={user.login}
                 />
 
                 <TextField
-                    className={classes.text}
-                    // error={true}
-                    // onChange={changeEmailText}
+                    error={error.password}
+                    helperText={error.password ?'пароль должен быть не менее 8 знаков': ''}
                     variant="outlined"
+                    margin="normal"
                     required
                     fullWidth
-                    id="password1"
+                    name="password"
                     label="Password"
-                    name="password1"
-                    autoComplete="email"
-                    value={'***'}
+                    type="password"
+                    id="password"
+                    onChange={handleChange}
+                    onBlur={verificationField}
                 />
 
                 <TextField
-                    className={classes.text}
-                    // error={true}
-                    // onChange={changeEmailText}
+                    error={error.password2}
+                    helperText={error.password2 ?'Пароль должен совпадать': ''}
                     variant="outlined"
+                    margin="normal"
                     required
                     fullWidth
-                    id="password2"
-                    label="Password"
                     name="password2"
-                    autoComplete="email"
-                    value={'***'}
+                    label="Password again"
+                    type="password"
+                    id="password2"
+                    onChange={handleChange}
+                    onBlur={verificationField}
                 />
 
                 <Button
-                    // color="inherit"
-                    // onClick={handlerLogout}
+                    onClick={clientChangeReg}
                     className={classes.button}
                     variant="contained"
                     color="primary"
@@ -112,4 +153,24 @@ const ClientCabinet: React.FC<IClientCabinet> = (props) => {
     );
 };
 
-export default ClientCabinet;
+function mapStateToProps(state: RootStateType) {
+    return {
+        id: state.auth.user.id,
+        name: state.auth.user.name,
+        login: state.auth.user.login,
+        userStatus: state.auth.user.status,
+    }
+}
+
+function mapDispatchToProps(dispatch: any) {
+    return{
+        userRegistrationChange: (userChangeRegInfo: IChangeRegUser) => dispatch(userRegistrationChange(userChangeRegInfo))
+    }
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+export default connector(ClientCabinet);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+// export default ClientCabinet;
