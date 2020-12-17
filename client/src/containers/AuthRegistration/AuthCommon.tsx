@@ -33,13 +33,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// export interface IAuthCommon {
-//     message: string | null
-//     userStatus: TUserStatus
-//     userLoginFetch(user: IAuthUser): void
-//     authUserMessage(msg: string | null): void
-// }
-
 const AuthCommon: React.FC<PropsFromRedux> = props => {
     const classes = useStyles();
     const { userStatus } = props;
@@ -58,8 +51,6 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
             case "client":
                 push('/client');
                 break;
-            // default:
-            //     push('/auth')
         }
     }, [userStatus]);
     /* eslint-enable */

@@ -26,8 +26,6 @@ exports.create = (req: Request, res: Response) => {
                     });
             }
         });
-
-
 };
 
 exports.findAll = (req: Request, res: Response) => {

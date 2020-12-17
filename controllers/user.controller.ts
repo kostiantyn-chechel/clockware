@@ -78,13 +78,16 @@ exports.userChangeData = (req: Request, res: Response) => {
 
     User.update(user, {
         where: {
-            id: req.body.id 
+            id: req.body.id
         }})
         .then((result: any)=>{
-            console.log('result', result);
             res.send(result);
             }
-        );
-    console.log('userChangeData', user);
-
+        )
+        .catch((err: IError) => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while update the User."
+            });
+        });
 };

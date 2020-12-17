@@ -17,7 +17,7 @@ import ClientCabinet from "./containers/ClientCabinet/ClientCabinet";
 // import AuthGeneral from "./component/Auth/AuthGeneral";
 import AuthCommon from "./containers/AuthRegistration/AuthCommon";
 import Registration from "./containers/AuthRegistration/Registration";
-import { TUserStatus } from "./interfaces";
+import {IUser, TUserStatus} from "./interfaces";
 
 interface PropsType extends PropsFromRedux {}
 
@@ -35,6 +35,7 @@ class App extends Component<PropsType> {
                     setIsToken={this.props.setIsToken}
                     userStatus={this.props.userStatus}
                     resetUser={this.props.resetUser}
+                    user={this.props.user}
                 />
                 {this.props.hasError
                     ?
@@ -60,11 +61,13 @@ class App extends Component<PropsType> {
 type MapStateType = {
     hasError: boolean
     userStatus: TUserStatus
+    user: IUser
 }
 function mapStateToProps(state: RootStateType): MapStateType {
     return {
         hasError: state.admin.hasError,
         userStatus: state.auth.user.status,
+        user: state.auth.user
     }
 }
 
