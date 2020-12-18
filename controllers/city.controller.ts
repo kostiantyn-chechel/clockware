@@ -1,4 +1,4 @@
-import { Request, Response} from 'express'
+import { Request, Response } from 'express'
 import { IError } from "../Type/interfaces";
 const db = require("../models");
 const City = db.cities;

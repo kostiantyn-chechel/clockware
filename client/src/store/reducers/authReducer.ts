@@ -1,17 +1,30 @@
 import {
-    AUTH_USER_MESSAGE,
-    SET_IS_TOKEN,
     AuthActionTypes,
+    AUTH_USER_MESSAGE,
+    RESET_USER,
+    SET_IS_TOKEN,
+    SET_USER,
 } from '../actions/actionTypes';
+import {IUser} from "../../interfaces";
+
+const USER_ZERO: IUser = {
+    id: 0,
+    name: '',
+    login: '',
+    status: "notAuth",
+    token: '',
+};
 
 export type AuthInitialStateType = {
-    message: string | null,
-    isToken: boolean,
+    message: string
+    isToken: boolean
+    user: IUser
 };
 
 const initialState: AuthInitialStateType = {
-    message: null,
+    message: '',
     isToken: false,
+    user: USER_ZERO,
 };
 
 export default function authReducer(state = initialState, action: AuthActionTypes): AuthInitialStateType {
@@ -26,6 +39,18 @@ export default function authReducer(state = initialState, action: AuthActionType
             return {
                 ...state,
                 isToken: action.payload
+            };
+
+        case SET_USER:
+            return {
+                ...state,
+                user: action.payload
+            };
+
+        case RESET_USER:
+            return {
+                ...state,
+                user: USER_ZERO
             };
 
         default:

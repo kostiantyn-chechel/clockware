@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -7,6 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { IAuthUser } from "../../interfaces";
+import { authUserMessage, userLoginFetch } from "../../store/actions/authAction";
+import { RootStateType } from "../../store/reducers/rootReducer";
+import { useHistory } from 'react-router-dom';
+import {connect, ConnectedProps} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -29,20 +33,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export interface IAuth {
-    nameAuthPanel: string
-    message: string
-    isClient?: boolean
-    userLoginFetch(user: IAuthUser): void
-    authUserMessage(msg: string): void
-}
-
-const Auth: React.FC<IAuth> = props => {
+const AuthCommon: React.FC<PropsFromRedux> = props => {
     const classes = useStyles();
+    const { userStatus } = props;
+    const { push } = useHistory();
     const [user, setUser] = useState<IAuthUser>({
         login: '',
         password: '',
     });
+
+    /* eslint-disable */
+    useEffect(() => {
+        switch (userStatus) {
+            case "admin":
+                push('/admin');
+                break;
+            case "client":
+                push('/client');
+                break;
+        }
+    }, [userStatus]);
+    /* eslint-enable */
 
     const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
         setUser({
@@ -53,53 +64,7 @@ const Auth: React.FC<IAuth> = props => {
     const handleSubmit = (event:React.MouseEvent) => {
         event.preventDefault();
         props.userLoginFetch(user);
-        props.authUserMessage('');
-    };
-
-    const Bottons = () => {
-        if (props.isClient) {
-            return (
-                <>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        className={classes.submit}
-                        onClick={handleSubmit}
-                    >
-                        Войти
-                    </Button>
-
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        className={classes.submit}
-                        onClick={handleSubmit}
-                    >
-                        Регистрация
-                    </Button>
-                </>
-            )
-        } else {
-            return (
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    className={classes.submit}
-                    onClick={handleSubmit}
-                >
-                    Войти
-                </Button>
-            )
-        }
+        props.authUserMessage(''); // null ???
     };
 
     return (
@@ -112,9 +77,6 @@ const Auth: React.FC<IAuth> = props => {
                     variant='circle'
                 />
 
-                <Typography component="h1" variant="h5">
-                    {props.nameAuthPanel}
-                </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
                         variant="outlined"
@@ -148,22 +110,39 @@ const Auth: React.FC<IAuth> = props => {
                         : null
                     }
 
-                    <Bottons/>
-                    {/*<Button*/}
-                    {/*    type="submit"*/}
-                    {/*    fullWidth*/}
-                    {/*    variant="contained"*/}
-                    {/*    color="primary"*/}
-                    {/*    size="large"*/}
-                    {/*    className={classes.submit}*/}
-                    {/*    onClick={handleSubmit}*/}
-                    {/*>*/}
-                    {/*    Войти*/}
-                    {/*</Button>*/}
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        className={classes.submit}
+                        onClick={handleSubmit}
+                    >
+                        Войти
+                    </Button>
+
                 </form>
             </div>
         </Container>
     );
 };
 
-export default Auth;
+function mapStateToProps(state: RootStateType) {
+    return {
+        message: state.auth.message,
+        userStatus: state.auth.user.status,
+    }
+}
+
+function mapDispatchToProps(dispatch: any) {
+    return{
+        userLoginFetch: (userInfo: IAuthUser) => dispatch(userLoginFetch(userInfo)),
+        authUserMessage: (message: string) => dispatch(authUserMessage(message)),
+    }
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+export default connector(AuthCommon);
+
+type PropsFromRedux = ConnectedProps<typeof connector>

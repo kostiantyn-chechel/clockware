@@ -44,7 +44,7 @@ exports.create = (req: Request, res: Response) => {
                     .catch((err: IError) => {
                         res.status(500).send({
                             message:
-                                err.message || "Some error occurred while creating the Client."
+                                err.message || "Some error occurred while creating the ClientCabinet."
                         });
                     });
             }

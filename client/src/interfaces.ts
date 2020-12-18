@@ -3,6 +3,14 @@ import {ClientTableType} from "./component/Tabs/ClientsTab";
 import {MasterTableType} from "./component/Tabs/MastersTab";
 
 
+export interface IUser {
+    id: number
+    status: TUserStatus
+    name: string
+    login: string
+    token: string
+}
+
 export interface ICity {
     id?: number,
     name: string
@@ -73,6 +81,19 @@ export interface IAuthUser {
     password: string,
 }
 
+export interface IRegUser extends IAuthUser{
+    name: string
+    status: TUserStatus
+}
+export interface IRegistrationUser extends IRegUser{
+    password2: string
+}
+
+export interface IChangeRegUser extends IAuthUser{
+    id: number
+    name: string
+}
+
 export interface IMastersTab {
     masters: IMaster[],
     cities: ICity[],
@@ -134,9 +155,11 @@ export interface IFetchFilterOrders {
 
 export type ISortDirection = 'asc' | 'desc';
 export type TBookingShow = 'filling' | 'select' | 'gratitude';
+export type TUserStatus = 'client' | 'admin' | 'notAuth';
 export type TReview = string[] | [];
 export type TAuthUser = {
     token: string,
     message: string,
+    status: TUserStatus
 }
 export type TMashId = { match: {params: { id: number }}}

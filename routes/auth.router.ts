@@ -1,13 +1,10 @@
 import * as express from 'express';
-import { Request, Response} from 'express'
-const { authUser, generateToken } = require('../processing/auth');
+const { authUser } = require('../processing/auth');
+const { userData, userVerification, userAdd, userChangeData } = require('../controllers/user.controller');
 const router = express.Router();
 
-router.post('/', authUser, (req:Request, res:Response) => {
-    res.send({
-        login: req.body.login,
-        token: generateToken(req.body.login),
-    });
-});
+router.post('/', authUser, userData);
+router.post('/reg', userVerification, userAdd);
+router.post('/change', userChangeData);
 
 module.exports = router;

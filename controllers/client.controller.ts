@@ -21,13 +21,11 @@ exports.create = (req: Request, res: Response) => {
                     .catch((err: IError) => {
                         res.status(500).send({
                             message:
-                                err.message || "Some error occurred while creating the Client."
+                                err.message || "Some error occurred while creating the ClientCabinet."
                         });
                     });
             }
         });
-
-
 };
 
 exports.findAll = (req: Request, res: Response) => {
@@ -52,7 +50,7 @@ exports.findOne = (req: Request, res: Response) => {
         })
         .catch(() => {
             res.status(500).send({
-                message: "Error retrieving Client with id=" + id
+                message: "Error retrieving ClientCabinet with id=" + id
             });
         });
 };
@@ -76,7 +74,7 @@ exports.update = (req: Request, res: Response) => {
         })
         .catch(() => {
             res.status(500).send({
-                message: "Error updating Client with id=" + id
+                message: "Error updating ClientCabinet with id=" + id
             });
         });
 };
@@ -100,7 +98,7 @@ exports.delete = (req: Request, res: Response) => {
         })
         .catch(() => {
             res.status(500).send({
-                message: "Could not delete Client with id=" + id
+                message: "Could not delete ClientCabinet with id=" + id
             });
         });
 };

@@ -8,11 +8,16 @@ import { fetchCities } from './store/actions/adminAction';
 import Header from './component/Header';
 import Footer from './component/Footer';
 import { setBookingShow } from './store/actions/bookingAction';
-import { setIsToken } from './store/actions/authAction';
+import {resetUser, setIsToken} from './store/actions/authAction';
 import SomeError from './component/SomeError';
 import Review from './containers/Review/Review';
 import ReviewMaster from './containers/Review/ReviewMaster';
 import { RootStateType } from "./store/reducers/rootReducer";
+import ClientCabinet from "./containers/ClientCabinet/ClientCabinet";
+// import AuthGeneral from "./component/Auth/AuthGeneral";
+import AuthCommon from "./containers/AuthRegistration/AuthCommon";
+import Registration from "./containers/AuthRegistration/Registration";
+import {IUser, TUserStatus} from "./interfaces";
 
 interface PropsType extends PropsFromRedux {}
 
@@ -28,16 +33,23 @@ class App extends Component<PropsType> {
                 <Header
                     emptyBooking={this.props.emptyBooking}
                     setIsToken={this.props.setIsToken}
+                    userStatus={this.props.userStatus}
+                    resetUser={this.props.resetUser}
+                    user={this.props.user}
                 />
                 {this.props.hasError
                     ?
                     <SomeError/>
                     :
                     <Switch>
-                        <Route path='/admin' component={Admin} />
-                        <Route path='/review/:id' component={Review} />
-                        <Route path='/master/:id' component={ReviewMaster} />
-                        <Route path='/' exact={true} component={Booking} />
+                        <Route path='/auth' component={ AuthCommon } />
+                        <Route path='/reg' component={ Registration } />
+                        <Route path='/admin' component={ Admin } />
+                        <Route path='/client' component={ ClientCabinet } />
+                        <Route path='/review/:id' component={ Review } />
+                        <Route path='/master/:id' component={ ReviewMaster } />
+                        <Route path='/' exact={true} component={ Booking } />
+                        {/*<Route path='/*' component={ AuthCommon } />*/}
                     </Switch>
                 }
                 <Footer/>
@@ -48,10 +60,14 @@ class App extends Component<PropsType> {
 
 type MapStateType = {
     hasError: boolean
+    userStatus: TUserStatus
+    user: IUser
 }
 function mapStateToProps(state: RootStateType): MapStateType {
     return {
         hasError: state.admin.hasError,
+        userStatus: state.auth.user.status,
+        user: state.auth.user
     }
 }
 
@@ -59,12 +75,14 @@ type MapDispatchType = {
     fetchCities: () => void,
     emptyBooking: () => void,
     setIsToken: (status: boolean) => void,
+    resetUser: ()=> void,
 }
 function mapDispatchToProps(dispatch: any): MapDispatchType {
     return {
         fetchCities: () => dispatch(fetchCities()),
         emptyBooking: () => dispatch(setBookingShow("filling")),
         setIsToken: (status: boolean) => dispatch(setIsToken(status)),
+        resetUser: () => dispatch(resetUser()),
     }
 }
 

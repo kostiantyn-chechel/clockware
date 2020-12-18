@@ -28,8 +28,8 @@ type DBType = {
     cities: any,
     masters: any,
     orders: any,
-    user: any,
-    token: any,
+    users: any,
+    tokens: any,
     reviews: any,
 }
 
@@ -40,8 +40,8 @@ const db: DBType = {
     cities: require('./city.model')(sequelize, Sequelize),
     masters: require('./master.model')(sequelize, Sequelize),
     orders: require('./order.model')(sequelize, Sequelize),
-    user: require('./user.model')(sequelize, Sequelize),
-    token: require('./token.model')(sequelize, Sequelize),
+    users: require('./user.model')(sequelize, Sequelize),
+    tokens: require('./token.model')(sequelize, Sequelize),
     reviews: require('./review.model')(sequelize, Sequelize)
 };
 
@@ -60,5 +60,7 @@ db.reviews.belongsTo(db.orders, { as: 'review_order', foreignKey: 'orderId', tar
 db.masters.hasMany(db.reviews);
 db.reviews.belongsTo(db.masters, { as: 'review_master', foreignKey: 'masterId', targetKey: 'id' });
 
+db.clients.hasOne(db.users);
+db.users.belongsTo(db.clients, {as: 'user_client', foreignKey: 'clientId', targetKey: 'id'});
 
 module.exports = db;
