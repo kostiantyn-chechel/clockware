@@ -11,8 +11,7 @@
     "nodemon-back": "nodemon ./bin/www",
     "ts-nodemon-back": "nodemon ./bin/www",
     "ts-start-back": "tsc && node ./bin/www",
-    "start": "tsc && node ./bin/www",
-    "start2": "node ./bin/www",
+    "start": "node ./bin/www",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=falce npm install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
