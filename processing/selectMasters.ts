@@ -67,6 +67,7 @@ module.exports = {
 const addReservedTime = (time: string, hours: number) => {
     const arrTime = [];
     for (let i = 0; i < hours; i++){
+        // @ts-ignore
         arrTime.push(addHours(time, i))
     }
     return arrTime
