@@ -14,9 +14,9 @@ import Review from './containers/Review/Review';
 import ReviewMaster from './containers/Review/ReviewMaster';
 import { RootStateType } from "./store/reducers/rootReducer";
 
-interface PropsType extends PropsFromRedux {}
+// interface PropsType extends PropsFromRedux {}
 
-class App extends Component<PropsType> {
+class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
     componentDidMount() {
         this.props.fetchCities();
