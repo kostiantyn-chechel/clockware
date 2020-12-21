@@ -8,22 +8,13 @@ export interface IError {
     message: string,
 }
 
-export interface IUser {
-    id: number
-    status: TUserStatus
-    name: string
-    login: string
-    token: string
-}
-
-export interface IUserReg {
+export interface IDBUser {
     id?: number
-    login: string
-    password: string
-    salt: string
     status: TUserStatus
     name: string
-    clientId?: number
+    login: string
+    password?: string
+    salt?: string
 }
 
 export interface IUserChangeReg {

@@ -14,7 +14,6 @@ import Review from './containers/Review/Review';
 import ReviewMaster from './containers/Review/ReviewMaster';
 import { RootStateType } from "./store/reducers/rootReducer";
 import ClientCabinet from "./containers/ClientCabinet/ClientCabinet";
-// import AuthGeneral from "./component/Auth/AuthGeneral";
 import AuthCommon from "./containers/AuthRegistration/AuthCommon";
 import Registration from "./containers/AuthRegistration/Registration";
 import {IUser, TUserStatus} from "./interfaces";

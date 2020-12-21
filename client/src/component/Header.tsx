@@ -7,7 +7,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Button from '@material-ui/core/Button';
 import { logout, validToken } from '../helpers/authProcessing';
 import { Avatar } from "@material-ui/core";
-import {IUser, TUserStatus} from "../interfaces";
+import { IUser, TUserStatus } from "../interfaces";
 import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
