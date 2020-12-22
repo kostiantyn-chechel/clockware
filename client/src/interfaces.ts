@@ -27,7 +27,7 @@ export interface IMaster {
 export interface IClient {
     id?: number,
     name: string,
-    email: string,
+    login: string,
 }
 
 export type OrderClientType = {

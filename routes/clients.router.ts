@@ -3,10 +3,9 @@ const client = require('../controllers/client.controller');
 const { verifyToken } = require('../processing/auth');
 const router = express.Router();
 
-router.post('/', client.create);
-router.get('/', verifyToken, client.findAll);
-router.get('/:id', verifyToken, client.findOne);
-router.put('/:id', verifyToken, client.update);
-router.delete('/:id', verifyToken, client.delete);
+router.post('/', verifyToken, client.createClient);
+router.get('/', verifyToken, client.findAllClient);
+router.put('/:id', verifyToken, client.updateClient);
+router.delete('/:id', verifyToken, client.deleteClient);
 
 module.exports = router;

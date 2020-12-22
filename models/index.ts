@@ -52,8 +52,8 @@ db.cities.hasMany(db.orders);
 db.orders.belongsTo(db.cities, { as: 'order_city', foreignKey: 'cityId', targetKey: 'id' });
 db.masters.hasMany(db.orders);
 db.orders.belongsTo(db.masters, { as: 'order_master', foreignKey: 'masterId', targetKey: 'id' });
-db.clients.hasMany(db.orders);
-db.orders.belongsTo(db.clients, { as: 'order_client', foreignKey: 'clientId', targetKey: 'id' });
+// db.clients.hasMany(db.orders);
+// db.orders.belongsTo(db.clients, { as: 'order_client', foreignKey: 'clientId', targetKey: 'id' });
 db.users.hasMany(db.orders);
 db.orders.belongsTo(db.users, {as: 'order_user', foreignKey: 'userId', targetKey: 'id'});
 
