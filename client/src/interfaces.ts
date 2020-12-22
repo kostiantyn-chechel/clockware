@@ -33,7 +33,7 @@ export interface IClient {
 export type OrderClientType = {
     id: number,
     name: string,
-    email: string,
+    login: string,
 }
 
 export type OrderMasterType = {
@@ -55,7 +55,7 @@ export interface IOrder {
     photoURL: string,
     count: number,
     client: string,
-    order_client: OrderClientType,
+    order_user: OrderClientType,
     order_master: OrderMasterType,
     order_city: OrderCityType,
 }
