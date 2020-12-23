@@ -37,7 +37,7 @@ const Header: React.FC<IHeader> = (props) => {
     const { userStatus, resetUser } = props;
 
     useEffect(() => {
-        console.log('userStatus Effect', userStatus)//TODO
+        // console.log('userStatus Effect', userStatus)//TODO
     }, [userStatus]);
 
     const handlerAdmin = () => {
@@ -51,7 +51,7 @@ const Header: React.FC<IHeader> = (props) => {
     };
 
     const ButtonsShow = () => {
-        console.log('userStatus', userStatus); //TODO
+        // console.log('userStatus', userStatus); //TODO
         if (userStatus === 'notAuth') {
             return (
                 <React.Fragment>

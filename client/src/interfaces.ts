@@ -76,6 +76,20 @@ export interface ISendOrder {
     photoURL: string,
 }
 
+export interface IClientOrder {
+    id: number,
+    date: string,
+    time: string,
+    hours: number,
+    photoURL: string,
+    order_city: {name: string},
+    order_master: {name: string},
+    review:{
+        review: string,
+        rating: number,
+    }
+}
+
 export interface IAuthUser {
     login: string,
     password: string,

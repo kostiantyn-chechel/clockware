@@ -6,11 +6,13 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import { RootStateType} from "../../store/reducers/rootReducer";
-import { IChangeRegUser, IRegistrationUser } from "../../interfaces";
+import {IChangeRegUser, IRegistrationUser} from "../../interfaces";
 import { userRegistrationChange } from "../../store/actions/authAction";
 import { connect, ConnectedProps} from "react-redux";
 import { ErrorFieldType } from "../AuthRegistration/Registration";
 import { compareChangeField, comparePass, isEmail, isName } from "../../helpers/validation";
+import ClientOrders from "../../component/ClientOrders/ClientOrders";
+import {fetchClientsOrderList} from "../../store/actions/clientAction";
 
 const useStyles = makeStyles((theme) => ({
     text: {
@@ -21,6 +23,22 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
 }));
+
+// const aaa: IClientOrder[] = [
+//     {
+//         id: 10,
+//         date: 'lfnt',
+//         time: 'time',
+//         photoURL: 'photoURL',
+//         hours: 3,
+//         order_city: {name: 'City'},
+//         order_master: {name: 'Master'},
+//         review: {
+//             rating: 10,
+//             review: 'review'
+//         }
+//     }
+// ];
 
 const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
     const classes = useStyles();
@@ -67,8 +85,14 @@ const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
         if (userChangeData.name || userChangeData.login || userChangeData.password){
             props.userRegistrationChange(userChangeData);
         }
-        console.log('userChangeData', userChangeData);
+        // console.log('userChangeData', userChangeData);
     };
+
+    const handleClientOrders = (event: React.MouseEvent) => {
+        event.preventDefault();
+        props.fetchClientsOrderList(props.id);
+    };
+
 
     return (
             <Container component="main" maxWidth="xl">
@@ -149,6 +173,19 @@ const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
                     сохранить
                 </Button>
 
+                <Button
+                    onClick={handleClientOrders}
+                    className={classes.button}
+                    variant="contained"
+                    color="primary"
+                >
+                    My Orders
+                </Button>
+
+                <ClientOrders
+                    orders={props.orders}
+                />
+
             </Container>
     );
 };
@@ -159,12 +196,14 @@ function mapStateToProps(state: RootStateType) {
         name: state.auth.user.name,
         login: state.auth.user.login,
         userStatus: state.auth.user.status,
+        orders: state.client.orders,
     }
 }
 
 function mapDispatchToProps(dispatch: any) {
     return{
-        userRegistrationChange: (userChangeRegInfo: IChangeRegUser) => dispatch(userRegistrationChange(userChangeRegInfo))
+        userRegistrationChange: (userChangeRegInfo: IChangeRegUser) => dispatch(userRegistrationChange(userChangeRegInfo)),
+        fetchClientsOrderList: (id: number) => dispatch(fetchClientsOrderList(id))
     }
 }
 
@@ -172,5 +211,3 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connector(ClientCabinet);
 
 type PropsFromRedux = ConnectedProps<typeof connector>
-
-// export default ClientCabinet;

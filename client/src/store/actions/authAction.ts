@@ -11,7 +11,7 @@ import { postServerRequest } from "../../helpers/axios/axiosClockwareAPI";
 export const userLoginFetch = (userInfo: IAuthUser) => {
     return async (dispatch: any) => postServerRequest('/auth', userInfo)
         .then(response => {
-            console.log('response', response);
+            // console.log('response', response);
             if (response.token) {
                 dispatch({ type: SET_USER, payload: response });
                 saveToken(response.token, response.status);

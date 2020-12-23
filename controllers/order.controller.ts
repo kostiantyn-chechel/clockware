@@ -6,10 +6,10 @@ const sendSGEmail  = require('../processing/sendGridMail');
 const db = require("../models");
 const Op = db.Sequelize.Op;
 const Order = db.orders;
-const Client = db.clients;
 const Master = db.masters;
 const City = db.cities;
 const User = db.users;
+const Review = db.reviews;
 const { sortingOrders } = require('../processing/sortingOptions');
 
 exports.create = (req: Request, res: Response) => {
@@ -139,4 +139,27 @@ exports.delete = (req: Request, res: Response) => {
                 message: "Could not delete Order with id=" + id
             });
         });
+};
+
+exports.clientOrders = (req: Request, res: Response) => {
+    const id = req.params.id;
+    console.log('client:',id);
+    Order.findAll({
+        // raw: true,
+        where: {UserId: id},
+        attributes: ['id', 'date', 'time', 'hours', 'photoURL' ],
+        include: [{
+            model: City,
+            as: 'order_city',
+            attributes: ['name'],
+        },{
+            model: Master,
+            as: 'order_master',
+            attributes: ['name'],
+        },{
+            model: Review,
+            attributes: ['review', 'rating'],
+        }],
+    })
+        .then((orders: any) => res.send(orders))
 };
