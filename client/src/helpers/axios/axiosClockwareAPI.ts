@@ -23,6 +23,7 @@ export const getServerRequest = async (relativeURL: string): Promise<ServerGetRe
 
 type ServerPostRequestBodyType = IAuthUser | ISendOrder | { orderId: number, rating: number, review: string };
 type ServerPostResponseType = TAuthUser;
+
 export const postServerRequest = async (
     relativeURL: string, body: ServerPostRequestBodyType): Promise<ServerPostResponseType> => {
     try {
