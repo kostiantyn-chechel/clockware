@@ -9,25 +9,21 @@ type ClientOrderType = {
 const ClientOrders: React.FC<ClientOrderType> = (props) => {
     const { orders } = props;
 
-    
-    const OrdersList = () => {
+    const ordersList = () => {
         if (orders.length) {
             return orders.map(order => {
                 return (
-                    <ClientOrderItem key={order.id} order={order}/>
+                    <ClientOrderItem key={order.id + order.date} order={order}/>
                 )
             })
         }
         return null
     };
 
-
     return (
-        <div>
-            {`Client Order List`}
-            {/*// @ts-ignore*/}
-            <OrdersList/>
-        </div>
+        <React.Fragment>
+            {ordersList()}
+        </React.Fragment>
     );
 };
 

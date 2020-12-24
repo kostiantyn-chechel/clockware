@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import Container from "@material-ui/core/Container";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
-import { RootStateType} from "../../store/reducers/rootReducer";
+import { RootStateType } from "../../store/reducers/rootReducer";
 import { IChangeRegUser } from "../../interfaces";
 import { userRegistrationChange } from "../../store/actions/authAction";
-import { connect, ConnectedProps} from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import ClientOrders from "../../component/ClientOrders/ClientOrders";
-import {fetchClientsOrderList} from "../../store/actions/clientAction";
-import {Grid} from "@material-ui/core";
+import { fetchClientsOrderList } from "../../store/actions/clientAction";
+import { Grid } from "@material-ui/core";
 import ClientData from "../../component/ClientOrders/ClientData";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: theme.spacing(3),
         marginRight: theme.spacing(2),
+        marginBottom: theme.spacing(2),
     },
 
 }));
@@ -29,9 +30,41 @@ const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
 
     const [status, setStatus] = useState<ClientCabinetStatusType>('date');
 
-    const handleClientOrders = (event: React.MouseEvent) => {
+    const handleStatusCabinet = (event: React.MouseEvent) => {
         event.preventDefault();
-        props.fetchClientsOrderList(props.id);
+        if (status === 'date') {
+            setStatus('orders');
+            props.fetchClientsOrderList(props.id);
+        } else {
+            setStatus('date');
+        }
+    };
+
+    const buttonName = (): string => {
+        if (status === 'date') {
+            return 'Мои заказы'
+        } else {
+            return 'Данные'
+        }
+    };
+
+    const showCabinetPath = () => {
+        if (status === 'date') {
+            return(
+                <ClientData
+                    id={props.id}
+                    name={props.name}
+                    login={props.login}
+                    userRegistrationChange={props.userRegistrationChange}
+                />
+            )
+        } else {
+            return (
+                <ClientOrders
+                    orders={props.orders}
+                />
+            )
+        }
     };
 
     return (
@@ -44,25 +77,16 @@ const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
                     alignItems="center"
                 >
                     <Button
-                        onClick={handleClientOrders}
+                        onClick={handleStatusCabinet}
                         className={classes.button}
                         variant="contained"
                         color="primary"
                     >
-                        My Orders
+                        {buttonName()}
                     </Button>
                 </Grid>
 
-                <ClientData
-                    id={props.id}
-                    name={props.name}
-                    login={props.login}
-                    userRegistrationChange={props.userRegistrationChange}
-                />
-
-                <ClientOrders
-                    orders={props.orders}
-                />
+                {showCabinetPath()}
 
             </Container>
     );
