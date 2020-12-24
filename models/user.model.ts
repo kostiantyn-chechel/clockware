@@ -25,11 +25,11 @@ module.exports = (sequelize: any, Sequelize: any): UserAttributes => {
         },
         password: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: true
         },
         salt: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: true
         },
     });
 

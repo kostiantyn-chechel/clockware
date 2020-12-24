@@ -12,7 +12,7 @@ const ClientsTab: React.FC<IClientsTab> = (props) => {
     const [clientEdit, setClientEdit] = useState<IClient>({
         id: 0,
         name: '',
-        email: '',
+        login: '',
     });
     const [flag, setFlag] = useState({
         showPanel: false,
@@ -29,26 +29,26 @@ const ClientsTab: React.FC<IClientsTab> = (props) => {
     /* eslint-enable */
 
     const changeClientName = (name: string) => setClientEdit({ ...clientEdit, name: name });
-    const changeClientEmail = (email: string) => setClientEdit({ ...clientEdit, email: email });
+    const changeClientEmail = (email: string) => setClientEdit({ ...clientEdit, login: email });
     const handleAddButton = () => setFlag({ showPanel: true, addNew: true });
 
     const handleClientSave = (event: React.MouseEvent) => {
         event.preventDefault();
-        if (clientEdit.name.length >= 3 && isEmail(clientEdit.email)) {
+        if (clientEdit.name.length >= 3 && isEmail(clientEdit.login)) {
             if (flag.addNew) {
                 props.addClient(clientEdit);
             } else {
                 props.editClient(clientEdit);
             }
             setFlag({ ...flag, showPanel: false });
-            setClientEdit({ name: '', email: '' });
+            setClientEdit({ name: '', login: '' });
         }
     };
 
     const handleClientCancel = (event: React.MouseEvent) => {
         event.preventDefault();
         setFlag({ ...flag, showPanel: false });
-        setClientEdit({ name: '', email: '' });
+        setClientEdit({ name: '', login: '' });
     };
 
     const clickEdit = (id: number) => {
@@ -97,7 +97,7 @@ const ClientsTab: React.FC<IClientsTab> = (props) => {
                 return ({
                     id: client.id!,
                     name:client.name,
-                    email: client.email,
+                    email: client.login,
                 })
             })
         }

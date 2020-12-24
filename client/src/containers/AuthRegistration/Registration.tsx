@@ -61,7 +61,6 @@ const Registration: React.FC<PropsFromRedux> = props => {
     useEffect(() => {
         if (user.name && !error.name && !error.login && !error.password && !error.password2){
             props.userRegistrationFetch(user as IRegUser);
-            console.log('send user :', user);
         }
     },[error]);
 

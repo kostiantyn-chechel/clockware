@@ -49,7 +49,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
                 message: "Unauthorized!"
             });
         }
-        req.body.login = decoded.login;
+        req.body.aythLogin = decoded.login;
         next();
     });
 };

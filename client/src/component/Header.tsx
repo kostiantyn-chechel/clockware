@@ -7,7 +7,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Button from '@material-ui/core/Button';
 import { logout, validToken } from '../helpers/authProcessing';
 import { Avatar } from "@material-ui/core";
-import {IUser, TUserStatus} from "../interfaces";
+import { IUser, TUserStatus } from "../interfaces";
 import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +37,7 @@ const Header: React.FC<IHeader> = (props) => {
     const { userStatus, resetUser } = props;
 
     useEffect(() => {
-        console.log('userStatus Effect', userStatus)//TODO
+        // console.log('userStatus Effect', userStatus)//TODO
     }, [userStatus]);
 
     const handlerAdmin = () => {
@@ -51,7 +51,7 @@ const Header: React.FC<IHeader> = (props) => {
     };
 
     const ButtonsShow = () => {
-        console.log('userStatus', userStatus); //TODO
+        // console.log('userStatus', userStatus); //TODO
         if (userStatus === 'notAuth') {
             return (
                 <React.Fragment>

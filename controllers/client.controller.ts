@@ -1,20 +1,21 @@
 import { Request, Response } from 'express'
 import { IError } from "../Type/interfaces"
 const db = require("../models");
-const Client = db.clients;
+const User = db.users;
 
-exports.create = (req: Request, res: Response) => {
+exports.createClient = (req: Request, res: Response) => {
+    console.log('createClient', req.body);
     const client = {
         name: req.body.name,
-        email: req.body.email,
+        login: req.body.login,
+        status: 'client',
     };
 
-    Client.findOne({where: {email: client.email}})
+    User.findOne({
+        where: {login: client.login}})
         .then((data: any) => {
-            if (data){
-                res.send(data)
-            } else {
-                Client.create(client)
+            if (!data){
+                User.create(client)
                     .then((data: any) => {
                         res.send(data);
                     })
@@ -28,8 +29,13 @@ exports.create = (req: Request, res: Response) => {
         });
 };
 
-exports.findAll = (req: Request, res: Response) => {
-    Client.findAll()
+exports.findAllClient = (req: Request, res: Response) => {
+    User.findAll({
+        where: {
+            status: 'client'
+        },
+        attributes: ['id', 'login', 'name']
+    })
         .then((data: any) => {
             res.send(data);
         })
@@ -41,24 +47,10 @@ exports.findAll = (req: Request, res: Response) => {
         });
 };
 
-exports.findOne = (req: Request, res: Response) => {
-    const id = req.params.id;
-
-    Client.findByPk(id)
-        .then((data: any) => {
-            res.send(data);
-        })
-        .catch(() => {
-            res.status(500).send({
-                message: "Error retrieving ClientCabinet with id=" + id
-            });
-        });
-};
-
-exports.update = (req: Request, res: Response) => {
+exports.updateClient = (req: Request, res: Response) => {
     const id = req.params.id;
     console.log('client update', id);
-    Client.update(req.body, {
+    User.update(req.body, {
         where: { id: id }
     })
         .then((num: number) => {
@@ -79,10 +71,10 @@ exports.update = (req: Request, res: Response) => {
         });
 };
 
-exports.delete = (req: Request, res: Response) => {
+exports.deleteClient = (req: Request, res: Response) => {
     const id = req.params.id;
 
-    Client.destroy({
+    User.destroy({
         where: { id: id }
     })
         .then((num: number) => {

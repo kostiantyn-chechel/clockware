@@ -6,12 +6,12 @@ import {
 } from './actionTypes';
 import { saveToken } from '../../helpers/authProcessing';
 import {IAuthUser, IChangeRegUser, IRegUser} from "../../interfaces";
-import { postServerRequest } from "../../helpers/axios/axiosClockwareAPI";
+import { postServerRequest, postAuthServerRequest } from "../../helpers/axios/axiosClockwareAPI";
 
 export const userLoginFetch = (userInfo: IAuthUser) => {
     return async (dispatch: any) => postServerRequest('/auth', userInfo)
         .then(response => {
-            console.log('response', response);
+            // console.log('response', response);
             if (response.token) {
                 dispatch({ type: SET_USER, payload: response });
                 saveToken(response.token, response.status);
@@ -48,20 +48,20 @@ export const userRegistrationFetch = (userRegInfo: IRegUser) => {
 };
 
 export const userRegistrationChange = (userChangeRegInfo: IChangeRegUser) => {
-    console.log('userRegistrationChange');
-    return async (dispatch: any) => postServerRequest('/auth/change', userChangeRegInfo)
+    console.log('userRegistrationChange', userChangeRegInfo);
+    return async (dispatch: any) => postAuthServerRequest('/auth/change', userChangeRegInfo)
         .then(response => {
             console.log('response userChangeRegInfo', response);
-            // if (response.token) {
-            //     dispatch({ type: SET_USER, payload: response });
-            //     saveToken(response.token, response.status);
-            //     dispatch(setIsToken(true)); //TODO ???
-            // } else {
-            //     if(response.message) {
-            //         console.log('registration: ',response.message);
-            //         // dispatch(authUserMessage(response.message));
-            //     }
-            // }
+            if (response.token) {
+                dispatch({ type: SET_USER, payload: response });
+                saveToken(response.token, response.status);
+                dispatch(setIsToken(true)); //TODO ???
+            } else {
+                if(response.message) {
+                    console.log('registration: ',response.message);
+                    // dispatch(authUserMessage(response.message));
+                }
+            }
         })
         .catch(err => {
             console.log(err.message);

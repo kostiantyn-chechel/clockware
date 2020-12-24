@@ -27,13 +27,13 @@ export interface IMaster {
 export interface IClient {
     id?: number,
     name: string,
-    email: string,
+    login: string,
 }
 
 export type OrderClientType = {
     id: number,
     name: string,
-    email: string,
+    login: string,
 }
 
 export type OrderMasterType = {
@@ -55,7 +55,7 @@ export interface IOrder {
     photoURL: string,
     count: number,
     client: string,
-    order_client: OrderClientType,
+    order_user: OrderClientType,
     order_master: OrderMasterType,
     order_city: OrderCityType,
 }
@@ -74,6 +74,20 @@ export interface ISendOrder {
     clientName: string,
     clientEmail: string,
     photoURL: string,
+}
+
+export interface IClientOrder {
+    id: number,
+    date: string,
+    time: string,
+    hours: number,
+    photoURL: string,
+    order_city: {name: string},
+    order_master: {name: string},
+    review:{
+        review: string,
+        rating: number,
+    }
 }
 
 export interface IAuthUser {

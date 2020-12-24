@@ -12,7 +12,7 @@ export const validName = (obj: OrderMasterType | OrderCityType): string => {
 };
 
 export const validClient = (obj: OrderClientType): string => {
-    if (obj) return `${obj.name} (${obj.email})`;
+    if (obj) return `${obj.name} (${obj.login})`;
     return 'запись удалена';
 };
 

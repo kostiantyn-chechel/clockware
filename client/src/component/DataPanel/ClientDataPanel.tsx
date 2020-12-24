@@ -56,6 +56,8 @@ const ClientDataPanel:React.FC<IClientDataPanel> = (props) => {
         email: true,
     });
 
+    console.log('clientEdit', props.clientEdit);
+
     const changeName = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.value;
         props.changeClientName(name);
@@ -104,7 +106,7 @@ const ClientDataPanel:React.FC<IClientDataPanel> = (props) => {
                             onChange={changeEmailText}
                             name="clientEmail"
                             variant="outlined"
-                            value={props.clientEdit.email}
+                            value={props.clientEdit.login}
                             required
                             fullWidth
                             id="clientEmail"
