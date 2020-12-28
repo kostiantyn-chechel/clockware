@@ -9,7 +9,7 @@
   "scripts": {
     "nodemon-back": "nodemon bin/www",
     "start-back": "tsc && node dist/bin/www",
-    "start": "tsc && node dist/bin/www",
+    "start": "node dist/bin/www",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=falce npm install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
