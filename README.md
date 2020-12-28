@@ -1,8 +1,24 @@
 ## Pet project
 React + TS + Node.js + Exspress + Sequelize
-## Installation and start (backend)
+## Installation and start
 
 Download project
+Create `.env` file similar to `.env.example` file in main folder
+
+Create `.env` file similar to `.env.example` file in ./client folder
+
+### DB
+
+####For use local DB:
+Local DB MysQL (for example XAMPP)
+
+Create a local database 'clockware'
+
+Import of table structure and data from `DB/clockware.sql`
+
+Add data for access to the database in `.env`
+
+### Backend
 
 In the project directory, you can run:
 
@@ -10,26 +26,38 @@ In the project directory, you can run:
 
 After installing packages
 
-### `node ./bin/www`
-or
-### `nodemon ./bin/www`
+run `start-back` in package.json
+or run:
+#### `tsc && node ./bin/www`
 
-You can open [http://localhost:3001](http://localhost:3001) to view it in the browser.
+### Frontend
 
-####For use local DB:
-Create folder `/config` and copy `db.config.ts` from `db_dump`  <br>
-Create a local database using the `clockware.sql` from `db_dump`
+In the `/client` directory, you can run:
 
-####These are our routes:
+### `yarn install`
 
-`/cities GET, POST` <br>
-`/cities/id GET, PUT, DELETE` <br>
-`/clients GET, POST` <br>
-`/clients/id GET, PUT, DELETE` <br>
-`/masters GET, POST` <br>
-`/masters/find GET` <br>
-`/masters/id GET, PUT, DELETE` <br>
-`/orders GET, POST` <br>
-`/orders/id GET, DELETE` <br>
+After installing packages
+
+run `start-front` in package.json
+or run:
+#### `react-scripts start`
+
+###After all
+
+You can open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+admin access:
+
+`login:  admin@example.com`
+
+`pass:   passwordsecret`
+
+user(client) access:
+
+`login: vasia@example.com`
+
+`pass: qwert12345`
+
+
 
 
