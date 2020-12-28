@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -7,6 +7,13 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { IAuthUser } from "../../interfaces";
+<<<<<<< HEAD:client/src/containers/AuthRegistration/Auth.tsx
+=======
+import { authUserMessage, userLoginFetch } from "../../store/actions/authAction";
+import { RootStateType } from "../../store/reducers/rootReducer";
+import { useHistory } from 'react-router-dom';
+import {connect, ConnectedProps} from "react-redux";
+>>>>>>> dev:client/src/containers/AuthRegistration/AuthCommon.tsx
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -29,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+<<<<<<< HEAD:client/src/containers/AuthRegistration/Auth.tsx
 export interface IAuth {
     userLoginFetch(user: IAuthUser): void,
     authUserMessage(msg: string | null): void,
@@ -37,11 +45,33 @@ export interface IAuth {
 
 const Auth: React.FC<IAuth> = props => {
     const classes = useStyles();
+=======
+const AuthCommon: React.FC<PropsFromRedux> = props => {
+    const classes = useStyles();
+    const { userStatus } = props;
+    const { push } = useHistory();
+>>>>>>> dev:client/src/containers/AuthRegistration/AuthCommon.tsx
     const [user, setUser] = useState<IAuthUser>({
         login: '',
         password: '',
     });
 
+<<<<<<< HEAD:client/src/containers/AuthRegistration/Auth.tsx
+=======
+    /* eslint-disable */
+    useEffect(() => {
+        switch (userStatus) {
+            case "admin":
+                push('/admin');
+                break;
+            case "client":
+                push('/client');
+                break;
+        }
+    }, [userStatus]);
+    /* eslint-enable */
+
+>>>>>>> dev:client/src/containers/AuthRegistration/AuthCommon.tsx
     const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
         setUser({
             ...user, [event.target.name]: event.target.value
@@ -51,7 +81,7 @@ const Auth: React.FC<IAuth> = props => {
     const handleSubmit = (event:React.MouseEvent) => {
         event.preventDefault();
         props.userLoginFetch(user);
-        props.authUserMessage(null);
+        props.authUserMessage(''); // null ???
     };
 
     return (
@@ -64,9 +94,6 @@ const Auth: React.FC<IAuth> = props => {
                     variant='circle'
                 />
 
-                <Typography component="h1" variant="h5">
-                    Вход администратора
-                </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
                         variant="outlined"
@@ -111,10 +138,31 @@ const Auth: React.FC<IAuth> = props => {
                     >
                         Войти
                     </Button>
+
                 </form>
             </div>
         </Container>
     );
 };
+<<<<<<< HEAD:client/src/containers/AuthRegistration/Auth.tsx
+=======
 
-export default Auth;
+function mapStateToProps(state: RootStateType) {
+    return {
+        message: state.auth.message,
+        userStatus: state.auth.user.status,
+    }
+}
+>>>>>>> dev:client/src/containers/AuthRegistration/AuthCommon.tsx
+
+function mapDispatchToProps(dispatch: any) {
+    return{
+        userLoginFetch: (userInfo: IAuthUser) => dispatch(userLoginFetch(userInfo)),
+        authUserMessage: (message: string) => dispatch(authUserMessage(message)),
+    }
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+export default connector(AuthCommon);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
