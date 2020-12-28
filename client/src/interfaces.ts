@@ -3,6 +3,14 @@ import {ClientTableType} from "./component/Tabs/ClientsTab";
 import {MasterTableType} from "./component/Tabs/MastersTab";
 
 
+export interface IUser {
+    id: number
+    status: TUserStatus
+    name: string
+    login: string
+    token: string
+}
+
 export interface ICity {
     id?: number,
     name: string
@@ -19,13 +27,13 @@ export interface IMaster {
 export interface IClient {
     id?: number,
     name: string,
-    email: string,
+    login: string,
 }
 
 export type OrderClientType = {
     id: number,
     name: string,
-    email: string,
+    login: string,
 }
 
 export type OrderMasterType = {
@@ -47,7 +55,7 @@ export interface IOrder {
     photoURL: string,
     count: number,
     client: string,
-    order_client: OrderClientType,
+    order_user: OrderClientType,
     order_master: OrderMasterType,
     order_city: OrderCityType,
 }
@@ -68,9 +76,36 @@ export interface ISendOrder {
     photoURL: string,
 }
 
+export interface IClientOrder {
+    id: number,
+    date: string,
+    time: string,
+    hours: number,
+    photoURL: string,
+    order_city: {name: string},
+    order_master: {name: string},
+    review:{
+        review: string,
+        rating: number,
+    }
+}
+
 export interface IAuthUser {
     login: string,
     password: string,
+}
+
+export interface IRegUser extends IAuthUser{
+    name: string
+    status: TUserStatus
+}
+export interface IRegistrationUser extends IRegUser{
+    password2: string
+}
+
+export interface IChangeRegUser extends IAuthUser{
+    id: number
+    name: string
 }
 
 export interface IMastersTab {
@@ -134,9 +169,11 @@ export interface IFetchFilterOrders {
 
 export type ISortDirection = 'asc' | 'desc';
 export type TBookingShow = 'filling' | 'select' | 'gratitude';
+export type TUserStatus = 'client' | 'admin' | 'notAuth';
 export type TReview = string[] | [];
 export type TAuthUser = {
     token: string,
     message: string,
+    status: TUserStatus
 }
 export type TMashId = { match: {params: { id: number }}}

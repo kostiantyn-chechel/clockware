@@ -142,7 +142,7 @@ const OrdersTab: React.FC<IOrdersTab> = (props) => {
                 date: dayToString(order.date),
                 time: order.time,
                 hours: hoursByWords('' + order.hours),
-                client: validClient(order.order_client),
+                client: validClient(order.order_user),
                 master: validName(order.order_master),
                 city: validName(order.order_city),
                 photoURL: order.photoURL,

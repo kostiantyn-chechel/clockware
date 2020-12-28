@@ -1,80 +1,78 @@
 import { Request, Response } from 'express'
-import { IError } from "../Type/interfaces"
+import {IDBUser, IError} from "../Type/interfaces"
+import {logout} from "../client/src/helpers/authProcessing";
 // const sendEmails = require('../processing/sendEmails');
 const sendSGEmail  = require('../processing/sendGridMail');
 const db = require("../models");
 const Op = db.Sequelize.Op;
 const Order = db.orders;
-const Client = db.clients;
 const Master = db.masters;
 const City = db.cities;
+const User = db.users;
+const Review = db.reviews;
 const { sortingOrders } = require('../processing/sortingOptions');
 
 exports.create = (req: Request, res: Response) => {
-
     let order = {
         ...req.body,
         hours: req.body.size,
     };
 
-    const client = {
+    const user: IDBUser = {
         name: req.body.clientName,
-        email: req.body.clientEmail,
+        login: req.body.clientEmail,
+        status: "client",
     };
 
-    Client.findOne({where: {email: client.email}})
+    User.findOne({
+        where: {
+            login: user.login,
+            status: "client",
+        }})
         .then((data: any) => {
-            if (data){
+            if (data) {
                 order = {
                     ...order,
-                    clientId: data.id,
+                    userId: data.id,
                 };
                 creteOrder(order);
-                return data.id;
             } else {
-                Client.create(client)
-                    .then((data: any) => {
+                user.status ='notAuth';
+                User.create(user)
+                    .then((data:any) => {
                         order = {
                             ...order,
-                            clientId: data.id,
+                            userId: data.id,
                         };
                         creteOrder(order);
-                        return data.id;
                     })
-                    .catch((err: IError) => {
-                        res.status(500).send({
-                            message:
-                                err.message || "Some error occurred while creating the Client."
-                        });
-                    });
             }
         });
-
 
     const creteOrder = (order: any) => {
         Order.create(order)
             .then((data: any) => {
                 Order.findByPk(data.id, {
                     include: [
-                        {model: Client, as: 'order_client',},
+                        {model: User, as: 'order_user',},
                         {model: Master, as: 'order_master',}
                     ]
                 })
                     .then((resOrder: any) => {
+                        // console.log('resOrder', resOrder);
                         const fullOrder = {
                             id: resOrder.id,
-                            clientName: resOrder.order_client.dataValues.name,
-                            clientEmail: resOrder.order_client.dataValues.email,
+                            clientName: resOrder.order_user.dataValues.name,
+                            clientEmail: resOrder.order_user.dataValues.login,
                             masterName: resOrder.order_master.dataValues.name,
                             date: resOrder.date,
                             time: resOrder.time,
                             hours: resOrder.hours,
                         };
-                        // sendEmails(fullOrder); // <-- send Email
-                        sendSGEmail(fullOrder);
+                        // sendEmails(fullOrder); // <-- send Email(Gmail)
+                        sendSGEmail(fullOrder); // <-- send Email(SGEmail)
                     });
                 res.send(data);
-
             })
             .catch((err: IError) => {
                 res.status(500).send({
@@ -83,21 +81,6 @@ exports.create = (req: Request, res: Response) => {
                 });
             });
     };
-
-
-};
-
-exports.findAll = (req: Request, res: Response) => {
-    Order.findAll()
-        .then((data: any) => {
-            res.send(data);
-        })
-        .catch((err: IError) => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving orders."
-            });
-        });
 };
 
 exports.findFilter = (req: Request, res: Response) => {
@@ -111,16 +94,17 @@ exports.findFilter = (req: Request, res: Response) => {
         offset: offset,
         where: {
             [Op.or]: {
-                '$order_client.name$': {[Op.like]: `%${word}%`},
-                '$order_client.email$': {[Op.like]: `%${word}%`},
+                '$order_user.name$': {[Op.like]: `%${word}%`},
+                '$order_user.login$': {[Op.like]: `%${word}%`},
                 '$order_city.name$': {[Op.like]: `%${word}%`},
                 '$order_master.name$': {[Op.like]: `%${word}%`},
             }
         },
         order: [ sorting ],
         include: [{
-            model: Client,
-            as: 'order_client',
+            model: User,
+            as: 'order_user',
+            attributes: ['id', 'login', 'name'],
         },{
             model: City,
             as: 'order_city',
@@ -131,45 +115,6 @@ exports.findFilter = (req: Request, res: Response) => {
     }).then((data: any) => {
         res.send(data)
     });
-};
-
-
-exports.findOne = (req: Request, res: Response) => {
-    const id = req.params.id;
-
-    Order.findByPk(id)
-        .then((data: any) => {
-            res.send(data);
-        })
-        .catch(() => {
-            res.status(500).send({
-                message: "Error retrieving Order with id=" + id
-            });
-        });
-};
-
-exports.update = (req: Request, res: Response) => {
-    const id = req.params.id;
-    console.log('Order update', id);
-    Order.update(req.body, {
-        where: { id: id }
-    })
-        .then((num: number) => {
-            if (num == 1) {
-                res.send({
-                    message: `Order with id=${id} was updated successfully.`
-                });
-            } else {
-                res.send({
-                    message: `Cannot update Order with id=${id}. Maybe Order was not found or req.body is empty!`
-                });
-            }
-        })
-        .catch(() => {
-            res.status(500).send({
-                message: "Error updating Order with id=" + id
-            });
-        });
 };
 
 exports.delete = (req: Request, res: Response) => {
@@ -194,4 +139,27 @@ exports.delete = (req: Request, res: Response) => {
                 message: "Could not delete Order with id=" + id
             });
         });
+};
+
+exports.clientOrders = (req: Request, res: Response) => {
+    const id = req.params.id;
+    console.log('client:',id);
+    Order.findAll({
+        // raw: true,
+        where: {UserId: id},
+        attributes: ['id', 'date', 'time', 'hours', 'photoURL' ],
+        include: [{
+            model: City,
+            as: 'order_city',
+            attributes: ['name'],
+        },{
+            model: Master,
+            as: 'order_master',
+            attributes: ['name'],
+        },{
+            model: Review,
+            attributes: ['review', 'rating'],
+        }],
+    })
+        .then((orders: any) => res.send(orders))
 };

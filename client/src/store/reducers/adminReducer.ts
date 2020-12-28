@@ -8,7 +8,7 @@ import {
     FETCH_MASTERS,
     SHOW_ERROR,
 } from '../actions/actionTypes';
-import {ICity, IClient, IMaster, IOrderPac} from "../../interfaces";
+import { ICity, IClient, IMaster, IOrderPac } from "../../interfaces";
 
 export type AdminInitialStateType = {
     masters: IMaster[],

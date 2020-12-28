@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +6,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Button from '@material-ui/core/Button';
 import { logout, validToken } from '../helpers/authProcessing';
+import { Avatar } from "@material-ui/core";
+import { IUser, TUserStatus } from "../interfaces";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,12 +25,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IHeader {
-    setIsToken(isToken: boolean):void,
+    setIsToken(isToken: boolean):void
     emptyBooking():void
+    userStatus: TUserStatus
+    resetUser():void
+    user: IUser
 }
 
 const Header: React.FC<IHeader> = (props) => {
     const classes = useStyles();
+    const { userStatus, resetUser } = props;
+
+    useEffect(() => {
+        // console.log('userStatus Effect', userStatus)//TODO
+    }, [userStatus]);
 
     const handlerAdmin = () => {
         props.setIsToken(validToken());
@@ -35,7 +46,53 @@ const Header: React.FC<IHeader> = (props) => {
 
     const handlerLogout = () => {
         logout();
+        resetUser();
         props.setIsToken(false);
+    };
+
+    const ButtonsShow = () => {
+        // console.log('userStatus', userStatus); //TODO
+        if (userStatus === 'notAuth') {
+            return (
+                <React.Fragment>
+                    <Button color="inherit"
+                            onClick={handlerAdmin}
+                            className={classes.menuButton}
+                            component={Link}
+                            to='/auth'
+                    >
+                        sign in
+                    </Button>
+
+                    <Button color="inherit"
+                            onClick={handlerAdmin}
+                            className={classes.menuButton}
+                            component={Link}
+                            to='/reg'
+                    >
+                        sign up
+                    </Button>
+                </React.Fragment>
+            )
+        } else {
+            return (
+                <React.Fragment>
+                    <Button color="inherit"
+                            onClick={handlerLogout}
+                            className={classes.menuButton}
+                            component={Link}
+                            to='/'
+                    >
+                        Logout
+                    </Button>
+                    <Tooltip title={`${props.user.name} (${props.user.login})`}>
+                        <Avatar> {props.user.name.match(/\b(\w)/g)} </Avatar>
+                    </Tooltip>
+
+                </React.Fragment>
+
+            )
+        }
     };
 
     return (
@@ -59,23 +116,7 @@ const Header: React.FC<IHeader> = (props) => {
                     Clockware
                 </Typography>
 
-                <Button color="inherit"
-                        onClick={handlerAdmin}
-                        className={classes.menuButton}
-                        component={Link}
-                        to='/admin'
-                >
-                   Admin
-                </Button>
-
-                <Button color="inherit"
-                        onClick={handlerLogout}
-                        className={classes.menuButton}
-                        component={Link}
-                        to='/admin'
-                >
-                   Logout
-                </Button>
+                {ButtonsShow()}
 
             </Toolbar>
         </AppBar>

@@ -1,4 +1,4 @@
-import {ICity, IClient, IMaster, IOrderPac, TBookingShow} from "../../interfaces";
+import { ICity, IClient, IClientOrder, IMaster, IOrderPac, IUser, TBookingShow } from "../../interfaces";
 
 //BOOKING
 export const FETCH_MASTER_SUCCESS = 'FETCH_MASTER_SUCCESS';
@@ -29,7 +29,17 @@ export type AdminActionTypes =
 //AUTH
 export const AUTH_USER_MESSAGE = 'AUTH_USER_MESSAGE';
 export const SET_IS_TOKEN = 'SET_IS_TOKEN';
+export const SET_USER = 'SET_USER';
+export const RESET_USER = 'RESET_USER';
 
 export type AuthActionTypes =
-    { type: typeof AUTH_USER_MESSAGE, payload: string | null } |
-    { type: typeof SET_IS_TOKEN, payload: boolean }
+    { type: typeof AUTH_USER_MESSAGE, payload: string } |
+    { type: typeof SET_IS_TOKEN, payload: boolean } |
+    { type: typeof SET_USER, payload: IUser } |
+    { type: typeof RESET_USER }
+
+//CLIENT
+export const SET_CLIENT_ORDERS_LIST = 'SET_CLIENT_ORDERS_LIST';
+
+export type ClientActionTypes =
+    { type: typeof SET_CLIENT_ORDERS_LIST, payload: IClientOrder[]}

@@ -4,10 +4,11 @@ const db = require('../models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
-const User = db.user;
+const User = db.users;
 
 
 const authUser = async (req: Request, res: Response, next: NextFunction) => {
+    // console.log('req.body', req.body.login);
     User.findOne({
         where: {
             login: req.body.login
@@ -48,14 +49,21 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
                 message: "Unauthorized!"
             });
         }
-        req.body.login = decoded.login;
+        req.body.aythLogin = decoded.login;
         next();
     });
 };
+
+const generateSalt = (): string => bcrypt.genSaltSync(10);
+
+const generatePassCrypt = (pass:string, salt: string): string => bcrypt.hashSync(pass, salt);
+
 
 module.exports = {
     authUser,
     generateToken,
     verifyToken,
+    generateSalt,
+    generatePassCrypt
 };
 
