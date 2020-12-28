@@ -21,7 +21,8 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "module": "esnext",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "types": ["node"]
   },
   "include": [
     "src"
