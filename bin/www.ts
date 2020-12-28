@@ -3,8 +3,8 @@
 /**
  * Module dependencies.
  */
-const app = require('../dist/app.js');
-// const app = require('../app');
+// const app = require('../dist/app.js');
+const app = require('../app');
 const debug = require('debug')('backend:server');
 const http = require('http');
 
@@ -28,9 +28,11 @@ server.listen(port, () => {
 server.on('error', onError);
 server.on('listening', onListening);
 
+
 /**
  * Normalize a port into a number, string, or false.
  */
+// @ts-ignore
 function normalizePort(val) {
   const port = parseInt(val, 10);
 
@@ -50,6 +52,7 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
+// @ts-ignore
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;

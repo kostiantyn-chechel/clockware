@@ -9,7 +9,7 @@ Create `.env` file similar to `.env.example` file in ./client folder
 
 ### DB
 
-####For use local DB:
+#### For use local DB:
 Local DB MysQL (for example XAMPP)
 
 Create a local database 'clockware'
@@ -42,7 +42,7 @@ run `start-front` in package.json
 or run:
 #### `react-scripts start`
 
-###After all
+### After all
 
 You can open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
