@@ -8,7 +8,7 @@
   },
   "scripts": {
     "nodemon-back": "nodemon bin/www",
-    "start-back": "tsc && node bin/www",
+    "start-back": "tsc && node dist/bin/www",
     "start-back1": "tsc && node dist/bin/www",
     "start": "node bin/www",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=falce npm install --prefix client && npm run build --prefix client"

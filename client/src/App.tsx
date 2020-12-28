@@ -18,9 +18,7 @@ import AuthCommon from "./containers/AuthRegistration/AuthCommon";
 import Registration from "./containers/AuthRegistration/Registration";
 import {IUser, TUserStatus} from "./interfaces";
 
-interface PropsType extends PropsFromRedux {}
-
-class App extends Component<PropsType> {
+class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
     componentDidMount() {
         this.props.fetchCities();

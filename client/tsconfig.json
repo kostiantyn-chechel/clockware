@@ -20,7 +20,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "module": "esnext"
+    "module": "esnext",
+    "noImplicitAny": false
   },
   "include": [
     "src"
