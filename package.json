@@ -12,7 +12,7 @@
     "client": "cd client && yarn start",
     "server": "nodemon dist/app.js",
     "start": "concurrently \"yarn server\" \"yarn client\"",
-    "heroku-postbuild": "yarn && tsc && cd client && yarn && yarn build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=falce yarn && tsc && cd client && yarn && yarn build"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.3.0",
