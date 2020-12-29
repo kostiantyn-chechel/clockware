@@ -8,8 +8,6 @@
     ],
     "allowJs": true,
     "jsx": "react",
-    "outDir": "./build",
-    "rootDir": "./src",
     "noEmit": true,
     "isolatedModules": true,
     "strict": true,
