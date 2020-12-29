@@ -21,8 +21,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "module": "commonjs",
-    "noImplicitAny": false,
+    "module": "esnext",
+    "noImplicitAny": false
   },
   "include": [
     "src"
