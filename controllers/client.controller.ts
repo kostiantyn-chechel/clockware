@@ -1,7 +1,16 @@
 import { Request, Response } from 'express'
-import { IError } from "../Type/interfaces"
+import {IError, TUserStatus} from "../Type/interfaces"
 const db = require("../models");
+const Op = db.Sequelize.Op;
 const User = db.users;
+
+type filterOptionType = {
+    where: {
+        name?: any,
+        status: TUserStatus
+    },
+    attributes: string[],
+}
 
 exports.createClient = (req: Request, res: Response) => {
     console.log('createClient', req.body);
@@ -36,6 +45,36 @@ exports.findAllClient = (req: Request, res: Response) => {
         },
         attributes: ['id', 'login', 'name']
     })
+        .then((data: any) => {
+            res.send(data);
+        })
+        .catch((err: IError) => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving clients."
+            });
+        });
+};
+
+exports.findAllClientFilter = (req: Request, res: Response) => {
+    const name = req.query.name as string;
+    let options: filterOptionType = {
+        where: {
+            status: 'client'
+        },
+        attributes: ['id', 'login', 'name']
+    };
+    if (name) {
+        options.where = {
+            ...options.where,
+            [Op.or]: {
+                name: {[Op.like]: `%${name}%`},
+                login: {[Op.like]: `%${name}%`},
+            }
+        }
+    }
+
+    User.findAll(options)
         .then((data: any) => {
             res.send(data);
         })

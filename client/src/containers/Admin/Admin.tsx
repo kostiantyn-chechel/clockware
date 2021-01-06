@@ -8,7 +8,7 @@ import {
     addClient, editClient, deleteClient, fetchClients,
     deleteOrder,
     fetchFilterAndInfiniteOrders, fetchFilterAndPaginOrders,
-    clearInfiniteOrders, fetchFilterMasters,
+    clearInfiniteOrders, fetchFilterMasters, fetchFilterClients,
 } from '../../store/actions/adminAction';
 import { authUserMessage, setIsToken, userLoginFetch } from '../../store/actions/authAction';
 import { IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
@@ -33,6 +33,7 @@ const Admin: React.FC<PropsFromRedux> = (props) => {
                 deleteCity={props.deleteCity}
 
                 fetchClients={props.fetchClients}
+                fetchFilterClients={props.fetchFilterClients}
                 addClient={props.addClient}
                 editClient={props.editClient}
                 deleteClient={props.deleteClient}
@@ -80,6 +81,7 @@ function mapDispatchToProps(dispatch: any) {
         deleteCity: (cityId: number) => dispatch(deleteCity(cityId)),
 
         fetchClients: () => dispatch(fetchClients()),
+        fetchFilterClients: (name: string) => dispatch(fetchFilterClients(name)),
         addClient: (client: IClient) => dispatch(addClient(client)),
         editClient: (client: IClient) => dispatch(editClient(client)),
         deleteClient: (clientId: number) => dispatch(deleteClient(clientId)),

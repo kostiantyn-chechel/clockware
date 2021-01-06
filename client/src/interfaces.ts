@@ -132,6 +132,7 @@ export interface IClientsTab {
     clients: IClient[],
 
     fetchClients: () => void,
+    fetchFilterClients: (name: string) => void,
     deleteClient: (id: number) => void,
     addClient: (client: IClient) => void,
     editClient: (client: IClient) => void,

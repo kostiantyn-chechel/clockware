@@ -96,6 +96,7 @@ const AdminTabs: React.FC<IAdminTabs> = (props) => {
             <TabPanel value={value} index={2}>
                 <ClientsTab
                     fetchClients={props.fetchClients}
+                    fetchFilterClients={props.fetchFilterClients}
                     addClient={props.addClient}
                     editClient={props.editClient}
                     deleteClient={props.deleteClient}

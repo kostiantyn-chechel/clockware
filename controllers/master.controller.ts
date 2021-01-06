@@ -54,7 +54,6 @@ exports.findAll = (req: Request, res: Response) => {
 };
 
 exports.findAllFilter = (req: Request, res: Response) => {
-    // const { name } = req.query;
     const name = req.query.name as string;
     let options: filterOptionType = {
         include: [{
@@ -64,8 +63,6 @@ exports.findAllFilter = (req: Request, res: Response) => {
     if (name) {
         options.where = {name: {[Op.like]: `%${name}%`}}
     }
-
-    console.log('options', options);
 
     Master.findAll(options)
         .then((data: any) => {
