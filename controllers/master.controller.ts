@@ -2,9 +2,19 @@ import { Request, Response } from 'express'
 import { IError } from "../Type/interfaces";
 const { selectMasters, masterRating } = require('../processing/selectMasters');
 const db = require("../models");
+const Op = db.Sequelize.Op;
 const Master = db.masters;
 const Order = db.orders;
 const Review = db.reviews;
+
+type filterOptionType = {
+    where?: {
+        name: any
+    },
+    include: [{
+        model: any,
+    }],
+}
 
 exports.create = (req: Request, res: Response) => {
 
@@ -32,6 +42,32 @@ exports.findAll = (req: Request, res: Response) => {
             model: Review,
         }],
     })
+        .then((data: any) => {
+            res.send(masterRating(data));
+        })
+        .catch((err: IError) => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving masters."
+            });
+        });
+};
+
+exports.findAllFilter = (req: Request, res: Response) => {
+    // const { name } = req.query;
+    const name = req.query.name as string;
+    let options: filterOptionType = {
+        include: [{
+            model: Review,
+        }]
+    };
+    if (name) {
+        options.where = {name: {[Op.like]: `%${name}%`}}
+    }
+
+    console.log('options', options);
+
+    Master.findAll(options)
         .then((data: any) => {
             res.send(masterRating(data));
         })

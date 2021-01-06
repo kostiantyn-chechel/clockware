@@ -27,13 +27,11 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
     const [delId, setDelId] = useState<number>(0);
 
     /* eslint-disable */
-    useEffect(() => {
-        props.fetchMasters();
-    }, []);
+    // useEffect(() => {
+    //     props.fetchMasters();
+    // }, []);
 
     useEffect(() => {
-        // props.fetchMasters();
-
         if (filterWord !== '') {
             if (filterWord){
                 props.fetchFilterMasters(filterWord);
@@ -42,7 +40,6 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
                 props.fetchFilterMasters('');
                 console.log('fetchFilterMasters', "'___'")
             }
-
         }
     }, [filterWord]);
     /* eslint-enable */
