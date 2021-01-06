@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {IAuthUser, ICity, IClient, IMaster, IOrderPac, ISendOrder, TAuthUser} from "../../interfaces";
+import {IAuthUser, ICity, IClient, IFilterData, IMaster, IOrderPac, ISendOrder, TAuthUser} from "../../interfaces";
 import {authHeader} from "../authProcessing";
 import {IReviews} from "../../containers/Review/ReviewMaster";
 
@@ -44,7 +44,7 @@ export const postAuthServerRequest = async (relativeURL: string, body: PostAuthS
     }
 };
 
-type GetAuthServerResponseType = IClient[] | IMaster[] | IOrderPac | IReviews[];
+type GetAuthServerResponseType = IClient[] | IMaster[] | IOrderPac | IReviews[] | IFilterData[];
 export const getAuthServerRequest = async (relativeURL: string): Promise<GetAuthServerResponseType> => {
     try {
         const { data } = await axios.get(relativeURL, { headers: authHeader() });

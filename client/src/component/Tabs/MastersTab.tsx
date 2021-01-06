@@ -5,6 +5,7 @@ import { cityById } from '../../helpers/dataProcessing';
 import MastersTable from './Tables/MastersTable';
 import DeleteDialog from './DeleteDialog';
 import { IMastersTab, IMaster } from "../../interfaces";
+import SearchComboBox from "../SearchComboBox/SearchComboBox";
 
 export type MasterTableType = {id: number, name: string, rating: number, city: string}
 
@@ -21,6 +22,7 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
         addNew: true,
     });
 
+    const [filterWord, setFilterWord] = useState<string | null>(null);
     const [showDelDialog, setShowDelDialog] = useState(false);
     const [delId, setDelId] = useState<number>(0);
 
@@ -28,6 +30,21 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
     useEffect(() => {
         props.fetchMasters();
     }, []);
+
+    useEffect(() => {
+        // props.fetchMasters();
+
+        if (filterWord !== '') {
+            if (filterWord){
+                props.fetchFilterMasters(filterWord);
+                console.log('fetchFilterMasters', filterWord)
+            } else {
+                props.fetchFilterMasters('');
+                console.log('fetchFilterMasters', "'___'")
+            }
+
+        }
+    }, [filterWord]);
     /* eslint-enable */
 
     const changeMasterName = (name: string) => setMasterEdit({ ...masterEdit, name: name });
@@ -93,6 +110,11 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
         }
     };
 
+    const setFilter = (name: string | null) => {
+        // console.log('name', name);
+        setFilterWord(name);
+    };
+
     const contextMaster = () => {
         let context = '';
         props.masters.forEach((master) => {
@@ -136,6 +158,10 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
                     <AddButton
                         nameAdd='мастера'
                         handleButton={handleAddButton}
+                    />
+                    <SearchComboBox
+                        filterName='masters'
+                        setFilter={setFilter}
                     />
                     <MastersTable
                         listArr={mastersTablesArr()}

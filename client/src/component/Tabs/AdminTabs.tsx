@@ -76,6 +76,7 @@ const AdminTabs: React.FC<IAdminTabs> = (props) => {
             <TabPanel value={value} index={0}>
                 <MastersTab
                     fetchMasters={props.fetchMasters}
+                    fetchFilterMasters={props.fetchFilterMasters}
                     addMaster={props.addMaster}
                     editMaster={props.editMaster}
                     deleteMaster={props.deleteMaster}

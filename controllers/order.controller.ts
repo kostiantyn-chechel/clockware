@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import {IDBUser, IError} from "../Type/interfaces"
-import {logout} from "../client/src/helpers/authProcessing";
-// const sendEmails = require('../processing/sendEmails');
+// const sendEmails = require('../processing/sendEmails'); // <-- send Email(Gmail)
 const sendSGEmail  = require('../processing/sendGridMail');
 const db = require("../models");
 const Op = db.Sequelize.Op;

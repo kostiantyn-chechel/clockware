@@ -8,7 +8,7 @@ import {
     addClient, editClient, deleteClient, fetchClients,
     deleteOrder,
     fetchFilterAndInfiniteOrders, fetchFilterAndPaginOrders,
-    clearInfiniteOrders,
+    clearInfiniteOrders, fetchFilterMasters,
 } from '../../store/actions/adminAction';
 import { authUserMessage, setIsToken, userLoginFetch } from '../../store/actions/authAction';
 import { IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
@@ -22,6 +22,7 @@ const Admin: React.FC<PropsFromRedux> = (props) => {
                 setIsToken={props.setIsToken}
 
                 fetchMasters={props.fetchMasters}
+                fetchFilterMasters={props.fetchFilterMasters}
                 addMaster={props.addMaster}
                 editMaster={props.editMaster}
                 deleteMaster={props.deleteMaster}
@@ -68,6 +69,7 @@ function mapStateToProps(state: RootStateType) {
 function mapDispatchToProps(dispatch: any) {
     return {
         fetchMasters: () => dispatch(fetchMasters()),
+        fetchFilterMasters: (name: string) => dispatch(fetchFilterMasters(name)),
         addMaster: (master: IMaster) => dispatch(addMaster(master)),
         editMaster: (master: IMaster) => dispatch(editMaster(master)),
         deleteMaster: (masterId: number) => dispatch(deleteMaster(masterId)),

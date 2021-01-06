@@ -27,6 +27,12 @@ export const fetchMasters = () => {
         .then(masters => dispatch({ type: FETCH_MASTERS, payload: masters }))
         .catch(() => dispatch(showError()));
 };
+export const fetchFilterMasters = (name: string) => {
+    const url = `/masters/filter?name=${name}`;
+    return async (dispatch: any) => getAuthServerRequest(url)
+        .then(masters => dispatch({ type: FETCH_MASTERS, payload: masters }))
+        .catch(() => dispatch(showError()));
+};
 
 export const fetchFilterAndPaginOrders: (param: IFetchFilterOrders) => Promise<any> =
                                                         (param: IFetchFilterOrders): Promise<any> => {

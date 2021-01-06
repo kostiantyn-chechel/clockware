@@ -94,3 +94,18 @@ exports.deleteClient = (req: Request, res: Response) => {
             });
         });
 };
+
+exports.list = (req: Request, res: Response) => {
+    User.findAll({
+        where: {status: 'client'},
+        attributes: ['name']
+    })
+        .then((data:any) => {
+            res.send(data)
+        })
+        .catch(() => {
+            res.status(500).send({
+                message: "Could not find Masters"
+            });
+        });
+};

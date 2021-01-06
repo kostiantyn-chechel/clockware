@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/', verifyToken, client.createClient);
 router.get('/', verifyToken, client.findAllClient);
+router.get('/list', verifyToken, client.list);
 router.put('/:id', verifyToken, client.updateClient);
 router.delete('/:id', verifyToken, client.deleteClient);
 

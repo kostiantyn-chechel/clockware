@@ -131,3 +131,18 @@ exports.delete = (req: Request, res: Response) => {
             });
         });
 };
+
+exports.list = (req: Request, res: Response) => {
+
+    Master.findAll({
+        attributes: ['name']
+    })
+        .then((data:any) => {
+        res.send(data)
+    })
+        .catch(() => {
+        res.status(500).send({
+            message: "Could not find Masters"
+        });
+    });
+};
