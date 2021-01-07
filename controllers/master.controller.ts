@@ -119,7 +119,6 @@ exports.findOne = (req: Request, res: Response) => {
 
 exports.update = (req: Request, res: Response) => {
     const id = req.params.id;
-    console.log('Master update', id);
     Master.update(req.body, {
         where: { id: id }
     })

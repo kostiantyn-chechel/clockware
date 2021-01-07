@@ -8,7 +8,7 @@ import { fetchCities } from './store/actions/adminAction';
 import Header from './component/Header';
 import Footer from './component/Footer';
 import { setBookingShow } from './store/actions/bookingAction';
-import {resetUser, setIsToken} from './store/actions/authAction';
+import { resetUser } from './store/actions/authAction';
 import SomeError from './component/SomeError';
 import Review from './containers/Review/Review';
 import ReviewMaster from './containers/Review/ReviewMaster';
@@ -16,7 +16,7 @@ import { RootStateType } from "./store/reducers/rootReducer";
 import ClientCabinet from "./containers/ClientCabinet/ClientCabinet";
 import AuthCommon from "./containers/AuthRegistration/AuthCommon";
 import Registration from "./containers/AuthRegistration/Registration";
-import {IUser, TUserStatus} from "./interfaces";
+import { IUser, TUserStatus } from "./interfaces";
 
 class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
@@ -29,7 +29,6 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
             <div className={classes.root}>
                 <Header
                     emptyBooking={this.props.emptyBooking}
-                    setIsToken={this.props.setIsToken}
                     userStatus={this.props.userStatus}
                     resetUser={this.props.resetUser}
                     user={this.props.user}
@@ -46,7 +45,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                         <Route path='/review/:id' component={ Review } />
                         <Route path='/master/:id' component={ ReviewMaster } />
                         <Route path='/' exact={true} component={ Booking } />
-                        {/*<Route path='/*' component={ AuthCommon } />*/}
+                        <Route path='/*' component={ AuthCommon } />
                     </Switch>
                 }
                 <Footer/>
@@ -71,14 +70,12 @@ function mapStateToProps(state: RootStateType): MapStateType {
 type MapDispatchType = {
     fetchCities: () => void,
     emptyBooking: () => void,
-    setIsToken: (status: boolean) => void,
     resetUser: ()=> void,
 }
 function mapDispatchToProps(dispatch: any): MapDispatchType {
     return {
         fetchCities: () => dispatch(fetchCities()),
         emptyBooking: () => dispatch(setBookingShow("filling")),
-        setIsToken: (status: boolean) => dispatch(setIsToken(status)),
         resetUser: () => dispatch(resetUser()),
     }
 }

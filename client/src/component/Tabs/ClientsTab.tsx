@@ -26,10 +26,6 @@ const ClientsTab: React.FC<IClientsTab> = (props) => {
 
     /* eslint-disable */
     useEffect(() => {
-        props.fetchClients();
-    }, []);
-
-    useEffect(() => {
         if (filterWord !== '') {
             if (filterWord){
                 props.fetchFilterClients(filterWord);
@@ -38,7 +34,6 @@ const ClientsTab: React.FC<IClientsTab> = (props) => {
             }
         }
     }, [filterWord]);
-
     /* eslint-enable */
 
     const changeClientName = (name: string) => setClientEdit({ ...clientEdit, name: name });

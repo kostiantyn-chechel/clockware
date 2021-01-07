@@ -13,7 +13,6 @@ type filterOptionType = {
 }
 
 exports.createClient = (req: Request, res: Response) => {
-    console.log('createClient', req.body);
     const client = {
         name: req.body.name,
         login: req.body.login,
@@ -88,7 +87,6 @@ exports.findAllClientFilter = (req: Request, res: Response) => {
 
 exports.updateClient = (req: Request, res: Response) => {
     const id = req.params.id;
-    console.log('client update', id);
     User.update(req.body, {
         where: { id: id }
     })

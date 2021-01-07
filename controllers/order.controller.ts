@@ -58,7 +58,6 @@ exports.create = (req: Request, res: Response) => {
                     ]
                 })
                     .then((resOrder: any) => {
-                        // console.log('resOrder', resOrder);
                         const fullOrder = {
                             id: resOrder.id,
                             clientName: resOrder.order_user.dataValues.name,
@@ -142,7 +141,6 @@ exports.delete = (req: Request, res: Response) => {
 
 exports.clientOrders = (req: Request, res: Response) => {
     const id = req.params.id;
-    console.log('client:',id);
     Order.findAll({
         // raw: true,
         where: {UserId: id},

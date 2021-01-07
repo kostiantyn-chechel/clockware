@@ -50,7 +50,6 @@ exports.findOne = (req: Request, res: Response) => {
 
 exports.update = (req: Request, res: Response) => {
     const id = req.params.id;
-    console.log('city update', id);
     City.update(req.body, {
         where: { id: id }
     })

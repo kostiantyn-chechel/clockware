@@ -10,7 +10,7 @@ import {
     fetchFilterAndInfiniteOrders, fetchFilterAndPaginOrders,
     clearInfiniteOrders, fetchFilterMasters, fetchFilterClients,
 } from '../../store/actions/adminAction';
-import { authUserMessage, setIsToken, userLoginFetch } from '../../store/actions/authAction';
+import { authUserMessage, userLoginFetch } from '../../store/actions/authAction';
 import { IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
 import {RootStateType} from "../../store/reducers/rootReducer";
 
@@ -19,8 +19,6 @@ const Admin: React.FC<PropsFromRedux> = (props) => {
     return (
         <Container component="main" maxWidth="xl">
             <AdminTabs
-                setIsToken={props.setIsToken}
-
                 fetchMasters={props.fetchMasters}
                 fetchFilterMasters={props.fetchFilterMasters}
                 addMaster={props.addMaster}
@@ -56,7 +54,7 @@ const Admin: React.FC<PropsFromRedux> = (props) => {
 
 function mapStateToProps(state: RootStateType) {
     return {
-        isToken: state.auth.isToken,
+        // isToken: state.auth.isToken,
         message: state.auth.message,
         masters: state.admin.masters,
         cities: state.admin.cities,
@@ -93,7 +91,6 @@ function mapDispatchToProps(dispatch: any) {
 
         userLoginFetch: (userInfo: IAuthUser) => dispatch(userLoginFetch(userInfo)),
         authUserMessage: (message: string) => dispatch(authUserMessage(message)),
-        setIsToken: (status: boolean) => dispatch(setIsToken(status)),
     }
 }
 
