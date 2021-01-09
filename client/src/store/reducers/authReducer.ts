@@ -1,9 +1,4 @@
-import {
-    AuthActionTypes,
-    AUTH_USER_MESSAGE,
-    RESET_USER,
-    SET_USER,
-} from '../actions/actionTypes';
+import {AUTH_USER_MESSAGE, AuthActionTypes, RESET_USER, SET_USER, SET_USER_STATUS,} from '../actions/actionTypes';
 import {IUser} from "../../interfaces";
 
 const USER_ZERO: IUser = {
@@ -36,6 +31,15 @@ export default function authReducer(state = initialState, action: AuthActionType
             return {
                 ...state,
                 user: action.payload
+            };
+
+        case SET_USER_STATUS:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    status: action.payload
+                }
             };
 
         case RESET_USER:

@@ -2,10 +2,11 @@ import {
     AuthActionTypes,
     AUTH_USER_MESSAGE,
     RESET_USER,
-    SET_USER
+    SET_USER,
+    SET_USER_STATUS
 } from './actionTypes';
-import { saveToken } from '../../helpers/authProcessing';
-import {IAuthUser, IChangeRegUser, IRegUser} from "../../interfaces";
+import {saveToken, saveUserToLocalStorage} from '../../helpers/authProcessing';
+import {IAuthUser, IChangeRegUser, IRegUser, TUserStatus} from "../../interfaces";
 import { postServerRequest, postAuthServerRequest } from "../../helpers/axios/axiosClockwareAPI";
 
 export const userLoginFetch = (userInfo: IAuthUser) => {
@@ -14,6 +15,7 @@ export const userLoginFetch = (userInfo: IAuthUser) => {
             if (response.token) {
                 dispatch({ type: SET_USER, payload: response });
                 saveToken(response.token, response.status);
+                // saveUserToLocalStorage(response); // TODO согласовать возвращаемые типы
             } else {
                 if(response.message) {
                     dispatch(authUserMessage(response.message));
@@ -31,6 +33,7 @@ export const userRegistrationFetch = (userRegInfo: IRegUser) => {
             if (response.token) {
                 dispatch({ type: SET_USER, payload: response });
                 saveToken(response.token, response.status);
+                // saveUserToLocalStorage(response); // TODO согласовать возвращаемые типы
             } else {
                 if(response.message) {
                     console.log('registration: ',response.message);
@@ -49,6 +52,7 @@ export const userRegistrationChange = (userChangeRegInfo: IChangeRegUser) => {
             if (response.token) {
                 dispatch({ type: SET_USER, payload: response });
                 saveToken(response.token, response.status);
+                saveUserToLocalStorage(response); // TODO согласовать возвращаемые типы
             } else {
                 if(response.message) {
                     console.log('registration: ',response.message);
@@ -64,3 +68,4 @@ export const userRegistrationChange = (userChangeRegInfo: IChangeRegUser) => {
 
 export const authUserMessage = (message: string): AuthActionTypes => ({ type: AUTH_USER_MESSAGE, payload: message });
 export const resetUser = () => ({ type: RESET_USER });
+export const setUserStatus = (status: TUserStatus) => ({ type: SET_USER_STATUS, payload: status });

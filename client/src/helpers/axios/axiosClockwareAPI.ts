@@ -21,7 +21,7 @@ export const getServerRequest = async (relativeURL: string): Promise<ServerGetRe
     }
 };
 
-type ServerPostRequestBodyType = IAuthUser | ISendOrder | { orderId: number, rating: number, review: string };
+type ServerPostRequestBodyType = IAuthUser | ISendOrder | { orderId: number, rating: number, review: string }; // TODO согласовать возвращаемые типы
 type ServerPostResponseType = TAuthUser;
 
 export const postServerRequest = async (

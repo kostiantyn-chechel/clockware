@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from '@material-ui/core/Container';
 import AdminTabs from '../../component/Tabs/AdminTabs';
 import {connect, ConnectedProps} from 'react-redux';
@@ -12,9 +12,31 @@ import {
 } from '../../store/actions/adminAction';
 import { authUserMessage, userLoginFetch } from '../../store/actions/authAction';
 import { IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
-import {RootStateType} from "../../store/reducers/rootReducer";
+import { RootStateType } from "../../store/reducers/rootReducer";
+import { validToken } from "../../helpers/authProcessing";
+import { useHistory } from 'react-router-dom';
+
 
 const Admin: React.FC<PropsFromRedux> = (props) => {
+    const { push } = useHistory();
+    /* eslint-disable */
+    //TODO подумать как сделать авторизацию по ссылке нужна ли она вообще?? сохранять юзера полостью???
+    useEffect(() => {
+        setTimeout(() => {
+            console.log('TOKEN:', validToken());
+            console.log('userStatus:', localStorage.getItem('userStatus'));
+            if (validToken()) {
+                if (localStorage.getItem('userStatus') !== 'admin') {
+                    console.log('userStatus: redirect to auth');
+                    push('/');
+                }
+            } else {
+                console.log('TOKEN: redirect to auth');
+                push('/');
+            }
+        }, 50);
+    }, []);
+    /* eslint-enable */
 
     return (
         <Container component="main" maxWidth="xl">

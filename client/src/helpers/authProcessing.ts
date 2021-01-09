@@ -1,4 +1,4 @@
-import {TUserStatus} from "../interfaces";
+import {IUser, TUserStatus} from "../interfaces";
 
 export const saveToken = (token: string | null, status: TUserStatus): void => {
     if (token) {
@@ -11,21 +11,21 @@ export const saveToken = (token: string | null, status: TUserStatus): void => {
     }
 };
 
+export const saveUserToLocalStorage = (user: IUser) => {
+    localStorage.setItem('user', JSON.stringify(user));
+};
+
 export const validToken = (): boolean => {
-    if (!localStorage.getItem('token')){
-        return false
-    } else {
-
-    }
-
-    const aaa: string | null = localStorage.getItem('tokenTime');
-    if (aaa) {
-        const expiredTime: number = JSON.parse(aaa);
-        const nowTime =  new Date().getTime();
-        if (nowTime < expiredTime) {
-            return true
-        } else {
-            logout();
+    if (localStorage.getItem('token')){
+        const aaa: string | null = localStorage.getItem('tokenTime');
+        if (aaa) {
+            const expiredTime: number = JSON.parse(aaa);
+            const nowTime =  new Date().getTime();
+            if (nowTime < expiredTime) {
+                return true
+            } else {
+                logout();
+            }
         }
     }
 
@@ -40,6 +40,10 @@ export const logout = () => {
 
 export const getCurrentToken = () => {
     return localStorage.getItem('token');
+};
+
+export const getCurrentUser = ():IUser => {
+    return JSON.parse(localStorage.getItem('user') as string);
 };
 
 export const authHeader = () => {

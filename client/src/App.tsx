@@ -8,7 +8,7 @@ import { fetchCities } from './store/actions/adminAction';
 import Header from './component/Header';
 import Footer from './component/Footer';
 import { setBookingShow } from './store/actions/bookingAction';
-import { resetUser } from './store/actions/authAction';
+import {resetUser, setUserStatus} from './store/actions/authAction';
 import SomeError from './component/SomeError';
 import Review from './containers/Review/Review';
 import ReviewMaster from './containers/Review/ReviewMaster';
@@ -17,12 +17,26 @@ import ClientCabinet from "./containers/ClientCabinet/ClientCabinet";
 import AuthCommon from "./containers/AuthRegistration/AuthCommon";
 import Registration from "./containers/AuthRegistration/Registration";
 import { IUser, TUserStatus } from "./interfaces";
+import {validToken} from "./helpers/authProcessing";
 
 class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
     componentDidMount() {
         this.props.fetchCities();
+        this.statusFromLocalStorage();
     }
+
+    statusFromLocalStorage = () => {
+        if (validToken()) {
+            const status: string | null = localStorage.getItem('userStatus');
+            if (status) {
+                this.props.setUserStatus(status as TUserStatus)
+            } else {
+                this.props.setUserStatus('notAuth')
+            }
+
+        }
+    };
 
     render() {
         return (
@@ -45,7 +59,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                         <Route path='/review/:id' component={ Review } />
                         <Route path='/master/:id' component={ ReviewMaster } />
                         <Route path='/' exact={true} component={ Booking } />
-                        <Route path='/*' component={ AuthCommon } />
+                        <Route path='/*' component={ Booking } />
                     </Switch>
                 }
                 <Footer/>
@@ -70,13 +84,15 @@ function mapStateToProps(state: RootStateType): MapStateType {
 type MapDispatchType = {
     fetchCities: () => void,
     emptyBooking: () => void,
-    resetUser: ()=> void,
+    resetUser: () => void,
+    setUserStatus: (status: TUserStatus) => void,
 }
 function mapDispatchToProps(dispatch: any): MapDispatchType {
     return {
         fetchCities: () => dispatch(fetchCities()),
         emptyBooking: () => dispatch(setBookingShow("filling")),
         resetUser: () => dispatch(resetUser()),
+        setUserStatus: (status: TUserStatus) => dispatch(setUserStatus(status)),
     }
 }
 
