@@ -93,7 +93,7 @@ const Registration: React.FC<PropsFromRedux> = props => {
                 <Avatar
                     className={classes.avatar}
                     src={process.env.PUBLIC_URL + '/logo_blue.png'}
-                    variant='circle'
+                    variant='circular'
                 />
 
                 <Typography component="h1" variant="h5">

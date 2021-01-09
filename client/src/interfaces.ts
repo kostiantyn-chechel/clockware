@@ -113,6 +113,7 @@ export interface IMastersTab {
     cities: ICity[],
 
     fetchMasters: () => void,
+    fetchFilterMasters: (name: string) => void,
     addMaster: (master: IMaster) => void,
     editMaster: (master: IMaster) => void,
     deleteMaster: (id: number) => void,
@@ -131,6 +132,7 @@ export interface IClientsTab {
     clients: IClient[],
 
     fetchClients: () => void,
+    fetchFilterClients: (name: string) => void,
     deleteClient: (id: number) => void,
     addClient: (client: IClient) => void,
     editClient: (client: IClient) => void,
@@ -165,6 +167,10 @@ export interface IFetchFilterOrders {
     offset: number,
     sortBy: string,
     sort: string,
+}
+
+export interface IFilterData {
+    name: string
 }
 
 export type ISortDirection = 'asc' | 'desc';

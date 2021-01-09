@@ -24,7 +24,6 @@ exports.verify = (req: Request, res: Response) => {
             if (order) {
                 Review.findOne({where: {orderId: orderId}})
                     .then((result: any) => {
-                        console.log('result Review.findOne:', result);
                         if (result) {
                             res.send(JSON.stringify('completed'))
                         } else {

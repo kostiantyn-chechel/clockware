@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -8,7 +8,6 @@ import ClientsTab from './ClientsTab';
 import OrdersTab from './OrdersTab';
 import CitiesTab from './CitiesTab';
 import MastersTab from './MastersTab';
-import { validToken } from '../../helpers/authProcessing';
 import { ICitiesTab, IClientsTab, IMastersTab, IOrdersTab } from "../../interfaces";
 
 function TabPanel(props: any) {  // +++OK+++
@@ -46,16 +45,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export interface IAdminTabs extends IMastersTab, ICitiesTab, IClientsTab, IOrdersTab {
-    setIsToken(valid: boolean): void,
-}
+export interface IAdminTabs extends IMastersTab, ICitiesTab, IClientsTab, IOrdersTab {}
 
 const AdminTabs: React.FC<IAdminTabs> = (props) => {
     const classes = useStyles();
     const [value, setValue] = React.useState<number>(0);
 
+    /* eslint-disable */
+    useEffect(() => {setTimeout(() => props.fetchMasters(),30)}, []);
+    /* eslint-enable */
+
     const handleChange = async (event: React.ChangeEvent<{}>, newValue: number) => {
-        props.setIsToken(validToken());
         setValue(newValue);
     };
 
@@ -76,6 +76,7 @@ const AdminTabs: React.FC<IAdminTabs> = (props) => {
             <TabPanel value={value} index={0}>
                 <MastersTab
                     fetchMasters={props.fetchMasters}
+                    fetchFilterMasters={props.fetchFilterMasters}
                     addMaster={props.addMaster}
                     editMaster={props.editMaster}
                     deleteMaster={props.deleteMaster}
@@ -95,6 +96,7 @@ const AdminTabs: React.FC<IAdminTabs> = (props) => {
             <TabPanel value={value} index={2}>
                 <ClientsTab
                     fetchClients={props.fetchClients}
+                    fetchFilterClients={props.fetchFilterClients}
                     addClient={props.addClient}
                     editClient={props.editClient}
                     deleteClient={props.deleteClient}

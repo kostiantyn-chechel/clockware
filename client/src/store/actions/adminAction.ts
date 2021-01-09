@@ -22,8 +22,21 @@ export const fetchClients = () => {
         .catch(() => dispatch(showError()));
 };
 
+export const fetchFilterClients = (name: string) => {
+    const url = `/clients/filter?name=${name}`;
+    return async (dispatch: any) => getAuthServerRequest(url)
+        .then(clients => dispatch({type: FETCH_CLIENTS, payload: clients}))
+        .catch(() => dispatch(showError()));
+};
+
 export const fetchMasters = () => {
     return async (dispatch: any) => getAuthServerRequest('/masters')
+        .then(masters => dispatch({ type: FETCH_MASTERS, payload: masters }))
+        .catch(() => dispatch(showError()));
+};
+export const fetchFilterMasters = (name: string) => {
+    const url = `/masters/filter?name=${name}`;
+    return async (dispatch: any) => getAuthServerRequest(url)
         .then(masters => dispatch({ type: FETCH_MASTERS, payload: masters }))
         .catch(() => dispatch(showError()));
 };

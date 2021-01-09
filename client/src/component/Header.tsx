@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Button from '@material-ui/core/Button';
-import { logout, validToken } from '../helpers/authProcessing';
+import { logout } from '../helpers/authProcessing';
 import { Avatar } from "@material-ui/core";
 import { IUser, TUserStatus } from "../interfaces";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IHeader {
-    setIsToken(isToken: boolean):void
     emptyBooking():void
     userStatus: TUserStatus
     resetUser():void
@@ -36,27 +35,16 @@ const Header: React.FC<IHeader> = (props) => {
     const classes = useStyles();
     const { userStatus, resetUser } = props;
 
-    useEffect(() => {
-        // console.log('userStatus Effect', userStatus)//TODO
-    }, [userStatus]);
-
-    const handlerAdmin = () => {
-        props.setIsToken(validToken());
-     };
-
     const handlerLogout = () => {
         logout();
         resetUser();
-        props.setIsToken(false);
     };
 
     const ButtonsShow = () => {
-        // console.log('userStatus', userStatus); //TODO
         if (userStatus === 'notAuth') {
             return (
                 <React.Fragment>
                     <Button color="inherit"
-                            onClick={handlerAdmin}
                             className={classes.menuButton}
                             component={Link}
                             to='/auth'
@@ -65,7 +53,6 @@ const Header: React.FC<IHeader> = (props) => {
                     </Button>
 
                     <Button color="inherit"
-                            onClick={handlerAdmin}
                             className={classes.menuButton}
                             component={Link}
                             to='/reg'

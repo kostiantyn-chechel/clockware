@@ -68,7 +68,6 @@ const ClientData: React.FC<IClientData> = (props) => {
             password: user.password,
         };
         if (userChangeData.name || userChangeData.login || userChangeData.password){
-            console.log('userRegistrationChange CL', userChangeData);
             props.userRegistrationChange(userChangeData);
         }
     };

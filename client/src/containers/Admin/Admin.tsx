@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from '@material-ui/core/Container';
 import AdminTabs from '../../component/Tabs/AdminTabs';
 import {connect, ConnectedProps} from 'react-redux';
@@ -8,20 +8,41 @@ import {
     addClient, editClient, deleteClient, fetchClients,
     deleteOrder,
     fetchFilterAndInfiniteOrders, fetchFilterAndPaginOrders,
-    clearInfiniteOrders,
+    clearInfiniteOrders, fetchFilterMasters, fetchFilterClients,
 } from '../../store/actions/adminAction';
-import { authUserMessage, setIsToken, userLoginFetch } from '../../store/actions/authAction';
+import { authUserMessage, userLoginFetch } from '../../store/actions/authAction';
 import { IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
-import {RootStateType} from "../../store/reducers/rootReducer";
+import { RootStateType } from "../../store/reducers/rootReducer";
+import { validToken } from "../../helpers/authProcessing";
+import { useHistory } from 'react-router-dom';
+
 
 const Admin: React.FC<PropsFromRedux> = (props) => {
+    const { push } = useHistory();
+    /* eslint-disable */
+    //TODO подумать как сделать авторизацию по ссылке нужна ли она вообще?? сохранять юзера полостью???
+    useEffect(() => {
+        setTimeout(() => {
+            console.log('TOKEN:', validToken());
+            console.log('userStatus:', localStorage.getItem('userStatus'));
+            if (validToken()) {
+                if (localStorage.getItem('userStatus') !== 'admin') {
+                    console.log('userStatus: redirect to auth');
+                    push('/');
+                }
+            } else {
+                console.log('TOKEN: redirect to auth');
+                push('/');
+            }
+        }, 50);
+    }, []);
+    /* eslint-enable */
 
     return (
         <Container component="main" maxWidth="xl">
             <AdminTabs
-                setIsToken={props.setIsToken}
-
                 fetchMasters={props.fetchMasters}
+                fetchFilterMasters={props.fetchFilterMasters}
                 addMaster={props.addMaster}
                 editMaster={props.editMaster}
                 deleteMaster={props.deleteMaster}
@@ -32,6 +53,7 @@ const Admin: React.FC<PropsFromRedux> = (props) => {
                 deleteCity={props.deleteCity}
 
                 fetchClients={props.fetchClients}
+                fetchFilterClients={props.fetchFilterClients}
                 addClient={props.addClient}
                 editClient={props.editClient}
                 deleteClient={props.deleteClient}
@@ -54,7 +76,7 @@ const Admin: React.FC<PropsFromRedux> = (props) => {
 
 function mapStateToProps(state: RootStateType) {
     return {
-        isToken: state.auth.isToken,
+        // isToken: state.auth.isToken,
         message: state.auth.message,
         masters: state.admin.masters,
         cities: state.admin.cities,
@@ -68,6 +90,7 @@ function mapStateToProps(state: RootStateType) {
 function mapDispatchToProps(dispatch: any) {
     return {
         fetchMasters: () => dispatch(fetchMasters()),
+        fetchFilterMasters: (name: string) => dispatch(fetchFilterMasters(name)),
         addMaster: (master: IMaster) => dispatch(addMaster(master)),
         editMaster: (master: IMaster) => dispatch(editMaster(master)),
         deleteMaster: (masterId: number) => dispatch(deleteMaster(masterId)),
@@ -78,6 +101,7 @@ function mapDispatchToProps(dispatch: any) {
         deleteCity: (cityId: number) => dispatch(deleteCity(cityId)),
 
         fetchClients: () => dispatch(fetchClients()),
+        fetchFilterClients: (name: string) => dispatch(fetchFilterClients(name)),
         addClient: (client: IClient) => dispatch(addClient(client)),
         editClient: (client: IClient) => dispatch(editClient(client)),
         deleteClient: (clientId: number) => dispatch(deleteClient(clientId)),
@@ -89,7 +113,6 @@ function mapDispatchToProps(dispatch: any) {
 
         userLoginFetch: (userInfo: IAuthUser) => dispatch(userLoginFetch(userInfo)),
         authUserMessage: (message: string) => dispatch(authUserMessage(message)),
-        setIsToken: (status: boolean) => dispatch(setIsToken(status)),
     }
 }
 
