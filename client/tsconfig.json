@@ -20,7 +20,8 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "module": "esnext",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "types": ["@material-ui/core"]
   },
   "include": [
     "src"
