@@ -5,6 +5,7 @@ import { isEmail } from '../../helpers/validation';
 import ClientsTable from './Tables/ClientsTable';
 import DeleteDialog from './DeleteDialog';
 import { IClient, IClientsTab } from "../../interfaces";
+import SearchComboBox from "../SearchComboBox/SearchComboBox";
 
 export type ClientTableType = {id: number, name: string, email: string}
 
@@ -19,13 +20,20 @@ const ClientsTab: React.FC<IClientsTab> = (props) => {
         addNew: true,
     });
 
+    const [filterWord, setFilterWord] = useState<string | null>(null);
     const [showDelDialog, setShowDelDialog] = useState(false);
     const [delId, setDelId] = useState<number>(0);
 
     /* eslint-disable */
     useEffect(() => {
-        props.fetchClients();
-    }, []);
+        if (filterWord !== '') {
+            if (filterWord){
+                props.fetchFilterClients(filterWord);
+            } else {
+                props.fetchFilterClients('');
+            }
+        }
+    }, [filterWord]);
     /* eslint-enable */
 
     const changeClientName = (name: string) => setClientEdit({ ...clientEdit, name: name });
@@ -60,7 +68,6 @@ const ClientsTab: React.FC<IClientsTab> = (props) => {
         setFlag({ showPanel: true, addNew: false });
     };
 
-
     const clientDelete = () => props.deleteClient(delId);
 
     const clickDel = (id: number) => {
@@ -81,6 +88,8 @@ const ClientsTab: React.FC<IClientsTab> = (props) => {
             return null
         }
     };
+
+    const setFilter = (name: string | null) => setFilterWord(name);
 
     const contextClient = () => {
         let context = '';
@@ -122,6 +131,10 @@ const ClientsTab: React.FC<IClientsTab> = (props) => {
                     <AddButton
                         nameAdd='клиента'
                         handleButton={handleAddButton}
+                    />
+                    <SearchComboBox
+                        filterName='clients'
+                        setFilter={setFilter}
                     />
                     <ClientsTable
                         listArr={clientsTablesArr()}

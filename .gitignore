@@ -24,4 +24,3 @@ yarn-error.log*
 /.idea/
 /client/src/component/Tabs/helpers/
 /client/src/component/Tabs/Tables/SimpleTables.js
-public/

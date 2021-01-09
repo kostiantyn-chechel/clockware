@@ -5,6 +5,7 @@ import { cityById } from '../../helpers/dataProcessing';
 import MastersTable from './Tables/MastersTable';
 import DeleteDialog from './DeleteDialog';
 import { IMastersTab, IMaster } from "../../interfaces";
+import SearchComboBox from "../SearchComboBox/SearchComboBox";
 
 export type MasterTableType = {id: number, name: string, rating: number, city: string}
 
@@ -21,13 +22,20 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
         addNew: true,
     });
 
+    const [filterWord, setFilterWord] = useState<string | null>(null);
     const [showDelDialog, setShowDelDialog] = useState(false);
     const [delId, setDelId] = useState<number>(0);
 
     /* eslint-disable */
     useEffect(() => {
-        props.fetchMasters();
-    }, []);
+        if (filterWord !== '') {
+            if (filterWord){
+                props.fetchFilterMasters(filterWord);
+            } else {
+                props.fetchFilterMasters('');
+            }
+        }
+    }, [filterWord]);
     /* eslint-enable */
 
     const changeMasterName = (name: string) => setMasterEdit({ ...masterEdit, name: name });
@@ -93,6 +101,8 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
         }
     };
 
+    const setFilter = (name: string | null) => setFilterWord(name);
+
     const contextMaster = () => {
         let context = '';
         props.masters.forEach((master) => {
@@ -136,6 +146,10 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
                     <AddButton
                         nameAdd='мастера'
                         handleButton={handleAddButton}
+                    />
+                    <SearchComboBox
+                        filterName='masters'
+                        setFilter={setFilter}
                     />
                     <MastersTable
                         listArr={mastersTablesArr()}

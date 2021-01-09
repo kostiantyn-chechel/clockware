@@ -10,7 +10,7 @@ import { IAuthUser } from "../../interfaces";
 import { authUserMessage, userLoginFetch } from "../../store/actions/authAction";
 import { RootStateType } from "../../store/reducers/rootReducer";
 import { useHistory } from 'react-router-dom';
-import {connect, ConnectedProps} from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AuthCommon: React.FC<PropsFromRedux> = props => {
     const classes = useStyles();
-    const { userStatus } = props;
+    const { userStatus, userToken } = props;
     const { push } = useHistory();
     const [user, setUser] = useState<IAuthUser>({
         login: '',
@@ -44,15 +44,17 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
 
     /* eslint-disable */
     useEffect(() => {
-        switch (userStatus) {
-            case "admin":
-                push('/admin');
-                break;
-            case "client":
-                push('/client');
-                break;
+        if (userToken) {
+            switch (userStatus) {
+                case "admin":
+                    push('/admin');
+                    break;
+                case "client":
+                    push('/client');
+                    break;
+            }
         }
-    }, [userStatus]);
+    }, [userToken]);
     /* eslint-enable */
 
     const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
@@ -64,7 +66,7 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
     const handleSubmit = (event:React.MouseEvent) => {
         event.preventDefault();
         props.userLoginFetch(user);
-        props.authUserMessage(''); // null ???
+        props.authUserMessage('');
     };
 
     return (
@@ -74,7 +76,7 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
                 <Avatar
                     className={classes.avatar}
                     src={process.env.PUBLIC_URL + '/logo_blue.png'}
-                    variant='circle'
+                    variant='circular'
                 />
 
                 <form className={classes.form} noValidate>
@@ -132,6 +134,7 @@ function mapStateToProps(state: RootStateType) {
     return {
         message: state.auth.message,
         userStatus: state.auth.user.status,
+        userToken: state.auth.user.token,
     }
 }
 

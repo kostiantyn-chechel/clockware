@@ -56,8 +56,6 @@ const ClientDataPanel:React.FC<IClientDataPanel> = (props) => {
         email: true,
     });
 
-    console.log('clientEdit', props.clientEdit);
-
     const changeName = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.value;
         props.changeClientName(name);
