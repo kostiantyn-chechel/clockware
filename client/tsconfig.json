@@ -4,15 +4,15 @@
     "lib": [
       "es6",
       "dom",
-      "dom.iterable"
+      "dom.iterable",
+      "esnext"
     ],
     "allowJs": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "noEmit": true,
     "isolatedModules": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "noResolve": false,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
