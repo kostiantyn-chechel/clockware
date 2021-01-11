@@ -11,8 +11,10 @@
     "start-back": "tsc && node dist/bin/www",
     "client": "cd client && yarn start",
     "server": "nodemon dist/app.js",
-    "start": "concurrently \"yarn server\" \"yarn client\"",
-    "heroku-postbuild": "yarn && tsc && cd client && yarn && yarn build"
+    "start all": "concurrently \"yarn server\" \"yarn client\"",
+    "start": "node bin/www",
+    "heroku-postbuild": "tsc && cd client && yarn install && yarn run build",
+    "build": "tsc"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.3.0",
