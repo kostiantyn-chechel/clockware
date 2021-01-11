@@ -1,5 +1,6 @@
 export const isEmail = (value: string): boolean => {
-    return !(value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value));
+    // return !(value && !/^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z]{2,255}$/i.test(value));
+    return !(value && !/[A-Z0-9._-]{1,64}@(?:[A-Z0-9.-]+\.){1,125}[A-Z]{2,63}$/i.test(value));
 };
 
 export const isName = (name: string, len: number): boolean => name.length >= len;
