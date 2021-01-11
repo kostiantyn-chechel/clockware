@@ -36,6 +36,7 @@ export const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userStatus');
     localStorage.removeItem('tokenTime');
+    localStorage.removeItem('user');
 };
 
 export const getCurrentToken = () => {

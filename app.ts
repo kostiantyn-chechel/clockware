@@ -46,9 +46,7 @@ if (process.env.NODE_ENV === 'production') {
 
   app.get('*', (req: Request, res: Response) => {
     res.sendFile(
-        path.resolve(
-            __dirname, 'client', 'static', 'index.html'
-        )
+        path.join(__dirname, '../client/build/index.html')
     )
   })
 }

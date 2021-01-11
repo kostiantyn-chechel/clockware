@@ -8,7 +8,7 @@
   },
   "scripts": {
     "nodemon-back": "nodemon bin/www",
-    "start-back": "tsc && node dist/bin/www",
+    "start-back": "tsc && node bin/www",
     "client": "cd client && yarn start",
     "server": "nodemon dist/app.js",
     "start all": "concurrently \"yarn server\" \"yarn client\"",

@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: 'none',
         cursor: 'pointer',
     },
+    avatar: {
+        color: '#3f51b5',
+        backgroundColor: '#fff',
+    },
 }));
 
 interface IHeader {
@@ -72,8 +76,17 @@ const Header: React.FC<IHeader> = (props) => {
                     >
                         Logout
                     </Button>
+
+
+
                     <Tooltip title={`${props.user.name} (${props.user.login})`}>
-                        <Avatar> {props.user.name.match(/\b(\w)/g)} </Avatar>
+                        <Button color="inherit"
+                                className={classes.menuButton}
+                                component={Link}
+                                to={`/${userStatus}`}
+                        >
+                            <Avatar className={classes.avatar}> {props.user.name.match(/\b(\w)/g)} </Avatar>
+                        </Button>
                     </Tooltip>
 
                 </React.Fragment>
