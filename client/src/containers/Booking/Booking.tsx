@@ -29,8 +29,8 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
         time: '10:00',
         cityId: 0,
         masterId: 0,
-        clientName: '',
-        clientEmail: '',
+        clientName: props.userName,
+        clientEmail: props.userEmail,
         photoURL: '',
     });
 
@@ -44,8 +44,8 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
                     time: '10:00',
                     cityId: 0,
                     masterId: 0,
-                    clientName: '',
-                    clientEmail: '',
+                    clientName: props.userName,
+                    clientEmail: props.userEmail,
                     photoURL: '',
                 });
                 setIsOrderSend(false);
@@ -169,6 +169,8 @@ const mapStateToProps = (state:RootStateType) => {
         cities: state.admin.cities,
         bookingShow: state.booking.bookingShow,
         proposal: state.booking.proposal,
+        userName: state.auth.user.name,
+        userEmail: state.auth.user.login,
     }
 };
 
