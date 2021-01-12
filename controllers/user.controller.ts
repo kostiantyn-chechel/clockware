@@ -80,8 +80,20 @@ exports.userChangeData = (req: Request, res: Response) => {
         where: {
             id: req.body.id
         }})
-        .then((result: any)=>{
-            res.send(result);
+        .then(()=>{
+            User.findOne({
+                where: req.body.id
+            }).
+            then(updateUser => {
+                res.send({
+                    id: updateUser.id,
+                    status: updateUser.status,
+                    name: updateUser.name,
+                    login: updateUser.login,
+                    token: generateToken(user.login)
+                });
+            })
+
             }
         )
         .catch((err: IError) => {

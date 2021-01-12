@@ -15,7 +15,7 @@ export const userLoginFetch = (userInfo: IAuthUser) => {
             if (response.token) {
                 dispatch({ type: SET_USER, payload: response });
                 saveToken(response.token, response.status);
-                // saveUserToLocalStorage(response); // TODO согласовать возвращаемые типы
+                // saveUserToLocalStorage({response.name, response.status}); // TODO согласовать возвращаемые типы
             } else {
                 if(response.message) {
                     dispatch(authUserMessage(response.message));

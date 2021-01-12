@@ -7,7 +7,7 @@ import NotMasters from '../../component/notMasters';
 import BookingGratitude from '../../component/BookingGratitude';
 import BookingSelectMaster from '../../component/BookingSelectMaster';
 import BookingFillingFields from '../../component/BookingFillingFields';
-import { today } from '../../helpers/dateTime';
+import {nowTimeString, today} from '../../helpers/dateTime';
 import { ISendOrder } from "../../interfaces";
 import { RootStateType } from "../../store/reducers/rootReducer";
 
@@ -26,11 +26,12 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
     const [order, setOrder] = useState<ISendOrder>({
         size: '1',
         date: today(),
-        time: '10:00',
+        // time: '10:00',
+        time: nowTimeString(),
         cityId: 0,
         masterId: 0,
-        clientName: '',
-        clientEmail: '',
+        clientName: props.userName,
+        clientEmail: props.userEmail,
         photoURL: '',
     });
 
@@ -41,11 +42,12 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
                 setOrder({
                     size: '1',
                     date: today(),
-                    time: '10:00',
+                    // time: '10:00',
+                    time: nowTimeString(),
                     cityId: 0,
                     masterId: 0,
-                    clientName: '',
-                    clientEmail: '',
+                    clientName: props.userName,
+                    clientEmail: props.userEmail,
                     photoURL: '',
                 });
                 setIsOrderSend(false);
@@ -56,7 +58,7 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
                     ...order,
                     size: '1',
                     date: today(),
-                    time: '10:00',
+                    time: nowTimeString(),
                     cityId: 0,
                     masterId: 0,
                     photoURL: '',
@@ -71,10 +73,8 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
 
     const handleSizeChange = (event: React.ChangeEvent<{ value: string; }>) => setOrder({
                                                                 ...order, size: event.target.value });
-    const handleSelectDate = (event: React.ChangeEvent<{ value: string; }>) => setOrder({
-                                                                ...order, date: event.target.value });
-    const handleSelectTime = (event: React.ChangeEvent<{ value: string; }>) => setOrder({
-                                                                ...order, time: event.target.value });
+    const handleSelectDate = (date: string) => setOrder(prevState => ({ ...prevState, date: date }));
+    const handleSelectTime = (time: string) => setOrder(prevState => ({...prevState, time}));
     const handleSelectCity = (id: number) => setOrder({ ...order, cityId: id });
     const handlePhotoURL = (url: string) => setOrder({...order, photoURL: url});
 
@@ -169,6 +169,8 @@ const mapStateToProps = (state:RootStateType) => {
         cities: state.admin.cities,
         bookingShow: state.booking.bookingShow,
         proposal: state.booking.proposal,
+        userName: state.auth.user.name,
+        userEmail: state.auth.user.login,
     }
 };
 
