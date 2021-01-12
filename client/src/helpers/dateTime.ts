@@ -1,12 +1,20 @@
+export const dateToString = (date: Date): string => {
+    return [
+        date.getFullYear(),
+        date.getMonth() < 9 ? '0' + (date.getMonth() +1) : date.getMonth() + 1,
+        date.getDate() <= 9 ? '0' + date.getDate() : date.getDate(),
+    ].join('-');
+};
+
 export const today = (): string => {
     const day = new Date();
+    return dateToString(day);
+};
 
-    const arrDay = [
-        day.getFullYear(),
-        day.getMonth() < 9 ? '0' + (day.getMonth() +1) : day.getMonth() + 1,
-        day.getDate() <= 9 ? '0' + day.getDate() : day.getDate(),
-    ];
-    return arrDay.join('-');
+export const nowTimeString = ():string => {
+    const today = new Date();
+    today.setHours(today.getHours() + 1, 0, 0);
+    return today.getHours() + ':00';
 };
 
 export const hoursByWords = (number: string): string => {

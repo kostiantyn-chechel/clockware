@@ -1,7 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { today } from '../helpers/dateTime';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -15,28 +14,36 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface IDatePickers {
+interface ItimePickers {
     onChange(event: React.ChangeEvent<{ value: string; }>): void;
 }
 
-const DatePickers:React.FC<IDatePickers> = (props) => {
+const TimePickers: React.FC<ItimePickers> = (props) => {
     const classes = useStyles();
 
+    const nowTime = () => {
+        const time = new Date();
+        return time.getHours() + 1 + ':00';
+    };
+
     return (
-        <div className={classes.container} >
+        <div className={classes.container}>
             <TextField
                 onChange={props.onChange}
-                id="date"
-                label="Дата:"
-                type="date"
-                defaultValue={today()}
+                id="time"
+                label="Время:"
+                type="time"
+                defaultValue={nowTime()}
                 className={classes.textField}
                 InputLabelProps={{
                     shrink: true,
+                }}
+                inputProps={{
+                    step: 0, // 60 min
                 }}
             />
         </div>
     );
 };
 
-export default DatePickers;
+export default TimePickers;

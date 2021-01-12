@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -7,13 +7,12 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import SelectElement from './SelectElement';
-import DatePickers from './DatePickers';
-import TimePickers from './TimePickers';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { isEmail } from '../helpers/validation';
 import UploadPhoto from './UploadPhoto';
 import {ICity} from "../interfaces";
+import DateTimePickers from "./DateTimePickers/DateTimePickers";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -57,8 +56,8 @@ interface IBookingFillingFields {
     handleSizeChange(event: React.ChangeEvent<{ value: string; }>): void,
     handlePhotoURL(url: string): void,
     handleSelectCity(id: number): void,
-    handleSelectDate(event: React.ChangeEvent<{ value: string; }>): void,
-    handleSelectTime(event: React.ChangeEvent<{ value: string; }>): void,
+    handleSelectDate(date: string): void,
+    handleSelectTime(time: string): void,
 }
 
 const BookingFillingFields: React.FC<IBookingFillingFields> = (props) => {
@@ -188,19 +187,11 @@ const BookingFillingFields: React.FC<IBookingFillingFields> = (props) => {
                         />
                     </Grid>
 
-                    <FormLabel className={classes.label} component="legend">Укажите дату и время:</FormLabel>
-                    <Grid className={classes.time} item xs={12}>
-                        <Grid item xs={12} sm={6}>
-                            <DatePickers
-                                onChange={props.handleSelectDate}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TimePickers
-                                onChange={props.handleSelectTime}
-                            />
-                        </Grid>
-                    </Grid>
+                    <DateTimePickers
+                        handleSelectDate={props.handleSelectDate}
+                        handleSelectTime={props.handleSelectTime}
+                    />
+
                 </Grid>
 
                 <Button
