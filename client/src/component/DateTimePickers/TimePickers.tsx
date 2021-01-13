@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import {nowTimePlus} from "../../helpers/dateTime";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -21,11 +22,6 @@ interface ItimePickers {
 const TimePickers: React.FC<ItimePickers> = (props) => {
     const classes = useStyles();
 
-    const nowTime = () => {
-        const time = new Date();
-        return time.getHours() + 1 + ':00';
-    };
-
     return (
         <div className={classes.container}>
             <TextField
@@ -33,13 +29,13 @@ const TimePickers: React.FC<ItimePickers> = (props) => {
                 id="time"
                 label="Время:"
                 type="time"
-                defaultValue={nowTime()}
+                defaultValue={nowTimePlus()}
                 className={classes.textField}
                 InputLabelProps={{
                     shrink: true,
                 }}
                 inputProps={{
-                    step: 0, // 60 min
+                    step: 3600, // 60 min
                 }}
             />
         </div>

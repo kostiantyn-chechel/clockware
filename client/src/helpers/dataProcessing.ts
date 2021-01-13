@@ -16,3 +16,14 @@ export const validClient = (obj: OrderClientType): string => {
     return 'запись удалена';
 };
 
+export const nameToInitials = (name: string): string => {
+    const first_letter = (word: string) => {
+        if (word) {
+            return word[0]
+        } else {
+            return ''
+        }
+    };
+    return name.split(' ').map(first_letter).join('');
+};
+

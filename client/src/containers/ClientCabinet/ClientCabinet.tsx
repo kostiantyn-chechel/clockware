@@ -10,6 +10,8 @@ import ClientOrders from "../../component/ClientOrders/ClientOrders";
 import { fetchClientsOrderList } from "../../store/actions/clientAction";
 import { Grid } from "@material-ui/core";
 import ClientData from "../../component/ClientOrders/ClientData";
+import { getUserStatus, logout, validToken } from "../../helpers/authProcessing";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     text: {
@@ -26,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 type ClientCabinetStatusType = 'date' | 'orders'
 
 const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
+    const { push } = useHistory();
     const classes = useStyles();
 
     const [status, setStatus] = useState<ClientCabinetStatusType>('date');
@@ -67,28 +70,42 @@ const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
         }
     };
 
-    return (
-            <Container component="main" maxWidth="xl">
+    const renderClientCabinet = () => {
+        if (validToken() && getUserStatus() === 'client') {
+            return (
+                <Container component="main" maxWidth="xl">
 
-                <Grid
-                    container
-                    direction="row"
-                    justify="flex-end"
-                    alignItems="center"
-                >
-                    <Button
-                        onClick={handleStatusCabinet}
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
+                    <Grid
+                        container
+                        direction="row"
+                        justify="flex-end"
+                        alignItems="center"
                     >
-                        {buttonName()}
-                    </Button>
-                </Grid>
+                        <Button
+                            onClick={handleStatusCabinet}
+                            className={classes.button}
+                            variant="contained"
+                            color="primary"
+                        >
+                            {buttonName()}
+                        </Button>
+                    </Grid>
 
-                {showCabinetPath()}
+                    {showCabinetPath()}
 
-            </Container>
+                </Container>
+            )
+        } else {
+            logout();
+            push('/auth');
+            return null
+        }
+    };
+
+    return (
+        <React.Fragment>
+            {renderClientCabinet()}
+        </React.Fragment>
     );
 };
 
@@ -97,7 +114,6 @@ function mapStateToProps(state: RootStateType) {
         id: state.auth.user.id,
         name: state.auth.user.name,
         login: state.auth.user.login,
-        userStatus: state.auth.user.status,
         orders: state.client.orders,
     }
 }
