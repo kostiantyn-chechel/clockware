@@ -1,5 +1,14 @@
 import axios from 'axios';
-import {IAuthUser, ICity, IClient, IFilterData, IMaster, IOrderPac, ISendOrder, TAuthUser} from "../../interfaces";
+import {
+    IAuthUser,
+    ICity,
+    IClient,
+    IFilterData,
+    IMaster,
+    IOrderPac,
+    ISendOrder,
+    IUser,
+} from "../../interfaces";
 import {authHeader} from "../authProcessing";
 import {IReviews} from "../../containers/Review/ReviewMaster";
 
@@ -22,7 +31,7 @@ export const getServerRequest = async (relativeURL: string): Promise<ServerGetRe
 };
 
 type ServerPostRequestBodyType = IAuthUser | ISendOrder | { orderId: number, rating: number, review: string }; // TODO согласовать возвращаемые типы
-type ServerPostResponseType = TAuthUser;
+export type ServerPostResponseType = IUser & {message?: string};
 
 export const postServerRequest = async (
     relativeURL: string, body: ServerPostRequestBodyType): Promise<ServerPostResponseType> => {

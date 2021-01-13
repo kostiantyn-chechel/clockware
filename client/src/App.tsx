@@ -8,7 +8,7 @@ import { fetchCities } from './store/actions/adminAction';
 import Header from './component/Header';
 import Footer from './component/Footer';
 import { setBookingShow } from './store/actions/bookingAction';
-import {resetUser, setUserStatus} from './store/actions/authAction';
+import {resetUser, setAuthUser, setUserStatus} from './store/actions/authAction';
 import SomeError from './component/SomeError';
 import Review from './containers/Review/Review';
 import ReviewMaster from './containers/Review/ReviewMaster';
@@ -17,13 +17,14 @@ import ClientCabinet from "./containers/ClientCabinet/ClientCabinet";
 import AuthCommon from "./containers/AuthRegistration/AuthCommon";
 import Registration from "./containers/AuthRegistration/Registration";
 import { IUser, TUserStatus } from "./interfaces";
-import {validToken} from "./helpers/authProcessing";
+import {logout, validToken} from "./helpers/authProcessing";
 
 class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
     componentDidMount() {
         this.props.fetchCities();
-        this.statusFromLocalStorage();
+        // this.statusFromLocalStorage();
+        this.userFromLocalStorage();
     }
 
     statusFromLocalStorage = () => {
@@ -37,6 +38,22 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
         }
     };
+     userFromLocalStorage = () => {
+         const userFromStorage = localStorage.getItem('user');
+         if (userFromStorage) {
+             if (validToken()) {
+                 const user: IUser = JSON.parse(userFromStorage);
+                 this.props.setAuthUser(user);
+                 this.props.setUserStatus(user.status);
+             } else {
+                 logout();
+                 this.props.setUserStatus('notAuth')
+             }
+         } else {
+             this.props.setUserStatus('notAuth')
+         }
+
+     };
 
     render() {
         return (
@@ -86,6 +103,7 @@ type MapDispatchType = {
     emptyBooking: () => void,
     resetUser: () => void,
     setUserStatus: (status: TUserStatus) => void,
+    setAuthUser: (user: IUser) => void,
 }
 function mapDispatchToProps(dispatch: any): MapDispatchType {
     return {
@@ -93,6 +111,7 @@ function mapDispatchToProps(dispatch: any): MapDispatchType {
         emptyBooking: () => dispatch(setBookingShow("filling")),
         resetUser: () => dispatch(resetUser()),
         setUserStatus: (status: TUserStatus) => dispatch(setUserStatus(status)),
+        setAuthUser: (user: IUser) => dispatch(setAuthUser(user)),
     }
 }
 

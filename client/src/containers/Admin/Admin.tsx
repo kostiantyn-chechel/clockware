@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Container from '@material-ui/core/Container';
 import AdminTabs from '../../component/Tabs/AdminTabs';
 import {connect, ConnectedProps} from 'react-redux';
@@ -13,61 +13,61 @@ import {
 import { authUserMessage, userLoginFetch } from '../../store/actions/authAction';
 import { IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
 import { RootStateType } from "../../store/reducers/rootReducer";
-import { validToken } from "../../helpers/authProcessing";
+import {logout, validToken} from "../../helpers/authProcessing";
 import { useHistory } from 'react-router-dom';
 
 
 const Admin: React.FC<PropsFromRedux> = (props) => {
     const { push } = useHistory();
-    /* eslint-disable */
-    //TODO подумать как сделать авторизацию по ссылке нужна ли она вообще?? сохранять юзера полостью???
-    useEffect(() => {
-        setTimeout(() => {
-            if (validToken()) {
-                if (localStorage.getItem('userStatus') !== 'admin') {
-                    push('/');
-                }
-            } else {
-                push('/');
-            }
-        }, 50);
-    }, []);
-    /* eslint-enable */
+
+    const renderAdmin = () => {
+        if (validToken() && localStorage.getItem('userStatus') === 'admin') {
+            return (
+                <Container component="main" maxWidth="xl">
+                    <AdminTabs
+                        fetchMasters={props.fetchMasters}
+                        fetchFilterMasters={props.fetchFilterMasters}
+                        addMaster={props.addMaster}
+                        editMaster={props.editMaster}
+                        deleteMaster={props.deleteMaster}
+
+                        fetchCities={props.fetchCities}
+                        addCity={props.addCity}
+                        editCity={props.editCity}
+                        deleteCity={props.deleteCity}
+
+                        fetchClients={props.fetchClients}
+                        fetchFilterClients={props.fetchFilterClients}
+                        addClient={props.addClient}
+                        editClient={props.editClient}
+                        deleteClient={props.deleteClient}
+
+                        fetchFilterAndPaginOrders={props.fetchFilterAndPaginOrders}
+                        fetchFilterAndInfiniteOrders={props.fetchFilterAndInfiniteOrders}
+                        clearInfiniteOrders={props.clearInfiniteOrders}
+                        deleteOrder={props.deleteOrder}
+
+                        masters={props.masters}
+                        cities={props.cities}
+                        clients={props.clients}
+                        orders={props.orders}
+                        ordersInfinite={props.ordersInfinite}
+
+                    />
+                </Container>
+            )
+        } else {
+            logout();
+            push('/auth');
+            return null
+        }
+    };
 
     return (
-        <Container component="main" maxWidth="xl">
-            <AdminTabs
-                fetchMasters={props.fetchMasters}
-                fetchFilterMasters={props.fetchFilterMasters}
-                addMaster={props.addMaster}
-                editMaster={props.editMaster}
-                deleteMaster={props.deleteMaster}
-
-                fetchCities={props.fetchCities}
-                addCity={props.addCity}
-                editCity={props.editCity}
-                deleteCity={props.deleteCity}
-
-                fetchClients={props.fetchClients}
-                fetchFilterClients={props.fetchFilterClients}
-                addClient={props.addClient}
-                editClient={props.editClient}
-                deleteClient={props.deleteClient}
-
-                fetchFilterAndPaginOrders={props.fetchFilterAndPaginOrders}
-                fetchFilterAndInfiniteOrders={props.fetchFilterAndInfiniteOrders}
-                clearInfiniteOrders={props.clearInfiniteOrders}
-                deleteOrder={props.deleteOrder}
-
-                masters={props.masters}
-                cities={props.cities}
-                clients={props.clients}
-                orders={props.orders}
-                ordersInfinite={props.ordersInfinite}
-
-            />
-        </Container>
-    );
+        <React.Fragment>
+            {renderAdmin()}
+        </React.Fragment>
+           );
 };
 
 function mapStateToProps(state: RootStateType) {
