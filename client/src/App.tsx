@@ -8,7 +8,7 @@ import { fetchCities } from './store/actions/adminAction';
 import Header from './component/Header';
 import Footer from './component/Footer';
 import { setBookingShow } from './store/actions/bookingAction';
-import {resetUser, setAuthUser, setUserStatus} from './store/actions/authAction';
+import { resetUser, setAuthUser, setUserStatus } from './store/actions/authAction';
 import SomeError from './component/SomeError';
 import Review from './containers/Review/Review';
 import ReviewMaster from './containers/Review/ReviewMaster';
@@ -17,13 +17,12 @@ import ClientCabinet from "./containers/ClientCabinet/ClientCabinet";
 import AuthCommon from "./containers/AuthRegistration/AuthCommon";
 import Registration from "./containers/AuthRegistration/Registration";
 import { IUser, TUserStatus } from "./interfaces";
-import {logout, validToken} from "./helpers/authProcessing";
+import { logout, validToken } from "./helpers/authProcessing";
 
 class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
     componentDidMount() {
         this.props.fetchCities();
-        // this.statusFromLocalStorage();
         this.userFromLocalStorage();
     }
 

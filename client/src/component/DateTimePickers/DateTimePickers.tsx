@@ -29,7 +29,6 @@ const DateTimePickers: React.FC<IDateTimePickers> = (props) => {
     const nowTime = today.getHours() + 1;
     today.setHours(nowTime,0,0);
 
-
     const [choiceDataTime, setChoiceDataTime] = useState<Date>(today);
     const [valid, setValid] = useState(true);
 

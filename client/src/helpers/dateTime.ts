@@ -33,3 +33,11 @@ export const hoursByWords = (number: string): string => {
 export const dayToString = (day: string): string => {
     return day.slice(0,10)
 };
+
+export const nowTimePlus = (): string => {
+    const time = new Date();
+    if (time.getHours() < 9 ) return `0${time.getHours() +1}:00`;
+    if (time.getHours() === 23 ) return '00:00';
+    if (time.getHours() === 24 ) return '01:00';
+    return `${time.getHours() +1}:00`;
+};

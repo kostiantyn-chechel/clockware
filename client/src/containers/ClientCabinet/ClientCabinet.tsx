@@ -10,7 +10,7 @@ import ClientOrders from "../../component/ClientOrders/ClientOrders";
 import { fetchClientsOrderList } from "../../store/actions/clientAction";
 import { Grid } from "@material-ui/core";
 import ClientData from "../../component/ClientOrders/ClientData";
-import { logout, validToken } from "../../helpers/authProcessing";
+import { getUserStatus, logout, validToken } from "../../helpers/authProcessing";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -71,7 +71,7 @@ const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
     };
 
     const renderClientCabinet = () => {
-        if (validToken() && localStorage.getItem('userStatus') === 'client') {
+        if (validToken() && getUserStatus() === 'client') {
             return (
                 <Container component="main" maxWidth="xl">
 
@@ -114,7 +114,6 @@ function mapStateToProps(state: RootStateType) {
         id: state.auth.user.id,
         name: state.auth.user.name,
         login: state.auth.user.login,
-        userStatus: state.auth.user.status,
         orders: state.client.orders,
     }
 }

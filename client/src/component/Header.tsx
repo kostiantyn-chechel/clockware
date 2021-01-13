@@ -9,6 +9,7 @@ import { logout } from '../helpers/authProcessing';
 import { Avatar } from "@material-ui/core";
 import { IUser, TUserStatus } from "../interfaces";
 import Tooltip from "@material-ui/core/Tooltip";
+import {nameToInitials} from "../helpers/dataProcessing";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -85,7 +86,8 @@ const Header: React.FC<IHeader> = (props) => {
                                 component={Link}
                                 to={`/${userStatus}`}
                         >
-                            <Avatar className={classes.avatar}> {props.user.name.match(/\b(\w)/g)} </Avatar>
+                            {/*<Avatar className={classes.avatar}> {props.user.name.match(/\b(\w)/g)} </Avatar>*/}
+                            <Avatar className={classes.avatar}> {nameToInitials(props.user.name)} </Avatar>
                         </Button>
                     </Tooltip>
 

@@ -13,7 +13,7 @@ import {
 import { authUserMessage, userLoginFetch } from '../../store/actions/authAction';
 import { IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
 import { RootStateType } from "../../store/reducers/rootReducer";
-import {logout, validToken} from "../../helpers/authProcessing";
+import { getUserStatus, logout, validToken } from "../../helpers/authProcessing";
 import { useHistory } from 'react-router-dom';
 
 
@@ -21,7 +21,7 @@ const Admin: React.FC<PropsFromRedux> = (props) => {
     const { push } = useHistory();
 
     const renderAdmin = () => {
-        if (validToken() && localStorage.getItem('userStatus') === 'admin') {
+        if (validToken() && getUserStatus() === 'admin') {
             return (
                 <Container component="main" maxWidth="xl">
                     <AdminTabs
@@ -72,14 +72,12 @@ const Admin: React.FC<PropsFromRedux> = (props) => {
 
 function mapStateToProps(state: RootStateType) {
     return {
-        // isToken: state.auth.isToken,
         message: state.auth.message,
         masters: state.admin.masters,
         cities: state.admin.cities,
         clients: state.admin.clients,
         orders: state.admin.orders,
         ordersInfinite: state.admin.ordersInfinite,
-        statusUser: state.auth.user.status,
     }
 }
 
