@@ -37,7 +37,7 @@ export const userRegistrationFetch = (userRegInfo: IRegUser) => {
             } else {
                 if(response.message) {
                     console.log('registration: ',response.message);
-                    // dispatch(authUserMessage(response.message));
+                    dispatch(authUserMessage(response.message));
                 }
             }
         })

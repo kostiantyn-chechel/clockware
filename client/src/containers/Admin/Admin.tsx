@@ -23,15 +23,11 @@ const Admin: React.FC<PropsFromRedux> = (props) => {
     //TODO подумать как сделать авторизацию по ссылке нужна ли она вообще?? сохранять юзера полостью???
     useEffect(() => {
         setTimeout(() => {
-            console.log('TOKEN:', validToken());
-            console.log('userStatus:', localStorage.getItem('userStatus'));
             if (validToken()) {
                 if (localStorage.getItem('userStatus') !== 'admin') {
-                    console.log('userStatus: redirect to auth');
                     push('/');
                 }
             } else {
-                console.log('TOKEN: redirect to auth');
                 push('/');
             }
         }, 50);
