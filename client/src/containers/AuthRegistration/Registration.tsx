@@ -12,6 +12,7 @@ import { userRegistrationFetch } from "../../store/actions/authAction";
 import { RootStateType } from "../../store/reducers/rootReducer";
 import { connect, ConnectedProps } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Warning from '../../component/Warning'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -126,6 +127,10 @@ const Registration: React.FC<PropsFromRedux> = props => {
                     name="login"
                     onChange={handleChange}
                 />
+
+                <Warning valid={!props.message} >
+                    {props.message}
+                </Warning>
 
                 <TextField
                     error={error.password}
