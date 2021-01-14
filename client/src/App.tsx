@@ -18,6 +18,8 @@ import AuthCommon from "./containers/AuthRegistration/AuthCommon";
 import Registration from "./containers/AuthRegistration/Registration";
 import { IUser, TUserStatus } from "./interfaces";
 import { logout, validToken } from "./helpers/authProcessing";
+import AdminDashboard from "./containers/Admin/AdminDashboard";
+import {setOpenMenu} from "./store/actions/appAction";
 
 class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
@@ -62,6 +64,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                     userStatus={this.props.userStatus}
                     resetUser={this.props.resetUser}
                     user={this.props.user}
+                    setMenuOpen={this.props.setOpenMenu}
                 />
                 {this.props.hasError
                     ?
@@ -71,6 +74,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                         <Route path='/auth' component={ AuthCommon } />
                         <Route path='/reg' component={ Registration } />
                         <Route path='/admin' component={ Admin } />
+                        <Route path='/dashboard' component={ AdminDashboard } />
                         <Route path='/client' component={ ClientCabinet } />
                         <Route path='/review/:id' component={ Review } />
                         <Route path='/master/:id' component={ ReviewMaster } />
@@ -88,12 +92,14 @@ type MapStateType = {
     hasError: boolean
     userStatus: TUserStatus
     user: IUser
+    openMenu: boolean
 }
 function mapStateToProps(state: RootStateType): MapStateType {
     return {
         hasError: state.admin.hasError,
         userStatus: state.auth.user.status,
-        user: state.auth.user
+        user: state.auth.user,
+        openMenu: state.app.openMenu,
     }
 }
 
@@ -103,6 +109,7 @@ type MapDispatchType = {
     resetUser: () => void,
     setUserStatus: (status: TUserStatus) => void,
     setAuthUser: (user: IUser) => void,
+    setOpenMenu: (open: boolean) => void,
 }
 function mapDispatchToProps(dispatch: any): MapDispatchType {
     return {
@@ -111,6 +118,7 @@ function mapDispatchToProps(dispatch: any): MapDispatchType {
         resetUser: () => dispatch(resetUser()),
         setUserStatus: (status: TUserStatus) => dispatch(setUserStatus(status)),
         setAuthUser: (user: IUser) => dispatch(setAuthUser(user)),
+        setOpenMenu: (open: boolean) => dispatch(setOpenMenu(open)),
     }
 }
 
