@@ -46,6 +46,7 @@ const db: DBType = {
 };
 
 db.cities.hasMany(db.masters);
+// db.masters.belongsTo(db.cities, { as: 'city_master', foreignKey: 'cityId', targetKey: 'id'});
 db.masters.belongsTo(db.cities);
 
 db.cities.hasMany(db.orders);

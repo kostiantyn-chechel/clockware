@@ -1,5 +1,5 @@
-import {NextFunction, Request, Response} from 'express'
-import {IError, IUserChangeReg} from "../Type/interfaces";
+import { NextFunction, Request, Response } from 'express'
+import { IError, IUserChangeReg } from "../Type/interfaces";
 const db = require("../models");
 const User = db.users;
 const { generateToken, generateSalt, generatePassCrypt } = require('../processing/auth');

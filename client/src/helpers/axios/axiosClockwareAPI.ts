@@ -11,6 +11,7 @@ import {
 } from "../../interfaces";
 import {authHeader} from "../authProcessing";
 import {IReviews} from "../../containers/Review/ReviewMaster";
+import {CityMasterType} from "../../containers/Admin/AdminDashboard";
 
 let baseURL;
 if (process.env.NODE_ENV === 'development') {
@@ -30,7 +31,7 @@ export const getServerRequest = async (relativeURL: string): Promise<ServerGetRe
     }
 };
 
-type ServerPostRequestBodyType = IAuthUser | ISendOrder | { orderId: number, rating: number, review: string }; // TODO согласовать возвращаемые типы
+type ServerPostRequestBodyType = IAuthUser | ISendOrder | { orderId: number, rating: number, review: string };
 export type ServerPostResponseType = IUser & {message?: string};
 
 export const postServerRequest = async (
@@ -53,7 +54,7 @@ export const postAuthServerRequest = async (relativeURL: string, body: PostAuthS
     }
 };
 
-type GetAuthServerResponseType = IClient[] | IMaster[] | IOrderPac | IReviews[] | IFilterData[];
+type GetAuthServerResponseType = IClient[] | IMaster[] | IOrderPac | IReviews[] | IFilterData[] | CityMasterType[];
 export const getAuthServerRequest = async (relativeURL: string): Promise<GetAuthServerResponseType> => {
     try {
         const { data } = await axios.get(relativeURL, { headers: authHeader() });

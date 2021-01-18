@@ -10,13 +10,9 @@ import { todayPlus } from "../../helpers/dateTime";
 import { RootStateType } from "../../store/reducers/rootReducer";
 import { connect, ConnectedProps } from "react-redux";
 import { setOpenMenu } from "../../store/actions/appAction";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import {Checkbox} from "@material-ui/core";
 import {getAuthServerRequest} from "../../helpers/axios/axiosClockwareAPI";
-
+import {ICity} from "../../interfaces";
+import CityMasterCheckbox from "../../component/DashBoard/CityMasterCheckbox";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -34,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
     twoBlocks: {
         marginTop: theme.spacing(2),
+        width: '80%',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -56,6 +53,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+interface IMaster{
+    id: number
+    name: string
+    cityId: number
+}
+export interface CityMasterType extends ICity { masters: IMaster[] }
+export interface CityForListType extends ICity { active: boolean }
+export interface MasterForListType extends IMaster { active: boolean }
+
 const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     const classes = useStyles();
     const [dataRange, setDateRange] = useState({
@@ -63,13 +69,45 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
         rangeEnd: todayPlus(1),
     });
 
-    useEffect(() => {
+    const [cityList, setCityList] = useState<CityForListType[]>([]);
+    const [masterList, setMasterList] = useState<MasterForListType[]>([]);
 
+    useEffect(() => {
+        const cities: CityForListType[] = [];
+        const masters: MasterForListType[] = [];
+        getAuthServerRequest('/adm')
+            .then(response => {
+                if (response[0]) {
+                    (response as CityMasterType[]).forEach((city) => {
+                         cities.push({
+                                     id: city.id,
+                                     name: city.name,
+                                     active: true,
+                                });
+                        if (city.masters[0]) {
+                            city.masters.forEach((master) => {
+                                masters.push({
+                                    id: master.id,
+                                    name: master.name,
+                                    cityId: master.cityId,
+                                    active: true,
+                                })
+                            })
+                        }
+                    });
+                    setCityList(cities);
+                    setMasterList(masters);
+                }
+            })
     },[]);
 
     useEffect(() => {
-        console.log('start:', dataRange.rangeStart, 'end:', dataRange.rangeEnd)
+        console.log('city', cityList);
+        console.log('master',masterList);
+    }, [cityList, masterList]);
 
+    useEffect(() => {
+        console.log('start:', dataRange.rangeStart, 'end:', dataRange.rangeEnd)
     }, [dataRange]);
 
     const handleDrawerClose = () => props.setMenuOpen(false);
@@ -82,10 +120,6 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     const handleDateRangeEnd = (event: React.ChangeEvent<{ value: string; }>) => {
         event.preventDefault();
         setDateRange({...dataRange, rangeEnd: event.target.value})
-    };
-
-    const handleCheckCity = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.name, event.target.checked, event.target.name);
     };
 
     return (
@@ -101,43 +135,10 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                 />
             </div>
 
-            <div className={classes.twoBlocks}>
-                <FormControl>
-                    <FormLabel component="legend">Города</FormLabel>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={<Checkbox defaultChecked color="primary" name={'city1'} onChange={handleCheckCity}/>}
-                            label={'City 01'}
-                        />
-                        <FormControlLabel
-                            control={<Checkbox defaultChecked color="primary" name={'city2'} onChange={handleCheckCity}/>}
-                            label={'City 02'}
-                        />
-                        <FormControlLabel
-                            control={<Checkbox defaultChecked color="primary" name={'city3'} onChange={handleCheckCity}/>}
-                            label={'City 03'}
-                        />
-                    </FormGroup>
-                </FormControl>
-
-                <FormControl>
-                    <FormLabel component="legend">Мастера</FormLabel>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label={'Master 01'}
-                        />
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label={'Master 02'}
-                        />
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label={'Master 03'}
-                        />
-                    </FormGroup>
-                </FormControl>
-            </div>
+            <CityMasterCheckbox
+                cityList={cityList}
+                masterList={masterList}
+            />
 
             <div className={classes.chartOrder}>
                 <ChartNumberOrders/>
