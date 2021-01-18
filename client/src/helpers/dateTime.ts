@@ -11,6 +11,12 @@ export const today = (): string => {
     return dateToString(day);
 };
 
+export const todayPlus = (shift: number): string => {
+    const d = new Date();
+    d.setMonth(d.getMonth() + shift);
+    return dateToString(d)
+};
+
 export const nowTimeString = ():string => {
     const today = new Date();
     today.setHours(today.getHours() + 1, 0, 0);

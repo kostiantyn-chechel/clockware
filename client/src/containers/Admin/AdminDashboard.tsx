@@ -1,26 +1,22 @@
-import React  from 'react';
+import React, {useEffect, useState} from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+import ListMenu from "./ListMenu/ListMenu";
+import DatePickers from "../../component/DateTimePickers/DatePickers";
+import ChartNumberOrders from "../../component/DashBoard/ChartNumberOrders";
+import OrderChartByCity from "../../component/DashBoard/OrderChartByCity";
+import OrderChartByMaster from "../../component/DashBoard/OrderChartByMaster";
+import { todayPlus } from "../../helpers/dateTime";
 import { RootStateType } from "../../store/reducers/rootReducer";
-import {
-    addCity, addClient,
-    addMaster, clearInfiniteOrders, deleteCity, deleteClient,
-    deleteMaster, deleteOrder, editCity, editClient,
-    editMaster,
-    fetchCities, fetchClients, fetchFilterAndInfiniteOrders, fetchFilterAndPaginOrders, fetchFilterClients,
-    fetchFilterMasters,
-    fetchMasters
-} from "../../store/actions/adminAction";
-import { IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
-import { authUserMessage, userLoginFetch } from "../../store/actions/authAction";
 import { connect, ConnectedProps } from "react-redux";
 import { setOpenMenu } from "../../store/actions/appAction";
-import Divider from "@material-ui/core/Divider";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import GroupTwoToneIcon from '@material-ui/icons/GroupTwoTone';
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import {Checkbox} from "@material-ui/core";
+import {getAuthServerRequest} from "../../helpers/axios/axiosClockwareAPI";
+
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -29,80 +25,154 @@ const useStyles = makeStyles((theme) => ({
         minWidth: '500px',
         marginTop: theme.spacing(2),
     },
+    paper: {
+        marginTop: theme.spacing(2),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%',
+    },
+    twoBlocks: {
+        marginTop: theme.spacing(2),
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    chartBlock: {
+        width: '80%',
+        marginTop: theme.spacing(2),
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    chartOrder: {
+        width: '80%',
+        minWidth: '500px',
+        maxWidth: '1000px',
+    },
+    chart: {
+        width: '50%',
+        minWidth: '350px',
+    }
 }));
 
 const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     const classes = useStyles();
+    const [dataRange, setDateRange] = useState({
+        rangeStart: todayPlus(-1),
+        rangeEnd: todayPlus(1),
+    });
+
+    useEffect(() => {
+
+    },[]);
+
+    useEffect(() => {
+        console.log('start:', dataRange.rangeStart, 'end:', dataRange.rangeEnd)
+
+    }, [dataRange]);
 
     const handleDrawerClose = () => props.setMenuOpen(false);
 
+    const handleDateRangeStart = (event: React.ChangeEvent<{ value: string; }>) => {
+        event.preventDefault();
+        setDateRange({...dataRange, rangeStart: event.target.value})
+    };
+
+    const handleDateRangeEnd = (event: React.ChangeEvent<{ value: string; }>) => {
+        event.preventDefault();
+        setDateRange({...dataRange, rangeEnd: event.target.value})
+    };
+
+    const handleCheckCity = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(event.target.name, event.target.checked, event.target.name);
+    };
+
     return (
-        <React.Fragment>
+        <div className={classes.paper}>
+            <div className={classes.twoBlocks}>
+                <DatePickers
+                    onChange={handleDateRangeStart}
+                    defaultDate={dataRange.rangeStart}
+                />
+                <DatePickers
+                    onChange={handleDateRangeEnd}
+                    defaultDate={dataRange.rangeEnd}
+                />
+            </div>
+
+            <div className={classes.twoBlocks}>
+                <FormControl>
+                    <FormLabel component="legend">Города</FormLabel>
+                    <FormGroup>
+                        <FormControlLabel
+                            control={<Checkbox defaultChecked color="primary" name={'city1'} onChange={handleCheckCity}/>}
+                            label={'City 01'}
+                        />
+                        <FormControlLabel
+                            control={<Checkbox defaultChecked color="primary" name={'city2'} onChange={handleCheckCity}/>}
+                            label={'City 02'}
+                        />
+                        <FormControlLabel
+                            control={<Checkbox defaultChecked color="primary" name={'city3'} onChange={handleCheckCity}/>}
+                            label={'City 03'}
+                        />
+                    </FormGroup>
+                </FormControl>
+
+                <FormControl>
+                    <FormLabel component="legend">Мастера</FormLabel>
+                    <FormGroup>
+                        <FormControlLabel
+                            control={<Checkbox />}
+                            label={'Master 01'}
+                        />
+                        <FormControlLabel
+                            control={<Checkbox />}
+                            label={'Master 02'}
+                        />
+                        <FormControlLabel
+                            control={<Checkbox />}
+                            label={'Master 03'}
+                        />
+                    </FormGroup>
+                </FormControl>
+            </div>
+
+            <div className={classes.chartOrder}>
+                <ChartNumberOrders/>
+            </div>
+
+            <div className={classes.chartBlock}>
+                <div className={classes.chart}>
+                    <OrderChartByCity/>
+                </div>
+                <div className={classes.chart}>
+                    <OrderChartByMaster/>
+                </div>
+            </div>
+
             <div className={classes.main}>
                 <Drawer
                     anchor={"right"}
                     open={props.openMenu}
                     onClose={handleDrawerClose}
                 >
-                    <List>
-                        <ListItem> Главная </ListItem>
-                        <Divider />
-                        <ListItem>
-                            <ListItemIcon><GroupTwoToneIcon/></ListItemIcon>
-                            <ListItemText primary={'Мастера'}/>
-                        </ListItem>
-                        <ListItem> Города </ListItem>
-                        <ListItem> Клиенты </ListItem>
-                        <ListItem> Заказы </ListItem>
-                        <Divider />
-                        <ListItem> Выход </ListItem>
-                    </List>
-
+                    <ListMenu handleDrawerClose={handleDrawerClose} />
                 </Drawer>
             </div>
-        </React.Fragment>
+        </div>
     );
 };
 
 function mapStateToProps(state: RootStateType) {
     return {
-        message: state.auth.message,
-        masters: state.admin.masters,
-        cities: state.admin.cities,
-        clients: state.admin.clients,
-        orders: state.admin.orders,
-        ordersInfinite: state.admin.ordersInfinite,
         openMenu: state.app.openMenu,
     }
 }
 
 function mapDispatchToProps(dispatch: any) {
     return {
-        fetchMasters: () => dispatch(fetchMasters()),
-        fetchFilterMasters: (name: string) => dispatch(fetchFilterMasters(name)),
-        addMaster: (master: IMaster) => dispatch(addMaster(master)),
-        editMaster: (master: IMaster) => dispatch(editMaster(master)),
-        deleteMaster: (masterId: number) => dispatch(deleteMaster(masterId)),
-
-        fetchCities: () => dispatch(fetchCities()),
-        addCity: (city: ICity) => dispatch(addCity(city)),
-        editCity: (city: ICity) => dispatch(editCity(city)),
-        deleteCity: (cityId: number) => dispatch(deleteCity(cityId)),
-
-        fetchClients: () => dispatch(fetchClients()),
-        fetchFilterClients: (name: string) => dispatch(fetchFilterClients(name)),
-        addClient: (client: IClient) => dispatch(addClient(client)),
-        editClient: (client: IClient) => dispatch(editClient(client)),
-        deleteClient: (clientId: number) => dispatch(deleteClient(clientId)),
-
-        fetchFilterAndPaginOrders: (param: IFetchFilterOrders) => dispatch(fetchFilterAndPaginOrders(param)),
-        fetchFilterAndInfiniteOrders: (param: IFetchFilterOrders) => dispatch(fetchFilterAndInfiniteOrders(param)),
-        clearInfiniteOrders: () => dispatch(clearInfiniteOrders()),
-        deleteOrder: (orderId: number) => dispatch(deleteOrder(orderId)),
-
-        userLoginFetch: (userInfo: IAuthUser) => dispatch(userLoginFetch(userInfo)),
-        authUserMessage: (message: string) => dispatch(authUserMessage(message)),
-
         setMenuOpen: (open: boolean) => dispatch(setOpenMenu(open)),
     }
 }
