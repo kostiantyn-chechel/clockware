@@ -102,9 +102,13 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     },[]);
 
     useEffect(() => {
-        console.log('city base:', cityList);
-        // console.log('master',masterList);
-    }, [cityList, masterList]);
+        console.log('чето поменялось');
+        // const cityJSON = JSON.stringify(cityList.map((city) => {
+        const cityJSON = JSON.stringify(cityList.filter((city) => city.active).map((city) => city.id));
+        const masterJSON = JSON.stringify(masterList.filter((master) => master.active).map((master) => master.id));
+        const URL = `/adm/filter?start=${dataRange.rangeStart}&end=${dataRange.rangeEnd}&cities=${cityJSON}&masters=${masterJSON}`;
+        getAuthServerRequest(URL)
+    }, [cityList, masterList, dataRange]);
 
     useEffect(() => {
         console.log('start:', dataRange.rangeStart, 'end:', dataRange.rangeEnd)

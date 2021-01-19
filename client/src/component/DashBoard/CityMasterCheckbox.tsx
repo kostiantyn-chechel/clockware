@@ -20,13 +20,6 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 120,
         maxWidth: 300,
     },
-    chips: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    chip: {
-        margin: 2,
-    },
 }));
 
 interface ICityMasterCheckbox {
@@ -81,14 +74,14 @@ const CityMasterCheckbox: React.FC<ICityMasterCheckbox> = (props) => {
     return (
         <div className={classes.twoBlocks}>
 
-            <FormControl>
+            <FormControl className={classes.formControl}>
                 <FormLabel component="legend">Города</FormLabel>
                 <FormGroup>
                     {cityCheckbox()}
                 </FormGroup>
             </FormControl>
 
-            <FormControl>
+            <FormControl className={classes.formControl}>
                 <FormLabel component="legend">Мастера</FormLabel>
                 <FormGroup>
                     {masterCheckbox()}
