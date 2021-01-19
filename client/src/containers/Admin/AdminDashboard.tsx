@@ -136,6 +136,12 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
         setMasterList(masterList.map((master) => master.id === id ? masterChange : master));
     };
 
+    const cityActiveById =(id: number) => cityList[cityList.findIndex((city) => city.id === id)].active;
+
+    const masterListFromActiveCity = () => {
+        return masterList.filter((master) => cityActiveById(master.cityId))
+    };
+
     return (
         <div className={classes.paper}>
             <div className={classes.twoBlocks}>
@@ -151,7 +157,8 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
 
             <CityMasterCheckbox
                 cityList={cityList}
-                masterList={masterList}
+                // masterList={masterList}
+                masterList={masterListFromActiveCity()}
                 checkCity={checkCity}
                 checkMaster={checkMaster}
             />
