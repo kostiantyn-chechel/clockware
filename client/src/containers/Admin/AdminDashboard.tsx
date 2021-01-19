@@ -102,8 +102,8 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     },[]);
 
     useEffect(() => {
-        console.log('city', cityList);
-        console.log('master',masterList);
+        console.log('city base:', cityList);
+        // console.log('master',masterList);
     }, [cityList, masterList]);
 
     useEffect(() => {
@@ -122,6 +122,20 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
         setDateRange({...dataRange, rangeEnd: event.target.value})
     };
 
+    const checkCity = (id: number) => {
+        const indexChange = cityList.findIndex((city) => city.id === id);
+        const cityChange = cityList[indexChange];
+        cityChange.active = !cityChange.active;
+        setCityList(cityList.map((city) => city.id === id ? cityChange : city));
+    };
+
+    const checkMaster = (id: number) => {
+        const indexChange = masterList.findIndex((master) => master.id === id);
+        const masterChange = masterList[indexChange];
+        masterChange.active = !masterChange.active;
+        setMasterList(masterList.map((master) => master.id === id ? masterChange : master));
+    };
+
     return (
         <div className={classes.paper}>
             <div className={classes.twoBlocks}>
@@ -138,6 +152,8 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
             <CityMasterCheckbox
                 cityList={cityList}
                 masterList={masterList}
+                checkCity={checkCity}
+                checkMaster={checkMaster}
             />
 
             <div className={classes.chartOrder}>
