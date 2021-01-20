@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Booking from './containers/Booking/Booking';
-import Admin from './containers/Admin/Admin';
 import { connect, ConnectedProps } from 'react-redux';
 import classes from './App.module.css';
 import { fetchCities } from './store/actions/adminAction';
