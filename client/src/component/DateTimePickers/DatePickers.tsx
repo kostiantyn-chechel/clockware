@@ -16,11 +16,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IDatePickers {
-    onChange(event: React.ChangeEvent<{ value: string; }>): void;
+    onChange(event: React.ChangeEvent<{ value: string }>): void;
+    defaultDate?: string;
 }
 
 const DatePickers:React.FC<IDatePickers> = (props) => {
     const classes = useStyles();
+
+    const defDate = () => {
+        if (props.defaultDate) return props.defaultDate;
+        return today();
+    };
 
     return (
         <div className={classes.container} >
@@ -29,7 +35,8 @@ const DatePickers:React.FC<IDatePickers> = (props) => {
                 id="date"
                 label="Дата:"
                 type="date"
-                defaultValue={today()}
+                // defaultValue={today()}
+                defaultValue={defDate()}
                 className={classes.textField}
                 InputLabelProps={{
                     shrink: true,

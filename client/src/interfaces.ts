@@ -177,9 +177,4 @@ export type ISortDirection = 'asc' | 'desc';
 export type TBookingShow = 'filling' | 'select' | 'gratitude';
 export type TUserStatus = 'client' | 'admin' | 'notAuth';
 export type TReview = string[] | [];
-export type TAuthUser = {
-    token: string,
-    message: string,
-    status: TUserStatus
-}
 export type TMashId = { match: {params: { id: number }}}

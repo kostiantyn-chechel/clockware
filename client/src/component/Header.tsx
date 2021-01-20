@@ -10,6 +10,8 @@ import { Avatar } from "@material-ui/core";
 import { IUser, TUserStatus } from "../interfaces";
 import Tooltip from "@material-ui/core/Tooltip";
 import {nameToInitials} from "../helpers/dataProcessing";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,20 +32,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IHeader {
-    emptyBooking():void
-    userStatus: TUserStatus
-    resetUser():void
     user: IUser
+    userStatus: TUserStatus
+    emptyBooking():void
+    resetUser():void
+    setMenuOpen(open:boolean):void
 }
 
 const Header: React.FC<IHeader> = (props) => {
     const classes = useStyles();
-    const { userStatus, resetUser } = props;
+    const { userStatus, resetUser, setMenuOpen } = props;
 
     const handlerLogout = () => {
         logout();
         resetUser();
     };
+
+    const handleMenuOpen = () => {
+        setMenuOpen(true);
+    };
+
 
     const ButtonsShow = () => {
         if (userStatus === 'notAuth') {
@@ -90,6 +98,16 @@ const Header: React.FC<IHeader> = (props) => {
                             <Avatar className={classes.avatar}> {nameToInitials(props.user.name)} </Avatar>
                         </Button>
                     </Tooltip>
+
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="end"
+                        onClick={handleMenuOpen}
+                        // className={clsx(open && classes.hide)}
+                    >
+                        <MenuIcon />
+                    </IconButton>
 
                 </React.Fragment>
 

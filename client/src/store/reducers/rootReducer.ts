@@ -3,8 +3,10 @@ import bookingReducer from './bookingReducer';
 import adminReducer from './adminReducer';
 import authReducer from './authReducer';
 import clientReducer from './clientReducer';
+import appReducer from "./appReducer";
 
 const rootReducer = combineReducers({
+    app: appReducer,
     booking: bookingReducer,
     admin: adminReducer,
     auth: authReducer,

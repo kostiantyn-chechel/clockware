@@ -1,5 +1,11 @@
 import {ICity, IClient, IClientOrder, IMaster, IOrderPac, IUser, TBookingShow, TUserStatus} from "../../interfaces";
 
+//APP
+export const SET_OPEN_MENU = 'SET_OPEN_MENU';
+
+export type AppActionTypes =
+    { type: typeof SET_OPEN_MENU, payload: boolean }
+
 //BOOKING
 export const FETCH_MASTER_SUCCESS = 'FETCH_MASTER_SUCCESS';
 export const SET_BOOKING_SHOW = 'SET_BOOKING_SHOW';

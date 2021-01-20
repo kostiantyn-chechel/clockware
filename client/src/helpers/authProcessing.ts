@@ -14,9 +14,10 @@ import {IUser, TUserStatus} from "../interfaces";
 export const saveUserToLocalStorage = (user: IUser) => {
     localStorage.setItem('user', JSON.stringify(user));
     const expiredTime = new Date().getTime();
-    localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 600000)); // 10 min - token validity time
+    // localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 600000)); // 10 min - token validity time
     // localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 20000)); // 20 sec - token validity time
     // localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 6000000)); // 100 min - token validity time
+    localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 1800000)); // 30 min - token validity time
 };
 
 export const validToken = (): boolean => {

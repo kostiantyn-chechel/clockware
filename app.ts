@@ -19,6 +19,7 @@ const mastersRouter = require('./routes/masters.router');
 const ordersRouter = require('./routes/orders.router');
 const authRouter = require('./routes/auth.router');
 const reviewRouter = require('./routes/reviews.router');
+const adminRouter = require('./routes/admin.router');
 
 const app = express();
 
@@ -36,6 +37,10 @@ app.use('/masters', mastersRouter);
 app.use('/orders', ordersRouter);
 app.use('/auth', authRouter);
 app.use('/rev', reviewRouter);
+app.use('/adm', adminRouter);
+// app.use('/adm', (req: Request, res: Response) => {
+//   res.send(JSON.stringify('ADM'))
+// });
 
 app.get('/zzz', (req: Request, res: Response) => {
     res.send(JSON.stringify('ZZZ'))

@@ -7,7 +7,7 @@ import NotMasters from '../../component/notMasters';
 import BookingGratitude from '../../component/BookingGratitude';
 import BookingSelectMaster from '../../component/BookingSelectMaster';
 import BookingFillingFields from '../../component/BookingFillingFields';
-import {nowTimeString, today} from '../../helpers/dateTime';
+import { nowTimeString, today } from '../../helpers/dateTime';
 import { ISendOrder } from "../../interfaces";
 import { RootStateType } from "../../store/reducers/rootReducer";
 
