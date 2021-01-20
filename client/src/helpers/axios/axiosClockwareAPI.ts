@@ -70,6 +70,7 @@ export type ChartDataType = {
             name: string
         }
     }[]
+    listMasterData: {}[]
 }
 type GetAuthServerResponseType = IClient[] | IMaster[] | IOrderPac | IReviews[] | IFilterData[] | CityMasterType[] |
                                     ChartDataType;

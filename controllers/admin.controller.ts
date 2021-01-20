@@ -24,16 +24,19 @@ exports.filterAdminData = (req: Request, res: Response) => {
     let listDateOrder = [];
     let listCityCount = [];
     let listMasterCount = [];
+    let listMasterData = [];
+
+    const where = {
+        [and]: [
+            {date: {[gt]: startData}},
+            {date: {[lt]: endData}},
+        ],
+        masterId: masterIdArr,
+        cityId: cityIdArr,
+    };
 
     Order.findAll({
-        where: {
-            [and]: [
-                {date: {[gt]: startData}},
-                {date: {[lt]: endData}},
-            ],
-            masterId: masterIdArr,
-            cityId: cityIdArr,
-        },
+        where: where,
         attributes: [
             'date',
             [sequelize.fn('count', sequelize.col('date')), 'count']
@@ -44,14 +47,7 @@ exports.filterAdminData = (req: Request, res: Response) => {
         listDateOrder = response;
     }).then(() => {
         Order.findAll({
-            where: {
-                [and]: [
-                    {date: {[gt]: startData}},
-                    {date: {[lt]: endData}},
-                ],
-                masterId: masterIdArr,
-                cityId: cityIdArr,
-            },
+            where: where,
             attributes: [
                 'cityId',
                 [sequelize.fn('count', sequelize.col('cityId')), 'count']
@@ -68,14 +64,7 @@ exports.filterAdminData = (req: Request, res: Response) => {
             listCityCount = response
         }).then(() => {
             Order.findAll({
-                where: {
-                    [and]: [
-                        {date: {[gt]: startData}},
-                        {date: {[lt]: endData}},
-                    ],
-                    masterId: masterIdArr,
-                    cityId: cityIdArr,
-                },
+                where: where,
                 attributes: [
                     'masterId',
                     [sequelize.fn('count', sequelize.col('masterId')), 'count']
@@ -89,14 +78,32 @@ exports.filterAdminData = (req: Request, res: Response) => {
                 },
                 group: ['masterId'],
             }).then(response => {
-                console.log('listMasterCount:', response);
                 listMasterCount = response;
-            }).then(() => {
-                res.send({
-                    listDateOrder,
-                    listCityCount,
-                    listMasterCount,
-                })
+            }).then(() => { //MastersTable
+                Order.findAll({
+                    where: where,
+                    attributes: [
+                        'masterId',
+                    ],
+                    include: {
+                        model: Master,
+                        as: 'order_master',
+                        attributes: [
+                            'name'
+                        ],
+                    },
+                    group: ['masterId'],
+
+                }).then(response => {
+                    listMasterData = response;
+                }).then(() => {
+                    res.send({
+                        listDateOrder,
+                        listCityCount,
+                        listMasterCount,
+                        listMasterData,
+                    });
+                });
             });
         });
     });

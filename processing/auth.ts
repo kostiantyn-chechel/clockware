@@ -29,8 +29,9 @@ const authUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const generateToken = (login: string) => {
     return jwt.sign({ login: login }, process.env.SECRET_KEY, {
-        expiresIn: 720 // 12 min - token lifetime
+        // expiresIn: 720 // 12 min - token lifetime
         // expiresIn: 6060 // 101 min - token lifetime
+        expiresIn: 1920 // 32 min - token lifetime
     });
 };
 

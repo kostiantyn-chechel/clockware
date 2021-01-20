@@ -65,7 +65,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                     <Switch>
                         <Route path='/auth' component={ AuthCommon } />
                         <Route path='/reg' component={ Registration } />
-                        <Route path='/admin' component={ Admin } />
+                        <Route path='/admin' component={ AdminDashboard } />
                         <Route path='/dashboard' exact={true} component={ AdminDashboard } />
                         <Route path='/dashboard/masters' component={ Masters } />
                         <Route path='/dashboard/cities' component={ Cities } />

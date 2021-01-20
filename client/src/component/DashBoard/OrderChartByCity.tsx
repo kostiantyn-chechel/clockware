@@ -40,7 +40,7 @@ const OrderChartByCity: React.FC<IOrderChartByCity> = (props) => {
     return (
         <React.Fragment>
             <Typography component="h1" variant="h5" align="center" color="textPrimary">
-                Диаграмма заказов по городам
+                Заказы по городам
             </Typography>
             <Pie data={data} options={options} />
         </React.Fragment>

@@ -143,7 +143,6 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                         count: item.count,
                     }
                 }));
-
             })
     }, [cityList, masterList, dataRange]);
 

@@ -42,7 +42,7 @@ const OrderChartByMaster: React.FC<IOrderChartByMaster> = (props) => {
     return (
         <React.Fragment>
             <Typography component="h1" variant="h5" align="center" color="textPrimary">
-                Диаграмма заказов по мастерам
+                Заказы по мастерам
             </Typography>
             <Pie data={data} options={options} />
         </React.Fragment>
