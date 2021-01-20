@@ -11,7 +11,7 @@ import {
 } from "../../interfaces";
 import {authHeader} from "../authProcessing";
 import {IReviews} from "../../containers/Review/ReviewMaster";
-import {CityMasterType, IChartCity, IChartDateOrder} from "../../containers/Admin/AdminDashboard";
+import {CityMasterType, IChartDateOrder} from "../../containers/Admin/AdminDashboard";
 
 let baseURL;
 if (process.env.NODE_ENV === 'development') {
@@ -60,6 +60,13 @@ export type ChartDataType = {
         cityId: number
         count: number
         order_city: {
+            name: string
+        }
+    }[]
+    listMasterCount: {
+        masterId: number
+        count: number
+        order_master: {
             name: string
         }
     }[]

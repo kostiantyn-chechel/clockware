@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import Typography from "@material-ui/core/Typography";
-import {IChartCity} from "../../containers/Admin/AdminDashboard";
+import { IChartList } from "../../containers/Admin/AdminDashboard";
 
 const data = {
     labels: ['1'],
@@ -22,15 +22,13 @@ const data = {
 };
 
 const options = {
-    scales: {
-        legend: {
-            display: false,
-        },
+    legend: {
+        display: false,
     },
 };
 
 interface IOrderChartByCity {
-    listData: IChartCity[]
+    listData: IChartList[]
 }
 
 const OrderChartByCity: React.FC<IOrderChartByCity> = (props) => {

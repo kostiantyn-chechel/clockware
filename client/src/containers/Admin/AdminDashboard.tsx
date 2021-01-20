@@ -65,7 +65,7 @@ export interface IChartDateOrder {
     date: string
     count: number
 }
-export interface IChartCity {
+export interface IChartList {
     name: string
     count: number
 }
@@ -81,7 +81,8 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     const [cityList, setCityList] = useState<CityForListType[]>([]);
     const [masterList, setMasterList] = useState<MasterForListType[]>([]);
     const [chartDateOrderList, setChartDateOrderList] = useState<IChartDateOrder[]>([]);
-    const [chartCityList, setChartCityList] = useState<IChartCity[]>([]);
+    const [chartCityList, setChartCityList] = useState<IChartList[]>([]);
+    const [chartMasterList, setChartMasterList] = useState<IChartList[]>([]);
 
     useEffect(() => {
         const cities: CityForListType[] = [];
@@ -133,13 +134,22 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                         name: item.order_city.name,
                         count: item.count,
                     }
-                }))
+                }));
+
+                const listMasterCount = (response as ChartDataType).listMasterCount;
+                setChartMasterList(listMasterCount.map(item => {
+                    return {
+                        name: item.order_master.name,
+                        count: item.count,
+                    }
+                }));
+
             })
     }, [cityList, masterList, dataRange]);
 
     useEffect(() => {
         // console.log('start:', dataRange.rangeStart, 'end:', dataRange.rangeEnd)
-        console.log('chartDateOrderList', chartDateOrderList);
+        // console.log('chartDateOrderList', chartDateOrderList);
     }, [chartDateOrderList]);
 
     const handleDrawerClose = () => props.setMenuOpen(false);
@@ -206,7 +216,7 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                     <OrderChartByCity listData={chartCityList}/>
                 </div>
                 <div className={classes.chart}>
-                    <OrderChartByMaster/>
+                    <OrderChartByMaster listData={chartMasterList}/>
                 </div>
             </div>
 

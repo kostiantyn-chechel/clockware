@@ -1,28 +1,43 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import Typography from "@material-ui/core/Typography";
+import { IChartList } from "../../containers/Admin/AdminDashboard";
 
 const data = {
-    labels: ['1', '2', '3', '4', '5', '6'],
+    labels: ['1'],
     datasets: [
         {
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            // label: '# of Votes',
+            data: [1],
             fill: false,
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgba(191,9,10,0.9)',
+            backgroundColor:[
+                'rgba(255, 99, 132, 0.9)',
+                'rgba(54, 162, 235, 0.9)',
+                'rgba(255, 206, 86, 0.9)',
+                'rgba(94,255,164,0.9)',
+            ],
+            borderColor: 'rgba(37,38,150,0.82)',
+            borderWidth: 2,
         },
     ],
 };
 
 const options = {
-    scales: {
-
+    legend: {
+        display: false,
     },
 };
 
+interface IOrderChartByMaster {
+    listData: IChartList[]
+}
 
-const OrderChartByMaster: React.FC = (props) => {
+const OrderChartByMaster: React.FC<IOrderChartByMaster> = (props) => {
+    const { listData } = props;
+
+    data.labels = listData.map(item => item.name);
+    data.datasets[0].data = listData.map(item => item.count);
+
 
     return (
         <React.Fragment>

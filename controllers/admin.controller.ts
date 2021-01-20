@@ -23,6 +23,7 @@ exports.filterAdminData = (req: Request, res: Response) => {
 
     let listDateOrder = [];
     let listCityCount = [];
+    let listMasterCount = [];
 
     Order.findAll({
         where: {
@@ -64,13 +65,48 @@ exports.filterAdminData = (req: Request, res: Response) => {
             },
             group: ['cityId'],
         }).then(response => {
-            console.log('listCityCount:', response);
             listCityCount = response
         }).then(() => {
-            res.send({
-                listDateOrder,
-                listCityCount,
-            })
+            Order.findAll({
+                where: {
+                    [and]: [
+                        {date: {[gt]: startData}},
+                        {date: {[lt]: endData}},
+                    ],
+                    masterId: masterIdArr,
+                    cityId: cityIdArr,
+                },
+                attributes: [
+                    'masterId',
+                    [sequelize.fn('count', sequelize.col('masterId')), 'count']
+                ],
+                include: {
+                    model: Master,
+                    as: 'order_master',
+                    attributes: [
+                        'name'
+                    ],
+                },
+                group: ['masterId'],
+            }).then(response => {
+                console.log('listMasterCount:', response);
+                listMasterCount = response;
+            }).then(() => {
+                res.send({
+                    listDateOrder,
+                    listCityCount,
+                    listMasterCount,
+                })
+            });
         });
     });
+};
+
+const threeLargestMaster = (masterArr: []) => {
+    if (masterArr.length < 3) {
+        const list = [];
+             const biggest = (arr: []): number => arr.length;
+        return list
+    }
+    return masterArr
 };
