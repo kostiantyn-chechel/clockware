@@ -21,6 +21,9 @@ exports.filterAdminData = (req: Request, res: Response) => {
     const cityIdArr = req.query.cities ? JSON.parse(req.query.cities as string) : null;
     const masterIdArr = req.query.masters ? JSON.parse(req.query.masters as string): null;
 
+    let listDateOrder = [];
+    let listCityCount = [];
+
     Order.findAll({
         where: {
             [and]: [
@@ -37,6 +40,37 @@ exports.filterAdminData = (req: Request, res: Response) => {
         group: ['date'],
         order: ['date'],
     }).then(response => {
-        res.send(response);
+        listDateOrder = response;
+    }).then(() => {
+        Order.findAll({
+            where: {
+                [and]: [
+                    {date: {[gt]: startData}},
+                    {date: {[lt]: endData}},
+                ],
+                masterId: masterIdArr,
+                cityId: cityIdArr,
+            },
+            attributes: [
+                'cityId',
+                [sequelize.fn('count', sequelize.col('cityId')), 'count']
+            ],
+            include: {
+                model: City,
+                as: 'order_city',
+                attributes: [
+                    'name'
+                ],
+            },
+            group: ['cityId'],
+        }).then(response => {
+            console.log('listCityCount:', response);
+            listCityCount = response
+        }).then(() => {
+            res.send({
+                listDateOrder,
+                listCityCount,
+            })
+        });
     });
 };

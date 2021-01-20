@@ -10,7 +10,7 @@ import {dayToString, todayPlus} from "../../helpers/dateTime";
 import { RootStateType } from "../../store/reducers/rootReducer";
 import { connect, ConnectedProps } from "react-redux";
 import { setOpenMenu } from "../../store/actions/appAction";
-import {getAuthServerRequest} from "../../helpers/axios/axiosClockwareAPI";
+import {ChartDataType, getAuthServerRequest} from "../../helpers/axios/axiosClockwareAPI";
 import {ICity} from "../../interfaces";
 import CityMasterCheckbox from "../../component/DashBoard/CityMasterCheckbox";
 
@@ -65,6 +65,11 @@ export interface IChartDateOrder {
     date: string
     count: number
 }
+export interface IChartCity {
+    name: string
+    count: number
+}
+
 
 const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     const classes = useStyles();
@@ -76,6 +81,7 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     const [cityList, setCityList] = useState<CityForListType[]>([]);
     const [masterList, setMasterList] = useState<MasterForListType[]>([]);
     const [chartDateOrderList, setChartDateOrderList] = useState<IChartDateOrder[]>([]);
+    const [chartCityList, setChartCityList] = useState<IChartCity[]>([]);
 
     useEffect(() => {
         const cities: CityForListType[] = [];
@@ -113,10 +119,18 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
         const URL = `/adm/filter?start=${dataRange.rangeStart}&end=${dataRange.rangeEnd}&cities=${cityJSON}&masters=${masterJSON}`;
         getAuthServerRequest(URL)
             .then(response =>{
-                const listDateOrder: IChartDateOrder[] = response as IChartDateOrder[];
+                const listDateOrder: IChartDateOrder[] = (response as ChartDataType).listDateOrder;
                 setChartDateOrderList(listDateOrder.map((item) => {
                     return {
                         date: dayToString(item.date),
+                        count: item.count,
+                    }
+                }));
+
+                const listCityCount = (response as ChartDataType).listCityCount;
+                setChartCityList(listCityCount.map(item => {
+                    return {
+                        name: item.order_city.name,
                         count: item.count,
                     }
                 }))
@@ -189,7 +203,7 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
 
             <div className={classes.chartBlock}>
                 <div className={classes.chart}>
-                    <OrderChartByCity/>
+                    <OrderChartByCity listData={chartCityList}/>
                 </div>
                 <div className={classes.chart}>
                     <OrderChartByMaster/>
