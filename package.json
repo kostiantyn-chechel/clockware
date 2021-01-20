@@ -10,7 +10,7 @@
     "nodemon-back": "nodemon bin/www",
     "start-back": "tsc && node bin/www",
     "client": "cd client && yarn start",
-    "server": "nodemon dist/app.js",
+    "server": "nodemon tsc && dist/app.js",
     "start all": "concurrently \"yarn server\" \"yarn client\"",
     "start": "node bin/www",
     "heroku-postbuild": "tsc && cd client && yarn install && yarn run build",

@@ -11,7 +11,7 @@ import {
 } from "../../interfaces";
 import {authHeader} from "../authProcessing";
 import {IReviews} from "../../containers/Review/ReviewMaster";
-import {CityMasterType} from "../../containers/Admin/AdminDashboard";
+import {CityMasterType, IChartDateOrder} from "../../containers/Admin/AdminDashboard";
 
 let baseURL;
 if (process.env.NODE_ENV === 'development') {
@@ -54,7 +54,8 @@ export const postAuthServerRequest = async (relativeURL: string, body: PostAuthS
     }
 };
 
-type GetAuthServerResponseType = IClient[] | IMaster[] | IOrderPac | IReviews[] | IFilterData[] | CityMasterType[];
+type GetAuthServerResponseType = IClient[] | IMaster[] | IOrderPac | IReviews[] | IFilterData[] | CityMasterType[] |
+                                    IChartDateOrder[];
 export const getAuthServerRequest = async (relativeURL: string): Promise<GetAuthServerResponseType> => {
     try {
         const { data } = await axios.get(relativeURL, { headers: authHeader() });

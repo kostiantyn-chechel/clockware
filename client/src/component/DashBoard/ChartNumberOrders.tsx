@@ -1,13 +1,14 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import Typography from "@material-ui/core/Typography";
+import {IChartDateOrder} from "../../containers/Admin/AdminDashboard";
 
 const data = {
-    labels: ['1', '2', '3', '4', '5', '6'],
+    labels: ['0'],
     datasets: [
         {
             label: 'Количество заказов',
-            data: [12, 19, 3, 5, 2, 3],
+            data: [1],
             fill: false,
             backgroundColor: 'rgb(61,107,255)',
             borderColor: 'rgba(255,23,45,0.5)',
@@ -27,8 +28,15 @@ const options = {
     },
 };
 
+interface IChartNumberOrders {
+    listData: IChartDateOrder[]
+}
 
-const ChartNumberOrders: React.FC = (props) => {
+const ChartNumberOrders: React.FC<IChartNumberOrders> = (props) => {
+    const { listData } = props;
+
+    data.labels = listData.map(item => item.date);
+    data.datasets[0].data = listData.map(item => item.count);
 
     return (
         <div>

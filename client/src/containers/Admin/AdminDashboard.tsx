@@ -6,7 +6,7 @@ import DatePickers from "../../component/DateTimePickers/DatePickers";
 import ChartNumberOrders from "../../component/DashBoard/ChartNumberOrders";
 import OrderChartByCity from "../../component/DashBoard/OrderChartByCity";
 import OrderChartByMaster from "../../component/DashBoard/OrderChartByMaster";
-import { todayPlus } from "../../helpers/dateTime";
+import {dayToString, todayPlus} from "../../helpers/dateTime";
 import { RootStateType } from "../../store/reducers/rootReducer";
 import { connect, ConnectedProps } from "react-redux";
 import { setOpenMenu } from "../../store/actions/appAction";
@@ -61,6 +61,10 @@ interface IMaster{
 export interface CityMasterType extends ICity { masters: IMaster[] }
 export interface CityForListType extends ICity { active: boolean }
 export interface MasterForListType extends IMaster { active: boolean }
+export interface IChartDateOrder {
+    date: string
+    count: number
+}
 
 const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     const classes = useStyles();
@@ -71,6 +75,7 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
 
     const [cityList, setCityList] = useState<CityForListType[]>([]);
     const [masterList, setMasterList] = useState<MasterForListType[]>([]);
+    const [chartDateOrderList, setChartDateOrderList] = useState<IChartDateOrder[]>([]);
 
     useEffect(() => {
         const cities: CityForListType[] = [];
@@ -102,17 +107,26 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     },[]);
 
     useEffect(() => {
-        console.log('чето поменялось');
-        // const cityJSON = JSON.stringify(cityList.map((city) => {
+        // console.log('чето поменялось');
         const cityJSON = JSON.stringify(cityList.filter((city) => city.active).map((city) => city.id));
         const masterJSON = JSON.stringify(masterList.filter((master) => master.active).map((master) => master.id));
         const URL = `/adm/filter?start=${dataRange.rangeStart}&end=${dataRange.rangeEnd}&cities=${cityJSON}&masters=${masterJSON}`;
         getAuthServerRequest(URL)
+            .then(response =>{
+                const listDateOrder: IChartDateOrder[] = response as IChartDateOrder[];
+                setChartDateOrderList(listDateOrder.map((item) => {
+                    return {
+                        date: dayToString(item.date),
+                        count: item.count,
+                    }
+                }))
+            })
     }, [cityList, masterList, dataRange]);
 
     useEffect(() => {
-        console.log('start:', dataRange.rangeStart, 'end:', dataRange.rangeEnd)
-    }, [dataRange]);
+        // console.log('start:', dataRange.rangeStart, 'end:', dataRange.rangeEnd)
+        console.log('chartDateOrderList', chartDateOrderList);
+    }, [chartDateOrderList]);
 
     const handleDrawerClose = () => props.setMenuOpen(false);
 
@@ -168,7 +182,9 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
             />
 
             <div className={classes.chartOrder}>
-                <ChartNumberOrders/>
+                <ChartNumberOrders
+                    listData={chartDateOrderList}
+                />
             </div>
 
             <div className={classes.chartBlock}>

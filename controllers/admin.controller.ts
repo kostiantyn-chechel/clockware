@@ -1,8 +1,7 @@
 const db = require("../models");
 import {Request, Response} from 'express'
 const { or, and, gt, lt } = db.Sequelize.Op;
-// const sequelize = db.sequelize;
-const sequelize = db.Sequelize;
+const sequelize = db.sequelize;
 const City = db.cities;
 const Master = db.masters;
 const Order = db.orders;
@@ -36,7 +35,7 @@ exports.filterAdminData = (req: Request, res: Response) => {
             [sequelize.fn('count', sequelize.col('date')), 'count']
         ],
         group: ['date'],
-        order: ['data'],
+        order: ['date'],
     }).then(response => {
         res.send(response);
     });
