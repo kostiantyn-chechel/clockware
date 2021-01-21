@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import TextField from "@material-ui/core/TextField";
-import {IRegistrationUser, IRegUser} from "../../interfaces";
+import { IRegistrationUser, IRegUser } from "../../interfaces";
 import Button from "@material-ui/core/Button";
 import { comparePass, isEmail, isName } from "../../helpers/validation";
 import { userRegistrationFetch } from "../../store/actions/authAction";

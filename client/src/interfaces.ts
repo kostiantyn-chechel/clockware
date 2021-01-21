@@ -1,6 +1,7 @@
 import {CityTableType} from "./component/Tabs/CitiesTab";
 import {ClientTableType} from "./component/Tabs/ClientsTab";
 import {MasterTableType} from "./component/Tabs/MastersTab";
+import {IRegistrationMaster} from "./component/DataPanel/MasterDataPanel";
 
 
 export interface IUser {
@@ -21,6 +22,7 @@ export interface IMaster {
     name: string,
     rating: number,
     cityId: number,
+    login?: string,
     review: TReview,
 }
 
@@ -114,9 +116,11 @@ export interface IMastersTab {
 
     fetchMasters: () => void,
     fetchFilterMasters: (name: string) => void,
-    addMaster: (master: IMaster) => void,
-    editMaster: (master: IMaster) => void,
+    addMaster: (master: IRegistrationMaster) => void,
+    editMaster: (master: IRegistrationMaster) => void,
     deleteMaster: (id: number) => void,
+    addMasterMessage: (massage: string) => void,
+    massage: string,
 }
 
 export interface ICitiesTab {

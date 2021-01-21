@@ -1,11 +1,13 @@
 import { Request, Response } from 'express'
 import { IError } from "../Type/interfaces";
 const { selectMasters, masterRating } = require('../processing/selectMasters');
+const { generateToken, generateSalt, generatePassCrypt } = require('../processing/auth');
 const db = require("../models");
 const Op = db.Sequelize.Op;
 const Master = db.masters;
 const Order = db.orders;
 const Review = db.reviews;
+const User = db.users;
 
 type filterOptionType = {
     where?: {
@@ -35,6 +37,39 @@ exports.create = (req: Request, res: Response) => {
             });
         });
 };
+
+exports.createMaster = (req: Request, res: Response) => {
+
+    const salt = generateSalt();
+    const master = {
+        name: req.body.name,
+        login: req.body.login,
+        cityId: req.body.cityId,
+        status: 'master',
+        password: generatePassCrypt(req.body.password, salt),
+        salt: salt,
+    };
+
+    User.findOne({
+        where: {login: master.login}})
+        .then((data: any) => {
+            if (!data){
+                User.create(master)
+                    .then((data: any) => {
+                        res.send(data);
+                    })
+                    .catch((err: IError) => {
+                        res.status(500).send({
+                            message:
+                                err.message || "Some error occurred while creating the Master."
+                        });
+                    });
+            } else {
+                console.log(`user ${master.login} already exists`)
+            }
+        });
+};
+
 
 exports.findAll = (req: Request, res: Response) => {
     Master.findAll({

@@ -31,7 +31,6 @@ export const userRegistrationChange = (userChangeRegInfo: IChangeRegUser) => {
 export const setUser = (response: ServerPostResponseType, dispatch: any) => {
     if (response.token) {
         dispatch(setAuthUser(response));
-        // saveToken(response.token, response.status);
         saveUserToLocalStorage(response);
     } else {
         if(response.message) {

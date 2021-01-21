@@ -38,18 +38,16 @@ exports.userVerification = (req: Request, res: Response, next: NextFunction) => 
 
 exports.userAdd = (req: Request, res: Response) => {
 
-    const user = () => {
-        const salt = generateSalt();
-        return {
+    const salt = generateSalt();
+    const user = {
             login: req.body.login,
             name: req.body.name,
             status: req.body.status,
             password: generatePassCrypt(req.body.password, salt),
             salt: salt,
-        }
-    };
+        };
 
-    User.create(user())
+    User.create(user)
         .then((user:any) => {
             res.send({
                 id: user.id,

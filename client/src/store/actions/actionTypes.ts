@@ -22,6 +22,7 @@ export const FETCH_FILTER_PAGIN_ORDERS = 'FETCH_FILTER_PAGIN_ORDERS';
 export const FETCH_FILTER_INFINITE_ORDERS = 'FETCH_FILTER_INFINITE_ORDERS';
 export const SHOW_ERROR = 'SHOW_ERROR';
 export const CLEAR_INFINITE_ORDERS = 'CLEAR_INFINITE_ORDERS';
+export const ADD_MASTER_MASSAGE = 'ADD_MASTER_MASSAGE';
 
 export type AdminActionTypes =
     { type: typeof FETCH_CITIES, payload: ICity[] } |
@@ -30,7 +31,8 @@ export type AdminActionTypes =
     { type: typeof FETCH_FILTER_PAGIN_ORDERS, payload: IOrderPac } |
     { type: typeof FETCH_FILTER_INFINITE_ORDERS, payload: IOrderPac } |
     { type: typeof SHOW_ERROR } |
-    { type: typeof CLEAR_INFINITE_ORDERS }
+    { type: typeof CLEAR_INFINITE_ORDERS }|
+    { type: typeof ADD_MASTER_MASSAGE, payload: string}
 
 //AUTH
 export const AUTH_USER_MESSAGE = 'AUTH_USER_MESSAGE';
