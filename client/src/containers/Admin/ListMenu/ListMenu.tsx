@@ -27,8 +27,8 @@ const menuList: ListMenuType[] = [
     'divider',
     { icon: <GroupTwoToneIcon/>, name: 'Мастера', rout: '/dashboard/masters' },
     { icon: <HomeWorkOutlinedIcon/>, name: 'Города', rout: '/dashboard/cities' },
-    { icon: <SentimentSatisfiedOutlinedIcon/>, name: 'Клиенты', rout: '/clients' },
-    { icon: <AccountBalanceWalletOutlinedIcon/>, name: 'Заказы', rout: '/orders' },
+    { icon: <SentimentSatisfiedOutlinedIcon/>, name: 'Клиенты', rout: '/dashboard/clients' },
+    { icon: <AccountBalanceWalletOutlinedIcon/>, name: 'Заказы', rout: '/dashboard/orders' },
     'divider',
     { icon: <ExitToAppOutlinedIcon/>, name: 'Выйти', rout: '/' },
 ];

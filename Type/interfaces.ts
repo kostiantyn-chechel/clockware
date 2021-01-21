@@ -1,7 +1,7 @@
 export type TSortIn = 'asc' | 'desc'
 export type TSortOut = 'ASC' | 'DESC'
 export type TSortBy = 'date' | 'time' | 'hours' | 'photo' | 'client' | 'master' | 'city' | 'id'| null
-export type TUserStatus = 'client' | 'admin' | 'notAuth'
+export type TUserStatus = 'client' | 'admin' | 'master' | 'notAuth'
 
 export interface IError {
     status?: number,

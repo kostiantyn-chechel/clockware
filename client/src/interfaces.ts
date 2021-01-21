@@ -175,6 +175,6 @@ export interface IFilterData {
 
 export type ISortDirection = 'asc' | 'desc';
 export type TBookingShow = 'filling' | 'select' | 'gratitude';
-export type TUserStatus = 'client' | 'admin' | 'notAuth';
+export type TUserStatus = 'client' | 'admin' | 'master' | 'notAuth';
 export type TReview = string[] | [];
 export type TMashId = { match: {params: { id: number }}}
