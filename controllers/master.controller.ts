@@ -1,42 +1,22 @@
 import { Request, Response } from 'express'
 import { IError } from "../Type/interfaces";
 const { selectMasters, masterRating } = require('../processing/selectMasters');
-const { generateToken, generateSalt, generatePassCrypt } = require('../processing/auth');
+const { generateSalt, generatePassCrypt } = require('../processing/auth');
 const db = require("../models");
 const Op = db.Sequelize.Op;
-const Master = db.masters;
 const Order = db.orders;
 const Review = db.reviews;
 const User = db.users;
 
 type filterOptionType = {
     where?: {
-        name: any
+        name?: any
+        status?: string
     },
     include: [{
         model: any,
     }],
 }
-
-exports.create = (req: Request, res: Response) => {
-
-    const master = {
-        name: req.body.name,
-        rating: req.body.rating,
-        cityId: req.body.cityId,
-    };
-
-    Master.create(master)
-        .then((data: any) => {
-            res.send(data);
-        })
-        .catch((err: IError) => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the Master."
-            });
-        });
-};
 
 exports.createMaster = (req: Request, res: Response) => {
 
@@ -51,7 +31,9 @@ exports.createMaster = (req: Request, res: Response) => {
     };
 
     User.findOne({
-        where: {login: master.login}})
+        where: {
+            login: master.login
+        }})
         .then((data: any) => {
             if (!data){
                 User.create(master)
@@ -65,14 +47,16 @@ exports.createMaster = (req: Request, res: Response) => {
                         });
                     });
             } else {
-                console.log(`user ${master.login} already exists`)
+                res.send({ message: `Пользователь с логином ${req.body.login} уже зарегистрирован в системе` })
             }
         });
 };
 
-
-exports.findAll = (req: Request, res: Response) => {
-    Master.findAll({
+exports.findAllMaster = (req: Request, res: Response) => {
+    User.findAll({
+        where: {
+            status: 'master',
+        },
         include: [{
             model: Review,
         }],
@@ -88,18 +72,24 @@ exports.findAll = (req: Request, res: Response) => {
         });
 };
 
-exports.findAllFilter = (req: Request, res: Response) => {
+
+exports.findAllMasterFilter = (req: Request, res: Response) => {
     const name = req.query.name as string;
     let options: filterOptionType = {
+        where: {
+            status: 'master',
+        },
         include: [{
             model: Review,
         }]
     };
+
     if (name) {
-        options.where = {name: {[Op.like]: `%${name}%`}}
+        // options.where = {...options.where, name: {[Op.like]: `%${name}%`}}
+        options.where!.name = {[Op.like]: `%${name}%`}
     }
 
-    Master.findAll(options)
+    User.findAll(options)
         .then((data: any) => {
             res.send(masterRating(data));
         })
@@ -112,7 +102,7 @@ exports.findAllFilter = (req: Request, res: Response) => {
 };
 
 exports.findAllFreeMasters = (req: Request, res: Response) => {
-    const {date, time, cityId, size} = req.query;
+    const { date, time, cityId, size } = req.query;
     let ordersOnDate = <any>[];
 
     Order.findAll({where: {
@@ -123,14 +113,14 @@ exports.findAllFreeMasters = (req: Request, res: Response) => {
             ordersOnDate = data
         })
         .then(() => {
-            Master.findAll({
+            User.findAll({
                 where: {
                     cityId: cityId,
+                    status: 'master',
                 },
                 include: [{
                     model: Review,
                 }],
-                // raw: true,
             })
                 .then((masters: any) => {
                     res.send(selectMasters(ordersOnDate, masters, time, size));
@@ -138,10 +128,13 @@ exports.findAllFreeMasters = (req: Request, res: Response) => {
         });
 };
 
-exports.findOne = (req: Request, res: Response) => {
+exports.findOneMaster = (req: Request, res: Response) => {
     const id = req.params.id;
 
-    Master.findByPk(id)
+    User.findOne({
+        where: { id: id },
+        attributes: ['id', 'name', 'cityId', 'login'],
+        })
         .then((data: any) => {
             res.send(data);
         })
@@ -152,9 +145,20 @@ exports.findOne = (req: Request, res: Response) => {
         });
 };
 
-exports.update = (req: Request, res: Response) => {
+exports.updateMaster = (req: Request, res: Response) => {
     const id = req.params.id;
-    Master.update(req.body, {
+
+    const salt = generateSalt();
+    const master = {
+        name: req.body.name,
+        login: req.body.login,
+        cityId: req.body.cityId,
+        status: 'master',
+        password: generatePassCrypt(req.body.password, salt),
+        salt: salt,
+    };
+
+    User.update(master, {
         where: { id: id }
     })
         .then((num: number) => {
@@ -175,10 +179,10 @@ exports.update = (req: Request, res: Response) => {
         });
 };
 
-exports.delete = (req: Request, res: Response) => {
+exports.deleteMaster = (req: Request, res: Response) => {
     const id = req.params.id;
 
-    Master.destroy({
+    User.destroy({
         where: { id: id }
     })
         .then((num: number) => {
@@ -199,9 +203,12 @@ exports.delete = (req: Request, res: Response) => {
         });
 };
 
-exports.list = (req: Request, res: Response) => {
+exports.listMasters = (req: Request, res: Response) => {
 
-    Master.findAll({
+    User.findAll({
+        where: {
+            status: 'master'
+        },
         attributes: ['name']
     })
         .then((data:any) => {

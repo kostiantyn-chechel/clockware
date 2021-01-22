@@ -45,8 +45,8 @@ const db: DBType = {
     reviews: require('./review.model')(sequelize, Sequelize)
 };
 
-db.cities.hasMany(db.masters);
-db.masters.belongsTo(db.cities);
+// db.cities.hasMany(db.masters); // --- TODO delete
+// db.masters.belongsTo(db.cities); // --- TODO delete
 
 db.cities.hasMany(db.masters);
 db.users.belongsTo(db.cities, { as: 'user_city', foreignKey: 'cityId', targetKey: 'id'});
@@ -59,12 +59,16 @@ db.orders.belongsTo(db.masters, { as: 'order_master', foreignKey: 'masterId', ta
 db.users.hasMany(db.orders);
 db.orders.belongsTo(db.users, {as: 'order_user', foreignKey: 'userId', targetKey: 'id'});
 
+//review
 db.orders.hasOne(db.reviews);
 db.reviews.belongsTo(db.orders, { as: 'review_order', foreignKey: 'orderId', targetKey: 'id' });
-db.masters.hasMany(db.reviews);
-db.reviews.belongsTo(db.masters, { as: 'review_master', foreignKey: 'masterId', targetKey: 'id' });
+// db.masters.hasMany(db.reviews); // --- TODO delete
+// db.reviews.belongsTo(db.masters, { as: 'review_master', foreignKey: 'masterId', targetKey: 'id' }); // --- TODO delete
+db.users.hasMany(db.reviews);
+db.reviews.belongsTo(db.users, { as: 'review_user', foreignKey: 'userId', targetKey: 'id'});
 
-// db.clients.hasOne(db.users);
-// db.users.belongsTo(db.clients, {as: 'user_client', foreignKey: 'clientId', targetKey: 'id'});
+
+// db.clients.hasOne(db.users); // --- TODO delete
+// db.users.belongsTo(db.clients, {as: 'user_client', foreignKey: 'clientId', targetKey: 'id'}); // --- TODO delete
 
 module.exports = db;

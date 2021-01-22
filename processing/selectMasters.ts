@@ -20,22 +20,22 @@ type NewMasterType = {
     id: number
     cityId: number
     name: string
+    login: string
     rating: number
     review: string[]
 }
-const masterRating =(masterList: any) => {
+
+const masterRating = (masterList: any) => {
     const mastersList = <any>[];
     masterList.forEach((master: any) => {
         const newMaster: NewMasterType = {
             id: master.id,
             cityId: master.cityId,
             name: master.name,
+            login: master.login,
             rating: 0,
             review: [],
         };
-        // newMaster.id = master.id;
-        // newMaster.cityId = master.cityId;
-        // newMaster.name = master.name;
 
         let ratingSum = 0;
         let ratingCnt = 0;
