@@ -48,13 +48,17 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
             switch (userStatus) {
                 case "admin":
                     setTimeout(() => {
-                        // push('/admin');
                         push('/dashboard');
                     }, 50);
                     break;
                 case "client":
                     setTimeout(() => {
                         push('/client');
+                    }, 50);
+                    break;
+                case "master":
+                    setTimeout(() => {
+                        push('/cabinet');
                     }, 50);
                     break;
             }
