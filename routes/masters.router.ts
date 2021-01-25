@@ -9,6 +9,7 @@ router.get('/', verifyToken, master.findAllMaster);
 router.get('/find', master.findAllFreeMasters);
 router.get('/list', verifyToken, master.listMasters);
 router.get('/filter', verifyToken, master.findAllMasterFilter);
+router.get('/orders/:id', master.masterOrders);
 router.get('/:id',  master.findOneMaster);
 router.put('/:id', verifyToken, master.updateMaster);
 router.delete('/:id', verifyToken, master.deleteMaster);

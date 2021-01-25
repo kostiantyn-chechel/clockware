@@ -24,6 +24,10 @@ module.exports = (sequelize: any, Sequelize: any): OrderAttributes => {
             type: Sequelize.STRING,
             allowNull: false
         },
+        orderStatus: {
+            type: Sequelize.STRING,
+            // allowNull: false
+        }
     });
 
     return Order;

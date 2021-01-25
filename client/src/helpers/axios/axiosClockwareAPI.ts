@@ -4,7 +4,7 @@ import {
     ICity,
     IClient,
     IFilterData,
-    IMaster,
+    IMaster, IMasterOrder,
     IOrderPac,
     ISendOrder,
     IUser,
@@ -73,7 +73,7 @@ export type ChartDataType = {
     listMasterData: {}[]
 }
 type GetAuthServerResponseType = IClient[] | IMaster[] | IOrderPac | IReviews[] | IFilterData[] | CityMasterType[] |
-                                    ChartDataType;
+                                    ChartDataType | IMasterOrder[];
 export const getAuthServerRequest = async (relativeURL: string): Promise<GetAuthServerResponseType> => {
     try {
         const { data } = await axios.get(relativeURL, { headers: authHeader() });

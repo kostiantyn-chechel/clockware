@@ -72,7 +72,6 @@ exports.findAllMaster = (req: Request, res: Response) => {
         });
 };
 
-
 exports.findAllMasterFilter = (req: Request, res: Response) => {
     const name = req.query.name as string;
     let options: filterOptionType = {
@@ -204,7 +203,6 @@ exports.deleteMaster = (req: Request, res: Response) => {
 };
 
 exports.listMasters = (req: Request, res: Response) => {
-
     User.findAll({
         where: {
             status: 'master'
@@ -219,4 +217,24 @@ exports.listMasters = (req: Request, res: Response) => {
             message: "Could not find Masters"
         });
     });
+};
+
+exports.masterOrders = (req: Request, res: Response) => {
+    Order.findAll({
+        where: {
+            masterId: req.params.id
+        },
+        attributes: ['id', 'date', 'hours', 'orderStatus', 'photoURL', 'time'],
+        include: [{
+            model: User,
+            as: 'order_user',
+            attributes: ['name', 'login']
+        }]
+    }).then(orders => {
+        res.send(orders)
+    }).catch(() => {
+        res.status(500).send({
+            message: "Could not find Master Orders"
+        });
+    })
 };

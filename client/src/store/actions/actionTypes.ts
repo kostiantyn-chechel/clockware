@@ -51,3 +51,9 @@ export const SET_CLIENT_ORDERS_LIST = 'SET_CLIENT_ORDERS_LIST';
 
 export type ClientActionTypes =
     { type: typeof SET_CLIENT_ORDERS_LIST, payload: IClientOrder[]}
+
+//MASTER
+export const GET_MASTER_ORDERS = 'GET_MASTER_ORDERS';
+
+export type MasterActionType =
+    { type: typeof GET_MASTER_ORDERS, payload: any }

@@ -4,6 +4,7 @@ import adminReducer from './adminReducer';
 import authReducer from './authReducer';
 import clientReducer from './clientReducer';
 import appReducer from "./appReducer";
+import masterReducer from "./masterReduser";
 
 const rootReducer = combineReducers({
     app: appReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     admin: adminReducer,
     auth: authReducer,
     client: clientReducer,
+    master: masterReducer,
 });
 
 export default rootReducer;

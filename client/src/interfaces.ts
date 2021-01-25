@@ -177,8 +177,22 @@ export interface IFilterData {
     name: string
 }
 
+export interface IMasterOrder {
+    id: number
+    date: string
+    hours: number
+    orderStatus: TOrderStatus
+    order_user: {
+        name: string
+        login: string
+    }
+    photoURL: string
+    time: string
+}
+
 export type ISortDirection = 'asc' | 'desc';
 export type TBookingShow = 'filling' | 'select' | 'gratitude';
 export type TUserStatus = 'client' | 'admin' | 'master' | 'notAuth';
+export type TOrderStatus = 'queue' | 'inwork' | 'completed'
 export type TReview = string[] | [];
 export type TMashId = { match: {params: { id: number }}}
