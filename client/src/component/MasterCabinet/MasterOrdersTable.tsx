@@ -1,5 +1,5 @@
 import React from 'react';
-import {IMasterOrder} from "../../interfaces";
+import { IMasterOrder, TOrderStatus } from "../../interfaces";
 import TableRow from "@material-ui/core/TableRow";
 import TableHead from "@material-ui/core/TableHead";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -8,7 +8,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Paper from "@material-ui/core/Paper";
 import TableContainer from "@material-ui/core/TableContainer";
 import OrderItem from "./OrderItem";
-import {Table} from "@material-ui/core";
+import { Table } from "@material-ui/core";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 export interface IMasterOrdersTable {
     orders: IMasterOrder[]
     handleToggle(url: string): void
+    handleStatus(id: number, status: TOrderStatus): void
 }
 
 const MasterOrdersTable: React.FC<IMasterOrdersTable> = (props) => {
@@ -49,6 +50,7 @@ const MasterOrdersTable: React.FC<IMasterOrdersTable> = (props) => {
                 <OrderItem
                     orders={props.orders}
                     handleToggle={props.handleToggle}
+                    handleStatus={props.handleStatus}
                 />
             </Table>
 

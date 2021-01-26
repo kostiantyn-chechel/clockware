@@ -5,9 +5,10 @@ import { RootStateType } from "../../store/reducers/rootReducer";
 import { connect, ConnectedProps } from "react-redux";
 import { getUserStatus, logout, validToken } from "../../helpers/authProcessing";
 import { useHistory } from "react-router-dom";
-import { getMasterOrders } from "../../store/actions/masterAction";
+import {getMasterOrders, putMasterOrderStatus} from "../../store/actions/masterAction";
 import MasterOrdersTable from "../../component/MasterCabinet/MasterOrdersTable";
 import Backdrop from "@material-ui/core/Backdrop";
+import {TOrderStatus} from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     orders: {
@@ -48,6 +49,8 @@ const MasterCabinet: React.FC<PropsFromRedux> = (props) => {
         setOpen(!open);
     };
 
+    const handleStatus = (id: number, status: TOrderStatus) => props.putMasterOrderStatus(id, status, props.id);
+
     const renderMasterCabinet = () => {
         if (validToken() && getUserStatus() === 'master') {
             return (
@@ -57,6 +60,7 @@ const MasterCabinet: React.FC<PropsFromRedux> = (props) => {
                         <MasterOrdersTable
                             orders={props.orders}
                             handleToggle={handleToggle}
+                            handleStatus={handleStatus}
                         />
                     </div>
                 </Container>
@@ -92,6 +96,8 @@ function mapStateToProps(state: RootStateType) {
 function mapDispatchToProps(dispatch: any) {
     return{
         getMasterOrders: (id: number) => dispatch(getMasterOrders(id)),
+        putMasterOrderStatus: (orderId: number, status: TOrderStatus, masterId: number) =>
+                                                            dispatch(putMasterOrderStatus(orderId, status, masterId)),
     }
 }
 

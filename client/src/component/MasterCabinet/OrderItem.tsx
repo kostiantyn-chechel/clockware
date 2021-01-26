@@ -4,9 +4,10 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import withStyles from "@material-ui/core/styles/withStyles";
 import TableRow from "@material-ui/core/TableRow";
-import { sizeByNumber} from "../../helpers/dateTime";
+import { sizeByNumber } from "../../helpers/dateTime";
 import PhotoButton from "../Tabs/Tables/PhotoButton";
 import CheckingDeadline from "./СheckingDeadline";
+import SelectStatus from "./SelectStatus";
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -15,6 +16,7 @@ const StyledTableRow = withStyles((theme) => ({
         },
     },
 }))(TableRow);
+
 
 const OrderItem: React.FC<IMasterOrdersTable> = (props) => {
 
@@ -39,7 +41,13 @@ const OrderItem: React.FC<IMasterOrdersTable> = (props) => {
                                     hours={order.hours}
                                 />
                             </TableCell>
-                            <TableCell>{order.orderStatus}</TableCell>
+                            <TableCell>
+                                <SelectStatus
+                                    id={order.id}
+                                    status={order.orderStatus}
+                                    handleStatus={props.handleStatus}
+                                />
+                            </TableCell>
                         </StyledTableRow>
                     ))}
             </TableBody>

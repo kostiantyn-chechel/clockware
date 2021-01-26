@@ -7,7 +7,7 @@ import {
     IMaster, IMasterOrder,
     IOrderPac,
     ISendOrder,
-    IUser,
+    IUser, TOrderStatus,
 } from "../../interfaces";
 import {authHeader} from "../authProcessing";
 import {IReviews} from "../../containers/Review/ReviewMaster";
@@ -83,7 +83,7 @@ export const getAuthServerRequest = async (relativeURL: string): Promise<GetAuth
     }
 };
 
-type PutAuthServerRequestBodyType = IMaster | ICity | IClient;
+type PutAuthServerRequestBodyType = IMaster | ICity | IClient | {orderId: number, status: TOrderStatus};
 export const putAuthServerRequest = async (relativeURL: string, body: PutAuthServerRequestBodyType) => {
     try {
         const { data } = await axios.put(relativeURL, body, { headers: authHeader() });

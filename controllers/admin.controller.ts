@@ -3,14 +3,15 @@ import {Request, Response} from 'express'
 const { or, and, gt, lt } = db.Sequelize.Op;
 const sequelize = db.sequelize;
 const City = db.cities;
-const Master = db.masters;
+const User = db.users;
 const Order = db.orders;
 
 exports.listAllCityWithMasters = (req: Request, res: Response) => {
     City.findAll({
         attributes: ['id', 'name'],
         include: [{
-            model: Master,
+            model: User,
+            attributes: ['id', 'name', 'cityId']
         }]
     }).then(data => res.send(data))
 };
@@ -70,7 +71,7 @@ exports.filterAdminData = (req: Request, res: Response) => {
                     [sequelize.fn('count', sequelize.col('masterId')), 'count']
                 ],
                 include: {
-                    model: Master,
+                    model: User,
                     as: 'order_master',
                     attributes: [
                         'name'
@@ -86,7 +87,7 @@ exports.filterAdminData = (req: Request, res: Response) => {
                         'masterId',
                     ],
                     include: {
-                        model: Master,
+                        model: User,
                         as: 'order_master',
                         attributes: [
                             'name'
