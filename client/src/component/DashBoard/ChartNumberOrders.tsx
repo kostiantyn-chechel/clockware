@@ -26,6 +26,9 @@ const options = {
             },
         ],
     },
+    legend: {
+        display: false,
+    },
 };
 
 interface IChartNumberOrders {

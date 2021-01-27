@@ -1,3 +1,10 @@
+// @ts-ignore
+import {IError} from "../Type/interfaces";
+
+const db = require('../models');
+const User = db.users;
+const Review = db.reviews;
+
 const selectMasters = (orders: any, masters: any, time: any, hours: any) => {
     const clientTime = addReservedTime(time, hours);
     const masterList = masters.slice();
@@ -55,9 +62,10 @@ const masterRating = (masterList: any) => {
         }
         mastersList.push(newMaster);
     });
-
+    console.log('masterList', masterList);
     return mastersList;
 };
+
 
 module.exports = {
     selectMasters,

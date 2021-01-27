@@ -9,9 +9,9 @@ import {
     ISendOrder,
     IUser, TOrderStatus,
 } from "../../interfaces";
-import {authHeader} from "../authProcessing";
-import {IReviews} from "../../containers/Review/ReviewMaster";
-import {CityMasterType, IChartDateOrder} from "../../containers/Admin/AdminDashboard";
+import { authHeader } from "../authProcessing";
+import { IReviews } from "../../containers/Review/ReviewMaster";
+import { CityMasterType, IChartDateOrder } from "../../containers/Admin/AdminDashboard";
 
 let baseURL;
 if (process.env.NODE_ENV === 'development') {
@@ -71,6 +71,16 @@ export type ChartDataType = {
         }
     }[]
     listMasterData: {}[]
+    listMastersTablesData: {
+        id: number
+        name: string
+        master_orders: {
+            hours: number
+            count: number
+        }[]
+        rating: number
+        status: string
+    }[]
 }
 type GetAuthServerResponseType = IClient[] | IMaster[] | IOrderPac | IReviews[] | IFilterData[] | CityMasterType[] |
                                     ChartDataType | IMasterOrder[];

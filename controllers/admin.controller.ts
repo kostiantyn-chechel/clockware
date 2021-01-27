@@ -1,9 +1,10 @@
 const db = require("../models");
-import {Request, Response} from 'express'
-const { or, and, gt, lt } = db.Sequelize.Op;
+import { Request, Response} from 'express'
+const { and, gt, lt } = db.Sequelize.Op;
 const sequelize = db.sequelize;
 const City = db.cities;
 const User = db.users;
+const Review = db.reviews;
 const Order = db.orders;
 
 exports.listAllCityWithMasters = (req: Request, res: Response) => {
@@ -16,7 +17,7 @@ exports.listAllCityWithMasters = (req: Request, res: Response) => {
     }).then(data => res.send(data))
 };
 
-exports.filterAdminData = (req: Request, res: Response) => {
+exports.filterAdminData = async (req: Request, res: Response) => {
     const startData = req.query.start;
     const endData = req.query.end;
     const cityIdArr = req.query.cities ? JSON.parse(req.query.cities as string) : null;
@@ -26,6 +27,7 @@ exports.filterAdminData = (req: Request, res: Response) => {
     let listCityCount = [];
     let listMasterCount = [];
     let listMasterData = [];
+    let listMastersTablesData: any[] = [];
 
     const where = {
         [and]: [
@@ -36,7 +38,7 @@ exports.filterAdminData = (req: Request, res: Response) => {
         cityId: cityIdArr,
     };
 
-    Order.findAll({
+    await Order.findAll({
         where: where,
         attributes: [
             'date',
@@ -44,77 +46,133 @@ exports.filterAdminData = (req: Request, res: Response) => {
         ],
         group: ['date'],
         order: ['date'],
-    }).then(response => {
-        listDateOrder = response;
-    }).then(() => {
-        Order.findAll({
-            where: where,
-            attributes: [
-                'cityId',
-                [sequelize.fn('count', sequelize.col('cityId')), 'count']
-            ],
-            include: {
-                model: City,
-                as: 'order_city',
-                attributes: [
-                    'name'
-                ],
-            },
-            group: ['cityId'],
-        }).then(response => {
-            listCityCount = response
-        }).then(() => {
-            Order.findAll({
-                where: where,
-                attributes: [
-                    'masterId',
-                    [sequelize.fn('count', sequelize.col('masterId')), 'count']
-                ],
-                include: {
-                    model: User,
-                    as: 'order_master',
-                    attributes: [
-                        'name'
-                    ],
-                },
-                group: ['masterId'],
-            }).then(response => {
-                listMasterCount = response;
-            }).then(() => { //MastersTable
-                Order.findAll({
-                    where: where,
-                    attributes: [
-                        'masterId',
-                    ],
-                    include: {
-                        model: User,
-                        as: 'order_master',
-                        attributes: [
-                            'name'
-                        ],
-                    },
-                    group: ['masterId'],
+    }).then(response => listDateOrder = response);
 
-                }).then(response => {
-                    listMasterData = response;
-                }).then(() => {
-                    res.send({
-                        listDateOrder,
-                        listCityCount,
-                        listMasterCount,
-                        listMasterData,
-                    });
-                });
-            });
-        });
+    await Order.findAll({
+        where: where,
+        attributes: [
+            'cityId',
+            [sequelize.fn('count', sequelize.col('cityId')), 'count']
+        ],
+        include: {
+            model: City,
+            as: 'order_city',
+            attributes: [
+                'name'
+            ],
+        },
+        group: ['cityId'],
+    }).then(response => listCityCount = response);
+
+    await Order.findAll({
+        where: where,
+        attributes: [
+            'masterId',
+            [sequelize.fn('count', sequelize.col('masterId')), 'count']
+        ],
+        include: {
+            model: User,
+            as: 'order_master',
+            attributes: [
+                'name'
+            ],
+        },
+        group: ['masterId'],
+    }).then(response => listMasterCount = response);
+
+    await Order.findAll({  //MastersTable
+        where: where,
+        attributes: [
+            'masterId',
+        ],
+        include: {
+            model: User,
+            as: 'order_master',
+            attributes: [
+                'name'
+            ],
+        },
+        group: ['masterId'],
+    }).then(response => listMasterData = response);
+
+    await User.findAll({
+        where: {
+            id: masterIdArr,
+        },
+        attributes: ['id','name'],
+        include: [{
+            model: Order,
+            where: where,
+            as: 'master_orders',
+            attributes: [
+                'hours',
+                [sequelize.fn('count', sequelize.col('hours')), 'count']
+            ],
+        }],
+        group: ['id', 'hours']
+    })
+        .then(response => listMastersTablesData = response);
+
+        //     .then(response => {
+        //     const sss: number[] = [];
+        //     for (let i = 0; response.length-1; i++) {
+        //         masterRatingById(response.id)
+        //             .then(rating => {
+        //                 response.rating = rating
+        //             })
+        //     }
+        //     response.forEach(item => {
+        //         masterRatingById(item.id)
+        //             .then(rating => {
+        //                 console.log('rating', rating);
+        //                 sss.push(rating);
+        //             })
+        //     });
+        //     console.log('sss', sss);
+        // });
+                // .then(rating => {
+                //     return  {
+                //         // @ts-ignore
+                //         id:item.id,
+                //         // @ts-ignore
+                //         name: item.name,
+                //         // @ts-ignore
+                //         orders: item.master_orders,
+                //         // @ts-ignore
+                //         rating
+                //     }
+                // });
+
+
+    res.send({
+        listDateOrder,
+        listCityCount,
+        listMasterCount,
+        listMasterData,
+        listMastersTablesData,
     });
 };
 
-const threeLargestMaster = (masterArr: []) => {
-    if (masterArr.length < 3) {
-        const list = [];
-             const biggest = (arr: []): number => arr.length;
-        return list
-    }
-    return masterArr
+
+
+const masterRatingById = async (id: number): Promise<number> => {
+    return Review.findAll({
+        where: {
+            userId: id,
+        },
+        attributes: ['rating']
+    }).then(rating => {
+        const aaa = rating.map(item => item.rating);
+        return aaa.reduce((a, b) => a + b, 0) / aaa.length;
+    });
 };
+
+//todo !!!!
+// const threeLargestMaster = (masterArr: []) => {
+//     if (masterArr.length < 3) {
+//         const list = [];
+//              const biggest = (arr: []): number => arr.length;
+//         return list
+//     }
+//     return masterArr
+// };

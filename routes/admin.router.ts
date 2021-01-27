@@ -5,7 +5,6 @@ const router = express.Router();
 
 // router.get('/', authUser, listAllCityWithMasters);
 router.get('/', admin.listAllCityWithMasters);
-// router.get('/filter', authUser, filterAdminData);
 router.get('/filter', admin.filterAdminData);
 
 module.exports = router;

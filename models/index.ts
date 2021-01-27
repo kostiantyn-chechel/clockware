@@ -45,7 +45,7 @@ db.users.belongsTo(db.cities, { as: 'user_city', foreignKey: 'cityId', targetKey
 db.cities.hasMany(db.orders);
 db.orders.belongsTo(db.cities, { as: 'order_city', foreignKey: 'cityId', targetKey: 'id' });
 
-db.users.hasMany(db.orders);
+db.users.hasMany(db.orders, {as: 'master_orders', foreignKey: 'masterId'});
 db.orders.belongsTo(db.users, {as: 'order_user', foreignKey: 'userId', targetKey: 'id'});
 db.orders.belongsTo(db.users, {as: 'order_master', foreignKey: 'masterId', targetKey: 'id'});
 

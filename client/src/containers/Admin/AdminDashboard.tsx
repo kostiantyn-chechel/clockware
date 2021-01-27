@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Drawer from "@material-ui/core/Drawer";
 import ListMenu from "./ListMenu/ListMenu";
@@ -6,13 +6,14 @@ import DatePickers from "../../component/DateTimePickers/DatePickers";
 import ChartNumberOrders from "../../component/DashBoard/ChartNumberOrders";
 import OrderChartByCity from "../../component/DashBoard/OrderChartByCity";
 import OrderChartByMaster from "../../component/DashBoard/OrderChartByMaster";
-import {dayToString, todayPlus} from "../../helpers/dateTime";
+import { dayToString, todayPlus } from "../../helpers/dateTime";
 import { RootStateType } from "../../store/reducers/rootReducer";
 import { connect, ConnectedProps } from "react-redux";
 import { setOpenMenu } from "../../store/actions/appAction";
-import {ChartDataType, getAuthServerRequest} from "../../helpers/axios/axiosClockwareAPI";
-import {ICity} from "../../interfaces";
+import { ChartDataType, getAuthServerRequest } from "../../helpers/axios/axiosClockwareAPI";
+import { ICity } from "../../interfaces";
 import CityMasterCheckbox from "../../component/DashBoard/CityMasterCheckbox";
+import AdminMastersTables from "../../component/AdminMastersTables/AdminMastersTables";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -58,7 +59,7 @@ interface IMaster{
     name: string
     cityId: number
 }
-export interface CityMasterType extends ICity { masters: IMaster[] }
+export interface CityMasterType extends ICity { users: IMaster[] }
 export interface CityForListType extends ICity { active: boolean }
 export interface MasterForListType extends IMaster { active: boolean }
 export interface IChartDateOrder {
@@ -68,6 +69,16 @@ export interface IChartDateOrder {
 export interface IChartList {
     name: string
     count: number
+}
+
+export interface IMasterTablesData {
+    id: number
+    name: string
+    s1?: number
+    s2?: number
+    s3?: number
+    rating: number
+    status: string
 }
 
 
@@ -83,6 +94,7 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     const [chartDateOrderList, setChartDateOrderList] = useState<IChartDateOrder[]>([]);
     const [chartCityList, setChartCityList] = useState<IChartList[]>([]);
     const [chartMasterList, setChartMasterList] = useState<IChartList[]>([]);
+    const [masterTablesData, setMasterTablesData] = useState<IMasterTablesData[]>([]);
 
     useEffect(() => {
         const cities: CityForListType[] = [];
@@ -96,8 +108,8 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                                      name: city.name,
                                      active: true,
                                 });
-                        if (city.masters[0]) {
-                            city.masters.forEach((master) => {
+                        if (city.users[0]) {
+                            city.users.forEach((master) => {
                                 masters.push({
                                     id: master.id,
                                     name: master.name,
@@ -114,10 +126,12 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     },[]);
 
     useEffect(() => {
-        // console.log('чето поменялось');
-        const cityJSON = JSON.stringify(cityList.filter((city) => city.active).map((city) => city.id));
-        const masterJSON = JSON.stringify(masterList.filter((master) => master.active).map((master) => master.id));
+        const cityJSON = JSON.stringify(cityList.filter((city) =>
+                                                    city.active).map((city) => city.id));
+        const masterJSON = JSON.stringify(masterList.filter((master) =>
+                                                    master.active).map((master) => master.id));
         const URL = `/adm/filter?start=${dataRange.rangeStart}&end=${dataRange.rangeEnd}&cities=${cityJSON}&masters=${masterJSON}`;
+
         getAuthServerRequest(URL)
             .then(response =>{
                 const listDateOrder: IChartDateOrder[] = (response as ChartDataType).listDateOrder;
@@ -143,13 +157,29 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                         count: item.count,
                     }
                 }));
+
+                const masterTablesList = (response as ChartDataType).listMastersTablesData;
+                setMasterTablesData(masterTablesList.map(master => {
+                    const sizeSet = master.master_orders.reduce((acc, item) => {
+                        acc['s' + item.hours] = item.count;
+                        return acc;
+                    }, {});
+
+                    return {
+                        id: master.id,
+                        name: master.name,
+                        ...sizeSet,
+                        rating: 1, //todo
+                        status: '???' //todo
+                    }
+                }));
             })
     }, [cityList, masterList, dataRange]);
 
-    useEffect(() => {
-        // console.log('start:', dataRange.rangeStart, 'end:', dataRange.rangeEnd)
-        // console.log('chartDateOrderList', chartDateOrderList);
-    }, [chartDateOrderList]);
+    // useEffect(() => {
+    //     // console.log('start:', dataRange.rangeStart, 'end:', dataRange.rangeEnd)
+    //     // console.log('chartDateOrderList', chartDateOrderList);
+    // }, [chartDateOrderList]);
 
     const handleDrawerClose = () => props.setMenuOpen(false);
 
@@ -198,7 +228,6 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
 
             <CityMasterCheckbox
                 cityList={cityList}
-                // masterList={masterList}
                 masterList={masterListFromActiveCity()}
                 checkCity={checkCity}
                 checkMaster={checkMaster}
@@ -218,6 +247,10 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                     <OrderChartByMaster listData={chartMasterList}/>
                 </div>
             </div>
+
+            <AdminMastersTables
+                data={masterTablesData}
+            />
 
             <div className={classes.main}>
                 <Drawer
