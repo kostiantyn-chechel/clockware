@@ -1,11 +1,10 @@
-import { Request, Response } from 'express'
-import {IDBUser, IError} from "../Type/interfaces"
+import { NextFunction, Request, Response } from 'express'
+import { IDBUser, IError } from "../Type/interfaces"
 // const sendEmails = require('../processing/sendEmails'); // <-- send Email(Gmail)
 const sendSGEmail  = require('../processing/sendGridMail');
 const db = require("../models");
 const Op = db.Sequelize.Op;
 const Order = db.orders;
-const Master = db.masters;
 const City = db.cities;
 const User = db.users;
 const Review = db.reviews;
@@ -33,6 +32,7 @@ exports.create = (req: Request, res: Response) => {
                 order = {
                     ...order,
                     userId: data.id,
+                    orderStatus: 'queue'
                 };
                 creteOrder(order);
             } else {
@@ -42,6 +42,7 @@ exports.create = (req: Request, res: Response) => {
                         order = {
                             ...order,
                             userId: data.id,
+                            orderStatus: 'queue'
                         };
                         creteOrder(order);
                     })
@@ -54,7 +55,7 @@ exports.create = (req: Request, res: Response) => {
                 Order.findByPk(data.id, {
                     include: [
                         {model: User, as: 'order_user',},
-                        {model: Master, as: 'order_master',}
+                        {model: User, as: 'order_master',}
                     ]
                 })
                     .then((resOrder: any) => {
@@ -107,7 +108,7 @@ exports.findFilter = (req: Request, res: Response) => {
             model: City,
             as: 'order_city',
         },{
-            model: Master,
+            model: User,
             as: 'order_master'
         }],
     }).then((data: any) => {
@@ -150,7 +151,7 @@ exports.clientOrders = (req: Request, res: Response) => {
             as: 'order_city',
             attributes: ['name'],
         },{
-            model: Master,
+            model: User,
             as: 'order_master',
             attributes: ['name'],
         },{
@@ -159,4 +160,22 @@ exports.clientOrders = (req: Request, res: Response) => {
         }],
     })
         .then((orders: any) => res.send(orders))
+};
+
+exports.changeStatus = (req: Request, res: Response, next: NextFunction) => {
+    const order = { orderStatus: req.body.status };
+
+    Order.update(order, {
+        where: { id: req.body.orderId }
+    })
+        .then((num: number) => {
+            console.log('update:', num);
+            if (num == 1) {
+                next()
+            } else {
+                res.send({
+                    message: `Cannot update Order with id=${req.body.orderId}`
+                });
+            }
+        });
 };

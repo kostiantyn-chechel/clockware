@@ -10,21 +10,29 @@ interface IPhotoButton {
 const PhotoButton: React.FC<IPhotoButton> = (props) => {
     const { photoURL, handleToggle } = props;
 
-    if (photoURL) {
-        return (
-            <>
-                <IconButton color='primary' onClick={() => handleToggle(photoURL)}>
-                    <PhotoIcon />
-                </IconButton>
-            </>
-        )
-    } else {
-        return (
-            <>
-                {null}
-            </>
-        )
-    }
+    return (
+        photoURL ?
+            <IconButton color='primary' onClick={() => handleToggle(photoURL)}>
+                <PhotoIcon />
+            </IconButton>
+            : null
+    )
+
+    // if (photoURL) { //TODO - del
+    //     return (
+    //         <>
+    //             <IconButton color='primary' onClick={() => handleToggle(photoURL)}>
+    //                 <PhotoIcon />
+    //             </IconButton>
+    //         </>
+    //     )
+    // } else {
+    //     return (
+    //         <>
+    //             {null}
+    //         </>
+    //     )
+    // } ////
 };
 
 export default PhotoButton;

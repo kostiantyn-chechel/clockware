@@ -1,4 +1,5 @@
 import {
+    ADD_MASTER_MASSAGE,
     CLEAR_INFINITE_ORDERS,
     FETCH_CITIES,
     FETCH_CLIENTS,
@@ -7,7 +8,7 @@ import {
     FETCH_MASTERS,
     SHOW_ERROR,
 } from './actionTypes';
-import { ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
+import { ICity, IClient, IFetchFilterOrders } from "../../interfaces";
 import {
     deleteAuthServerRequest,
     getAuthServerRequest,
@@ -15,6 +16,7 @@ import {
     postAuthServerRequest,
     putAuthServerRequest
 } from "../../helpers/axios/axiosClockwareAPI";
+import {IRegistrationMaster} from "../../component/DataPanel/MasterDataPanel";
 
 export const fetchClients = () => {
     return async (dispatch: any) => getAuthServerRequest('/clients')
@@ -67,13 +69,21 @@ export const fetchCities = () => {
         .catch(() => dispatch(showError()));
 };
 
-export const addMaster = (master: IMaster) => {
+export const addMaster = (master: IRegistrationMaster) => {
     return async (dispatch: any) => postAuthServerRequest('/masters', master)
-        .then(() => dispatch(fetchMasters()))
+        .then((response) => {
+            if (response.massage) {
+                dispatch(addMasterMessage(response.massage))
+            } else {
+                dispatch(fetchMasters())
+            }
+        })
         .catch(() => dispatch(showError()));
 };
 
-export const editMaster = (master: IMaster) => {
+export const addMasterMessage = (message: string) => ({ type: ADD_MASTER_MASSAGE, payload: message });
+
+export const editMaster = (master: IRegistrationMaster) => {
     return async (dispatch: any) => putAuthServerRequest(`/masters/${master.id}`, master)
         .then(() => dispatch(fetchMasters()))
         .catch(() => dispatch(showError()));

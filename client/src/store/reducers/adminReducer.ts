@@ -1,5 +1,6 @@
 import {
     AdminActionTypes,
+    ADD_MASTER_MASSAGE,
     CLEAR_INFINITE_ORDERS,
     FETCH_CITIES,
     FETCH_CLIENTS,
@@ -8,7 +9,7 @@ import {
     FETCH_MASTERS,
     SHOW_ERROR,
 } from '../actions/actionTypes';
-import { ICity, IClient, IMaster, IOrderPac } from "../../interfaces";
+import {ICity, IClient, IMaster, IOrderPac} from "../../interfaces";
 
 export type AdminInitialStateType = {
     masters: IMaster[],
@@ -17,6 +18,7 @@ export type AdminInitialStateType = {
     ordersInfinite: IOrderPac,
     orders: IOrderPac,
     hasError: boolean,
+    massage: string,
 };
 
 const initialState: AdminInitialStateType = {
@@ -32,6 +34,7 @@ const initialState: AdminInitialStateType = {
         rows: [],
     },
     hasError: false,
+    massage: '',
 };
 
 export default function adminReducer(state = initialState, action: AdminActionTypes): AdminInitialStateType {
@@ -70,6 +73,11 @@ export default function adminReducer(state = initialState, action: AdminActionTy
             return {
                 ...state,
                 hasError: true,
+            };
+        case ADD_MASTER_MASSAGE:
+            return {
+                ...state,
+                massage: action.payload,
             };
         default:
             return state;

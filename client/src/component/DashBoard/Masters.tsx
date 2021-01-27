@@ -6,8 +6,15 @@ import {RootStateType} from "../../store/reducers/rootReducer";
 import {setOpenMenu} from "../../store/actions/appAction";
 import {connect, ConnectedProps} from "react-redux";
 import MastersTab from "../Tabs/MastersTab";
-import {addMaster, deleteMaster, editMaster, fetchFilterMasters, fetchMasters} from "../../store/actions/adminAction";
-import {IMaster} from "../../interfaces";
+import {
+    addMaster,
+    addMasterMessage,
+    deleteMaster,
+    editMaster,
+    fetchFilterMasters,
+    fetchMasters
+} from "../../store/actions/adminAction";
+import {IRegistrationMaster} from "../DataPanel/MasterDataPanel";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -25,15 +32,16 @@ const Masters: React.FC<PropsFromRedux> = (props) => {
 
     return (
         <React.Fragment>
-            <div>MASTERS</div>
             <MastersTab
                 fetchMasters={props.fetchMasters}
                 fetchFilterMasters={props.fetchFilterMasters}
                 addMaster={props.addMaster}
+                addMasterMessage={props.addMasterMessage}
                 editMaster={props.editMaster}
                 deleteMaster={props.deleteMaster}
                 masters={props.masters}
                 cities={props.cities}
+                massage={props.massage}
             />
             <div className={classes.main}>
                 <Drawer
@@ -56,6 +64,7 @@ function mapStateToProps(state: RootStateType) {
         openMenu: state.app.openMenu,
         masters: state.admin.masters,
         cities: state.admin.cities,
+        massage: state.admin.massage,
     }
 }
 
@@ -64,9 +73,10 @@ function mapDispatchToProps(dispatch: any) {
         setMenuOpen: (open: boolean) => dispatch(setOpenMenu(open)),
         fetchMasters: () => dispatch(fetchMasters()),
         fetchFilterMasters: (name: string) => dispatch(fetchFilterMasters(name)),
-        addMaster: (master: IMaster) => dispatch(addMaster(master)),
-        editMaster: (master: IMaster) => dispatch(editMaster(master)),
+        addMaster: (master: IRegistrationMaster) => dispatch(addMaster(master)),
+        editMaster: (master: IRegistrationMaster) => dispatch(editMaster(master)),
         deleteMaster: (masterId: number) => dispatch(deleteMaster(masterId)),
+        addMasterMessage: (massage: string) => dispatch(addMasterMessage(massage)),
     }
 }
 

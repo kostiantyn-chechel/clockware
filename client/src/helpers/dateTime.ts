@@ -36,6 +36,19 @@ export const hoursByWords = (number: string): string => {
     }
 };
 
+export const sizeByNumber = (number: number): string => {
+    switch (number) {
+        case 1:
+            return 'маленькие';
+        case 2:
+            return 'средние';
+        case 3:
+            return 'большие';
+        default:
+            return 'неизвестно';
+    }
+};
+
 export const dayToString = (day: string): string => {
     return day.slice(0,10)
 };
@@ -46,4 +59,22 @@ export const nowTimePlus = (): string => {
     if (time.getHours() === 23 ) return '00:00';
     if (time.getHours() === 24 ) return '01:00';
     return `${time.getHours() +1}:00`;
+};
+
+export const checkingDeadline1 = (date: string, time: string, hours: number) => {
+    const rightNow = new Date();
+    const orderDate = new Date(date);
+    orderDate.setHours(+time.slice(0, time.length - 3) + hours, 0, 0);
+
+    const dateDifference = orderDate.valueOf() - rightNow.valueOf();
+    if (dateDifference <= 0) return `overdue: ${ - Math.round(dateDifference/(1000*60*60*24))} дней`;
+    if (dateDifference > 86400000) {
+        console.log(orderDate);
+        console.log(rightNow);
+        return `дней: ${Math.round(dateDifference/(1000*60*60*24))}`;
+    } else {
+        console.log('orderDate', orderDate);
+        console.log('rightNow', rightNow);
+        return `часов: ${Math.round(dateDifference/(1000*60*60))}`
+    }
 };

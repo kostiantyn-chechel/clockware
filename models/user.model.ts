@@ -1,4 +1,4 @@
-import {TUserStatus} from "../Type/interfaces";
+import { TUserStatus } from "../Type/interfaces";
 
 export interface UserAttributes {
     id?: number

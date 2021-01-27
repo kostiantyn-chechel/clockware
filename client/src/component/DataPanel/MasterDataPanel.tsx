@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import Grid from '@material-ui/core/Grid';
+import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import SelectElement from '../SelectElement';
-import {ICity, IMaster} from "../../interfaces";
+import { ICity, IMaster, TUserStatus } from "../../interfaces";
+import {comparePass, isEmail, isName} from "../../helpers/validation";
+import Warning from "../Warning";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -39,93 +42,171 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+type ErrorMasterFieldType = {
+    name: boolean
+    login: boolean
+    city: boolean
+    password: boolean
+    password2: boolean
+}
+
+export interface IRegistrationMaster {
+    id: number
+    name: string
+    login: string
+    cityId: number
+    password: string
+    password2: string
+    status: TUserStatus
+}
+
 interface IMasterDataPanel {
-    masterEdit: IMaster,
-    handleMasterSave(event: React.MouseEvent): void,
-    handleMasterCancel(event: React.MouseEvent): void,
-    handleSelectCity(id: number): void,
-    changeMasterName(name: string): void,
+    masterEdit: IMaster
+    handleMasterCancel(event: React.MouseEvent): void
+    handleMasterAddEdit(master: IRegistrationMaster): void
     arrCity: ICity[],
-    addNew: boolean
+    addNew: boolean,
+    message: string
 }
 
 const MasterDataPanel: React.FC<IMasterDataPanel> = (props) => {
     const classes = useStyles();
-    const [valid, setValid] = useState({
-        name: true,
+
+    const [master, setMaster] = useState<IRegistrationMaster>({
+        id: props.masterEdit.id,
+        name: props.masterEdit.name,
+        login: props.masterEdit.login ? props.masterEdit.login :'не указано',
+        cityId: props.masterEdit.cityId,
+        password: '',
+        password2: '',
+        status: 'master'
     });
 
-    const changeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const name = event.target.value;
-            props.changeMasterName(name);
-        if (name.length < 3) {
-            setValid({name: false})
-        } else {
-            setValid({name: true})
-        }
+
+    useEffect(() => {
+        setError({
+            name: master.name === '' ? false : !isName(master.name, 3),
+            login: master.login === '' ? false : !isEmail(master.login),
+            city: !master.cityId,
+            password: master.password === '' ? false :!isName(master.password, 8),
+            password2: !comparePass(master.password, master.password2),
+        })
+    }, [master]);
+
+    const [error, setError] = useState<ErrorMasterFieldType>({
+        name: false,
+        login: false,
+        city: false,
+        password: false,
+        password2: false,
+    });
+
+    const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setMaster({
+            ...master, [event.target.name]: event.target.value
+        })
+    };
+    const handleSelectCity = (id: number) => setMaster({ ...master, cityId: id });
+
+    const handleMasterSave = (event: React.MouseEvent) => {
+        event.preventDefault();
+        props.handleMasterAddEdit(master);
     };
 
     return (
-        <div className={classes.paper}>
-            <form className={classes.form} noValidate>
-                <Grid container spacing={2}>
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
 
-                    <Grid item xs={12}>
-                        <TextField
-                            error={!valid.name}
-                            helperText={!valid.name ? 'Имя не менее 3 знаков' : null}
-                            onChange={changeName}
-                            autoComplete="fname"
-                            name="masterName"
-                            variant="outlined"
-                            value={props.masterEdit.name}
-                            required
-                            fullWidth
-                            id="masterName"
-                            label="Имя мастера"
-                            autoFocus
-                        />
-                    </Grid>
+                <TextField
+                    error={error.name}
+                    helperText={!error.name ? 'Имя не менее 3 знаков' : null}
+                    onChange={handleChange}
+                    value={master.name}
+                    margin="normal"
+                    name="name"
+                    id="name"
+                    label="Имя мастера"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    autoFocus
+                />
 
-                    <Grid item xs={12}>
-                        <SelectElement
-                            arrItems={props.arrCity}
-                            onChange={props.handleSelectCity}
-                            cityId={props.masterEdit.cityId}
-                        />
-                    </Grid>
+                <TextField
+                    error={error.login}
+                    helperText={!error.login ? 'Некорректный email' : null}
+                    onChange={handleChange}
+                    value={master.login}
+                    margin="normal"
+                    name="login"
+                    id="login"
+                    label="Email Мастера"
+                    variant="outlined"
+                    required
+                    fullWidth
+                />
 
-                </Grid>
-                <Grid container className={classes.buttons} spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                            size="large"
-                            onClick={props.handleMasterSave}
-                        >
-                            {props.addNew ? 'Добавить' : 'Изменить'}
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="secondary"
-                            className={classes.submit}
-                            size="large"
-                            onClick={props.handleMasterCancel}
-                        >
-                            Отменить
-                        </Button>
-                    </Grid>
-                </Grid>
-            </form>
-        </div>
+                <Warning valid={!props.message} >
+                    {props.message}
+                </Warning>
+
+                <TextField
+                    error={error.password}
+                    helperText={error.password ?'пароль должен быть не менее 8 знаков': ''}
+                    onChange={handleChange}
+                    margin="normal"
+                    name="password"
+                    id="password"
+                    label="Password"
+                    type="password"
+                    variant="outlined"
+                    required
+                    fullWidth
+                />
+                <TextField
+                    error={error.password2}
+                    helperText={error.password2 ?'Пароль должен совпадать': ''}
+                    onChange={handleChange}
+                    margin="normal"
+                    name="password2"
+                    id="password2"
+                    variant="outlined"
+                    label="Password again"
+                    type="password"
+                    required
+                    fullWidth
+                />
+
+                <SelectElement
+                    arrItems={props.arrCity}
+                    onChange={handleSelectCity}
+                    cityId={props.masterEdit.cityId}
+                />
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    size="large"
+                    onClick={handleMasterSave}
+                >
+                    {props.addNew ? 'Добавить' : 'Изменить'}
+                </Button>
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    className={classes.submit}
+                    size="large"
+                    onClick={props.handleMasterCancel}
+                >
+                    Отменить
+                </Button>
+            </div>
+        </Container>
     );
 };
 

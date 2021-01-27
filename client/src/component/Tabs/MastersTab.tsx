@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AddButton from './AddButton';
-import MasterDataPanel from '../DataPanel/MasterDataPanel';
+import MasterDataPanel, { IRegistrationMaster } from '../DataPanel/MasterDataPanel';
 import { cityById } from '../../helpers/dataProcessing';
 import MastersTable from './Tables/MastersTable';
 import DeleteDialog from './DeleteDialog';
@@ -9,18 +9,18 @@ import SearchComboBox from "../SearchComboBox/SearchComboBox";
 
 export type MasterTableType = {id: number, name: string, rating: number, city: string}
 
+const ZERO_MASTER = {
+    id: 0,
+    name: '',
+    login: '',
+    cityId: 0,
+    rating: 0,
+    review: [],
+};
+
 const MastersTab: React.FC<IMastersTab> = (props) => {
-    const [masterEdit, setMasterEdit] = useState<IMaster>({
-        id: 0,
-        name: '',
-        cityId: 0,
-        rating: 0,
-        review: [],
-    });
-    const [flag, setFlag] = useState({
-        showPanel: false,
-        addNew: true,
-    });
+    const [masterEdit, setMasterEdit] = useState<IMaster>(ZERO_MASTER);
+    const [flag, setFlag] = useState({ showPanel: false, addNew: true});
 
     const [filterWord, setFilterWord] = useState<string | null>(null);
     const [showDelDialog, setShowDelDialog] = useState(false);
@@ -38,37 +38,26 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
     }, [filterWord]);
     /* eslint-enable */
 
-    const changeMasterName = (name: string) => setMasterEdit({ ...masterEdit, name: name });
-    const handleSelectCity = (id: number) => setMasterEdit({ ...masterEdit, cityId: id });
-    const handleAddButton = () => setFlag({ showPanel: true, addNew: true });
-
-    const handleMasterSave = (event: React.MouseEvent) => {
-        event.preventDefault();
-        if (masterEdit.name.length >=3 && masterEdit.cityId) {
-            if (flag.addNew) {
-                props.addMaster(masterEdit);
-            } else {
-                props.editMaster(masterEdit);
-            }
-            setFlag({ ...flag, showPanel: false });
-            setMasterEdit({
-                id: 0,
-                name: '',
-                cityId: 0,
-                rating: 0,
-                review: [], });
+    const handleMasterAddEdit = (master: IRegistrationMaster) => {
+        if (flag.addNew) {
+            props.addMaster(master);
+            console.log('add master', master)
+        } else {
+            props.editMaster(master);
+            console.log('edit master', master)
         }
+        setFlag({ ...flag, showPanel: false });
     };
 
     const handleMasterCancel = (event: React.MouseEvent) => {
         event.preventDefault();
-        setFlag({ ...flag, showPanel: false });
-        setMasterEdit({
-            id: 0,
-            name: '',
-            cityId: 0,
-            rating: 0,
-            review: [], });
+        setFlag({...flag, showPanel: false});
+    };
+
+    const handleAddButton = () => {
+        props.addMasterMessage('');
+        setMasterEdit(ZERO_MASTER);
+        setFlag({ showPanel: true, addNew: true })
     };
 
     const clickEdit = (id: number) => {
@@ -131,15 +120,13 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
             return (
                 <MasterDataPanel
                     masterEdit={masterEdit}
-                    changeMasterName={changeMasterName}
-                    handleSelectCity={handleSelectCity}
-                    handleMasterSave={handleMasterSave}
+                    handleMasterAddEdit={handleMasterAddEdit}
                     handleMasterCancel={handleMasterCancel}
-
+                    message={props.massage}
                     arrCity={props.cities}
                     addNew={flag.addNew}
                 />
-            )
+            );
         } else {
             return (
                 <React.Fragment>

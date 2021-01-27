@@ -4,14 +4,14 @@ import {
     ICity,
     IClient,
     IFilterData,
-    IMaster,
+    IMaster, IMasterOrder,
     IOrderPac,
     ISendOrder,
-    IUser,
+    IUser, TOrderStatus,
 } from "../../interfaces";
-import {authHeader} from "../authProcessing";
-import {IReviews} from "../../containers/Review/ReviewMaster";
-import {CityMasterType, IChartDateOrder} from "../../containers/Admin/AdminDashboard";
+import { authHeader } from "../authProcessing";
+import { IReviews } from "../../containers/Review/ReviewMaster";
+import { CityMasterType, IChartDateOrder } from "../../containers/Admin/AdminDashboard";
 
 let baseURL;
 if (process.env.NODE_ENV === 'development') {
@@ -71,9 +71,19 @@ export type ChartDataType = {
         }
     }[]
     listMasterData: {}[]
+    listMastersTablesData: {
+        id: number
+        name: string
+        master_orders: {
+            hours: number
+            count: number
+        }[]
+        rating: number
+        status: string
+    }[]
 }
 type GetAuthServerResponseType = IClient[] | IMaster[] | IOrderPac | IReviews[] | IFilterData[] | CityMasterType[] |
-                                    ChartDataType;
+                                    ChartDataType | IMasterOrder[];
 export const getAuthServerRequest = async (relativeURL: string): Promise<GetAuthServerResponseType> => {
     try {
         const { data } = await axios.get(relativeURL, { headers: authHeader() });
@@ -83,7 +93,7 @@ export const getAuthServerRequest = async (relativeURL: string): Promise<GetAuth
     }
 };
 
-type PutAuthServerRequestBodyType = IMaster | ICity | IClient;
+type PutAuthServerRequestBodyType = IMaster | ICity | IClient | {orderId: number, status: TOrderStatus};
 export const putAuthServerRequest = async (relativeURL: string, body: PutAuthServerRequestBodyType) => {
     try {
         const { data } = await axios.put(relativeURL, body, { headers: authHeader() });

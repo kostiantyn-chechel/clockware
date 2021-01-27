@@ -1,3 +1,10 @@
+// @ts-ignore
+import {IError} from "../Type/interfaces";
+
+const db = require('../models');
+const User = db.users;
+const Review = db.reviews;
+
 const selectMasters = (orders: any, masters: any, time: any, hours: any) => {
     const clientTime = addReservedTime(time, hours);
     const masterList = masters.slice();
@@ -20,22 +27,22 @@ type NewMasterType = {
     id: number
     cityId: number
     name: string
+    login: string
     rating: number
     review: string[]
 }
-const masterRating =(masterList: any) => {
+
+const masterRating = (masterList: any) => {
     const mastersList = <any>[];
     masterList.forEach((master: any) => {
         const newMaster: NewMasterType = {
             id: master.id,
             cityId: master.cityId,
             name: master.name,
+            login: master.login,
             rating: 0,
             review: [],
         };
-        // newMaster.id = master.id;
-        // newMaster.cityId = master.cityId;
-        // newMaster.name = master.name;
 
         let ratingSum = 0;
         let ratingCnt = 0;
@@ -55,9 +62,10 @@ const masterRating =(masterList: any) => {
         }
         mastersList.push(newMaster);
     });
-
+    console.log('masterList', masterList);
     return mastersList;
 };
+
 
 module.exports = {
     selectMasters,

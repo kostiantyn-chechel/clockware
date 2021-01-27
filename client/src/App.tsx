@@ -23,6 +23,7 @@ import Masters from "./component/DashBoard/Masters";
 import Cities from "./component/DashBoard/Cities";
 import Clients from "./component/DashBoard/Clients";
 import Orders from "./component/DashBoard/Orders";
+import MasterCabinet from "./containers/MasterCabinet/MasterCabinet";
 
 class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
@@ -73,6 +74,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                         <Route path='/client' component={ ClientCabinet } />
                         <Route path='/review/:id' component={ Review } />
                         <Route path='/master/:id' component={ ReviewMaster } />
+                        <Route path='/cabinet' component={ MasterCabinet } />
                         {/*<Route path='/' exact={true} component={ Booking } />*/}
                         <Route path='/*' component={ Booking } />
                     </Switch>

@@ -44,21 +44,19 @@ const SelectElement:React.FC<ISelectElement> = (props) => {
     };
 
     return (
-        <div>
-            <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="select-city-label">Выберите город</InputLabel>
-                <Select
-                    error={props.noValidCity}
-                    labelId="select-city-label"
-                    id="select-city-outlined"
-                    value={city}
-                    onChange={handleChange}
-                    label="Выберите город"
-                >
-                    {menuItemList()}
-                </Select>
-            </FormControl>
-        </div>
+        <FormControl variant="outlined" className={classes.formControl} margin="normal">
+            <InputLabel id="select-city-label">Выберите город</InputLabel>
+            <Select
+                error={props.noValidCity}
+                labelId="select-city-label"
+                id="select-city-outlined"
+                value={city}
+                onChange={handleChange}
+                label="Выберите город"
+            >
+                {menuItemList()}
+            </Select>
+        </FormControl>
     );
 };
 

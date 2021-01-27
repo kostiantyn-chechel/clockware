@@ -11,10 +11,11 @@ import {
     clearInfiniteOrders, fetchFilterMasters, fetchFilterClients,
 } from '../../store/actions/adminAction';
 import { authUserMessage, userLoginFetch } from '../../store/actions/authAction';
-import { IAuthUser, ICity, IClient, IFetchFilterOrders, IMaster } from "../../interfaces";
+import { IAuthUser, ICity, IClient, IFetchFilterOrders } from "../../interfaces";
 import { RootStateType } from "../../store/reducers/rootReducer";
 import { getUserStatus, logout, validToken } from "../../helpers/authProcessing";
 import { useHistory } from 'react-router-dom';
+import {IRegistrationMaster} from "../../component/DataPanel/MasterDataPanel";
 
 
 const Admin: React.FC<PropsFromRedux> = (props) => {
@@ -24,36 +25,36 @@ const Admin: React.FC<PropsFromRedux> = (props) => {
         if (validToken() && getUserStatus() === 'admin') {
             return (
                 <Container component="main" maxWidth="xl">
-                    <AdminTabs
-                        fetchMasters={props.fetchMasters}
-                        fetchFilterMasters={props.fetchFilterMasters}
-                        addMaster={props.addMaster}
-                        editMaster={props.editMaster}
-                        deleteMaster={props.deleteMaster}
+                    {/*<AdminTabs*/}
+                    {/*    fetchMasters={props.fetchMasters}*/}
+                    {/*    fetchFilterMasters={props.fetchFilterMasters}*/}
+                    {/*    addMaster={props.addMaster}*/}
+                    {/*    editMaster={props.editMaster}*/}
+                    {/*    deleteMaster={props.deleteMaster}*/}
 
-                        fetchCities={props.fetchCities}
-                        addCity={props.addCity}
-                        editCity={props.editCity}
-                        deleteCity={props.deleteCity}
+                    {/*    fetchCities={props.fetchCities}*/}
+                    {/*    addCity={props.addCity}*/}
+                    {/*    editCity={props.editCity}*/}
+                    {/*    deleteCity={props.deleteCity}*/}
 
-                        fetchClients={props.fetchClients}
-                        fetchFilterClients={props.fetchFilterClients}
-                        addClient={props.addClient}
-                        editClient={props.editClient}
-                        deleteClient={props.deleteClient}
+                    {/*    fetchClients={props.fetchClients}*/}
+                    {/*    fetchFilterClients={props.fetchFilterClients}*/}
+                    {/*    addClient={props.addClient}*/}
+                    {/*    editClient={props.editClient}*/}
+                    {/*    deleteClient={props.deleteClient}*/}
 
-                        fetchFilterAndPaginOrders={props.fetchFilterAndPaginOrders}
-                        fetchFilterAndInfiniteOrders={props.fetchFilterAndInfiniteOrders}
-                        clearInfiniteOrders={props.clearInfiniteOrders}
-                        deleteOrder={props.deleteOrder}
+                    {/*    fetchFilterAndPaginOrders={props.fetchFilterAndPaginOrders}*/}
+                    {/*    fetchFilterAndInfiniteOrders={props.fetchFilterAndInfiniteOrders}*/}
+                    {/*    clearInfiniteOrders={props.clearInfiniteOrders}*/}
+                    {/*    deleteOrder={props.deleteOrder}*/}
 
-                        masters={props.masters}
-                        cities={props.cities}
-                        clients={props.clients}
-                        orders={props.orders}
-                        ordersInfinite={props.ordersInfinite}
+                    {/*    masters={props.masters}*/}
+                    {/*    cities={props.cities}*/}
+                    {/*    clients={props.clients}*/}
+                    {/*    orders={props.orders}*/}
+                    {/*    ordersInfinite={props.ordersInfinite}*/}
 
-                    />
+                    {/*/>*/}
                 </Container>
             )
         } else {
@@ -85,8 +86,8 @@ function mapDispatchToProps(dispatch: any) {
     return {
         fetchMasters: () => dispatch(fetchMasters()),
         fetchFilterMasters: (name: string) => dispatch(fetchFilterMasters(name)),
-        addMaster: (master: IMaster) => dispatch(addMaster(master)),
-        editMaster: (master: IMaster) => dispatch(editMaster(master)),
+        addMaster: (master: IRegistrationMaster) => dispatch(addMaster(master)),
+        editMaster: (master: IRegistrationMaster) => dispatch(editMaster(master)),
         deleteMaster: (masterId: number) => dispatch(deleteMaster(masterId)),
 
         fetchCities: () => dispatch(fetchCities()),
