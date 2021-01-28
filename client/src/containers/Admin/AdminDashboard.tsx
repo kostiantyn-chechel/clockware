@@ -14,6 +14,7 @@ import { ChartDataType, getAuthServerRequest } from "../../helpers/axios/axiosCl
 import { ICity } from "../../interfaces";
 import CityMasterCheckbox from "../../component/DashBoard/CityMasterCheckbox";
 import AdminMastersTables from "../../component/AdminMastersTables/AdminMastersTables";
+import CityMasterSelects from "../../component/DashBoard/CityMasterSelects";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -200,6 +201,8 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
         setCityList(cityList.map((city) => city.id === id ? cityChange : city));
     };
 
+    const checkCityList = (list: CityForListType[]) => setCityList(list);
+
     const checkMaster = (id: number) => {
         const indexChange = masterList.findIndex((master) => master.id === id);
         const masterChange = masterList[indexChange];
@@ -225,6 +228,14 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                     defaultDate={dataRange.rangeEnd}
                 />
             </div>
+
+            <CityMasterSelects
+                cityList={cityList}
+                cities={cityList.filter(city => city.active).map(city => city.name)}
+                masterList={masterListFromActiveCity()}
+                checkCityList={checkCityList}
+                checkMaster={checkMaster}
+            />
 
             <CityMasterCheckbox
                 cityList={cityList}
