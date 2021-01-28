@@ -8,6 +8,7 @@ import {connect, ConnectedProps} from "react-redux";
 import ClientsTab from "../Tabs/ClientsTab";
 import {addClient, deleteClient, editClient, fetchClients, fetchFilterClients} from "../../store/actions/adminAction";
 import {IClient} from "../../interfaces";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -15,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         minWidth: '500px',
         marginTop: theme.spacing(2),
+    },
+    block: {
+        minWidth: '620px',
     },
 }));
 
@@ -24,8 +28,7 @@ const Clients: React.FC<PropsFromRedux> = (props) => {
     const handleDrawerClose = () => props.setMenuOpen(false);
 
     return (
-        <React.Fragment>
-            <div>CLIENTS</div>
+        <Container className={classes.block} component="main" maxWidth="xl">
             <ClientsTab
                 fetchClients={props.fetchClients}
                 fetchFilterClients={props.fetchFilterClients}
@@ -45,7 +48,7 @@ const Clients: React.FC<PropsFromRedux> = (props) => {
                     />
                 </Drawer>
             </div>
-        </React.Fragment>
+        </Container>
 
     );
 };

@@ -14,13 +14,16 @@ import PaginationTable from './Tables/PaginationTable';
 import InfiniteTable from './Tables/InfiniteTable';
 import DeleteDialog from './DeleteDialog';
 import {IFetchFilterOrders, IOrder, IOrderPac, ISortDirection} from "../../interfaces";
+import {Container} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: '2px 4px',
+        padding: '2px 2px',
         display: 'flex',
         alignItems: 'center',
-        width: 400,
+        width: 300,
+        height: 55,
     },
     input: {
         marginLeft: theme.spacing(1),
@@ -42,13 +45,26 @@ const useStyles = makeStyles((theme) => ({
         color: '#fff',
     },
     buttonPagin: {
-        minWidth: '100px'
+        width: 300,
+        minWidth: 230,
+        height: 60,
+        // margin: theme.spacing(0, 0, 2),
     },
     paginationBlock: {
         padding: theme.spacing(1),
     },
     tableBlock: {
         marginTop: theme.spacing(2),
+    },
+    topBlock: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: 0,
+        marginTop: theme.spacing(2),
+    },
+    text: {
+        padding: theme.spacing(1),
+        alignItems: 'center',
     }
 }));
 
@@ -308,29 +324,45 @@ const OrdersTab: React.FC<IOrdersTab> = (props) => {
     };
 
     return (
-        <>
-            <Grid container justify='space-around' alignItems='center'>
-                    <Grid>
-                        <Paper component="form" className={classes.root}>
-                            <InputBase
-                                className={classes.input}
-                                placeholder="Поиск"
-                                inputProps={{ 'aria-label': 'Поиск' }}
-                                color={'secondary'}
-                                onChange={handleChangeSearch}
-                            />
-                            <IconButton
-                                type="submit"
-                                className={classes.iconButton}
-                                aria-label="search"
-                                onClick={handleSearch}
-                            >
-                                <SearchIcon />
-                            </IconButton>
-                        </Paper>
-                    </Grid>
-                    <Button className={classes.buttonPagin} onClick={handleTogglePagination}>{namePagination()}</Button>
-                </Grid>
+        <React.Fragment>
+            <Container maxWidth={false} classes={{ root: classes.topBlock }}>
+                <Typography className={classes.text} variant="h4" align="center" gutterBottom>
+                    ЗАКАЗЫ
+                </Typography>
+                <Paper
+                    variant="outlined"
+                    component="form"
+                    className={classes.root}
+                >
+                    <InputBase
+                        className={classes.input}
+                        placeholder="Поиск"
+                        inputProps={{ 'aria-label': 'Поиск' }}
+                        color={'secondary'}
+                        onChange={handleChangeSearch}
+                    />
+                    <IconButton
+                        type="submit"
+                        className={classes.iconButton}
+                        aria-label="search"
+                        onClick={handleSearch}
+                    >
+                        <SearchIcon />
+                    </IconButton>
+                </Paper>
+
+                <Button
+                    fullWidth
+                    variant="contained"
+                    color='primary'
+                    className={classes.buttonPagin}
+                    size="large"
+                    onClick={handleTogglePagination}
+                >
+                    {namePagination()}
+                </Button>
+
+            </Container>
 
             {listOrders()}
 
@@ -341,7 +373,7 @@ const OrdersTab: React.FC<IOrdersTab> = (props) => {
             </Backdrop>
 
             {deleteDialog()}
-        </>
+        </React.Fragment>
     );
 };
 

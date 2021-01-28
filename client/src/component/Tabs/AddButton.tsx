@@ -1,21 +1,15 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
-import green from '@material-ui/core/colors/green';
-import ThemeProvider from '@material-ui/styles/ThemeProvider';
 
 const useStyles = makeStyles((theme) => ({
     added: {
+        width: 300,
+        minWidth: 230,
+        height: 60,
         margin: theme.spacing(0, 0, 2),
     },
 }));
-
-const theme = createMuiTheme({
-    palette: {
-        primary: green,
-    },
-});
 
 interface IAddButton {
     nameAdd: string,
@@ -32,7 +26,6 @@ const AddButton: React.FC<IAddButton> = (props) => {
     };
 
     return (
-        <ThemeProvider theme={theme}>
             <Button
                 fullWidth
                 variant="contained"
@@ -43,7 +36,6 @@ const AddButton: React.FC<IAddButton> = (props) => {
             >
                 {`Добавить ${nameAdd}`}
             </Button>
-        </ThemeProvider>
     );
 };
 

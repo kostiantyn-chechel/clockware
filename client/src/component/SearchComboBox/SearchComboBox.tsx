@@ -7,22 +7,11 @@ import {IFilterData} from "../../interfaces";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
-    // root: {
-    //     padding: '2px 4px',
-    //     display: 'flex',
-    //     alignItems: 'center',
-    //     width: '400',
-    // },
-    // input: {
-    //     marginLeft: theme.spacing(1),
-    //     flex: 1,
-    //     borderColor: 'green',
-    //     height: '200px',
-    // },
     searchBlock: {
-        marginLeft: theme.spacing(2),
-        padding: '2px 4px',
-        width: '100%',
+        // marginLeft: theme.spacing(2),
+        padding: '2px 2px',
+        // width: '100%',
+        width: 300,
     }
 }));
 

@@ -4,11 +4,27 @@ import CityDataPanel from '../DataPanel/CityDataPanel';
 import CitiesTable from './Tables/CitiesTable';
 import DeleteDialog from './DeleteDialog';
 import { ICitiesTab, ICity } from "../../interfaces";
+import Typography from "@material-ui/core/Typography";
+import {Container} from "@material-ui/core";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+const useStyles = makeStyles((theme) => ({
+    topBlock: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: 0,
+        marginTop: theme.spacing(2),
+    },
+    text: {
+        padding: theme.spacing(1),
+        alignItems: 'center',
+    }
+}));
 
 export type CityTableType = {id: number, name: string}
 
-
 const CitiesTab: React.FC<ICitiesTab> = (props) => {
+    const classes = useStyles();
     const [cityEdit, setCityEdit] = useState<ICity>({
         name: '',
     });
@@ -114,10 +130,15 @@ const CitiesTab: React.FC<ICitiesTab> = (props) => {
         } else {
             return (
                 <React.Fragment>
-                    <AddButton
-                        nameAdd='город'
-                        handleButton={handleAddButton}
-                    />
+                    <Container maxWidth={false} classes={{ root: classes.topBlock }}>
+                        <Typography className={classes.text} variant="h4" align="center" gutterBottom>
+                            ГОРОДА
+                        </Typography>
+                        <AddButton
+                            nameAdd='город'
+                            handleButton={handleAddButton}
+                        />
+                    </Container>
                     <CitiesTable
                         listArr={cityTablesArr()}
                         clickEdit={clickEdit}

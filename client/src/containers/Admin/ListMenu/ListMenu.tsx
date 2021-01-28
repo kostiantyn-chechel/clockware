@@ -47,7 +47,10 @@ const ListMenu: React.FC<IListMenu> = (props) => {
                 } else {
                     return (
                         <ListItem key={item.name} onClick={props.handleDrawerClose}>
-                            <Link to={item.rout}>
+                            <Link
+                                to={item.rout}
+
+                            >
                                 <ListItemIcon >{item.icon}</ListItemIcon>
                                 <ListItemText primary={item.name}/>
                             </Link>

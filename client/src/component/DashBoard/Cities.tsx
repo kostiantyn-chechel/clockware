@@ -8,6 +8,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import CitiesTab from "../Tabs/CitiesTab";
 import {addCity, deleteCity, editCity, fetchCities} from "../../store/actions/adminAction";
 import {ICity} from "../../interfaces";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -15,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         minWidth: '500px',
         marginTop: theme.spacing(2),
+    },
+    block: {
+        minWidth: '620px',
     },
 }));
 
@@ -24,8 +28,7 @@ const Cities: React.FC<PropsFromRedux> = (props) => {
     const handleDrawerClose = () => props.setMenuOpen(false);
 
     return (
-        <React.Fragment>
-            <div>CITIES</div>
+        <Container className={classes.block} component="main" maxWidth="xl">
             <CitiesTab
                 fetchCities={props.fetchCities}
                 addCity={props.addCity}
@@ -44,7 +47,7 @@ const Cities: React.FC<PropsFromRedux> = (props) => {
                     />
                 </Drawer>
             </div>
-        </React.Fragment>
+        </Container>
 
     );
 };
