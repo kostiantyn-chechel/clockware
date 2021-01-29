@@ -38,6 +38,8 @@ interface IChartNumberOrders {
 const ChartNumberOrders: React.FC<IChartNumberOrders> = (props) => {
     const { listData } = props;
 
+    console.log(listData);
+
     data.labels = listData.map(item => item.date);
     data.datasets[0].data = listData.map(item => item.count);
 
@@ -46,6 +48,7 @@ const ChartNumberOrders: React.FC<IChartNumberOrders> = (props) => {
             <Typography component="h1" variant="h5" align="center" color="textPrimary">
                 График количества заказов
             </Typography>
+            {}
             <Bar data={data} options={options} />
         </div>
     );

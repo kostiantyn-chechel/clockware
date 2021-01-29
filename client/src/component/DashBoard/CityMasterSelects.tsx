@@ -36,7 +36,6 @@ const CityMasterSelects: React.FC<ICityMasterCheckbox> = (props) => {
     const classes = useStyles();
     const { cityList, cities, masterList, masters, checkCityList, checkMasterList } = props;
 
-    console.log('masters', masters);
     const [cityName, setCityName] = React.useState<string[]>(cities);
     const [masterName, setMasterName] = React.useState<string[]>([]);
 
