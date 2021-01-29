@@ -15,6 +15,7 @@ import {
     fetchMasters
 } from "../../store/actions/adminAction";
 import {IRegistrationMaster} from "../DataPanel/MasterDataPanel";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         minWidth: '500px',
         marginTop: theme.spacing(2),
+    },
+    block: {
+        minWidth: '620px',
     },
 }));
 
@@ -31,7 +35,7 @@ const Masters: React.FC<PropsFromRedux> = (props) => {
     const handleDrawerClose = () => props.setMenuOpen(false);
 
     return (
-        <React.Fragment>
+        <Container className={classes.block} component="main" maxWidth="xl">
             <MastersTab
                 fetchMasters={props.fetchMasters}
                 fetchFilterMasters={props.fetchFilterMasters}
@@ -54,7 +58,7 @@ const Masters: React.FC<PropsFromRedux> = (props) => {
                     />
                 </Drawer>
             </div>
-        </React.Fragment>
+        </Container>
 
     );
 };

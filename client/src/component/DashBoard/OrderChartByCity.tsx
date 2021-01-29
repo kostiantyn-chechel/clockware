@@ -2,6 +2,7 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import Typography from "@material-ui/core/Typography";
 import { IChartList } from "../../containers/Admin/AdminDashboard";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const data = {
     labels: ['1'],
@@ -27,11 +28,21 @@ const options = {
     },
 };
 
+const useStyles = makeStyles((theme) => ({
+    noData: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: 100,
+    },
+}));
+
 interface IOrderChartByCity {
     listData: IChartList[]
 }
 
 const OrderChartByCity: React.FC<IOrderChartByCity> = (props) => {
+    const classes = useStyles();
     const { listData } = props;
 
     data.labels = listData.map(item => item.name);
@@ -42,7 +53,15 @@ const OrderChartByCity: React.FC<IOrderChartByCity> = (props) => {
             <Typography component="h1" variant="h5" align="center" color="textPrimary">
                 Заказы по городам
             </Typography>
-            <Pie data={data} options={options} />
+
+            {listData.length
+                ?   <Pie data={data} options={options} />
+                :   <div className={classes.noData}>
+                    <Typography component="h1" variant="h4" align="center" color="textPrimary">
+                        НЕТ ДАННЫХ
+                    </Typography>
+                </div>
+            }
         </React.Fragment>
     );
 };

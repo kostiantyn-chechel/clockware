@@ -94,7 +94,6 @@ const Header: React.FC<IHeader> = (props) => {
                                 component={Link}
                                 to={`/${userStatus}`}
                         >
-                            {/*<Avatar className={classes.avatar}> {props.user.name.match(/\b(\w)/g)} </Avatar>*/}
                             <Avatar className={classes.avatar}> {nameToInitials(props.user.name)} </Avatar>
                         </Button>
                     </Tooltip>

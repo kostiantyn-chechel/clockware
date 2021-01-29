@@ -12,13 +12,18 @@ import {
     fetchFilterAndInfiniteOrders,
     fetchFilterAndPaginOrders
 } from "../../store/actions/adminAction";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
     main: {
-        display: 'flex',
-        flexDirection: 'column',
-        minWidth: '500px',
-        marginTop: theme.spacing(2),
+        // display: 'flex',
+        // flexDirection: 'column',
+        // minWidth: '500px',
+        // marginTop: theme.spacing(2),
+        width: 250,
+    },
+    block: {
+        minWidth: '620px',
     },
 }));
 
@@ -28,8 +33,7 @@ const Orders: React.FC<PropsFromRedux> = (props) => {
     const handleDrawerClose = () => props.setMenuOpen(false);
 
     return (
-        <React.Fragment>
-            <div>ORDERS</div>
+        <Container className={classes.block} component="main" maxWidth="xl">
             <OrdersTab
                 fetchFilterAndPaginOrders={props.fetchFilterAndPaginOrders}
                 fetchFilterAndInfiniteOrders={props.fetchFilterAndInfiniteOrders}
@@ -49,7 +53,7 @@ const Orders: React.FC<PropsFromRedux> = (props) => {
                     />
                 </Drawer>
             </div>
-        </React.Fragment>
+        </Container>
 
     );
 };

@@ -12,8 +12,9 @@ import { connect, ConnectedProps } from "react-redux";
 import { setOpenMenu } from "../../store/actions/appAction";
 import { ChartDataType, getAuthServerRequest } from "../../helpers/axios/axiosClockwareAPI";
 import { ICity } from "../../interfaces";
-import CityMasterCheckbox from "../../component/DashBoard/CityMasterCheckbox";
 import AdminMastersTables from "../../component/AdminMastersTables/AdminMastersTables";
+import CityMasterSelects from "../../component/DashBoard/CityMasterSelects";
+import { LinearProgress } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -23,18 +24,18 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     },
     paper: {
-        marginTop: theme.spacing(2),
+        // marginTop: theme.spacing(2),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
     },
     twoBlocks: {
-        marginTop: theme.spacing(2),
-        width: '80%',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
+        width: '80%',
+        marginTop: theme.spacing(2),
     },
     chartBlock: {
         width: '80%',
@@ -51,7 +52,12 @@ const useStyles = makeStyles((theme) => ({
     chart: {
         width: '50%',
         minWidth: '350px',
-    }
+    },
+    root: {
+        width: '100%',
+        marginTop: 5,
+        height: 10,
+    },
 }));
 
 interface IMaster{
@@ -70,7 +76,6 @@ export interface IChartList {
     name: string
     count: number
 }
-
 export interface IMasterTablesData {
     id: number
     name: string
@@ -80,7 +85,6 @@ export interface IMasterTablesData {
     rating: number
     status: string
 }
-
 
 const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     const classes = useStyles();
@@ -95,8 +99,14 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     const [chartCityList, setChartCityList] = useState<IChartList[]>([]);
     const [chartMasterList, setChartMasterList] = useState<IChartList[]>([]);
     const [masterTablesData, setMasterTablesData] = useState<IMasterTablesData[]>([]);
+    const [load, setLoad] = useState<number>(0);
 
     useEffect(() => {
+        console.log('load', load)
+    }, [load]);
+
+    useEffect(() => {
+        setLoad(prev => prev + 1);
         const cities: CityForListType[] = [];
         const masters: MasterForListType[] = [];
         getAuthServerRequest('/adm')
@@ -123,9 +133,12 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                     setMasterList(masters);
                 }
             })
+            // .then(() => setLoad(prev => prev ? prev - 1 : 0)) // prod
+            .then(() => setTimeout(() => setLoad(prev => prev - 1), 3000)) // mock
     },[]);
 
     useEffect(() => {
+        setLoad(prev => prev + 1);
         const cityJSON = JSON.stringify(cityList.filter((city) =>
                                                     city.active).map((city) => city.id));
         const masterJSON = JSON.stringify(masterList.filter((master) =>
@@ -174,12 +187,9 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                     }
                 }));
             })
+            // .then(() => setLoad(prev => prev ? prev - 1 : 0)) // prod
+            .then(() => setTimeout(() => setLoad(prev => prev - 1), 3000)) // mock
     }, [cityList, masterList, dataRange]);
-
-    // useEffect(() => {
-    //     // console.log('start:', dataRange.rangeStart, 'end:', dataRange.rangeEnd)
-    //     // console.log('chartDateOrderList', chartDateOrderList);
-    // }, [chartDateOrderList]);
 
     const handleDrawerClose = () => props.setMenuOpen(false);
 
@@ -193,19 +203,8 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
         setDateRange({...dataRange, rangeEnd: event.target.value})
     };
 
-    const checkCity = (id: number) => {
-        const indexChange = cityList.findIndex((city) => city.id === id);
-        const cityChange = cityList[indexChange];
-        cityChange.active = !cityChange.active;
-        setCityList(cityList.map((city) => city.id === id ? cityChange : city));
-    };
-
-    const checkMaster = (id: number) => {
-        const indexChange = masterList.findIndex((master) => master.id === id);
-        const masterChange = masterList[indexChange];
-        masterChange.active = !masterChange.active;
-        setMasterList(masterList.map((master) => master.id === id ? masterChange : master));
-    };
+    const checkCityList = (list: CityForListType[]) => setCityList(list);
+    const checkMasterList = (list: MasterForListType[]) => setMasterList(list);
 
     const cityActiveById =(id: number) => cityList[cityList.findIndex((city) => city.id === id)].active;
 
@@ -215,6 +214,9 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
 
     return (
         <div className={classes.paper}>
+            <div className={classes.root}>
+                {load > 0 ? <LinearProgress /> : null}
+            </div>
             <div className={classes.twoBlocks}>
                 <DatePickers
                     onChange={handleDateRangeStart}
@@ -225,12 +227,13 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                     defaultDate={dataRange.rangeEnd}
                 />
             </div>
-
-            <CityMasterCheckbox
+            <CityMasterSelects
                 cityList={cityList}
+                cities={cityList.filter(city => city.active).map(city => city.name)}
                 masterList={masterListFromActiveCity()}
-                checkCity={checkCity}
-                checkMaster={checkMaster}
+                masters={masterListFromActiveCity().filter(city => city.active).map(city => city.name)}
+                checkCityList={checkCityList}
+                checkMasterList={checkMasterList}
             />
 
             <div className={classes.chartOrder}>

@@ -6,6 +6,22 @@ import MastersTable from './Tables/MastersTable';
 import DeleteDialog from './DeleteDialog';
 import { IMastersTab, IMaster } from "../../interfaces";
 import SearchComboBox from "../SearchComboBox/SearchComboBox";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Typography from "@material-ui/core/Typography";
+import { Container } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+    topBlock: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: 0,
+        marginTop: theme.spacing(2),
+    },
+    text: {
+        padding: theme.spacing(1),
+        alignItems: 'center',
+    }
+}));
 
 export type MasterTableType = {id: number, name: string, rating: number, city: string}
 
@@ -19,6 +35,7 @@ const ZERO_MASTER = {
 };
 
 const MastersTab: React.FC<IMastersTab> = (props) => {
+    const classes = useStyles();
     const [masterEdit, setMasterEdit] = useState<IMaster>(ZERO_MASTER);
     const [flag, setFlag] = useState({ showPanel: false, addNew: true});
 
@@ -130,14 +147,21 @@ const MastersTab: React.FC<IMastersTab> = (props) => {
         } else {
             return (
                 <React.Fragment>
-                    <AddButton
-                        nameAdd='мастера'
-                        handleButton={handleAddButton}
-                    />
-                    <SearchComboBox
-                        filterName='masters'
-                        setFilter={setFilter}
-                    />
+                    <Container maxWidth={false} classes={{ root: classes.topBlock }}>
+                        <Typography className={classes.text} variant="h4" align="center" gutterBottom>
+                            МАСТЕРА
+                        </Typography>
+                        <SearchComboBox
+                            filterName='masters'
+                            setFilter={setFilter}
+                        />
+
+                        <AddButton
+                            nameAdd='мастера'
+                            handleButton={handleAddButton}
+                        />
+                    </Container>
+
                     <MastersTable
                         listArr={mastersTablesArr()}
                         clickEdit={clickEdit}

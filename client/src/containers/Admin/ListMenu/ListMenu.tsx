@@ -1,9 +1,6 @@
 import React from 'react';
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-// import GroupTwoToneIcon from "@material-ui/icons/GroupTwoTone";
-import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import AccountBalanceOutlinedIcon from "@material-ui/icons/AccountBalanceOutlined";
 import GroupTwoToneIcon from "@material-ui/icons/GroupTwoTone";
@@ -11,10 +8,30 @@ import HomeWorkOutlinedIcon from '@material-ui/icons/HomeWorkOutlined';
 import SentimentSatisfiedOutlinedIcon from '@material-ui/icons/SentimentSatisfiedOutlined';
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
-
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import { ListItemText } from "@material-ui/core";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 const divider = 'divider';
+
+const useStyles = makeStyles((theme) => ({
+    icon: {
+        display: 'block',
+        width: 40,
+    },
+    text: {
+        display: 'block',
+        width: 150,
+    },
+    link: {
+        display: 'flex',
+        alignItems: 'center',
+        color: '#000',
+        textDecoration: 'none',
+    }
+
+}));
 
 type ListMenuType = {
     icon: any
@@ -38,6 +55,7 @@ interface IListMenu {
 }
 
 const ListMenu: React.FC<IListMenu> = (props) => {
+    const classes = useStyles();
 
     return (
         <List>
@@ -46,12 +64,14 @@ const ListMenu: React.FC<IListMenu> = (props) => {
                     return <Divider key={item + index} />
                 } else {
                     return (
-                        <ListItem key={item.name} onClick={props.handleDrawerClose}>
-                            <Link to={item.rout}>
-                                <ListItemIcon >{item.icon}</ListItemIcon>
-                                <ListItemText primary={item.name}/>
+                        <ListItem
+                            key={item.name}
+                            onClick={props.handleDrawerClose}
+                        >
+                            <Link to={item.rout} className={classes.link}>
+                                <ListItemIcon className={classes.icon}>{item.icon}</ListItemIcon>
+                                <ListItemText className={classes.text} primary={item.name} />
                             </Link>
-
                         </ListItem>
                     )
                 }

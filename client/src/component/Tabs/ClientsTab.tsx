@@ -6,10 +6,27 @@ import ClientsTable from './Tables/ClientsTable';
 import DeleteDialog from './DeleteDialog';
 import { IClient, IClientsTab } from "../../interfaces";
 import SearchComboBox from "../SearchComboBox/SearchComboBox";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import {Container} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+
+const useStyles = makeStyles((theme) => ({
+    topBlock: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: 0,
+        marginTop: theme.spacing(2),
+    },
+    text: {
+        padding: theme.spacing(1),
+        alignItems: 'center',
+    }
+}));
 
 export type ClientTableType = {id: number, name: string, email: string}
 
 const ClientsTab: React.FC<IClientsTab> = (props) => {
+    const classes = useStyles();
     const [clientEdit, setClientEdit] = useState<IClient>({
         id: 0,
         name: '',
@@ -128,14 +145,20 @@ const ClientsTab: React.FC<IClientsTab> = (props) => {
         } else {
             return (
                 <React.Fragment>
-                    <AddButton
-                        nameAdd='клиента'
-                        handleButton={handleAddButton}
-                    />
-                    <SearchComboBox
-                        filterName='clients'
-                        setFilter={setFilter}
-                    />
+                    <Container maxWidth={false} classes={{ root: classes.topBlock }}>
+                        <Typography className={classes.text} variant="h4" align="center" gutterBottom>
+                            КЛИЕНТЫ
+                        </Typography>
+                        <SearchComboBox
+                            filterName='clients'
+                            setFilter={setFilter}
+                        />
+                        <AddButton
+                            nameAdd='клиента'
+                            handleButton={handleAddButton}
+                        />
+                    </Container>
+
                     <ClientsTable
                         listArr={clientsTablesArr()}
                         clickEdit={clickEdit}
