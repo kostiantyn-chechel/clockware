@@ -59,7 +59,7 @@ const OrderChartByMaster: React.FC<IOrderChartByMaster> = (props) => {
             {listData.length
                 ?   <Pie data={data} options={options} />
                 :   <div className={classes.noData}>
-                    <Typography component="h1" variant="h3" align="center" color="textPrimary">
+                    <Typography component="h1" variant="h5" align="center" color="textPrimary">
                         НЕТ ДАННЫХ
                     </Typography>
                 </div>
