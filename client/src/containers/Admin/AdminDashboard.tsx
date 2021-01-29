@@ -133,8 +133,7 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                     setMasterList(masters);
                 }
             })
-            // .then(() => setLoad(prev => prev ? prev - 1 : 0)) // prod
-            .then(() => setTimeout(() => setLoad(prev => prev - 1), 3000)) // mock
+            .then(() => setLoad(prev => prev ? prev - 1 : 0))
     },[]);
 
     useEffect(() => {
@@ -187,8 +186,7 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                     }
                 }));
             })
-            // .then(() => setLoad(prev => prev ? prev - 1 : 0)) // prod
-            .then(() => setTimeout(() => setLoad(prev => prev - 1), 3000)) // mock
+            .then(() => setLoad(prev => prev ? prev - 1 : 0))
     }, [cityList, masterList, dataRange]);
 
     const handleDrawerClose = () => props.setMenuOpen(false);
