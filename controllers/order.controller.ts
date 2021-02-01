@@ -179,3 +179,24 @@ exports.changeStatus = (req: Request, res: Response, next: NextFunction) => {
             }
         });
 };
+
+exports.date = (req: Request, res: Response) => {
+    const today = '2021-02-01T00:00:00.000Z';
+
+    Order.findAll({
+        where: {
+            date: today
+        },
+        include: [
+            {
+                model: User,
+                as: 'order_master',
+                attributes: ['name', 'login']
+            }
+        ],
+        attributes: ['id', 'date', 'time', 'masterId'],
+        group: ['masterId'],
+    }).then(orders => {
+        res.send(orders)
+    })
+};
