@@ -1,4 +1,5 @@
 import {IError} from "../Type/interfaces";
+import {sizeByNumber} from "../client/src/helpers/dateTime";
 require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
 // @ts-ignore
@@ -44,4 +45,43 @@ const sendSGEmail = (order: any) => {
         })
 };
 
-module.exports = sendSGEmail;
+const sendSGMasterReport = (master: any, orders: any[], date: string) => {
+
+    if (orders.length) {
+
+        const msg = {
+            // to: master.login, // Change to your recipient // for prod
+            to: 'kodevtm@gmail.com', // Change to your recipient
+            from: 'kodevtm@gmail.com', // Change to your verified sender
+            subject: `Заказы для мастера ${master.name} на ${date}`,
+            // text: 'text',
+            html: `
+            <h1>Уважаемый(ая) ${master.name}!</h1>
+            <h2>У Вас на сегодня заказов: ${orders.length} </h2>
+            <ol>
+                ${orders.map(order => {
+                return `<li>${order.time}, размер: ${sizeByNumber(order.size)}, клиент: ${order.client}</li>`
+            })}
+            </ol>
+            
+            <p>С уважением Clockware</p>
+            <p> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</p>
+        `,
+        };
+
+        sgMail
+            .send(msg)
+            .then(() => {
+                console.log('Email sent master', master.name, ' to kodevtm@gmail.com');
+                // console.log('Email sent master', master.login); // for prod
+            })
+            .catch((err: IError) => {
+                console.error(err)
+            })
+    }
+};
+
+module.exports = {
+    sendSGEmail,
+    sendSGMasterReport,
+};

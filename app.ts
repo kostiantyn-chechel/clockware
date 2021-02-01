@@ -7,6 +7,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const cron = require('node-cron');
+const masterReport = require('./processing/masterReport');
+
 
 const db = require('./models');
 // db.sequelize.sync();
@@ -23,6 +26,12 @@ const adminRouter = require('./routes/admin.router');
 
 const app = express();
 
+//for CRON tasks
+// // cron.schedule('* 8 * * *', () => { // for prod
+// cron.schedule('* * * * *', () => {
+//   masterReport.masterTodayReport();
+// });
+
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
@@ -38,9 +47,7 @@ app.use('/orders', ordersRouter);
 app.use('/auth', authRouter);
 app.use('/rev', reviewRouter);
 app.use('/adm', adminRouter);
-// app.use('/adm', (req: Request, res: Response) => {
-//   res.send(JSON.stringify('ADM'))
-// });
+
 
 app.get('/zzz', (req: Request, res: Response) => {
     res.send(JSON.stringify('ZZZ'))

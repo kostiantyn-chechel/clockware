@@ -19,7 +19,12 @@ const dayToString = (day: Date): string => {
     ].join('-');
 };
 
+export const onlyDayToString = (day: string): string => {
+    return day.slice(0,10)
+};
+
 module.exports ={
     dayToString,
     timesByWords,
+    onlyDayToString,
 };
