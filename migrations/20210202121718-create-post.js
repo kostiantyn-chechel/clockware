@@ -13,7 +13,7 @@ module.exports = {
       },
       authorId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           // model: { // not working !!!???
           //   tableName: 'authors',
@@ -23,7 +23,7 @@ module.exports = {
           key: 'id',
         },
         onUpdate: 'CASCADE',
-        // onDelete: 'SET NULL', // not working !!!???
+        onDelete: 'SET NULL', // not working !!!???
       }
     });
   },
