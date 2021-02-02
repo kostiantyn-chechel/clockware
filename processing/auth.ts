@@ -68,5 +68,3 @@ module.exports = {
     generatePassCrypt
 };
 
-const aaa = () => {};
-
