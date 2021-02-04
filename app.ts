@@ -23,6 +23,7 @@ const ordersRouter = require('./routes/orders.router');
 const authRouter = require('./routes/auth.router');
 const reviewRouter = require('./routes/reviews.router');
 const adminRouter = require('./routes/admin.router');
+const postRouter = require('./routes/post.router');
 
 const app = express();
 
@@ -47,7 +48,7 @@ app.use('/orders', ordersRouter);
 app.use('/auth', authRouter);
 app.use('/rev', reviewRouter);
 app.use('/adm', adminRouter);
-
+app.use('/post', postRouter);
 
 app.get('/zzz', (req: Request, res: Response) => {
     res.send(JSON.stringify('ZZZ'))

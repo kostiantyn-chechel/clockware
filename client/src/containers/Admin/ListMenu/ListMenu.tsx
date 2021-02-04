@@ -8,6 +8,7 @@ import HomeWorkOutlinedIcon from '@material-ui/icons/HomeWorkOutlined';
 import SentimentSatisfiedOutlinedIcon from '@material-ui/icons/SentimentSatisfiedOutlined';
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 import { Link } from "react-router-dom";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { ListItemText } from "@material-ui/core";
@@ -46,6 +47,7 @@ const menuList: ListMenuType[] = [
     { icon: <HomeWorkOutlinedIcon/>, name: 'Города', rout: '/dashboard/cities' },
     { icon: <SentimentSatisfiedOutlinedIcon/>, name: 'Клиенты', rout: '/dashboard/clients' },
     { icon: <AccountBalanceWalletOutlinedIcon/>, name: 'Заказы', rout: '/dashboard/orders' },
+    { icon: <PostAddIcon/>, name: 'Блог', rout: '/dashboard/blog' },
     'divider',
     { icon: <ExitToAppOutlinedIcon/>, name: 'Выйти', rout: '/' },
 ];

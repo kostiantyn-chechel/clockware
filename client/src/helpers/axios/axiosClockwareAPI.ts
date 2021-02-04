@@ -12,6 +12,7 @@ import {
 import { authHeader } from "../authProcessing";
 import { IReviews } from "../../containers/Review/ReviewMaster";
 import { CityMasterType, IChartDateOrder } from "../../containers/Admin/AdminDashboard";
+import {PostAttributes} from "../../../../models/post.model";
 
 let baseURL;
 if (process.env.NODE_ENV === 'development') {
@@ -44,7 +45,7 @@ export const postServerRequest = async (
     }
 };
 
-type PostAuthServerRequestBodyType = IMaster | ICity | IClient;
+type PostAuthServerRequestBodyType = IMaster | ICity | IClient | PostAttributes;
 export const postAuthServerRequest = async (relativeURL: string, body: PostAuthServerRequestBodyType) => {
     try {
         const { data } = await axios.post(relativeURL, body, { headers: authHeader() });
@@ -83,7 +84,7 @@ export type ChartDataType = {
     }[]
 }
 type GetAuthServerResponseType = IClient[] | IMaster[] | IOrderPac | IReviews[] | IFilterData[] | CityMasterType[] |
-                                    ChartDataType | IMasterOrder[];
+                                    ChartDataType | IMasterOrder[] | PostAttributes[];
 export const getAuthServerRequest = async (relativeURL: string): Promise<GetAuthServerResponseType> => {
     try {
         const { data } = await axios.get(relativeURL, { headers: authHeader() });

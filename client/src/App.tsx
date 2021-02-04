@@ -24,6 +24,8 @@ import Cities from "./component/DashBoard/Cities";
 import Clients from "./component/DashBoard/Clients";
 import Orders from "./component/DashBoard/Orders";
 import MasterCabinet from "./containers/MasterCabinet/MasterCabinet";
+import Blog from "./containers/Blog/Blog";
+import BlogAdmin from "./containers/Blog/BlogAdmin";
 
 class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
@@ -66,11 +68,13 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                         <Route path='/auth' component={ AuthCommon } />
                         <Route path='/reg' component={ Registration } />
                         <Route path='/admin' component={ AdminDashboard } />
+                        <Route path='/blog' component={ Blog } />
                         <Route path='/dashboard' exact={true} component={ AdminDashboard } />
                         <Route path='/dashboard/masters' component={ Masters } />
                         <Route path='/dashboard/cities' component={ Cities } />
                         <Route path='/dashboard/clients' component={ Clients } />
                         <Route path='/dashboard/orders' component={ Orders } />
+                        <Route path='/dashboard/blog' component={ BlogAdmin } />
                         <Route path='/client' component={ ClientCabinet } />
                         <Route path='/review/:id' component={ Review } />
                         <Route path='/master/:id' component={ ReviewMaster } />
