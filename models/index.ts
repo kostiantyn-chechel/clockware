@@ -28,6 +28,7 @@ type DBType = {
     orders: any,
     users: any,
     reviews: any,
+    posts: any,
 }
 
 const db: DBType = {
@@ -36,7 +37,8 @@ const db: DBType = {
     cities: require('./city.model')(sequelize, Sequelize),
     orders: require('./order.model')(sequelize, Sequelize),
     users: require('./user.model')(sequelize, Sequelize),
-    reviews: require('./review.model')(sequelize, Sequelize)
+    reviews: require('./review.model')(sequelize, Sequelize),
+    posts: require('./post.model')(sequelize,Sequelize),
 };
 
 db.cities.hasMany(db.users);
@@ -54,6 +56,5 @@ db.reviews.belongsTo(db.orders, { as: 'review_order', foreignKey: 'orderId', tar
 
 db.users.hasMany(db.reviews);
 db.reviews.belongsTo(db.users, { as: 'review_user', foreignKey: 'userId', targetKey: 'id'});
-
 
 module.exports = db;

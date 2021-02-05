@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { IDBUser, IError } from "../Type/interfaces"
 // const sendEmails = require('../processing/sendEmails'); // <-- send Email(Gmail)
-const sendSGEmail  = require('../processing/sendGridMail');
+const mail  = require('../processing/sendGridMail');
 const db = require("../models");
 const Op = db.Sequelize.Op;
 const Order = db.orders;
@@ -69,7 +69,7 @@ exports.create = (req: Request, res: Response) => {
                             hours: resOrder.hours,
                         };
                         // sendEmails(fullOrder); // <-- send Email(Gmail)
-                        sendSGEmail(fullOrder); // <-- send Email(SGEmail)
+                        mail.sendSGEmail(fullOrder); // <-- send Email(SGEmail)
                     });
                 res.send(data);
             })

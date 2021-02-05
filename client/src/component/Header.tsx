@@ -60,6 +60,14 @@ const Header: React.FC<IHeader> = (props) => {
                     <Button color="inherit"
                             className={classes.menuButton}
                             component={Link}
+                            to='/blog'
+                    >
+                        blog
+                    </Button>
+
+                    <Button color="inherit"
+                            className={classes.menuButton}
+                            component={Link}
                             to='/auth'
                     >
                         sign in
@@ -85,8 +93,6 @@ const Header: React.FC<IHeader> = (props) => {
                     >
                         Logout
                     </Button>
-
-
 
                     <Tooltip title={`${props.user.name} (${props.user.login})`}>
                         <Button color="inherit"

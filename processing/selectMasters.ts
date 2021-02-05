@@ -62,7 +62,7 @@ const masterRating = (masterList: any) => {
         }
         mastersList.push(newMaster);
     });
-    console.log('masterList', masterList);
+    // console.log('masterList', masterList);
     return mastersList;
 };
 
