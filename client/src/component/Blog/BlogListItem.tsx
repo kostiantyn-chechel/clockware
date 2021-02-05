@@ -33,11 +33,12 @@ interface IBlogListItem {
     post: PostAttributes
     isEdit: boolean
     handleDelPost: (id: number) => void
+    handleEditPost: (id: number) => void
 }
 
 const BlogListItem: React.FC<IBlogListItem> = (props) => {
     const classes = useStyles();
-    const { post, isEdit, handleDelPost } = props;
+    const { post, isEdit, handleDelPost, handleEditPost } = props;
 
     return (
         <Card className={classes.card}>
@@ -57,7 +58,10 @@ const BlogListItem: React.FC<IBlogListItem> = (props) => {
 
             {isEdit ?
                 <CardActions className={classes.buttons} disableSpacing>
-                    <IconButton aria-label="add to favorites">
+                    <IconButton
+                        aria-label="edit"
+                        onClick={() => handleEditPost(post.id!)}
+                    >
                         <EditIcon />
                     </IconButton>
                     <IconButton

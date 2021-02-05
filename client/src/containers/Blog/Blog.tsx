@@ -17,6 +17,7 @@ const Blog: React.FC = (props) => {
             postList={postList}
             isEdit={false}
             handleDelPost={() => {}}
+            handleEditPost={() => {}}
         />
     );
 };

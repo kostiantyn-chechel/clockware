@@ -23,11 +23,12 @@ interface IBlogList {
     postList: PostAttributes[]
     isEdit: boolean
     handleDelPost(id: number): void
+    handleEditPost(id: number): void
 }
 
 const BlogList: React.FC<IBlogList> = (props) => {
     const classes = useStyles();
-    const { postList, isEdit, handleDelPost } = props;
+    const { postList, isEdit, handleDelPost, handleEditPost } = props;
 
     return (
         <Container className={classes.container} component="main" maxWidth="xl">
@@ -42,6 +43,7 @@ const BlogList: React.FC<IBlogList> = (props) => {
                                         post={post}
                                         isEdit={isEdit}
                                         handleDelPost={handleDelPost}
+                                        handleEditPost={handleEditPost}
                                     />)}
             </div>
 

@@ -13,7 +13,8 @@ import Button from '@material-ui/core/Button';
 import {
     deleteAuthServerRequest,
     getAuthServerRequest,
-    postAuthServerRequest
+    postAuthServerRequest,
+    putAuthServerRequest,
 } from "../../helpers/axios/axiosClockwareAPI";
 import { today } from "../../helpers/dateTime";
 import { PostAttributes } from "../../../../models/post.model";
@@ -41,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-
     },
     buttonBlock: {
         display: 'flex',
@@ -66,6 +66,9 @@ const POST_START_TEXT: string = '<p>Введите текст поста</p>';
 const BlogAdmin: React.FC<PropsFromRedux> = (props) => {
     const classes = useStyles();
 
+    const [isEdit, setIsEdit] = useState<boolean>(false);
+    const [currentId, setCurrentId] = useState<number>(0);
+    const [curDate, setCurDate] = useState<string>(today());
     const [postText, setPostText] = useState<string>(POST_START_TEXT);
     const [photoURL, setPhotoURL] = useState<string>('');
     const [postList, setPostList] = useState<PostAttributes[]>([]);
@@ -77,27 +80,47 @@ const BlogAdmin: React.FC<PropsFromRedux> = (props) => {
 
     const handleDrawerClose = () => props.setMenuOpen(false);
 
-    const handleSavePost = async (event: React.MouseEvent) => {
+    const handleSavePost = (event: React.MouseEvent) => {
         event.preventDefault();
-        console.log('Save post', postText);
 
-        await postAuthServerRequest('/post/',{
-            date: today(),
-            post: postText,
-            photoURL: photoURL,
-        }).then(post => {
-            setPostList(post);
-            setPhotoURL('');
-            setPostText(POST_START_TEXT);
-        })
+        if (isEdit) {
+            putAuthServerRequest(`/post/${currentId}`,{
+                date: curDate,
+                post: postText,
+                photoURL: photoURL,
+            }).then(post => {
+                setCurrentId(0);
+                setPostList(post);
+                setPhotoURL('');
+                setPostText(POST_START_TEXT);
+                setIsEdit(false);
+            });
+
+        } else {
+            postAuthServerRequest('/post/',{
+                date: curDate,
+                post: postText,
+                photoURL: photoURL,
+            }).then(post => {
+                setPostList(post);
+                setPhotoURL('');
+                setPostText(POST_START_TEXT);
+            });
+        }
     };
 
-    const handleEditorChange = (content, editor) => {
-        setPostText(content);
-    };
+    const handleEditorChange = (content) => setPostText(content);
 
-    const handleDelPost = (id: number) => {
-        deleteAuthServerRequest(`/post/${id}`).then(post => setPostList(post))
+    const handleDelPost = (id: number) => deleteAuthServerRequest(`/post/${id}`)
+                                                                .then(post => setPostList(post));
+
+    const handleEditPost = (id: number) => {
+        const post = postList.filter(post => post.id === id)[0];
+        setCurrentId(post.id!);
+        setCurDate(post.date);
+        setPostText(post.post);
+        setPhotoURL(post.photoURL!);
+        setIsEdit(true);
     };
 
     const loadPhoto =  (event) => {
@@ -109,33 +132,26 @@ const BlogAdmin: React.FC<PropsFromRedux> = (props) => {
             if (file.size > FILE_SIZE_LIMIT) {
             } else {
                 postPhotoCloudinary(file)
-                    .then(url =>{
-                        setPhotoURL(url);
-                        console.log(url);
-                    })
-                    .catch(() => {
-                        setPhotoURL('');
-                    });
+                    .then(url => setPhotoURL(url))
+                    .catch(() => setPhotoURL(''));
             }
         }
     };
 
     const activePost = (): PostAttributes => ({
-        id: 0,
-        date: today(),
+        id: currentId,
+        date: curDate,
         post: postText,
         photoURL: photoURL,
     });
 
     return (
         <React.Fragment>
-
             <Container className={classes.editContainer} component="main" maxWidth="xl">
 
                 <Typography component="h1" variant="h4" align="center" color="textPrimary">
                     РЕДАКТОР БЛОГА
                 </Typography>
-
 
                 <Editor
                     apiKey="cuui8tjwlt3igv4mwk97wdeunoslkbseasgrdnoehyntvpmn"
@@ -167,7 +183,6 @@ const BlogAdmin: React.FC<PropsFromRedux> = (props) => {
                         className={classes.button}
                         variant="contained"
                         color='primary'
-                        // onClick={loadPhoto}
                     >
                         <label htmlFor="load-file" className={classes.label}>
                             картинка
@@ -189,6 +204,7 @@ const BlogAdmin: React.FC<PropsFromRedux> = (props) => {
                         post={activePost()}
                         isEdit={false}
                         handleDelPost={() => {}}
+                        handleEditPost={() => {}}
                     />
                 </div>
 
@@ -198,6 +214,7 @@ const BlogAdmin: React.FC<PropsFromRedux> = (props) => {
                 postList={postList}
                 isEdit={true}
                 handleDelPost={handleDelPost}
+                handleEditPost={handleEditPost}
             />
 
             <div className={classes.main}>
