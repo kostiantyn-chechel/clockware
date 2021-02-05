@@ -27,3 +27,19 @@ exports.addPost = async (req: Request, res: Response) => {
         .catch((err: IError) => { res.status(500)
             .send({ message: err.message || "Error find all Post" })});
 };
+
+exports.deletePost = async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    await Post.destroy({
+        where: { id: id }
+    });
+
+    await Post.findAll({
+        order: [['id', 'DESC']]
+    })
+        .then(data => res.send(data))
+        .catch((err: IError) => { res.status(500)
+            .send({ message: err.message || "Error find all Post" })});
+
+};

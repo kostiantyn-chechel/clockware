@@ -2,7 +2,7 @@ export interface PostAttributes {
     id?: number
     date: string
     post: string
-    photoUrl?: string
+    photoURL?: string
 }
 
 module.exports = (sequelize: any, Sequelize: any): PostAttributes => {

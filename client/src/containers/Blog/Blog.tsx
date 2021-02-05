@@ -1,18 +1,23 @@
-import React from 'react';
-import Typography from "@material-ui/core/Typography";
+import React, {useEffect, useState} from 'react';
 import BlogList from "../../component/Blog/BlogList";
+import { PostAttributes } from "../../../../models/post.model";
+import { getAuthServerRequest } from "../../helpers/axios/axiosClockwareAPI";
 
 const Blog: React.FC = (props) => {
 
+    const [postList, setPostList] = useState<PostAttributes[]>([]);
+
+    useEffect(() => {
+        getAuthServerRequest('/post')
+            .then(post => setPostList(post as PostAttributes[]))
+    }, []);
+
     return (
-        <div>
-
-            <Typography component="h1" variant="h4" align="center" color="textPrimary">
-                BLOG
-            </Typography>
-
-            {/*<BlogList />*/}
-        </div>
+        <BlogList
+            postList={postList}
+            isEdit={false}
+            handleDelPost={() => {}}
+        />
     );
 };
 

@@ -10,10 +10,15 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import {dayToString} from "../../helpers/dateTime";
 
+const DEFAULT_PHOTO = 'https://res.cloudinary.com/kodevtm/image/upload/v1612537822/clockware/ao4a0dne0siugaud9pbm.jpg';
+
 const useStyles = makeStyles((theme) => ({
     card: {
         marginTop: theme.spacing(3),
+        width: '80%',
         minHeight: '200px',
+        minWidth: '460px',
+        maxWidth: '800px',
     },
     media: {
         height: 140,
@@ -27,19 +32,18 @@ const useStyles = makeStyles((theme) => ({
 interface IBlogListItem {
     post: PostAttributes
     isEdit: boolean
+    handleDelPost: (id: number) => void
 }
 
 const BlogListItem: React.FC<IBlogListItem> = (props) => {
     const classes = useStyles();
-    const { post, isEdit } = props;
-
-
+    const { post, isEdit, handleDelPost } = props;
 
     return (
         <Card className={classes.card}>
             <CardMedia
                 className={classes.media}
-                image={post.photoUrl || 'https://material-ui.com/static/images/cards/contemplative-reptile.jpg'}
+                image={post.photoURL || DEFAULT_PHOTO}
                 title={`Clockware post #${post.id || 0}`}
             />
             <CardContent>
@@ -56,7 +60,10 @@ const BlogListItem: React.FC<IBlogListItem> = (props) => {
                     <IconButton aria-label="add to favorites">
                         <EditIcon />
                     </IconButton>
-                    <IconButton aria-label="share">
+                    <IconButton
+                        aria-label="delete"
+                        onClick={() => handleDelPost(post.id!)}
+                    >
                         <DeleteForeverIcon />
                     </IconButton>
                 </CardActions>
