@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     },
     paper: {
-        // marginTop: theme.spacing(2),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -102,10 +101,6 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
     const [load, setLoad] = useState<number>(0);
 
     useEffect(() => {
-        console.log('load', load)
-    }, [load]);
-
-    useEffect(() => {
         setLoad(prev => prev + 1);
         const cities: CityForListType[] = [];
         const masters: MasterForListType[] = [];
@@ -133,8 +128,8 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                     setMasterList(masters);
                 }
             })
-            // .then(() => setLoad(prev => prev ? prev - 1 : 0)) // prod
-            .then(() => setTimeout(() => setLoad(prev => prev - 1), 3000)) // mock
+            .then(() => setLoad(prev => prev ? prev - 1 : 0)) // prod
+            // .then(() => setTimeout(() => setLoad(prev => prev - 1), 3000)) // mock
     },[]);
 
     useEffect(() => {
@@ -187,8 +182,8 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                     }
                 }));
             })
-            // .then(() => setLoad(prev => prev ? prev - 1 : 0)) // prod
-            .then(() => setTimeout(() => setLoad(prev => prev - 1), 3000)) // mock
+            .then(() => setLoad(prev => prev ? prev - 1 : 0)) // prod
+            // .then(() => setTimeout(() => setLoad(prev => prev - 1), 3000)) // mock
     }, [cityList, masterList, dataRange]);
 
     const handleDrawerClose = () => props.setMenuOpen(false);

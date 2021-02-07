@@ -46,9 +46,19 @@ const OrderChartByMaster: React.FC<IOrderChartByMaster> = (props) => {
     const classes = useStyles();
     const { listData } = props;
 
-    data.labels = listData.map(item => item.name);
-    data.datasets[0].data = listData.map(item => item.count);
+    const list = listData.map(item => item);
 
+    list.sort((a, b) => {
+        if (a.count > b.count) return -1;
+        if (a.count < b.count) return 1;
+        return  0;
+    });
+
+    const other = list.splice(3);
+    list[3] = {name: 'Остальные', count: sumCount(other)};
+
+    data.labels = list.map(item => item.name);
+    data.datasets[0].data = list.map(item => item.count);
 
     return (
         <React.Fragment>
@@ -69,3 +79,9 @@ const OrderChartByMaster: React.FC<IOrderChartByMaster> = (props) => {
 };
 
 export default OrderChartByMaster;
+
+const sumCount = (list: IChartList[]): number => {
+    let sum = 0;
+    list.forEach(item => sum += item.count);
+    return sum
+};
