@@ -8,7 +8,7 @@ exports.create = (req: Request, res: Response) => {
     let review = req.body;
     Order.findOne({where: {id: review.orderId}})
         .then((order: any) => {
-            review['masterId'] = order.masterId;
+            review['userId'] = order.masterId;
             Review.create(review)
                 .then(() => {
                     res.status(201).send(JSON.stringify('success added Review'))

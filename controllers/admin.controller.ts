@@ -110,39 +110,7 @@ exports.filterAdminData = async (req: Request, res: Response) => {
             ],
         }],
         group: ['id', 'hours']
-    })
-        .then(response => listMastersTablesData = response);
-
-        //     .then(response => {
-        //     const sss: number[] = [];
-        //     for (let i = 0; response.length-1; i++) {
-        //         masterRatingById(response.id)
-        //             .then(rating => {
-        //                 response.rating = rating
-        //             })
-        //     }
-        //     response.forEach(item => {
-        //         masterRatingById(item.id)
-        //             .then(rating => {
-        //                 console.log('rating', rating);
-        //                 sss.push(rating);
-        //             })
-        //     });
-        //     console.log('sss', sss);
-        // });
-                // .then(rating => {
-                //     return  {
-                //         // @ts-ignore
-                //         id:item.id,
-                //         // @ts-ignore
-                //         name: item.name,
-                //         // @ts-ignore
-                //         orders: item.master_orders,
-                //         // @ts-ignore
-                //         rating
-                //     }
-                // });
-
+    }).then(response => listMastersTablesData = response);
 
     res.send({
         listDateOrder,
@@ -152,8 +120,6 @@ exports.filterAdminData = async (req: Request, res: Response) => {
         listMastersTablesData,
     });
 };
-
-
 
 const masterRatingById = async (id: number): Promise<number> => {
     return Review.findAll({
@@ -166,13 +132,3 @@ const masterRatingById = async (id: number): Promise<number> => {
         return aaa.reduce((a, b) => a + b, 0) / aaa.length;
     });
 };
-
-//todo !!!!
-// const threeLargestMaster = (masterArr: []) => {
-//     if (masterArr.length < 3) {
-//         const list = [];
-//              const biggest = (arr: []): number => arr.length;
-//         return list
-//     }
-//     return masterArr
-// };

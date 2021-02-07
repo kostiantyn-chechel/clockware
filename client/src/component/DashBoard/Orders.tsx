@@ -16,10 +16,6 @@ import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
     main: {
-        // display: 'flex',
-        // flexDirection: 'column',
-        // minWidth: '500px',
-        // marginTop: theme.spacing(2),
         width: 250,
     },
     block: {

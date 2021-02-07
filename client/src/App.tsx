@@ -79,7 +79,6 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                         <Route path='/review/:id' component={ Review } />
                         <Route path='/master/:id' component={ ReviewMaster } />
                         <Route path='/cabinet' component={ MasterCabinet } />
-                        {/*<Route path='/' exact={true} component={ Booking } />*/}
                         <Route path='/*' component={ Booking } />
                     </Switch>
                 }
