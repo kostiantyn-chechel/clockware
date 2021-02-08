@@ -6,7 +6,7 @@ import {setOpenMenu} from "../../store/actions/appAction";
 import {connect, ConnectedProps} from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import CitiesTab from "../Tabs/CitiesTab";
-import {addCity, deleteCity, editCity, fetchCities} from "../../store/actions/adminAction";
+import {addCity, deleteCity, editCity, fetchCities} from "../../store/actions/cityAction";
 import {ICity} from "../../interfaces";
 import Container from "@material-ui/core/Container";
 

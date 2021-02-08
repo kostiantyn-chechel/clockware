@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Booking from './containers/Booking/Booking';
 import { connect, ConnectedProps } from 'react-redux';
 import classes from './App.module.css';
-import { fetchCities } from './store/actions/adminAction';
+import { fetchCities } from './store/actions/cityAction';
 import Header from './component/Header';
 import Footer from './component/Footer';
 import { setBookingShow } from './store/actions/bookingAction';

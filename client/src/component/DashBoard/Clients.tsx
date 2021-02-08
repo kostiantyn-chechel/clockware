@@ -2,12 +2,12 @@ import React from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Drawer from "@material-ui/core/Drawer";
 import ListMenu from "../../containers/Admin/ListMenu/ListMenu";
-import {RootStateType} from "../../store/reducers/rootReducer";
-import {setOpenMenu} from "../../store/actions/appAction";
-import {connect, ConnectedProps} from "react-redux";
+import { RootStateType } from "../../store/reducers/rootReducer";
+import { setOpenMenu } from "../../store/actions/appAction";
+import { connect, ConnectedProps } from "react-redux";
 import ClientsTab from "../Tabs/ClientsTab";
-import {addClient, deleteClient, editClient, fetchClients, fetchFilterClients} from "../../store/actions/adminAction";
-import {IClient} from "../../interfaces";
+import { addClient, deleteClient, editClient, fetchClients, fetchFilterClients} from "../../store/actions/clientAction";
+import { IClient } from "../../interfaces";
 import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({

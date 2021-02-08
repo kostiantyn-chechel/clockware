@@ -2,9 +2,9 @@ import React from 'react';
 import Drawer from "@material-ui/core/Drawer";
 import ListMenu from "../../containers/Admin/ListMenu/ListMenu";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {RootStateType} from "../../store/reducers/rootReducer";
-import {setOpenMenu} from "../../store/actions/appAction";
-import {connect, ConnectedProps} from "react-redux";
+import { RootStateType } from "../../store/reducers/rootReducer";
+import { setOpenMenu } from "../../store/actions/appAction";
+import { connect, ConnectedProps } from "react-redux";
 import MastersTab from "../Tabs/MastersTab";
 import {
     addMaster,
@@ -13,7 +13,7 @@ import {
     editMaster,
     fetchFilterMasters,
     fetchMasters
-} from "../../store/actions/adminAction";
+} from "../../store/actions/masterAction";
 import {IRegistrationMaster} from "../DataPanel/MasterDataPanel";
 import Container from "@material-ui/core/Container";
 
