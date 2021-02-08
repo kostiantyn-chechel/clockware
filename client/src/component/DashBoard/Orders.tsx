@@ -11,7 +11,7 @@ import {
     clearInfiniteOrders, deleteOrder,
     fetchFilterAndInfiniteOrders,
     fetchFilterAndPaginOrders
-} from "../../store/actions/adminAction";
+} from "../../store/actions/orderAction";
 import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({

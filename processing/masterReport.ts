@@ -6,7 +6,6 @@ const db = require('../models');
 const User = db.users;
 const Order = db.orders;
 
-// оправляет отчеты по заказам на сегодняшний день
 const masterTodayReport = () => {
     const date = new Date();
     const todayDate = dateToString(date);

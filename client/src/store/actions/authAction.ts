@@ -4,7 +4,7 @@ import {
     RESET_USER,
     SET_USER,
     SET_USER_STATUS
-} from './actionTypes';
+} from '../actionType/authActionType';
 // import { saveUserToLocalStorage} from '../../helpers/authProcessing';
 import {IAuthUser, IChangeRegUser, IRegUser, TUserStatus} from "../../interfaces";
 import {postServerRequest, postAuthServerRequest, ServerPostResponseType} from "../../helpers/axios/axiosClockwareAPI";

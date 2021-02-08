@@ -1,4 +1,4 @@
-import { AppActionTypes } from "../actions/actionTypes";
+import { AppActionTypes } from '../actionType/appActionType';
 
 export type AppReducerInitialStateType = {
     openMenu: boolean

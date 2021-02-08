@@ -24,7 +24,7 @@ const MasterTableItems: React.FC<IAdminMastersTables> = (props) => {
                         <TableCell align={"center"}>{master.s1 ? master.s1 : '-'}</TableCell>
                         <TableCell align={"center"}>{master.s2 ? master.s2 : '-'}</TableCell>
                         <TableCell align={"center"}>{master.s3 ? master.s3 : '-'}</TableCell>
-                        <TableCell align={"center"}>{master.rating}</TableCell>
+                        <TableCell align={"center"}>{master.rating.toFixed(2)}</TableCell>
                         <TableCell align={"center"}>{master.status}</TableCell>
                     </StyledTableRow>
                 ))}

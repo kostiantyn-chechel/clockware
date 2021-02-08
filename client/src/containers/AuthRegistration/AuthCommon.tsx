@@ -47,9 +47,7 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
         if (userToken) {
             switch (userStatus) {
                 case "admin":
-                    setTimeout(() => {
-                        push('/dashboard');
-                    }, 50);
+                    push('/dashboard');
                     break;
                 case "client":
                     setTimeout(() => {
@@ -63,7 +61,7 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
                     break;
             }
         }
-    }, [userToken]);
+    }, [userToken, userStatus]);
     /* eslint-enable */
 
     const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {

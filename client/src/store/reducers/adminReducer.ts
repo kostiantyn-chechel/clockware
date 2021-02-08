@@ -8,7 +8,7 @@ import {
     FETCH_FILTER_PAGIN_ORDERS,
     FETCH_MASTERS,
     SHOW_ERROR,
-} from '../actions/actionTypes';
+} from '../actionType/adminActionType';
 import {ICity, IClient, IMaster, IOrderPac} from "../../interfaces";
 
 export type AdminInitialStateType = {
