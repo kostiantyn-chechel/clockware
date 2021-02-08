@@ -9,7 +9,7 @@ import Container from '@material-ui/core/Container';
 import { IAuthUser } from "../../interfaces";
 import { authUserMessage, userLoginFetch } from "../../store/actions/authAction";
 import { RootStateType } from "../../store/reducers/rootReducer";
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import { connect, ConnectedProps } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,9 +47,7 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
         if (userToken) {
             switch (userStatus) {
                 case "admin":
-                    setTimeout(() => {
-                        push('/dashboard');
-                    }, 50);
+                    push('/dashboard');
                     break;
                 case "client":
                     setTimeout(() => {
@@ -63,7 +61,7 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
                     break;
             }
         }
-    }, [userToken]);
+    }, [userToken, userStatus]);
     /* eslint-enable */
 
     const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
