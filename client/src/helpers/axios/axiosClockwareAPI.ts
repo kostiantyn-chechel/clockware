@@ -80,7 +80,10 @@ export type ChartDataType = {
             count: number
         }[]
         rating: number
-        status: string
+        status: {
+            orderStatus: TOrderStatus,
+            count: number,
+        }[]
     }[]
 }
 type GetAuthServerResponseType = IClient[] | IMaster[] | IOrderPac | IReviews[] | IFilterData[] | CityMasterType[] |

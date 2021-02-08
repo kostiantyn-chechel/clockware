@@ -112,6 +112,9 @@ exports.filterAdminData = async (req: Request, res: Response) => {
         group: ['id', 'hours']
     }).then(response => listMastersTablesData = response);
 
+    listMastersTablesData = await addMasterRating(listMastersTablesData);
+    listMastersTablesData = await addMasterOrdersStatus(listMastersTablesData, startData as string, endData as string);
+
     res.send({
         listDateOrder,
         listCityCount,
@@ -121,14 +124,66 @@ exports.filterAdminData = async (req: Request, res: Response) => {
     });
 };
 
-const masterRatingById = async (id: number): Promise<number> => {
-    return Review.findAll({
-        where: {
-            userId: id,
-        },
-        attributes: ['rating']
-    }).then(rating => {
-        const aaa = rating.map(item => item.rating);
-        return aaa.reduce((a, b) => a + b, 0) / aaa.length;
-    });
+const addMasterRating = async (list: any[]) => {
+        const newList: any[] = [];
+
+        for (let i = 0; i < list.length ; i++) {
+            const rating = await getRatingByID(list[i].id);
+            newList.push({
+                id: list[i].id,
+                name: list[i].name,
+                master_orders: list[i].master_orders,
+                rating: rating
+            });
+        }
+        return newList;
+};
+
+
+const getRatingByID = (id: number): Promise<number> => {
+    return new Promise((resolve, reject) => {
+        Review.findAll({
+            where: {
+                userId: id,
+            },
+            attributes: ['rating']
+        }).then(rating => {
+            const aaa = rating.map(item => item.rating);
+            resolve (aaa.reduce((a, b) => a + b, 0) / aaa.length);
+        }).catch(err => reject(err));
+    })
+};
+
+const addMasterOrdersStatus = async (list: any[], startData: string, endData: string) => {
+    const newList: any[] = [];
+
+    for (let i = 0; i < list.length ; i++) {
+        const status = await getMasterOrdersStatus(list[i].id, startData, endData);
+        newList.push({
+            ...list[i],
+            status: status,
+        })
+    }
+    return newList;
+};
+
+const getMasterOrdersStatus = (id: number, startData: string, endData: string ): Promise<any[]> => {
+    return new Promise((resolve, reject) => {
+        Order.findAll({
+            where: {
+                masterId: id,
+                [and]: [
+                    {date: {[gt]: startData}},
+                    {date: {[lt]: endData}},
+                ],
+            },
+            attributes: [
+                'orderStatus',
+                [sequelize.fn('count', sequelize.col('orderStatus')), 'count']
+            ],
+            group: ['orderStatus'],
+        })
+            .then(status => resolve(status))
+            .catch(err => reject(err))
+    })
 };

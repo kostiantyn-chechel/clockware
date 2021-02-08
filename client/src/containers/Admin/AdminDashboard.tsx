@@ -11,7 +11,7 @@ import { RootStateType } from "../../store/reducers/rootReducer";
 import { connect, ConnectedProps } from "react-redux";
 import { setOpenMenu } from "../../store/actions/appAction";
 import { ChartDataType, getAuthServerRequest } from "../../helpers/axios/axiosClockwareAPI";
-import { ICity } from "../../interfaces";
+import {ICity, TOrderStatus} from "../../interfaces";
 import AdminMastersTables from "../../component/AdminMastersTables/AdminMastersTables";
 import CityMasterSelects from "../../component/DashBoard/CityMasterSelects";
 import { LinearProgress } from "@material-ui/core";
@@ -177,8 +177,8 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                         id: master.id,
                         name: master.name,
                         ...sizeSet,
-                        rating: 1, //todo
-                        status: '???' //todo
+                        rating: master.rating,
+                        status: statusArrToString(master.status),
                     }
                 }));
             })
@@ -279,3 +279,14 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connector(AdminDashboard);
 
 type PropsFromRedux = ConnectedProps<typeof connector>
+
+
+const statusArrToString = (list: {orderStatus: TOrderStatus, count: number}[]): string => {
+    let finished = 0, unfinished = 0;
+    list.forEach(item => {
+        if (item.orderStatus === 'completed') finished = item.count;
+        if (item.orderStatus === 'inwork') unfinished += item.count;
+        if (item.orderStatus === 'queue') unfinished += item.count;
+    });
+    return `${finished} / ${unfinished}`
+};
