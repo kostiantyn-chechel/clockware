@@ -177,7 +177,7 @@ const AdminDashboard: React.FC<PropsFromRedux> = (props) => {
                         id: master.id,
                         name: master.name,
                         ...sizeSet,
-                        rating: 1, //todo
+                        rating: master.rating,
                         status: '???' //todo
                     }
                 }));

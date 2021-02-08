@@ -112,6 +112,8 @@ exports.filterAdminData = async (req: Request, res: Response) => {
         group: ['id', 'hours']
     }).then(response => listMastersTablesData = response);
 
+    listMastersTablesData = await addMasterRating(listMastersTablesData);
+
     res.send({
         listDateOrder,
         listCityCount,
@@ -121,14 +123,32 @@ exports.filterAdminData = async (req: Request, res: Response) => {
     });
 };
 
-const masterRatingById = async (id: number): Promise<number> => {
-    return Review.findAll({
-        where: {
-            userId: id,
-        },
-        attributes: ['rating']
-    }).then(rating => {
-        const aaa = rating.map(item => item.rating);
-        return aaa.reduce((a, b) => a + b, 0) / aaa.length;
-    });
+const addMasterRating = async (list: any[]) => {
+        const newList: any[] = [];
+
+        for (let i = 0; i < list.length ; i++) {
+            const rating = await getRatingByID(list[i].id);
+            newList.push({
+                id: list[i].id,
+                name: list[i].name,
+                master_orders: list[i].master_orders,
+                rating: rating
+            });
+        }
+        return newList;
+};
+
+
+const getRatingByID = (id: number): Promise<number> => {
+    return new Promise((resolve, reject) => {
+        Review.findAll({
+            where: {
+                userId: id,
+            },
+            attributes: ['rating']
+        }).then(rating => {
+            const aaa = rating.map(item => item.rating);
+            resolve (aaa.reduce((a, b) => a + b, 0) / aaa.length);
+        }).catch(err => reject(err));
+    })
 };
