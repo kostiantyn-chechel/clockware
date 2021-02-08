@@ -1,4 +1,4 @@
-import {AUTH_USER_MESSAGE, AuthActionTypes, RESET_USER, SET_USER, SET_USER_STATUS,} from '../actions/actionTypes';
+import {AUTH_USER_MESSAGE, AuthActionTypes, RESET_USER, SET_USER, SET_USER_STATUS,} from '../actionType/authActionType';
 import {IUser} from "../../interfaces";
 
 const USER_ZERO: IUser = {

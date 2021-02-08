@@ -9,7 +9,7 @@ import Container from '@material-ui/core/Container';
 import { IAuthUser } from "../../interfaces";
 import { authUserMessage, userLoginFetch } from "../../store/actions/authAction";
 import { RootStateType } from "../../store/reducers/rootReducer";
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { connect, ConnectedProps } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({

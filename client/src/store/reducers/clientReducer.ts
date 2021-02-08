@@ -1,5 +1,5 @@
 import { IClientOrder } from "../../interfaces";
-import { ClientActionTypes } from "../actions/actionTypes";
+import { ClientActionTypes } from "../actionType/clientActionType";
 
 
 type UserInitialStateType = {

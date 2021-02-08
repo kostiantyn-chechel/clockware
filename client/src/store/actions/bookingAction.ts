@@ -1,7 +1,7 @@
 import {
     FETCH_MASTER_SUCCESS,
     SET_BOOKING_SHOW,
-} from './actionTypes';
+} from '../actionType/bookingActionType';
 import { IMaster, ISendOrder, TBookingShow } from "../../interfaces";
 import { getServerRequest, postServerRequest } from "../../helpers/axios/axiosClockwareAPI";
 

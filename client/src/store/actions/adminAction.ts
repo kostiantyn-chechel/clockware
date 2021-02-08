@@ -7,7 +7,7 @@ import {
     FETCH_FILTER_PAGIN_ORDERS,
     FETCH_MASTERS,
     SHOW_ERROR,
-} from './actionTypes';
+} from '../actionType/adminActionType';
 import { ICity, IClient, IFetchFilterOrders } from "../../interfaces";
 import {
     deleteAuthServerRequest,

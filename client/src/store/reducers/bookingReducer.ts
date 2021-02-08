@@ -2,7 +2,7 @@ import {
     BookingActionTypes,
     FETCH_MASTER_SUCCESS,
     SET_BOOKING_SHOW,
-} from '../actions/actionTypes';
+} from '../actionType/bookingActionType';
 import { IMaster, TBookingShow } from "../../interfaces";
 
 export type BookingReduceType = {

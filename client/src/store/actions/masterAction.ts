@@ -1,5 +1,5 @@
 import {getAuthServerRequest, putAuthServerRequest} from "../../helpers/axios/axiosClockwareAPI";
-import {GET_MASTER_ORDERS} from "./actionTypes";
+import {GET_MASTER_ORDERS} from '../actionType/masterActionType';
 import {TOrderStatus} from "../../interfaces";
 
 export const getMasterOrders = (id: number) => {

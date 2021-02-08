@@ -1,4 +1,4 @@
-import { MasterActionType } from "../actions/actionTypes";
+import { MasterActionType } from "../actionType/masterActionType";
 import { IMasterOrder } from "../../interfaces";
 
 export type MasterInitialStateType = {
