@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { IError, IUserChangeReg } from "../Type/interfaces";
 const db = require("../models");
+const Op = db.Sequelize.Op;
 const User = db.users;
 const { generateToken, generateSalt, generatePassCrypt } = require('../processing/auth');
 
@@ -24,7 +25,8 @@ exports.userData = (req: Request, res: Response) => {
 exports.userVerification = (req: Request, res: Response, next: NextFunction) => {
     User.findOne({
         where: {
-            login: req.body.login
+            login: req.body.login,
+            password: {[Op.ne]: null}
         }
     })
         .then((user:any) => {
