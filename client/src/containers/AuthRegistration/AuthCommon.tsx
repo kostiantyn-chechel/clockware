@@ -59,9 +59,7 @@ const AuthCommon: React.FC = () => {
                     push('/client');
                     break;
                 case "master":
-                    setTimeout(() => {
-                        push('/cabinet');
-                    }, 50);
+                    push('/cabinet');
                     break;
             }
         }

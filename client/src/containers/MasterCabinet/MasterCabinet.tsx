@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from "@material-ui/core/Container";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { RootStateType } from "../../store/reducers/rootReducer";
-import { connect, ConnectedProps } from "react-redux";
-import { getUserStatus, logout, validToken } from "../../helpers/authProcessing";
+import { useDispatch, useSelector } from "react-redux";
+import { isTokenValid, logout } from "../../helpers/authProcessing";
 import { useHistory } from "react-router-dom";
-import {getMasterOrders, putMasterOrderStatus} from "../../store/actions/masterAction";
+import { getMasterOrders, putMasterOrderStatus } from "../../store/actions/masterAction";
 import MasterOrdersTable from "../../component/MasterCabinet/MasterOrdersTable";
 import Backdrop from "@material-ui/core/Backdrop";
-import {TOrderStatus} from "../../interfaces";
+import { TOrderStatus } from "../../interfaces";
+import IStore from "../../type/store/IStore";
 
 const useStyles = makeStyles((theme) => ({
     orders: {
@@ -27,14 +27,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const MasterCabinet: React.FC<PropsFromRedux> = (props) => {
+const MasterCabinet: React.FC = (props) => {
     const { push } = useHistory();
     const classes = useStyles();
-    const { id, name, login } = props;
+    const dispatch = useDispatch();
+    const token = useSelector(({auth}: IStore) => auth.user.token);
+    const tokenTime = useSelector(({auth}: IStore) => auth.user.tokenTime);
+    const id = useSelector(({auth}: IStore) => auth.user.id);
+    const name = useSelector(({auth}: IStore) => auth.user.name);
+    const login = useSelector(({auth}: IStore) => auth.user.login);
+    const userStatus = useSelector(({auth}: IStore) => auth.user.status);
+    const orders = useSelector(({master}: IStore) => master.orders);
 
     /* eslint-disable */
     useEffect(() => {
-        props.getMasterOrders(props.id);
+        setTimeout(() => { dispatch(getMasterOrders(id)) }, 50); //todo !!!
     },[id]);
     /* eslint-enable */
 
@@ -49,16 +56,16 @@ const MasterCabinet: React.FC<PropsFromRedux> = (props) => {
         setOpen(!open);
     };
 
-    const handleStatus = (id: number, status: TOrderStatus) => props.putMasterOrderStatus(id, status, props.id);
+    const handleStatus = (id: number, status: TOrderStatus) => dispatch(putMasterOrderStatus(id, status, id));
 
     const renderMasterCabinet = () => {
-        if (validToken() && getUserStatus() === 'master') {
+        if (isTokenValid(token, tokenTime) && userStatus === 'master') {
             return (
                 <Container component="main" maxWidth="xl">
                     <div className={classes.orders}>
                         <h1>{`(${id}): ${name} (${login}) `}</h1>
                         <MasterOrdersTable
-                            orders={props.orders}
+                            orders={orders}
                             handleToggle={handleToggle}
                             handleStatus={handleStatus}
                         />
@@ -84,24 +91,4 @@ const MasterCabinet: React.FC<PropsFromRedux> = (props) => {
     );
 };
 
-function mapStateToProps(state: RootStateType) {
-    return {
-        id: state.auth.user.id,
-        name: state.auth.user.name,
-        login: state.auth.user.login,
-        orders: state.master.orders,
-    }
-}
-
-function mapDispatchToProps(dispatch: any) {
-    return{
-        getMasterOrders: (id: number) => dispatch(getMasterOrders(id)),
-        putMasterOrderStatus: (orderId: number, status: TOrderStatus, masterId: number) =>
-                                                            dispatch(putMasterOrderStatus(orderId, status, masterId)),
-    }
-}
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-export default connector(MasterCabinet);
-
-type PropsFromRedux = ConnectedProps<typeof connector>
+export default MasterCabinet;

@@ -11,7 +11,7 @@ import ClientData from "../../component/ClientOrders/ClientData";
 import { isTokenValid, logout } from "../../helpers/authProcessing";
 import { useHistory } from "react-router-dom";
 import IStore from "../../type/store/IStore";
-import {IChangeRegUser} from "../../interfaces";
+import { IChangeRegUser } from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     text: {
@@ -51,8 +51,6 @@ const ClientCabinet: React.FC = (props) => {
         }
     };
 
-
-
     const buttonName = (): string => {
         if (status === 'date') {
             return 'Мои заказы'
@@ -72,7 +70,6 @@ const ClientCabinet: React.FC = (props) => {
                     id={id}
                     name={name}
                     login={login}
-                    // userRegistrationChange={props.userRegistrationChange}
                     handleRegistrationChange={handleRegistrationChange}
                 />
             )
