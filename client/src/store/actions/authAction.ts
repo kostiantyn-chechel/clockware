@@ -5,10 +5,9 @@ import {
     SET_USER,
     SET_USER_STATUS
 } from '../actionType/authActionType';
-// import { saveUserToLocalStorage} from '../../helpers/authProcessing';
-import {IAuthUser, IChangeRegUser, IRegUser, TUserStatus} from "../../interfaces";
-import {postServerRequest, postAuthServerRequest, ServerPostResponseType} from "../../helpers/axios/axiosClockwareAPI";
-import {saveUserToLocalStorage} from "../../helpers/authProcessing";
+import { IAuthUser, IChangeRegUser, IRegUser, TUserStatus } from "../../interfaces";
+import { postServerRequest, postAuthServerRequest, ServerPostResponseType } from "../../helpers/axios/axiosClockwareAPI";
+import {getTokenTime, saveUserToLocalStorage} from "../../helpers/authProcessing";
 
 export const userLoginFetch = (userInfo: IAuthUser) => {
     return async (dispatch: any) => postServerRequest('/auth', userInfo)
@@ -30,8 +29,12 @@ export const userRegistrationChange = (userChangeRegInfo: IChangeRegUser) => {
 
 export const setUser = (response: ServerPostResponseType, dispatch: any) => {
     if (response.token) {
-        dispatch(setAuthUser(response));
-        saveUserToLocalStorage(response);
+        const user = {
+            ...response,
+            tokenTime: getTokenTime(),
+        };
+        dispatch(setAuthUser(user));
+        saveUserToLocalStorage(user);
     } else {
         if(response.message) {
             dispatch(authUserMessage(response.message));

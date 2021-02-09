@@ -1,12 +1,11 @@
-import {IUser, TUserStatus} from "../interfaces";
+import { IUser, TUserStatus } from "../interfaces";
+
+const TOKEN_VALIDITY_TIME = 60 * 1000 * 30; // 30 min - token validity time
 
 export const saveUserToLocalStorage = (user: IUser) => {
     localStorage.setItem('user', JSON.stringify(user));
-    const expiredTime = new Date().getTime();
-    // localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 600000)); // 10 min - token validity time
-    // localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 20000)); // 20 sec - token validity time
-    // localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 6000000)); // 100 min - token validity time
-    localStorage.setItem('tokenTime', JSON.stringify(expiredTime + 1800000)); // 30 min - token validity time
+    const expiredTime = new Date().getTime(); // todo delete
+    localStorage.setItem('tokenTime', JSON.stringify(expiredTime + TOKEN_VALIDITY_TIME));// todo delete
 };
 
 export const validToken = (): boolean => {
@@ -23,6 +22,17 @@ const isLiveToken = (): boolean => {
     if (tokenTime) {
         if (Date.now() < tokenTime) return true
     }
+    logout();
+    return false
+};
+
+export const getTokenTime = (): number => {
+    const expiredTime = new Date().getTime();
+    return expiredTime + TOKEN_VALIDITY_TIME
+};
+
+export const isTokenValid  = (token: string, tokenTime: number): boolean => {
+    if (!!token && Date.now() < tokenTime) return true;
     logout();
     return false
 };

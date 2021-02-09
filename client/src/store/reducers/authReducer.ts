@@ -8,6 +8,7 @@ const USER_ZERO: IUser = {
     login: '',
     status: "notAuth",
     token: '',
+    tokenTime: 0,
 };
 
 const initialState: IAuthInitialState = {

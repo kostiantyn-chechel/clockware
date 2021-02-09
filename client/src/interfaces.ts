@@ -10,6 +10,7 @@ export interface IUser {
     name: string
     login: string
     token: string
+    tokenTime: number
 }
 
 export interface ICity {
