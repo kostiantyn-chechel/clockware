@@ -17,7 +17,6 @@ const StyledTableRow = withStyles((theme) => ({
     },
 }))(TableRow);
 
-
 const OrderItem: React.FC<IMasterOrdersTable> = (props) => {
 
     return (

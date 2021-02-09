@@ -56,7 +56,7 @@ const MasterCabinet: React.FC = (props) => {
         setOpen(!open);
     };
 
-    const handleStatus = (id: number, status: TOrderStatus) => dispatch(putMasterOrderStatus(id, status, id));
+    const handleStatus = (orderId: number, status: TOrderStatus) => dispatch(putMasterOrderStatus(orderId, status, id));
 
     const renderMasterCabinet = () => {
         if (isTokenValid(token, tokenTime) && userStatus === 'master') {

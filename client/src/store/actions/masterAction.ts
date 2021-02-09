@@ -22,6 +22,7 @@ export const getMasterOrders = (id: number) => {
 
 export const putMasterOrderStatus = (orderId: number, status: TOrderStatus, masterId: number) => {
     const body = { orderId: orderId, status: status };
+    console.log('putMasterOrderStatus', orderId, body);//todo delete
     return async (dispatch: any) => putAuthServerRequest(`/masters/order/${masterId}`, body)
         .then(() => dispatch(getMasterOrders(masterId)))
 };
