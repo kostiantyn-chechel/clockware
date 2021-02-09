@@ -9,7 +9,7 @@ import { IRegistrationUser, IRegUser } from "../../interfaces";
 import Button from "@material-ui/core/Button";
 import { comparePass, isEmail, isName } from "../../helpers/validation";
 import { userRegistrationFetch } from "../../store/actions/authAction";
-import {useSelector, useDispatch, DefaultRootState} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import Warning from '../../component/Warning';
 import IStore from "../../type/store/IStore";
