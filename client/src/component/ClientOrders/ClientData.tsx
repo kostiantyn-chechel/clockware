@@ -23,7 +23,7 @@ interface IClientData {
     id: number
     name: string
     login: string
-    userRegistrationChange(userChangeData: IChangeRegUser): void
+    handleRegistrationChange(userChangeData: IChangeRegUser): void
 }
 
 const ClientData: React.FC<IClientData> = (props) => {
@@ -86,7 +86,7 @@ const ClientData: React.FC<IClientData> = (props) => {
             password: user.password,
         };
         if (userChangeData.name || userChangeData.login || userChangeData.password){
-            props.userRegistrationChange(userChangeData);
+            props.handleRegistrationChange(userChangeData);
         }
     };
 
