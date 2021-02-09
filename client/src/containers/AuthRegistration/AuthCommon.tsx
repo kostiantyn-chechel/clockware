@@ -64,9 +64,15 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
     }, [userToken, userStatus]);
     /* eslint-enable */
 
-    const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+    const handleLogin = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
         setUser({
-            ...user, [event.target.name]: event.target.value
+            ...user, login: event.target.value as string
+        })
+    };
+
+    const handlePassword = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setUser({
+            ...user, password: event.target.value as string
         })
     };
 
@@ -97,7 +103,7 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
                         name="login"
                         autoComplete="email"
                         autoFocus
-                        onChange={handleChange}
+                        onChange={handleLogin}
                     />
                     <TextField
                         variant="outlined"
@@ -109,7 +115,7 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-                        onChange={handleChange}
+                        onChange={handlePassword}
                     />
 
                     {props.message ?

@@ -72,9 +72,27 @@ const Registration: React.FC<PropsFromRedux> = props => {
     }, [userStatus]);
     /* eslint-enable */
 
-    const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+    const handleName = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
         setUser({
-            ...user, [event.target.name]: event.target.value
+            ...user, name: event.target.value as string
+        })
+    };
+
+    const handleLogin = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setUser({
+            ...user, login: event.target.value as string
+        })
+    };
+
+    const handlePassword = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setUser({
+            ...user, password: event.target.value as string
+        })
+    };
+
+    const handlePassword2 = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setUser({
+            ...user, password2: event.target.value as string
         })
     };
 
@@ -112,7 +130,7 @@ const Registration: React.FC<PropsFromRedux> = props => {
                     label="Имя"
                     name="name"
                     autoFocus
-                    onChange={handleChange}
+                    onChange={handleName}
                 />
 
                 <TextField
@@ -125,7 +143,7 @@ const Registration: React.FC<PropsFromRedux> = props => {
                     id="login"
                     label="Login(email)"
                     name="login"
-                    onChange={handleChange}
+                    onChange={handleLogin}
                 />
 
                 <Warning valid={!props.message} >
@@ -143,7 +161,7 @@ const Registration: React.FC<PropsFromRedux> = props => {
                     label="Password"
                     type="password"
                     id="password"
-                    onChange={handleChange}
+                    onChange={handlePassword}
                 />
                 <TextField
                     error={error.password2}
@@ -156,7 +174,7 @@ const Registration: React.FC<PropsFromRedux> = props => {
                     label="Password again"
                     type="password"
                     id="password2"
-                    onChange={handleChange}
+                    onChange={handlePassword2}
                 />
                 <Button
                     type="submit"

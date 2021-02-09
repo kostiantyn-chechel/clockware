@@ -100,11 +100,31 @@ const MasterDataPanel: React.FC<IMasterDataPanel> = (props) => {
         password2: false,
     });
 
-    const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+    const handleName = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
         setMaster({
-            ...master, [event.target.name]: event.target.value
+            ...master, name: event.target.value as string
         })
     };
+    const handlePassword = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setMaster({
+            ...master,
+            password: event.target.value as string
+        });
+    };
+
+    const handlePassword2 = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setMaster({
+            ...master,
+            password2: event.target.value as string
+        });
+    };
+    const handleLogin = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setMaster({
+            ...master,
+            login: event.target.value as string
+        });
+    };
+
     const handleSelectCity = (id: number) => setMaster({ ...master, cityId: id });
 
     const handleMasterSave = (event: React.MouseEvent) => {
@@ -120,7 +140,7 @@ const MasterDataPanel: React.FC<IMasterDataPanel> = (props) => {
                 <TextField
                     error={error.name}
                     helperText={!error.name ? 'Имя не менее 3 знаков' : null}
-                    onChange={handleChange}
+                    onChange={handleName}
                     value={master.name}
                     margin="normal"
                     name="name"
@@ -135,7 +155,7 @@ const MasterDataPanel: React.FC<IMasterDataPanel> = (props) => {
                 <TextField
                     error={error.login}
                     helperText={!error.login ? 'Некорректный email' : null}
-                    onChange={handleChange}
+                    onChange={handleLogin}
                     value={master.login}
                     margin="normal"
                     name="login"
@@ -153,7 +173,7 @@ const MasterDataPanel: React.FC<IMasterDataPanel> = (props) => {
                 <TextField
                     error={error.password}
                     helperText={error.password ?'пароль должен быть не менее 8 знаков': ''}
-                    onChange={handleChange}
+                    onChange={handlePassword}
                     margin="normal"
                     name="password"
                     id="password"
@@ -166,7 +186,7 @@ const MasterDataPanel: React.FC<IMasterDataPanel> = (props) => {
                 <TextField
                     error={error.password2}
                     helperText={error.password2 ?'Пароль должен совпадать': ''}
-                    onChange={handleChange}
+                    onChange={handlePassword2}
                     margin="normal"
                     name="password2"
                     id="password2"
