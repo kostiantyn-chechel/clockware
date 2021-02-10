@@ -29,7 +29,7 @@ const app = express();
 
 //for CRON tasks
 // // cron.schedule('* 8 * * *', () => { // for prod
-// cron.schedule('* * * * *', () => {
+// cron.schedule('*/5 * * * *', () => {
 //   masterReport.masterTodayReport();
 // });
 
