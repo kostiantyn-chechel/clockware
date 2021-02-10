@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 export interface IMasterOrdersTable {
     orders: IMasterOrder[]
     handleToggle(url: string): void
-    handleStatus(id: number, status: TOrderStatus): void
+    handleStatus(orderId: number, status: TOrderStatus): void
 }
 
 const MasterOrdersTable: React.FC<IMasterOrdersTable> = (props) => {

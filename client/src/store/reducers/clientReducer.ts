@@ -1,16 +1,11 @@
-import { IClientOrder } from "../../interfaces";
 import { ClientActionTypes } from "../actionType/clientActionType";
+import IClientInitialState from "../../type/store/IClient";
 
-
-type UserInitialStateType = {
-    orders: IClientOrder[]
-}
-
-const initialState: UserInitialStateType = {
+const initialState: IClientInitialState = {
     orders: [],
 };
 
-export default function clientReducer(state = initialState, action: ClientActionTypes) {
+export default function clientReducer(state = initialState, action: ClientActionTypes): IClientInitialState {
     switch (action.type) {
         case "SET_CLIENT_ORDERS_LIST":
             return {

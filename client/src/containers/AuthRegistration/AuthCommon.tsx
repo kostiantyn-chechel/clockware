@@ -8,9 +8,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { IAuthUser } from "../../interfaces";
 import { authUserMessage, userLoginFetch } from "../../store/actions/authAction";
-import { RootStateType } from "../../store/reducers/rootReducer";
 import { useHistory } from 'react-router-dom';
-import { connect, ConnectedProps } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import IStore from "../../type/store/IStore";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -33,9 +33,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AuthCommon: React.FC<PropsFromRedux> = props => {
+const AuthCommon: React.FC = () => {
     const classes = useStyles();
-    const { userStatus, userToken } = props;
+
+    const dispatch = useDispatch();
+
+    const message = useSelector(({auth}: IStore) => auth.message);
+    const userStatus = useSelector(({auth}: IStore) => auth.user.status);
+    const userToken = useSelector(({auth}: IStore) => auth.user.token);
+
     const { push } = useHistory();
     const [user, setUser] = useState<IAuthUser>({
         login: '',
@@ -50,30 +56,32 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
                     push('/dashboard');
                     break;
                 case "client":
-                    setTimeout(() => {
-                        push('/client');
-                    }, 50);
+                    push('/client');
                     break;
                 case "master":
-                    setTimeout(() => {
-                        push('/cabinet');
-                    }, 50);
+                    push('/cabinet');
                     break;
             }
         }
     }, [userToken, userStatus]);
     /* eslint-enable */
 
-    const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+    const handleLogin = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
         setUser({
-            ...user, [event.target.name]: event.target.value
+            ...user, login: event.target.value as string
+        })
+    };
+
+    const handlePassword = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setUser({
+            ...user, password: event.target.value as string
         })
     };
 
     const handleSubmit = (event:React.MouseEvent) => {
         event.preventDefault();
-        props.userLoginFetch(user);
-        props.authUserMessage('');
+        dispatch(userLoginFetch(user));
+        dispatch(authUserMessage(''));
     };
 
     return (
@@ -97,7 +105,7 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
                         name="login"
                         autoComplete="email"
                         autoFocus
-                        onChange={handleChange}
+                        onChange={handleLogin}
                     />
                     <TextField
                         variant="outlined"
@@ -109,12 +117,12 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-                        onChange={handleChange}
+                        onChange={handlePassword}
                     />
 
-                    {props.message ?
+                    {message ?
                         <Typography color='error' component="h1" variant="h5">
-                            {props.message}
+                            {message}
                         </Typography>
                         : null
                     }
@@ -137,22 +145,4 @@ const AuthCommon: React.FC<PropsFromRedux> = props => {
     );
 };
 
-function mapStateToProps(state: RootStateType) {
-    return {
-        message: state.auth.message,
-        userStatus: state.auth.user.status,
-        userToken: state.auth.user.token,
-    }
-}
-
-function mapDispatchToProps(dispatch: any) {
-    return{
-        userLoginFetch: (userInfo: IAuthUser) => dispatch(userLoginFetch(userInfo)),
-        authUserMessage: (message: string) => dispatch(authUserMessage(message)),
-    }
-}
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-export default connector(AuthCommon);
-
-type PropsFromRedux = ConnectedProps<typeof connector>
+export default AuthCommon;

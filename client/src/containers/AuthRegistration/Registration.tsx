@@ -9,10 +9,10 @@ import { IRegistrationUser, IRegUser } from "../../interfaces";
 import Button from "@material-ui/core/Button";
 import { comparePass, isEmail, isName } from "../../helpers/validation";
 import { userRegistrationFetch } from "../../store/actions/authAction";
-import { RootStateType } from "../../store/reducers/rootReducer";
-import { connect, ConnectedProps } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import Warning from '../../component/Warning'
+import Warning from '../../component/Warning';
+import IStore from "../../type/store/IStore";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -38,10 +38,14 @@ export type ErrorFieldType = {
     password2: boolean
 }
 
-const Registration: React.FC<PropsFromRedux> = props => {
+const Registration: React.FC = props => {
     const classes = useStyles();
-    const { userStatus } = props;
     const { push } = useHistory();
+
+    const dispatch = useDispatch();
+
+    const message = useSelector(({auth}: IStore) => auth.message);
+    const userStatus = useSelector(({auth}: IStore) => auth.user.status);
 
     const [user, setUser] = useState<IRegistrationUser>({
         name: '',
@@ -61,7 +65,7 @@ const Registration: React.FC<PropsFromRedux> = props => {
     /* eslint-disable */
     useEffect(() => {
         if (user.name && !error.name && !error.login && !error.password && !error.password2){
-            props.userRegistrationFetch(user as IRegUser);
+            dispatch(userRegistrationFetch(user as IRegUser));
         }
     },[error]);
 
@@ -72,9 +76,27 @@ const Registration: React.FC<PropsFromRedux> = props => {
     }, [userStatus]);
     /* eslint-enable */
 
-    const handleChange = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+    const handleName = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
         setUser({
-            ...user, [event.target.name]: event.target.value
+            ...user, name: event.target.value as string
+        })
+    };
+
+    const handleLogin = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setUser({
+            ...user, login: event.target.value as string
+        })
+    };
+
+    const handlePassword = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setUser({
+            ...user, password: event.target.value as string
+        })
+    };
+
+    const handlePassword2 = (event: React.ChangeEvent<{ name: string, value: unknown}>) => {
+        setUser({
+            ...user, password2: event.target.value as string
         })
     };
 
@@ -112,7 +134,7 @@ const Registration: React.FC<PropsFromRedux> = props => {
                     label="Имя"
                     name="name"
                     autoFocus
-                    onChange={handleChange}
+                    onChange={handleName}
                 />
 
                 <TextField
@@ -125,11 +147,11 @@ const Registration: React.FC<PropsFromRedux> = props => {
                     id="login"
                     label="Login(email)"
                     name="login"
-                    onChange={handleChange}
+                    onChange={handleLogin}
                 />
 
-                <Warning valid={!props.message} >
-                    {props.message}
+                <Warning valid={!message} >
+                    {message}
                 </Warning>
 
                 <TextField
@@ -143,7 +165,7 @@ const Registration: React.FC<PropsFromRedux> = props => {
                     label="Password"
                     type="password"
                     id="password"
-                    onChange={handleChange}
+                    onChange={handlePassword}
                 />
                 <TextField
                     error={error.password2}
@@ -156,7 +178,7 @@ const Registration: React.FC<PropsFromRedux> = props => {
                     label="Password again"
                     type="password"
                     id="password2"
-                    onChange={handleChange}
+                    onChange={handlePassword2}
                 />
                 <Button
                     type="submit"
@@ -174,21 +196,4 @@ const Registration: React.FC<PropsFromRedux> = props => {
     );
 };
 
-function mapStateToProps(state: RootStateType) {
-    return {
-        message: state.auth.message,
-        userStatus: state.auth.user.status,
-    }
-}
-
-function mapDispatchToProps(dispatch: any) {
-    return{
-        userRegistrationFetch: (userRegInfo: IRegUser) => dispatch(userRegistrationFetch(userRegInfo))
-    }
-}
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-export default connector(Registration);
-
-type PropsFromRedux = ConnectedProps<typeof connector>
-
+export default Registration;

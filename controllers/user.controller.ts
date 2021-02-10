@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { IError, IUserChangeReg } from "../Type/interfaces";
 const db = require("../models");
+const Op = db.Sequelize.Op;
 const User = db.users;
 const { generateToken, generateSalt, generatePassCrypt } = require('../processing/auth');
 
@@ -24,7 +25,8 @@ exports.userData = (req: Request, res: Response) => {
 exports.userVerification = (req: Request, res: Response, next: NextFunction) => {
     User.findOne({
         where: {
-            login: req.body.login
+            login: req.body.login,
+            status: {[Op.ne]: 'notAuth'}
         }
     })
         .then((user:any) => {
@@ -37,7 +39,7 @@ exports.userVerification = (req: Request, res: Response, next: NextFunction) => 
 };
 
 exports.userAdd = (req: Request, res: Response) => {
-
+    console.log('userAdd');
     const salt = generateSalt();
     const user = {
             login: req.body.login,
@@ -47,15 +49,44 @@ exports.userAdd = (req: Request, res: Response) => {
             salt: salt,
         };
 
-    User.create(user)
-        .then((user:any) => {
-            res.send({
-                id: user.id,
-                status: user.status,
-                name: user.name,
-                login: user.login,
-                token: generateToken(user.login)
-            })
+    User.findOne({
+        where: {
+            login: req.body.login,
+        }
+    })
+        .then((existingUser:any) => {
+            if (existingUser) {
+                User.update(user, {
+                    where: {
+                        id: existingUser.id
+                    }})
+                    .then(()=>{
+                            User.findOne({
+                                where: existingUser.id
+                            }).
+                            then(updateUser => {
+                                res.send({
+                                    id: updateUser.id,
+                                    status: updateUser.status,
+                                    name: updateUser.name,
+                                    login: updateUser.login,
+                                    token: generateToken(user.login)
+                                });
+                            })
+                        }
+                    )
+            } else {
+                User.create(user)
+                    .then((user:any) => {
+                        res.send({
+                            id: user.id,
+                            status: user.status,
+                            name: user.name,
+                            login: user.login,
+                            token: generateToken(user.login)
+                        })
+                    })
+            }
         })
         .catch((err: IError) => {
             res.status(500).send({
@@ -63,6 +94,7 @@ exports.userAdd = (req: Request, res: Response) => {
                     err.message || "Some error occurred while creating the User."
             });
         });
+
 };
 
 exports.userChangeData = (req: Request, res: Response) => {

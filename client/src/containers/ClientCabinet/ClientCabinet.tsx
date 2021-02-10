@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import Container from "@material-ui/core/Container";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
-import { RootStateType } from "../../store/reducers/rootReducer";
-import { IChangeRegUser } from "../../interfaces";
 import { userRegistrationChange } from "../../store/actions/authAction";
-import { connect, ConnectedProps } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ClientOrders from "../../component/ClientOrders/ClientOrders";
 import { fetchClientsOrderList } from "../../store/actions/clientAction";
 import { Grid } from "@material-ui/core";
 import ClientData from "../../component/ClientOrders/ClientData";
-import { getUserStatus, logout, validToken } from "../../helpers/authProcessing";
+import { isTokenValid, logout } from "../../helpers/authProcessing";
 import { useHistory } from "react-router-dom";
+import IStore from "../../type/store/IStore";
+import { IChangeRegUser } from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     text: {
@@ -27,9 +27,17 @@ const useStyles = makeStyles((theme) => ({
 
 type ClientCabinetStatusType = 'date' | 'orders'
 
-const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
+const ClientCabinet: React.FC = (props) => {
     const { push } = useHistory();
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const token = useSelector(({auth}: IStore) => auth.user.token);
+    const tokenTime = useSelector(({auth}: IStore) => auth.user.tokenTime);
+    const id = useSelector(({auth}: IStore) => auth.user.id);
+    const name = useSelector(({auth}: IStore) => auth.user.name);
+    const login = useSelector(({auth}: IStore) => auth.user.login);
+    const userStatus = useSelector(({auth}: IStore) => auth.user.status);
+    const orders = useSelector(({client}: IStore) => client.orders);
 
     const [status, setStatus] = useState<ClientCabinetStatusType>('date');
 
@@ -37,7 +45,7 @@ const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
         event.preventDefault();
         if (status === 'date') {
             setStatus('orders');
-            props.fetchClientsOrderList(props.id);
+            dispatch(fetchClientsOrderList(id));
         } else {
             setStatus('date');
         }
@@ -51,27 +59,31 @@ const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
         }
     };
 
+    const handleRegistrationChange = (userChangeData: IChangeRegUser) => {
+        dispatch(userRegistrationChange(userChangeData))
+    };
+
     const showCabinetPath = () => {
         if (status === 'date') {
             return(
                 <ClientData
-                    id={props.id}
-                    name={props.name}
-                    login={props.login}
-                    userRegistrationChange={props.userRegistrationChange}
+                    id={id}
+                    name={name}
+                    login={login}
+                    handleRegistrationChange={handleRegistrationChange}
                 />
             )
         } else {
             return (
                 <ClientOrders
-                    orders={props.orders}
+                    orders={orders}
                 />
             )
         }
     };
 
     const renderClientCabinet = () => {
-        if (validToken() && getUserStatus() === 'client') {
+        if (isTokenValid(token, tokenTime) && userStatus === 'client') {
             return (
                 <Container component="main" maxWidth="xl">
 
@@ -109,23 +121,4 @@ const ClientCabinet: React.FC<PropsFromRedux> = (props) => {
     );
 };
 
-function mapStateToProps(state: RootStateType) {
-    return {
-        id: state.auth.user.id,
-        name: state.auth.user.name,
-        login: state.auth.user.login,
-        orders: state.client.orders,
-    }
-}
-
-function mapDispatchToProps(dispatch: any) {
-    return{
-        userRegistrationChange: (userChangeRegInfo: IChangeRegUser) => dispatch(userRegistrationChange(userChangeRegInfo)),
-        fetchClientsOrderList: (id: number) => dispatch(fetchClientsOrderList(id))
-    }
-}
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-export default connector(ClientCabinet);
-
-type PropsFromRedux = ConnectedProps<typeof connector>
+export default ClientCabinet;

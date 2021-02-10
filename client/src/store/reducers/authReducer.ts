@@ -1,5 +1,6 @@
-import {AUTH_USER_MESSAGE, AuthActionTypes, RESET_USER, SET_USER, SET_USER_STATUS,} from '../actionType/authActionType';
-import {IUser} from "../../interfaces";
+import { AUTH_USER_MESSAGE, AuthActionTypes, RESET_USER, SET_USER, SET_USER_STATUS, } from '../actionType/authActionType';
+import { IUser } from "../../interfaces";
+import IAuthInitialState from "../../type/store/IAuth";
 
 const USER_ZERO: IUser = {
     id: 0,
@@ -7,19 +8,15 @@ const USER_ZERO: IUser = {
     login: '',
     status: "notAuth",
     token: '',
+    tokenTime: 0,
 };
 
-export type AuthInitialStateType = {
-    message: string
-    user: IUser
-};
-
-const initialState: AuthInitialStateType = {
+const initialState: IAuthInitialState = {
     message: '',
     user: USER_ZERO,
 };
 
-export default function authReducer(state = initialState, action: AuthActionTypes): AuthInitialStateType {
+export default function authReducer(state = initialState, action: AuthActionTypes): IAuthInitialState {
     switch (action.type) {
         case AUTH_USER_MESSAGE:
             return {

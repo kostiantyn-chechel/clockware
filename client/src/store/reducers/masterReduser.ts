@@ -1,15 +1,11 @@
 import { MasterActionType } from "../actionType/masterActionType";
-import { IMasterOrder } from "../../interfaces";
+import IMasterInitialState from "../../type/store/IMaster";
 
-export type MasterInitialStateType = {
-    orders: IMasterOrder[]
-}
-
-const initialState: MasterInitialStateType = {
+const initialState: IMasterInitialState = {
     orders: []
 };
 
-export default function masterReducer(state = initialState, action: MasterActionType): MasterInitialStateType {
+export default function masterReducer(state = initialState, action: MasterActionType): IMasterInitialState {
     switch (action.type) {
         case "GET_MASTER_ORDERS":
             return {
