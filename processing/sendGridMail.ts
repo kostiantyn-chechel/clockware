@@ -46,8 +46,7 @@ const sendSGEmail = (order: any) => {
 };
 
 const sendSGMasterReport = (master: any, orders: any[], date: string) => {
-    // const recipient = 'kodevtm@gmail.com';
-    const recipient = 'belka.elis@gmail.com';
+    const recipient = 'aaaaa@gmail.com';
 
     if (orders.length) {
 
