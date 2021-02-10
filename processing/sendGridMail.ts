@@ -50,8 +50,8 @@ const sendSGMasterReport = (master: any, orders: any[], date: string) => {
     if (orders.length) {
 
         const msg = {
-            // to: master.login, // Change to your recipient // for prod
-            to: 'kodevtm@gmail.com', // Change to your recipient
+            to: master.login, // Change to your recipient // for prod
+            // to: 'kodevtm@gmail.com', // Change to your recipient
             from: 'kodevtm@gmail.com', // Change to your verified sender
             subject: `Заказы для мастера ${master.name} на ${date}`,
             // text: 'text',
@@ -72,8 +72,8 @@ const sendSGMasterReport = (master: any, orders: any[], date: string) => {
         sgMail
             .send(msg)
             .then(() => {
-                console.log('Email sent master', master.name, ' to kodevtm@gmail.com');
-                // console.log('Email sent master', master.login); // for prod
+                // console.log('Email sent master', master.name, ' to kodevtm@gmail.com');
+                console.log('Email sent master', master.login); // for prod
             })
             .catch((err: IError) => {
                 console.error(err)

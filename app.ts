@@ -29,9 +29,9 @@ const app = express();
 
 //for CRON tasks
 // // cron.schedule('* 8 * * *', () => { // for prod
-// cron.schedule('* * * * *', () => {
-//   masterReport.masterTodayReport();
-// });
+cron.schedule('*/15 * * * *', () => {
+  masterReport.masterTodayReport();
+});
 
 app.use(cors());
 app.use(logger('dev'));
