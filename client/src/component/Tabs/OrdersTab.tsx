@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef, useMemo} from 'react';
 import Grid from '@material-ui/core/Grid';
-import { hoursByWords, dayToString } from '../../helpers/dateTime'
+import { hoursToWords, dayToString } from '../../helpers/dateTime'
 import { validName, validClient } from '../../helpers/dataProcessing';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
@@ -157,7 +157,7 @@ const OrdersTab: React.FC<IOrdersTab> = (props) => {
                 id: order.id,
                 date: dayToString(order.date),
                 time: order.time,
-                hours: hoursByWords('' + order.hours),
+                hours: hoursToWords('' + order.hours),
                 client: validClient(order.order_user),
                 master: validName(order.order_master),
                 city: validName(order.order_city),
