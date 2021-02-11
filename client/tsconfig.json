@@ -21,7 +21,7 @@
     "resolveJsonModule": true,
     "module": "esnext",
     "noImplicitAny": false,
-    "types": ["@material-ui/core"]
+    "types": ["jest", "node", "@material-ui/core"]
   },
   "include": [
     "src"
