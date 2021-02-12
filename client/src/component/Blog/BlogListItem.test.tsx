@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow, configure, mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-import Adapter from 'enzyme-adapter-react-16';
 import CardActions from '@material-ui/core/CardActions';
+import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
 import BlogListItem from './BlogListItem';
@@ -34,15 +34,28 @@ describe('Test BlogListItem component', () => {
         expect(renderer.create(Component).toJSON()).toMatchSnapshot();
     });
 
+    // TODO ???
+    // test('Click button Delete return ID', () => {
+    //     const Component = <BlogListItem
+    //         isEdit={true}
+    //         post={post} handleDelPost={handleDelPostMock} handleEditPost={handleEditPostMock}
+    //     />;
+    //     const MountBlogListItem = mount(Component);
+    //     MountBlogListItem.find('delete').simulate('click');
+    //
+    //     expect(handleDelPostMock).toBeCalledTimes(1);
+    //     expect(handleDelPostMock).toBeCalledWith(post.id);
+    // });
+
     //TODO ????
     test("BlogListItem enabled Control Panel (Edit and Del button)", () => {
         const Component = <BlogListItem
             isEdit={true}
             post={post} handleDelPost={handleDelPostMock} handleEditPost={handleEditPostMock}
         />;
-        const MountBlogListIte = mount(Component);
+        const MountBlogListItem = mount(Component);
 
-        const BlogListItemComponent = MountBlogListIte.find(CardActions);
+        const BlogListItemComponent = MountBlogListItem.find(CardActions);
         expect(BlogListItemComponent).toBeDefined(); //TODO ????
 
     });

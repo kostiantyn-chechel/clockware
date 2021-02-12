@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Warning component ToMatchSnapshot warning component 1`] = `
+<div
+  className="makeStyles-warningBlock-1"
+>
+  <h6
+    className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorSecondary MuiTypography-alignCenter"
+  >
+     
+    Test Warning message
+     
+  </h6>
+</div>
+`;
