@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test <TimePickers> ToMatchSnapshot TimePickers with default date 1`] = `
+<div
+  className="makeStyles-container-1"
+>
+  <div
+    className="MuiFormControl-root MuiTextField-root makeStyles-textField-2"
+  >
+    <label
+      className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+      data-shrink={true}
+      htmlFor="time"
+      id="time-label"
+    >
+      Время:
+    </label>
+    <div
+      className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+      onClick={[Function]}
+    >
+      <input
+        aria-invalid={false}
+        autoFocus={false}
+        className="MuiInputBase-input MuiInput-input"
+        defaultValue="19:00"
+        disabled={false}
+        id="time"
+        onAnimationStart={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        required={false}
+        step={3600}
+        type="time"
+      />
+    </div>
+  </div>
+</div>
+`;

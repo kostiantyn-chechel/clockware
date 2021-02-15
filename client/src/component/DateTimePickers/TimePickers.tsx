@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import {nowTimePlus} from "../../helpers/dateTime";
+import { nowTimePlus } from "../../helpers/dateTime";
 
 const useStyles = makeStyles((theme) => ({
     container: {

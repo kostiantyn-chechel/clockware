@@ -35,7 +35,6 @@ const DatePickers:React.FC<IDatePickers> = (props) => {
                 id="date"
                 label="Дата:"
                 type="date"
-                // defaultValue={today()}
                 defaultValue={defDate()}
                 className={classes.textField}
                 InputLabelProps={{

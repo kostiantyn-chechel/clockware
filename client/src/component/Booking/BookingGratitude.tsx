@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import { hoursToWords } from '../helpers/dateTime';
+import { hoursToWords } from '../../helpers/dateTime';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface IBookingGratitude {
+export interface IBookingGratitude {
     masterName: string,
     date: string,
     time: string,
@@ -25,16 +25,16 @@ const BookingGratitude:React.FC<IBookingGratitude> = (props) => {
             <Typography component="h1" variant="h4" align="center" color="textPrimary">
                 Спасибо за Ваш заказ!
             </Typography>
-            <Typography className={classes.text} component="h2" variant="h5" align="center" color="textPrimary">
+            <Typography id={'gr-master'} className={classes.text} component="h2" variant="h5" align="center" color="textPrimary">
                 Мастер {props.masterName} ждет Вас
             </Typography>
-            <Typography className={classes.text} component="h2" variant="h5" align="center" color="textPrimary">
+            <Typography id={'gr-time'} className={classes.text} component="h2" variant="h5" align="center" color="textPrimary">
                 {props.date} в {props.time}
             </Typography>
-            <Typography className={classes.text} component="h2" variant="h5" align="center" color="textPrimary">
+            <Typography id={'gr-hours'} className={classes.text} component="h2" variant="h5" align="center" color="textPrimary">
                 Ремонт займет {hoursToWords(props.size)}
             </Typography>
-            <Typography className={classes.text} component="h2" variant="h5" align="center" color="textPrimary">
+            <Typography id={'gr-email'} className={classes.text} component="h2" variant="h5" align="center" color="textPrimary">
                 Мы выслали напоминание о визите на Ваш email:  {props.email}
             </Typography>
         </React.Fragment>
