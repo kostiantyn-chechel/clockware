@@ -11,6 +11,7 @@ import { authUserMessage, userLoginFetch } from "../../store/actions/authAction"
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import IStore from "../../type/store/IStore";
+import GoogleFacebookAuth from "./GoogleFacebookAuth";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -140,6 +141,10 @@ const AuthCommon: React.FC = () => {
                     </Button>
 
                 </form>
+            </div>
+
+            <div>
+                <GoogleFacebookAuth/>
             </div>
         </Container>
     );
