@@ -62,15 +62,14 @@ describe('Test <BookingFillingFields>', () => {
         expect(ShallowComponent).toBeDefined();
     });
 
-    // test('NameInput changes value the text after click', () => {
-    //     const MountComponent = mount(Component);
-    //     const newValue = 'New Name';
-    //     MountComponent.find('#email').simulate("change", {
-    //         target: { value: newValue },
-    //     });
-    //
-    //     // The mock function is called once
-    //     expect(changeNameMock).toHaveBeenCalledTimes(1);
-    // });
+    test('NameInput changes value the text after click', () => {
+        const MountComponent = mount(Component);
+        const newValue = 'New Name';
+        MountComponent.find('#email').first().simulate("change", {
+            target: { value: newValue },
+        });
+
+        expect(changeNameMock).toHaveBeenCalledTimes(1);
+    });
 
 });
