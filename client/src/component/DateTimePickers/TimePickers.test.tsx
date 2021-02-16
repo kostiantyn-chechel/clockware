@@ -5,11 +5,13 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
 import TimePickers from './TimePickers';
-import { nowTimePlus } from '../../helpers/dateTime';
+
+jest.mock('../../helpers/dateTime', () => ({
+    nowTimePlus: () => '13:00',
+}));
 
 describe('Test <TimePickers>', () => {
     const onChangeMock = jest.fn();
-    const nowTimePlus = jest.fn(() => '13:00');
 
     const Component = <TimePickers onChange={onChangeMock}/>;
     const ShallowComponent = shallow(Component);
@@ -31,13 +33,7 @@ describe('Test <TimePickers>', () => {
 
         expect(onChangeMock).toHaveBeenCalledTimes(1);
 
-        // expect(onChangeMock).toHaveBeenCalledWith(newDate); //???
-
-        MountComponent.find("input").simulate("change", {
-            target: { value: '11:00' },
-        });
-
-        expect(onChangeMock).toHaveBeenCalledTimes(2);
+        // expect(onChangeMock).toHaveBeenCalledWith(newTime); // ???
 
     });
 

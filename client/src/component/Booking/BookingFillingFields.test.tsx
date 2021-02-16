@@ -64,12 +64,14 @@ describe('Test <BookingFillingFields>', () => {
 
     test('NameInput changes value the text after click', () => {
         const MountComponent = mount(Component);
-        const newValue = 'New Name';
-        MountComponent.find('#email').first().simulate("change", {
+        const newValue = 'new@email.com';
+        MountComponent.find('input#email.MuiInputBase-input.MuiOutlinedInput-input').first().simulate("change", {
             target: { value: newValue },
         });
 
-        expect(changeNameMock).toHaveBeenCalledTimes(1);
+        expect(changeEmailMock).toHaveBeenCalledTimes(1);
+
+        expect(changeEmailMock).toHaveBeenCalledWith(newValue);
     });
 
 });

@@ -6,9 +6,12 @@ configure({ adapter: new Adapter() });
 
 import DatePickers from './DatePickers';
 
+jest.mock('../../helpers/dateTime', () => ({
+    today: () => '2021-02-16',
+}));
+
 describe('Test <DatePickers>', () => {
     const onChangeMock = jest.fn();
-    const defDateMock = jest.fn(() => '2021-01-20');
 
     const Component = <DatePickers onChange={onChangeMock}/>;
     const ShallowComponent = shallow(Component);
@@ -23,7 +26,7 @@ describe('Test <DatePickers>', () => {
 
     test('ToMatchSnapshot DatePickers with date in props', () => {
         const Component = <DatePickers onChange={onChangeMock} defaultDate='2021-01-01'/>;
-        expect(renderer.create(Component).toJSON()).toMatchSnapshot();
+        expect(renderer.create(Component).toJSON()).toMatchSnapshot(1);
     });
 
     test("DatePickers changes value after click", () => {
@@ -40,5 +43,7 @@ describe('Test <DatePickers>', () => {
 
         // expect(onChangeMock).toHaveBeenCalledWith(newDate); //???
     });
+
+    //mock.implementation!!!!
 
 });
