@@ -33,7 +33,7 @@ export const getServerRequest = async (relativeURL: string): Promise<ServerGetRe
 };
 
 type ServerPostRequestBodyType = IAuthUser | ISendOrder | { orderId: number, rating: number, review: string } |
-                                {idToken: string};
+                                {idToken: string} | {accessToken: string};
 export type ServerPostResponseType = IUser & {message?: string};
 
 export const postServerRequest = async (

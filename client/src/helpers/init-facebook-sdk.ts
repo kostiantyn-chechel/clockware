@@ -1,7 +1,6 @@
 
 export function initFacebookSdk() {
     return new Promise(resolve => {
-        // wait for facebook sdk to initialize before starting the react app
         // @ts-ignore
         window.fbAsyncInit = function () {
             // @ts-ignore
@@ -10,19 +9,6 @@ export function initFacebookSdk() {
                 cookie: true,
                 xfbml: true,
                 version: 'v9.0'
-            });
-
-            // auto authenticate with the api if already logged in with facebook
-            // вынести в отдельную
-            // @ts-ignore
-            window.FB.getLoginStatus(({ authResponse }) => {
-                if (authResponse) {
-                    // если уже аутентифицирован на ФБ
-                    // accountService.apiAuthenticate(authResponse.accessToken).then(resolve);
-                } else {
-                    // @ts-ignore
-                    resolve();
-                }
             });
         };
 

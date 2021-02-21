@@ -21,10 +21,10 @@ export const userGoogleLoginFetch = (idToken: string) => {
         .catch(err => console.log(err.message))
 };
 
-export const userFacebookLoginFetch = (userInfo: IAuthUser) => {
-    return async (dispatch: any) => postServerRequest('/auth/facebook', userInfo)
+export const userFacebookLoginFetch = (accessToken: string) => {
+    return async (dispatch: any) => postServerRequest('/auth/facebook', {accessToken: accessToken})
         .then(response => setUser(response, dispatch))
-        .catch(err => console.log(err.message))
+        .catch(err => console.log(err.message));
 };
 
 export const userRegistrationFetch = (userRegInfo: IRegUser) => {

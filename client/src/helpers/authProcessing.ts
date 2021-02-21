@@ -9,7 +9,7 @@ export const validToken = (): boolean => {
     if (user) {
         if (user.token && (Date.now() < user.tokenTime)) return true
     }
-    logout();
+    logoutLocal();
     return false
 };
 
@@ -20,11 +20,11 @@ export const getTokenTime = (): number => {
 
 export const isTokenValid  = (token: string, tokenTime: number): boolean => {
     if (!!token && Date.now() < tokenTime) return true;
-    logout();
+    logoutLocal();
     return false
 };
 
-export const logout = () => {
+export const logoutLocal = () => {
     localStorage.removeItem('user');
 };
 

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import GoogleAuth from './GoogleAuth';
 import FacebookAuth from './FacebookAuth';

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Container from "@material-ui/core/Container";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { useDispatch, useSelector } from "react-redux";
-import { isTokenValid, logout } from "../../helpers/authProcessing";
+import { isTokenValid, logoutLocal } from "../../helpers/authProcessing";
 import { useHistory } from "react-router-dom";
 import { getMasterOrders, putMasterOrderStatus } from "../../store/actions/masterAction";
 import MasterOrdersTable from "../../component/MasterCabinet/MasterOrdersTable";
@@ -73,7 +73,7 @@ const MasterCabinet: React.FC = (props) => {
                 </Container>
             )
         } else {
-            logout();
+            logoutLocal();
             push('/auth');
             return null
         }

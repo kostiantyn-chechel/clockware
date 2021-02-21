@@ -8,7 +8,7 @@ import ClientOrders from "../../component/ClientOrders/ClientOrders";
 import { fetchClientsOrderList } from "../../store/actions/clientAction";
 import { Grid } from "@material-ui/core";
 import ClientData from "../../component/ClientOrders/ClientData";
-import { isTokenValid, logout } from "../../helpers/authProcessing";
+import { isTokenValid, logoutLocal } from "../../helpers/authProcessing";
 import { useHistory } from "react-router-dom";
 import IStore from "../../type/store/IStore";
 import { IChangeRegUser } from "../../interfaces";
@@ -108,7 +108,7 @@ const ClientCabinet: React.FC = (props) => {
                 </Container>
             )
         } else {
-            logout();
+            logoutLocal();
             push('/auth');
             return null
         }

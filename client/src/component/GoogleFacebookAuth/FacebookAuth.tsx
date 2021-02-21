@@ -1,8 +1,8 @@
 import React  from 'react';
-import axios from 'axios';
-import * as queryString from 'query-string';
+import { useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import { userFacebookLoginFetch } from '../../store/actions/authAction';
 
 const useStyles = makeStyles((theme) => ({
     submit: {
@@ -12,33 +12,47 @@ const useStyles = makeStyles((theme) => ({
 
 const FacebookAuth: React.FC = (props) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
-    // const stringifiedParams = queryString.stringify({
-    //     client_id: process.env.APP_ID_GOES_HERE,
-    //     // redirect_uri: 'https://www.example.com/authenticate/facebook/',
-    //     redirect_uri: 'https://localhost/auth/facebook/',
-    //     scope: ['email', 'public_profile'].join(','), // comma seperated string
-    //     response_type: 'code',
-    //     auth_type: 'rerequest',
-    //     display: 'popup',
-    // });
+    const signIn = async () => {
+        // @ts-ignore
+        const { authResponse } = await new Promise(window.FB.getLoginStatus);
+        if (authResponse) {
+            console.log('(1)уже вошли authResponse', authResponse);
+            dispatch(userFacebookLoginFetch(authResponse.accessToken));
+        // } else {
+        //     // @ts-ignore
+        //     const { authResponse } = await new Promise(window.FB.login(()=>{}, {scope: 'public_profile,email'}));
+        //     if (!authResponse) return;
+        //     console.log('(2)входим первый раз');
+        //     dispatch(userFacebookLoginFetch(authResponse.accessToken));
+        // }
+        } else {
+            // @ts-ignore
+            window.FB.login(({ authResponse }) => {
+                if (!authResponse) return;
+                console.log('(2)входим первый раз');
+                dispatch(userFacebookLoginFetch(authResponse.accessToken));
+            }, {scope: 'public_profile,email'});
+        }
+    };
 
-    // async function getAccessTokenFromCode(code) {
-    //     const { data } = await axios({
-    //         url: 'https://graph.facebook.com/v4.0/oauth/access_token',
-    //         method: 'get',
-    //         params: {
-    //             client_id: process.env.APP_ID_GOES_HERE,
-    //             client_secret: process.env.APP_SECRET_GOES_HERE,
-    //             redirect_uri: 'https://www.example.com/authenticate/facebook/',
-    //             code,
-    //         },
-    //     });
-    //     console.log(data); // { access_token, token_type, expires_in }
-    //     return data.access_token;
+    function logout() {
+        // revoke app permissions to logout completely because FB.logout() doesn't remove FB cookie
+        // + выход из аккаутна FB
+        // @ts-ignore
+        window.FB.logout(function(response) {
+            console.log('response', response);
+            // @ts-ignore
+            FB.Auth.setAuthResponse(null, 'unknown');
+        });
+
+    }
+
+    // const mockToken = () => {
+    //     const token = 'EAAMSObAjdocBAEUFHLJUvaAZAIGt2Ln7hfFOqexLenfnyFHMcZCZCYoxCDqhOtdwtDm3sHsQehL3IDwv6BnQ3n0VfyZC2UZBcw5Rj3p2JYMn1yIUWrZBzE6pJSh7HPmtO4Vj5PxPuHViTXTEDud19ehCaemZABOFQEt8qv4Bi3WG8b1WDX0TVmNK3UleeOx6ZCboPZBjEI0aZBKgZDZD';
+    //     dispatch(userFacebookLoginFetch(token));
     // };
-
-    // const facebookLoginUrl = `https://www.facebook.com/v4.0/dialog/oauth?${stringifiedParams}`;
 
     return (
         <React.Fragment>
@@ -49,7 +63,8 @@ const FacebookAuth: React.FC = (props) => {
                 color="primary"
                 className={classes.submit}
                 size="large"
-                onClick={()=>{}}
+                onClick={signIn}
+                // onClick={logout}
             >
                 Facebook
             </Button>

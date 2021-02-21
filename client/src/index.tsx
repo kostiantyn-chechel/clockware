@@ -12,7 +12,7 @@ import { initFacebookSdk } from './helpers/init-facebook-sdk';
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__  || compose;
 
-initFacebookSdk().then(startApp);
+// initFacebookSdk().then(startApp);
 
 const store = createStore(
         rootReducer,
@@ -21,7 +21,7 @@ const store = createStore(
         ),
     );
 
-function startApp() {
+// function startApp() {
 
     ReactDOM.render(
         <React.Fragment>
@@ -34,6 +34,4 @@ function startApp() {
 
         document.getElementById('root')
     );
-}
-
-
+// }

@@ -1,4 +1,3 @@
-// const baseUrl = `${process.env.REACT_APP_API_URL}/accounts`;
 
 export const accountService = {
     login,
@@ -10,6 +9,7 @@ async function login() {
     // @ts-ignore
     const { authResponse } = await new Promise(window.FB.login);
     if (!authResponse) return;
+
 
     // отправка токена на сервер через redux, получение токена от сервака
     // await apiAuthenticate(authResponse.accessToken);
