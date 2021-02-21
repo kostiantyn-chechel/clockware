@@ -39,7 +39,6 @@ exports.userVerification = (req: Request, res: Response, next: NextFunction) => 
 };
 
 exports.userAdd = (req: Request, res: Response) => {
-    console.log('userAdd');
     const salt = generateSalt();
     const user = {
             login: req.body.login,

@@ -26,6 +26,7 @@ import Orders from "./component/DashBoard/Orders";
 import MasterCabinet from "./containers/MasterCabinet/MasterCabinet";
 import Blog from "./containers/Blog/Blog";
 import BlogAdmin from "./containers/Blog/BlogAdmin";
+import FacebookLogIn from './component/GoogleFacebookAuth/FacebookLogIn';
 
 class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
