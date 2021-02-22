@@ -118,7 +118,6 @@ const Header: React.FC<IHeader> = (props) => {
                         aria-label="open drawer"
                         edge="end"
                         onClick={handleMenuOpen}
-                        // className={clsx(open && classes.hide)}
                     >
                         <MenuIcon />
                     </IconButton>

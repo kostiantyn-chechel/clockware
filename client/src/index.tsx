@@ -29,6 +29,6 @@ const store = createStore(
                     <App />
                 </BrowserRouter>
             </Provider>,
-        document.getElementById('app')
+        document.getElementById('root')
     );
 // }
