@@ -42,14 +42,6 @@ const GoogleAuth: React.FC = (props) => {
         });
     };
 
-    // const signOut = () => {
-    //     // @ts-ignore
-    //     const auth2 = window.gapi.auth2.getAuthInstance();
-    //     auth2.signOut().then(() => {
-    //         console.log('User signed out.')
-    //     })
-    // };
-
     return (
         <React.Fragment>
             <Button
@@ -60,7 +52,6 @@ const GoogleAuth: React.FC = (props) => {
                 className={classes.submit}
                 size="large"
                 onClick={signIn}
-                // onClick={()=>{}}
             >
                 Google
             </Button>

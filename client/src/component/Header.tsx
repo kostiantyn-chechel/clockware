@@ -49,16 +49,12 @@ const Header: React.FC<IHeader> = (props) => {
 
         // @ts-ignore
         const auth2 = window.gapi.auth2.getAuthInstance();
-            auth2.signOut().then(() => {
-                console.log('User signed out.')
-            });
+            auth2.signOut();
 
         // @ts-ignore
-        window.FB.logout(function(response) {
-            console.log('response', response);
-            // @ts-ignore
-            FB.Auth.setAuthResponse(null, 'unknown');
-        });
+        window.FB.logout();
+        // @ts-ignore
+        // window.FB.api('/me/permissions', 'delete', null, () => window.FB.logout());
     };
 
     const handleMenuOpen = () => {

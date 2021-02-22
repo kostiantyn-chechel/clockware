@@ -37,12 +37,6 @@ const useStyles = makeStyles((theme) => ({
 const AuthCommon: React.FC = (props) => {
     const classes = useStyles();
 
-    // // @ts-ignore
-    // const { location } = props;
-    // console.log('code', queryString.parse(location.search));
-    // console.log('pathname', location.pathname);
-    // console.log('location', location);
-
     const dispatch = useDispatch();
 
     const message = useSelector(({auth}: IStore) => auth.message);

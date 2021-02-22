@@ -1,8 +1,10 @@
 
 export function initFacebookSdk() {
+    console.log('initFacebookSdk');
     return new Promise(resolve => {
         // @ts-ignore
         window.fbAsyncInit = function () {
+            console.log('FACEBOOK_APP_I',process.env.REACT_APP_FACEBOOK_APP_ID);
             // @ts-ignore
             window.FB.init({
                 appId: process.env.REACT_APP_FACEBOOK_APP_ID,

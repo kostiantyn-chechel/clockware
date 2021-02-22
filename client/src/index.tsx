@@ -7,7 +7,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './store/reducers/rootReducer';
 import thunk from 'redux-thunk';
-import { initFacebookSdk } from './helpers/init-facebook-sdk';
+// import { initFacebookSdk } from './helpers/init-facebook-sdk';
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__  || compose;
@@ -24,14 +24,11 @@ const store = createStore(
 // function startApp() {
 
     ReactDOM.render(
-        <React.Fragment>
             <Provider store={store}>
                 <BrowserRouter>
                     <App />
                 </BrowserRouter>
-            </Provider>
-        </React.Fragment>,
-
-        document.getElementById('root')
+            </Provider>,
+        document.getElementById('app')
     );
 // }
