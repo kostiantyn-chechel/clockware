@@ -16,7 +16,7 @@ import ClientCabinet from "./containers/ClientCabinet/ClientCabinet";
 import AuthCommon from "./containers/AuthRegistration/AuthCommon";
 import Registration from "./containers/AuthRegistration/Registration";
 import { IUser, TUserStatus } from "./interfaces";
-import { logout, validToken } from "./helpers/authProcessing";
+import { logoutLocal, validToken } from "./helpers/authProcessing";
 import AdminDashboard from "./containers/Admin/AdminDashboard";
 import { setOpenMenu } from "./store/actions/appAction";
 import Masters from "./component/DashBoard/Masters";
@@ -42,7 +42,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                  this.props.setAuthUser(user);
                  this.props.setUserStatus(user.status);
              } else {
-                 logout();
+                 logoutLocal();
                  this.props.setUserStatus('notAuth')
              }
          } else {

@@ -15,6 +15,18 @@ export const userLoginFetch = (userInfo: IAuthUser) => {
         .catch(err => console.log(err.message))
 };
 
+export const userGoogleLoginFetch = (idToken: string) => {
+    return async (dispatch: any) => postServerRequest('/auth/google', {idToken: idToken})
+        .then(response => setUser(response, dispatch))
+        .catch(err => console.log(err.message))
+};
+
+export const userFacebookLoginFetch = (accessToken: string) => {
+    return async (dispatch: any) => postServerRequest('/auth/facebook', {accessToken: accessToken})
+        .then(response => setUser(response, dispatch))
+        .catch(err => console.log(err.message));
+};
+
 export const userRegistrationFetch = (userRegInfo: IRegUser) => {
     return async (dispatch: any) => postServerRequest('/auth/reg', userRegInfo)
         .then(response => setUser(response, dispatch))

@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Button from '@material-ui/core/Button';
-import { logout } from '../helpers/authProcessing';
+import { logoutLocal } from '../helpers/authProcessing';
 import { Avatar } from "@material-ui/core";
 import { IUser, TUserStatus } from "../interfaces";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -44,8 +44,17 @@ const Header: React.FC<IHeader> = (props) => {
     const { userStatus, resetUser, setMenuOpen } = props;
 
     const handlerLogout = () => {
-        logout();
+        logoutLocal();
         resetUser();
+
+        // @ts-ignore
+        const auth2 = window.gapi.auth2.getAuthInstance();
+            auth2.signOut();
+
+        // @ts-ignore
+        window.FB.logout();
+        // @ts-ignore
+        // window.FB.api('/me/permissions', 'delete', null, () => window.FB.logout());
     };
 
     const handleMenuOpen = () => {
@@ -109,7 +118,6 @@ const Header: React.FC<IHeader> = (props) => {
                         aria-label="open drawer"
                         edge="end"
                         onClick={handleMenuOpen}
-                        // className={clsx(open && classes.hide)}
                     >
                         <MenuIcon />
                     </IconButton>

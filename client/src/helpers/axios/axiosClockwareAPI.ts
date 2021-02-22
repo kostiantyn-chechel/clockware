@@ -16,7 +16,7 @@ import {PostAttributes} from "../../../../models/post.model";
 
 let baseURL;
 if (process.env.NODE_ENV === 'development') {
-    baseURL = 'http://localhost:3000'
+    baseURL = 'https://localhost:3000'
 } else {
     baseURL = 'https://db-clockware.herokuapp.com'
 }
@@ -32,7 +32,8 @@ export const getServerRequest = async (relativeURL: string): Promise<ServerGetRe
     }
 };
 
-type ServerPostRequestBodyType = IAuthUser | ISendOrder | { orderId: number, rating: number, review: string };
+type ServerPostRequestBodyType = IAuthUser | ISendOrder | { orderId: number, rating: number, review: string } |
+                                {idToken: string} | {accessToken: string};
 export type ServerPostResponseType = IUser & {message?: string};
 
 export const postServerRequest = async (
