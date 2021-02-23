@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import {hoursByWords} from '../helpers/dateTime';
+import {hoursToWords} from '../../helpers/dateTime';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface IBookingGratitude {
+export interface IBookingGratitude {
     masterName: string,
     date: string,
     time: string,
@@ -32,7 +32,7 @@ const BookingGratitude:React.FC<IBookingGratitude> = (props) => {
                 {props.date} в {props.time}
             </Typography>
             <Typography className={classes.text} component="h2" variant="h5" align="center" color="textPrimary">
-                Ремонт займет {hoursByWords(props.size)}
+                Ремонт займет {hoursToWords(props.size)}
             </Typography>
             <Typography className={classes.text} component="h2" variant="h5" align="center" color="textPrimary">
                 Мы выслали напоминание о визите на Ваш email:  {props.email}

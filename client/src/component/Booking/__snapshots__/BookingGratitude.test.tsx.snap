@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test <BookingGratitude> ToMatchSnapshot BookingGratitude with default date 1`] = `
+Array [
+  <h1
+    className="MuiTypography-root MuiTypography-h4 MuiTypography-colorTextPrimary MuiTypography-alignCenter"
+  >
+    Спасибо за Ваш заказ!
+  </h1>,
+  <h2
+    className="MuiTypography-root makeStyles-text-1 MuiTypography-h5 MuiTypography-colorTextPrimary MuiTypography-alignCenter"
+  >
+    Мастер 
+    Vasia Vasia
+     ждет Вас
+  </h2>,
+  <h2
+    className="MuiTypography-root makeStyles-text-1 MuiTypography-h5 MuiTypography-colorTextPrimary MuiTypography-alignCenter"
+  >
+    2021-02-02
+     в 
+    15:00
+  </h2>,
+  <h2
+    className="MuiTypography-root makeStyles-text-1 MuiTypography-h5 MuiTypography-colorTextPrimary MuiTypography-alignCenter"
+  >
+    Ремонт займет 
+    два часа
+  </h2>,
+  <h2
+    className="MuiTypography-root makeStyles-text-1 MuiTypography-h5 MuiTypography-colorTextPrimary MuiTypography-alignCenter"
+  >
+    Мы выслали напоминание о визите на Ваш email:  
+    vasia@vasia.com
+  </h2>,
+]
+`;

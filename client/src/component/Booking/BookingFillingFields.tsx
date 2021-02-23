@@ -6,13 +6,13 @@ import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
-import SelectElement from './SelectElement';
+import SelectElement from '../SelectElement';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { isEmail } from '../helpers/validation';
-import UploadPhoto from './UploadPhoto';
-import {ICity} from "../interfaces";
-import DateTimePickers from "./DateTimePickers/DateTimePickers";
+import { isEmail } from '../../helpers/validation';
+import UploadPhoto from '../UploadPhoto';
+import {ICity} from "../../interfaces";
+import DateTimePickers from "../DateTimePickers/DateTimePickers";
 
 const useStyles = makeStyles((theme) => ({
     paper: {

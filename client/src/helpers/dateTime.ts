@@ -7,23 +7,23 @@ export const dateToString = (date: Date): string => {
 };
 
 export const today = (): string => {
-    const day = new Date();
+    const day = new Date(Date.now());
     return dateToString(day);
 };
 
 export const todayPlus = (shift: number): string => {
-    const d = new Date();
+    const d = new Date(Date.now());
     d.setMonth(d.getMonth() + shift);
     return dateToString(d)
 };
 
 export const nowTimeString = ():string => {
-    const today = new Date();
+    const today = new Date(Date.now());
     today.setHours(today.getHours() + 1, 0, 0);
     return today.getHours() + ':00';
 };
 
-export const hoursByWords = (number: string): string => {
+export const hoursToWords = (number: string): string => {
     switch (number) {
         case '1':
             return 'один час';
@@ -54,7 +54,7 @@ export const dayToString = (day: string): string => {
 };
 
 export const nowTimePlus = (): string => {
-    const time = new Date();
+    const time = new Date(Date.now());
     if (time.getHours() < 9 ) return `0${time.getHours() +1}:00`;
     if (time.getHours() === 23 ) return '00:00';
     if (time.getHours() === 24 ) return '01:00';

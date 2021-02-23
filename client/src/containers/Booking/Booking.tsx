@@ -4,9 +4,9 @@ import { findMaster, sendOrder, setBookingShow } from '../../store/actions/booki
 import Container from '@material-ui/core/Container';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import NotMasters from '../../component/notMasters';
-import BookingGratitude from '../../component/BookingGratitude';
-import BookingSelectMaster from '../../component/BookingSelectMaster';
-import BookingFillingFields from '../../component/BookingFillingFields';
+import BookingGratitude from '../../component/Booking/BookingGratitude';
+import BookingSelectMaster from '../../component/Booking/BookingSelectMaster';
+import BookingFillingFields from '../../component/Booking/BookingFillingFields';
 import { nowTimeString, today } from '../../helpers/dateTime';
 import { ISendOrder } from "../../interfaces";
 import { RootStateType } from "../../store/reducers/rootReducer";

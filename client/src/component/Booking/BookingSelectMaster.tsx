@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import Typography from '@material-ui/core/Typography';
-import ListMasters from './ListMasters/ListMasters';
+import ListMasters from '../ListMasters/ListMasters';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import Warning from './Warning';
-import MastersReview from './ListMasters/MastersReview';
-import { IMaster } from "../interfaces";
+import Warning from '../Warning';
+import MastersReview from '../ListMasters/MastersReview';
+import { IMaster } from "../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
     paper: {

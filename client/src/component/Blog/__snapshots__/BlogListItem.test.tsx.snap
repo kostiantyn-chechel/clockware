@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test BlogListItem component ToMatchSnapshot BlogListItem component 1`] = `
+<div
+  className="MuiPaper-root MuiCard-root makeStyles-card-1 MuiPaper-elevation1 MuiPaper-rounded"
+>
+  <div
+    className="MuiCardMedia-root makeStyles-media-2"
+    style={
+      Object {
+        "backgroundImage": "url(\\"https://res.cloudinary.com/iugaud9pbm.jpg\\")",
+      }
+    }
+    title="Clockware post #33"
+  />
+  <div
+    className="MuiCardContent-root"
+  >
+    <div
+      className="makeStyles-buttons-3"
+    >
+      <div>
+        #
+        33
+      </div>
+      <div>
+        06-01-2021
+      </div>
+    </div>
+    <div
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "some text",
+        }
+      }
+    />
+  </div>
+</div>
+`;
