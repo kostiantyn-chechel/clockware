@@ -57,21 +57,64 @@ describe('Test <BookingFillingFields>', () => {
         </Provider>;
 
     const ShallowComponent = shallow(Component);
+    const MountComponent = mount(Component);
 
     test('BookingFillingFields component should exists', () => {
         expect(ShallowComponent).toBeDefined();
     });
 
-    test('NameInput changes value the text after click', () => {
-        const MountComponent = mount(Component);
-        const newValue = 'new@email.com';
+    test('EmailInput changes value the text after click', () => {
+
+        const newEmail = 'new@email.com';
         MountComponent.find('input#email.MuiInputBase-input.MuiOutlinedInput-input').first().simulate("change", {
-            target: { value: newValue },
+            target: { value: newEmail },
         });
 
         expect(changeEmailMock).toHaveBeenCalledTimes(1);
 
-        expect(changeEmailMock).toHaveBeenCalledWith(newValue);
+        expect(changeEmailMock).toHaveBeenCalledWith(newEmail);
+    });
+
+   test('NameInput changes value the text after click', () => {
+
+        const newName = 'new@email.com';
+        MountComponent.find('input#firstName.MuiInputBase-input.MuiOutlinedInput-input').first().simulate("change", {
+            target: { value: newName },
+        });
+
+        expect(changeNameMock).toHaveBeenCalledTimes(1);
+
+        expect(changeNameMock).toHaveBeenCalledWith(newName);
+    });
+
+    describe('Test RadioButtonGroup', () => {
+
+        test('RadioButtonGroup value after click', () => {
+
+            MountComponent.find("input[type='radio']").last().simulate("change");
+
+            expect(handleSizeChangeMock).toHaveBeenCalledTimes(1);
+            // expect(handleSizeChangeMock).toHaveBeenCalledWith('3'); // ???
+
+            MountComponent.find("input[type='radio']").first().simulate("change");
+
+            expect(handleSizeChangeMock).toBeCalledTimes(2);
+            // expect(handleSizeChangeMock).toHaveBeenCalledWith('1'); //???
+        });
+
+    });
+
+
+    describe('Test Button', () => {
+
+        test('Button value after click coll findMaster', () => {
+            MountComponent.find("button[type='submit']").simulate("click");
+
+            expect(findMasterMock).toBeCalledTimes(1);
+
+            expect(findMasterMock).toHaveBeenCalledWith(33, "20-01-2020", "15:00", 1);
+        });
+
     });
 
 });
