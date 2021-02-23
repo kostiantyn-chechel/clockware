@@ -1,14 +1,14 @@
 import * as express from 'express';
 const { authUser } = require('../processing/auth');
-const { userData, userVerification, userAdd, userChangeData } = require('../controllers/user.controller');
-const { authGoogle, authFacebook } = require('../controllers/auth.controller');
+const user = require('../controllers/user.controller');
+const auth = require('../controllers/auth.controller');
 
 const router = express.Router();
 
-router.post('/', authUser, userData);
-router.post('/google', authGoogle, userData);
-router.post('/facebook', authFacebook, userData);
-router.post('/reg', userVerification, userAdd);
-router.post('/change', userVerification, userChangeData);
+router.post('/', authUser, user.userData);
+router.post('/google', auth.authGoogle, user.userData);
+router.post('/facebook', auth.authFacebook, user.userData);
+router.post('/reg', user.userVerification, user.userAdd);
+router.post('/change', user.userVerification, user.userChangeData);
 
 module.exports = router;
