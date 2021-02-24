@@ -57,7 +57,7 @@ exports.authFacebook = async (req: Request, res: Response, next: NextFunction) =
             console.log(!res ? 'error occurred' : fbRes.error);
             return;
         }
-        req.body.login = fbRes.emai;
+        req.body.login = fbRes.email;
         await userCheckOrAdd(fbRes.name, fbRes.email);
 
         next();
