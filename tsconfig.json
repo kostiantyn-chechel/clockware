@@ -17,6 +17,7 @@
   },
   "exclude": [
     "client",
-    "dist"
+    "dist",
+    "__test_api__"
   ]
 }

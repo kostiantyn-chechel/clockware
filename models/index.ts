@@ -1,12 +1,10 @@
-const dbConfig = require("../config/db.config.js");
+const dbConfig = require("../config/db.config");
 
 const Sequelize = require("sequelize");
 
 const mode = process.env.NODE_ENV;
 let config = dbConfig.development;
-if (mode) config = dbConfig[mode];
-
-console.log('config', config);
+if (mode) config = dbConfig[mode as string];
 
 const sequelize = new Sequelize(
     config.DB,

@@ -57,12 +57,16 @@ const generateSalt = (): string => bcrypt.genSaltSync(10);
 
 const generatePassCrypt = (pass:string, salt: string): string => bcrypt.hashSync(pass, salt);
 
+const mockToken = () => {
+    return generateToken('test@email.me')
+};
 
 module.exports = {
     authUser,
     generateToken,
     verifyToken,
     generateSalt,
-    generatePassCrypt
+    generatePassCrypt,
+    mockToken,
 };
 
