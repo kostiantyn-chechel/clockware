@@ -12,6 +12,7 @@ import { isTokenValid, logoutLocal } from "../../helpers/authProcessing";
 import { useHistory } from "react-router-dom";
 import IStore from "../../type/store/IStore";
 import { IChangeRegUser } from "../../interfaces";
+import GooglePayBtn from '../../component/Pays/GooglePay/GooglePayBtn';
 
 const useStyles = makeStyles((theme) => ({
     text: {
@@ -22,7 +23,9 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
         marginBottom: theme.spacing(2),
     },
-
+    googleBlock: {
+        marginBottom: theme.spacing(2),
+    }
 }));
 
 type ClientCabinetStatusType = 'date' | 'orders'
@@ -89,10 +92,11 @@ const ClientCabinet: React.FC = (props) => {
 
                     <Grid
                         container
-                        direction="row"
+                        direction="column"
                         justify="flex-end"
-                        alignItems="center"
+                        alignItems="flex-end"
                     >
+
                         <Button
                             onClick={handleStatusCabinet}
                             className={classes.button}
@@ -101,6 +105,14 @@ const ClientCabinet: React.FC = (props) => {
                         >
                             {buttonName()}
                         </Button>
+
+                        {status === 'orders' ?
+                            <div className={classes.googleBlock}>
+                                <GooglePayBtn />
+                            </div>
+
+                            : null}
+
                     </Grid>
 
                     {showCabinetPath()}

@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@google-pay/button-react@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@google-pay/button-react/-/button-react-2.2.1.tgz#b0f54a4d6a6b1a8b46122f3e55d89564b6cf8829"
+  integrity sha512-jaKHsku3YRYnw0k6x783dsQpRYiE+XfgL3NI4CJp5VMKdc+m8S6CtN3TOtQCAYYOKrG6SWb2P4dcmPIbUEJ0zw==
+  dependencies:
+    "@types/googlepay" "^0.5.1"
+
 "@sendgrid/client@^7.3.0":
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/@sendgrid/client/-/client-7.3.0.tgz#a19c4ec02da304d16ae2480e121083c82a296144"
@@ -69,6 +76,11 @@
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
+
+"@types/googlepay@^0.5.1":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@types/googlepay/-/googlepay-0.5.2.tgz#4b37d2420a2717eb4735c01bcc128b6cb782f4e5"
+  integrity sha512-pVVacSkEomv63fwdR2euC15bt75pMbNEpfzWyChOwzzDRhWjQH6IZkFM0zGUU5IqSt3phFLsE9v5Epqx8OT+fA==
 
 "@types/mime@*":
   version "2.0.3"
