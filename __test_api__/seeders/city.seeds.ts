@@ -1,14 +1,13 @@
 const db = require('../../models');
-const Sequelize = db.Sequelize;
 
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.bulkInsert('cities', [{
-            name: 'Dnipro',
+            name: 'Dnipro2',
         },{
-            name: 'Lviv',
+            name: 'Lviv2',
         },{
-            name: 'Kyiv',
+            name: 'Kyiv2',
         }])
     },
 

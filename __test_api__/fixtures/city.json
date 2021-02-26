@@ -1,0 +1,18 @@
+[
+  {
+    "model": "city",
+    "data": {
+      "name": "Dnipro1"
+    }
+  },{
+    "model": "city",
+    "data": {
+      "name": "Kyiv1"
+    }
+  },{
+    "model": "city",
+    "data": {
+      "name": "Lviv1"
+    }
+  }
+]
