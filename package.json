@@ -14,7 +14,8 @@
     "start all": "concurrently \"yarn server\" \"yarn client\"",
     "start": "node bin/www",
     "heroku-postbuild": "tsc && cd client && yarn install && yarn run build",
-    "build": "tsc"
+    "build": "tsc",
+    "test-back": "jest __test__"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.3.0",
@@ -41,5 +42,11 @@
     "sequelize": "^6.2.1",
     "ts-node": "^9.0.0",
     "typescript": "^4.1.2"
+  },
+  "devDependencies": {
+    "@jest/types": "^26.6.2",
+    "@types/jest": "^26.0.20",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.1"
   }
 }

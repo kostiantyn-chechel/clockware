@@ -1,19 +1,25 @@
 const dbConfig = require("../config/db.config.js");
 
 const Sequelize = require("sequelize");
+
+const config = dbConfig();
+
+console.log('dbConfig',dbConfig());
+console.log('dbConfig.DB',config.DB);
+console.log('dbConfig.pool.max',config.pool.max);
 const sequelize = new Sequelize(
-    dbConfig.DB,
-    dbConfig.USER,
-    dbConfig.PASSWORD, {
-        host: dbConfig.HOST,
-        dialect: dbConfig.dialect,
+    config.DB,
+    config.USER,
+    config.PASSWORD, {
+        host: config.HOST,
+        dialect: config.dialect,
         operatorsAliases: false,
         logging: false, // <--- Disable logging
         pool: {
-            max: dbConfig.pool.max,
-            min: dbConfig.pool.min,
-            acquire: dbConfig.pool.acquire,
-            idle: dbConfig.pool.idle
+            max: config.pool.max,
+            min: config.pool.min,
+            acquire: config.pool.acquire,
+            idle: config.pool.idle
         },
         define: {
             timestamps: false

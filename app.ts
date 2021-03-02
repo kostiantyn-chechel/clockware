@@ -7,8 +7,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const cron = require('node-cron');
-const masterReport = require('./processing/masterReport');
+const cron = require('node-cron'); // for CRON
+const masterReport = require('./processing/masterReport'); // for CRON
 
 
 const db = require('./models');
