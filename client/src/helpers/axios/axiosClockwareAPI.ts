@@ -12,7 +12,7 @@ import {
 import { authHeader } from "../authProcessing";
 import { IReviews } from "../../containers/Review/ReviewMaster";
 import { CityMasterType, IChartDateOrder } from "../../containers/Admin/AdminDashboard";
-import {PostAttributes} from "../../../../models/post.model";
+import { PostAttributes } from "../../../../models/post.model";
 
 let baseURL;
 if (process.env.NODE_ENV === 'development') {
