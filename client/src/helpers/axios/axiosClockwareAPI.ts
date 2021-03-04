@@ -46,7 +46,7 @@ export const postServerRequest = async (
     }
 };
 
-type PostAuthServerRequestBodyType = IMaster | ICity | IClient | PostAttributes;
+type PostAuthServerRequestBodyType = IMaster | ICity | IClient | PostAttributes | {orderId: number, token: any};
 export const postAuthServerRequest = async (relativeURL: string, body: PostAuthServerRequestBodyType) => {
     try {
         const { data } = await axios.post(relativeURL, body, { headers: authHeader() });

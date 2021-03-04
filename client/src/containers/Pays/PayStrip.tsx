@@ -9,7 +9,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { getStripeClientSecret } from '../../store/actions/payStripeAction';
+import { getStripeClientSecret, postCardPaymentToken } from '../../store/actions/payStripeAction';
 import { TMashId } from '../../interfaces';
 import IStore from '../../type/store/IStore';
 import { getOrderById } from '../../store/actions/orderAction';
@@ -57,30 +57,37 @@ const PayStrip: React.FC<TMashId> = (props) => {
     const order = useSelector(({order}:IStore) => order.order);
 
     useEffect(() => {
-        dispatch(getStripeClientSecret(orderId));
+        // dispatch(getStripeClientSecret(orderId));
         dispatch(getOrderById(orderId));
     }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        const card = elements!.getElement(CardElement);
+        const result = await stripe!.createToken(card!);
+        if (result.error) {
+            console.log(result.error.message);
+        } else {
+            console.log(result.token);
+            dispatch(postCardPaymentToken(orderId,result.token))
+        }
 
-
-        stripe!.confirmCardPayment(clientSecret, {
-            payment_method: {
-                // @ts-ignore
-                card: elements!.getElement(CardElement),
-                billing_details: {
-                    name: 'test Name'
-                }
-            },
-        }).then((result) => {
-            if (result.error) {
-                    console.log(`Payment failed ${result.error.message}`)
-                } else if (result.paymentIntent.status === 'succeeded') {
-                    console.log('paymentResult = succeeded');
-                }
-        })
+        // stripe!.confirmCardPayment(clientSecret, {
+        //     payment_method: {
+        //         // @ts-ignore
+        //         card: elements!.getElement(CardElement),
+        //         billing_details: {
+        //             name: 'test Name'
+        //         }
+        //     },
+        // }).then((result) => {
+        //     if (result.error) {
+        //             console.log(`Payment failed ${result.error.message}`)
+        //         } else if (result.paymentIntent.status === 'succeeded') {
+        //             console.log('paymentResult = succeeded');
+        //         }
+        // })
 
         // const paymentResult = await stripe!.confirmCardPayment(clientSecret, {
         //     payment_method: {
