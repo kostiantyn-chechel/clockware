@@ -80,7 +80,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                         <Route path='/review/:id' component={ Review } />
                         <Route path='/master/:id' component={ ReviewMaster } />
                         <Route path='/cabinet' component={ MasterCabinet } />
-                        <Route path='/pay' component={ PayStrip } />
+                        <Route path='/pay/:id' component={ PayStrip } />
                         <Route path='/*' component={ Booking } />
                     </Switch>
                 }

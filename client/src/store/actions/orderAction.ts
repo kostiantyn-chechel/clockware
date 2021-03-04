@@ -9,6 +9,7 @@ import {
     deleteAuthServerRequest,
     getAuthServerRequest,
 } from "../../helpers/axios/axiosClockwareAPI";
+import { GET_ORDER_BY_ID } from '../actionType/orderActionType';
 
 export const fetchFilterAndPaginOrders: (param: IFetchFilterOrders) => Promise<any> =
                                                         (param: IFetchFilterOrders): Promise<any> => {
@@ -33,6 +34,11 @@ export const fetchFilterAndInfiniteOrders: (param: IFetchFilterOrders) => Promis
 export const deleteOrder = (orderId: number) => {
     return async (dispatch: any) => deleteAuthServerRequest(`/orders/${orderId}`)
         .catch(() => dispatch(showError()));
+};
+
+export const getOrderById = (orderId: number) => {
+    return async (dispatch: any) => getAuthServerRequest(`/orders/${orderId}`)
+        .then(order => dispatch({ type: GET_ORDER_BY_ID, payload: order}))
 };
 
 export const clearInfiniteOrders = () => ({ type:CLEAR_INFINITE_ORDERS });

@@ -2,9 +2,11 @@ import React from 'react';
 import { IClientOrder } from "../../interfaces";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Paper} from "@material-ui/core";
+import { Link } from 'react-router-dom';
 import Grid from "@material-ui/core/Grid";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 type ClientOrderItemType = { order: IClientOrder }
 
 const ClientOrderItem: React.FC<ClientOrderItemType> = (props) => {
-    const { order: { id, date, time, hours, photoURL, order_master: {name: masterName}, order_city: {name: cityName},
+    const { order: { id, date, time, hours, photoURL, cost, costStatus, order_master: {name: masterName}, order_city: {name: cityName},
     review}} = props;
 
     const classes = useStyles();
@@ -76,9 +78,23 @@ const ClientOrderItem: React.FC<ClientOrderItemType> = (props) => {
                     </Grid>
 
                     <Grid>
-                        <Typography gutterBottom variant="subtitle1">
-                            {`# ${id}`}
-                        </Typography>
+                        <Grid item xs container direction="column" spacing={2} alignItems={'flex-end'}>
+                            <Typography gutterBottom variant="subtitle1">
+                                {`# ${id}`}
+                            </Typography>
+                            <Typography gutterBottom variant="subtitle1">
+                                {`COST: ${cost}`}
+                            </Typography>
+                            <Typography gutterBottom variant="subtitle1">
+                                {`status: ${costStatus}`}
+                            </Typography>
+                            <Button color='inherit'
+                                    component={Link}
+                                    to={`/pay/${id}`}
+                            >
+                                ОПЛАТИТЬ
+                            </Button>
+                        </Grid>
                     </Grid>
 
                 </Grid>

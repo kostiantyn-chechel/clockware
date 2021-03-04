@@ -14,14 +14,14 @@ exports.testStrip = async (req: Request, res: Response) => {
     res.send(paymentIntent);
 };
 
-// app.post('/create-payment-intent', async(req, res) => {
-//     const { items } = req.body;
-//     // Create a PaymentIntent with the order amount and currency
-//     const paymentIntent = await stripe.paymentIntents.create({
-//         amount: 100, //calculateOrderAmount(items),
-//         currency: 'eur'
-//     });
-//     res.send({
-//         clientSecret: paymentIntent.client_secret
-//     });
-// });
+exports.getClientSecret = async (req: Request, res: Response) => {
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: 250,
+        currency: 'usd',
+        payment_method_types: ['card'],
+        receipt_email: 'clockware77@gmail.com',
+    });
+    res.send({
+        clientSecret: paymentIntent.client_secret
+    });
+};

@@ -5,6 +5,7 @@ const { verifyToken } = require('../processing/auth');
 
 router.post('/', order.create);
 router.get('/filter', verifyToken, order.findFilter);
+router.get('/:id', verifyToken, order.getOrderById);
 router.get('/client/:id', verifyToken, order.clientOrders);
 router.delete('/:id', verifyToken, order.delete);
 

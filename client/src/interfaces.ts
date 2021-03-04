@@ -63,6 +63,19 @@ export interface IOrder {
     order_city: OrderCityType,
 }
 
+export interface IOrderById {
+    id: number,
+    date: string,
+    time: string,
+    hours: number,
+    photoURL: string,
+    cost: number,
+    costStatus: number,
+    order_user: string,
+    order_master: string,
+    order_city: string,
+}
+
 export interface IOrderPac {
     count: number,
     rows: IOrder[] | [],
@@ -85,6 +98,8 @@ export interface IClientOrder {
     time: string,
     hours: number,
     photoURL: string,
+    cost: number,
+    costStatus: number,
     order_city: {name: string},
     order_master: {name: string},
     review:{

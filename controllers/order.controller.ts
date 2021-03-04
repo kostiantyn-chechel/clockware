@@ -116,6 +116,28 @@ exports.findFilter = (req: Request, res: Response) => {
     });
 };
 
+exports.getOrderById = async (req: Request, res: Response) => {
+    const orderId = req.params.id;
+    const order = await Order.findOne({
+        where: {id: orderId},
+        attributes: ['date', 'time', 'hours', 'photoURL', 'cost', 'costStatus'],
+        include: [{
+            model: City,
+            as: 'order_city',
+            attributes: ['name'],
+        },{
+            model: User,
+            as: 'order_master',
+            attributes: ['name'],
+        },{
+            model: User,
+            as: 'order_user',
+            attributes: ['name'],
+        }],
+    });
+    res.send(order)
+};
+
 exports.delete = (req: Request, res: Response) => {
     const id = req.params.id;
 
@@ -145,7 +167,7 @@ exports.clientOrders = (req: Request, res: Response) => {
     Order.findAll({
         // raw: true,
         where: {UserId: id},
-        attributes: ['id', 'date', 'time', 'hours', 'photoURL' ],
+        attributes: ['id', 'date', 'time', 'hours', 'photoURL', 'cost', 'costStatus'],
         include: [{
             model: City,
             as: 'order_city',

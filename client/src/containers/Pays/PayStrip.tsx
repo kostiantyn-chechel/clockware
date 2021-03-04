@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import {
     CardElement,
     useStripe,
@@ -8,6 +9,10 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { getStripeClientSecret } from '../../store/actions/payStripeAction';
+import { TMashId } from '../../interfaces';
+import IStore from '../../type/store/IStore';
+import { getOrderById } from '../../store/actions/orderAction';
 const useStyles = makeStyles((theme) => ({
     main: {
         display: 'flex',
@@ -24,8 +29,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const PayStrip: React.FC<TMashId> = (props) => {
+    const { match } = props;
+    const orderId = match.params.id;
 
-const CheckoutForm = () => {
     const classes = useStyles();
     const stripe = useStripe();
     const elements = useElements();
@@ -45,36 +52,58 @@ const CheckoutForm = () => {
         }
     };
 
+    const dispatch = useDispatch();
+    const clientSecret = useSelector(({payStripe}:IStore) => payStripe.clientSecret);
+    const order = useSelector(({order}:IStore) => order.order);
+
+    useEffect(() => {
+        dispatch(getStripeClientSecret(orderId));
+        dispatch(getOrderById(orderId));
+    }, []);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const {error, paymentMethod} = await stripe!.createPaymentMethod({
-            type: 'card', // @ts-ignore
-            card: elements!.getElement(CardElement),
-        });
 
 
-        const clientSecret = (client_secret: string) => {
-            console.log('sss', client_secret)
-        };
-
-        // @ts-ignore
-        const paymentResult = await stripe!.confirmCardPayment(clientSecret, {
+        stripe!.confirmCardPayment(clientSecret, {
             payment_method: {
                 // @ts-ignore
                 card: elements!.getElement(CardElement),
+                billing_details: {
+                    name: 'test Name'
+                }
             },
-        });
+        }).then((result) => {
+            if (result.error) {
+                    console.log(`Payment failed ${result.error.message}`)
+                } else if (result.paymentIntent.status === 'succeeded') {
+                    console.log('paymentResult = succeeded');
+                }
+        })
 
-        console.log('paymentMethod', paymentMethod, 'error', error);
-        console.log('paymentResult', paymentResult);
+        // const paymentResult = await stripe!.confirmCardPayment(clientSecret, {
+        //     payment_method: {
+        //         // @ts-ignore
+        //         card: elements!.getElement(CardElement),
+        //         billing_details: {
+        //             name: 'test Name'
+        //         }
+        //     },
+        // });
+        //
+        // if (paymentResult.error) {
+        //     console.log(`Payment failed ${paymentResult.error.message}`)
+        // } else if (paymentResult.paymentIntent.status === 'succeeded') {
+        //     console.log('paymentResult = succeeded');
+        // }
     };
 
     return (
-            <Container className={classes.main} component="main" maxWidth="xs">
-                <Typography component="h1" variant="h5" align="center" color="textPrimary">
-                    Оплата заказа:
-                </Typography>
+        <Container className={classes.main} component="main" maxWidth="xs">
+            <Typography component="h1" variant="h5" align="center" color="textPrimary">
+                Оплата заказа: {orderId}
+            </Typography>
 
             <form onSubmit={handleSubmit} className={classes.form}>
                 <CardElement
@@ -94,14 +123,7 @@ const CheckoutForm = () => {
 
             </form>
 
-    </Container>
-
-);
-};
-
-const PayStrip = () => {
-    return (
-        <CheckoutForm />
+        </Container>
     );
 };
 

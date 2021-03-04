@@ -5,7 +5,8 @@ import authReducer from './authReducer';
 import clientReducer from './clientReducer';
 import appReducer from "./appReducer";
 import masterReducer from "./masterReduser";
-import payStripReducer from './payStripReducer';
+import payStripeReducer from './payStripeReducer';
+import orderReducer from './orderReducer';
 
 const rootReducer = combineReducers({
     app: appReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     auth: authReducer,
     client: clientReducer,
     master: masterReducer,
-    payStrip: payStripReducer,
+    payStripe: payStripeReducer,
+    order: orderReducer,
 });
 
 export default rootReducer;
