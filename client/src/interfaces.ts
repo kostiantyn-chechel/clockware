@@ -90,6 +90,8 @@ export interface ISendOrder {
     clientName: string,
     clientEmail: string,
     photoURL: string,
+    cost: number,
+    costStatus: number,
 }
 
 export interface IClientOrder {

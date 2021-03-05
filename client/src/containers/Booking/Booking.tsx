@@ -10,6 +10,7 @@ import BookingFillingFields from '../../component/Booking/BookingFillingFields';
 import { nowTimeString, today } from '../../helpers/dateTime';
 import { ISendOrder } from "../../interfaces";
 import { RootStateType } from "../../store/reducers/rootReducer";
+import {number} from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -26,13 +27,14 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
     const [order, setOrder] = useState<ISendOrder>({
         size: '1',
         date: today(),
-        // time: '10:00',
         time: nowTimeString(),
         cityId: 0,
         masterId: 0,
         clientName: props.userName,
         clientEmail: props.userEmail,
         photoURL: '',
+        cost: 10,
+        costStatus: 0,
     });
 
     /* eslint-disable */
@@ -42,13 +44,14 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
                 setOrder({
                     size: '1',
                     date: today(),
-                    // time: '10:00',
                     time: nowTimeString(),
                     cityId: 0,
                     masterId: 0,
                     clientName: props.userName,
                     clientEmail: props.userEmail,
                     photoURL: '',
+                    cost: 10,
+                    costStatus: 0,
                 });
                 setIsOrderSend(false);
             }
@@ -62,6 +65,7 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
                     cityId: 0,
                     masterId: 0,
                     photoURL: '',
+                    cost: 10,
                 });
             }
         }
@@ -71,8 +75,14 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
     const changeName = (name: string) => setOrder({...order, clientName: name});
     const changeEmail = (email: string) => setOrder({...order, clientEmail: email});
 
-    const handleSizeChange = (event: React.ChangeEvent<{ value: string; }>) => setOrder({
-                                                                ...order, size: event.target.value });
+    const handleSizeChange = (event: React.ChangeEvent<{ value: string; }>) => {
+
+        const cost: number = 10 * (+ event.target.value as number);
+        setOrder({
+            ...order,
+            size: event.target.value,
+            cost: cost,
+        })};
     const handleSelectDate = (date: string) => setOrder(prevState => ({ ...prevState, date: date }));
     const handleSelectTime = (time: string) => setOrder(prevState => ({...prevState, time}));
     const handleSelectCity = (id: number) => setOrder({ ...order, cityId: id });
