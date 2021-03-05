@@ -4,7 +4,7 @@ import { Response } from 'express';
 const router = express.Router();
 const payStrip = require('../controllers/payStrip.controller');
 
-// router.get('/stripe/:id', payStrip.getClientSecret);
-router.post('/stripe', payStrip.postPayment);
+router.get('/stripe/:id', payStrip.getClientSecret);
+// router.post('/stripe', payStrip.postPayment);
 
 module.exports = router;

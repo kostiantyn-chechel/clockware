@@ -4,15 +4,16 @@ import {
     CardElement,
     useStripe,
     useElements,
+    PaymentRequestButtonElement,
 } from '@stripe/react-stripe-js';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import { getStripeClientSecret, postCardPaymentToken } from '../../store/actions/payStripeAction';
 import { TMashId } from '../../interfaces';
 import IStore from '../../type/store/IStore';
 import { getOrderById } from '../../store/actions/orderAction';
+
 const useStyles = makeStyles((theme) => ({
     main: {
         display: 'flex',
@@ -33,9 +34,12 @@ const PayStrip: React.FC<TMashId> = (props) => {
     const { match } = props;
     const orderId = match.params.id;
 
+    const [processing, setProcessing] = useState(false);
+
     const classes = useStyles();
     const stripe = useStripe();
     const elements = useElements();
+    const [paymentRequest, setPaymentRequest] = useState(null);
     const options = {
         style: {
             base: {
@@ -57,21 +61,77 @@ const PayStrip: React.FC<TMashId> = (props) => {
     const order = useSelector(({order}:IStore) => order.order);
 
     useEffect(() => {
-        // dispatch(getStripeClientSecret(orderId));
+        dispatch(getStripeClientSecret(orderId));
         dispatch(getOrderById(orderId));
     }, []);
 
+    useEffect(() => {
+        if (stripe) {
+            const pr = stripe.paymentRequest({
+                country: 'US',
+                currency: 'usd',
+                total: {
+                    label: 'Demo total',
+                    amount: 1099,
+                },
+                requestPayerName: true,
+                requestPayerEmail: true,
+            });
+
+            pr.canMakePayment().then(result => {
+                if (result) {
+                    // @ts-ignore
+                    setPaymentRequest(pr);
+                }
+            });
+        }
+    },[stripe]);
+
+    if (paymentRequest) {
+        // @ts-ignore
+        return <PaymentRequestButtonElement options={{paymentRequest}} />
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!stripe || !elements) return;
 
-        const card = elements!.getElement(CardElement);
-        const result = await stripe!.createToken(card!);
-        if (result.error) {
-            console.log(result.error.message);
-        } else {
-            console.log(result.token);
-            dispatch(postCardPaymentToken(orderId,result.token))
+        setProcessing(true);
+
+        // const cardElement = elements!.getElement(CardElement);
+
+        const payload = await stripe!.confirmCardPayment(clientSecret, {
+            payment_method: {
+                // @ts-ignore
+                card: elements!.getElement(CardElement),
+                billing_details: {
+                    name: 'test customer Name'
+                    // name: event.target.name.value
+                }
+            },
+        });
+
+        if (payload.error) {
+            console.log(`Payment failed ${payload.error.message}`);
+            setProcessing(false);
+        } else if (payload.paymentIntent.status === 'succeeded') {
+            console.log('paymentResult = succeeded');
+            console.log('Metadata', payload.paymentIntent);
+            setProcessing(false);
         }
+
+        // const {error, paymentMethod} = await stripe.createPaymentMethod({
+        //     type: 'card',
+        //     card: cardElement!,
+        // });
+
+        // const result = await stripe!.createToken(card!);
+        // if (result.error) {
+        //     console.log(result.error.message);
+        // } else {
+        //     console.log(result.token);
+        //     dispatch(postCardPaymentToken(orderId,result.token))
+        // }
 
         // stripe!.confirmCardPayment(clientSecret, {
         //     payment_method: {
@@ -88,22 +148,6 @@ const PayStrip: React.FC<TMashId> = (props) => {
         //             console.log('paymentResult = succeeded');
         //         }
         // })
-
-        // const paymentResult = await stripe!.confirmCardPayment(clientSecret, {
-        //     payment_method: {
-        //         // @ts-ignore
-        //         card: elements!.getElement(CardElement),
-        //         billing_details: {
-        //             name: 'test Name'
-        //         }
-        //     },
-        // });
-        //
-        // if (paymentResult.error) {
-        //     console.log(`Payment failed ${paymentResult.error.message}`)
-        // } else if (paymentResult.paymentIntent.status === 'succeeded') {
-        //     console.log('paymentResult = succeeded');
-        // }
     };
 
     return (
@@ -119,15 +163,6 @@ const PayStrip: React.FC<TMashId> = (props) => {
                 <button type="submit" disabled={!stripe}>
                     Pay
                 </button>
-                {/*<Button*/}
-                {/*    type='submit'*/}
-                {/*    color='primary'*/}
-                {/*    className={classes.submit}*/}
-                {/*    size='large'*/}
-                {/*>*/}
-                {/*    Pay*/}
-                {/*</Button>*/}
-
             </form>
 
         </Container>

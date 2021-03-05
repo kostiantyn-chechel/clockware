@@ -14,17 +14,23 @@ const stripe = require('stripe')('sk_test_51IQVKzDEV8HqBraVoDtrdxzxTNnoFw2dZ2ob4
 //     res.send(paymentIntent);
 // };
 
-// exports.getClientSecret = async (req: Request, res: Response) => {
-//     const paymentIntent = await stripe.paymentIntents.create({
-//         amount: 250,
-//         currency: 'usd',
-//         payment_method_types: ['card'],
-//         receipt_email: 'clockware77@gmail.com',
-//     });
-//     res.send({
-//         clientSecret: paymentIntent.client_secret
-//     });
-// };
+exports.getClientSecret = async (req: Request, res: Response) => {
+    const body = req.body;
+    const options = {
+        ...body,
+        amount: 2222,
+        currency: 'USD',
+    };
+
+    try {
+        const paymentIntent = await stripe.paymentIntents.create(options);
+        res.json(paymentIntent);
+    } catch (err) {
+        res.json(err);
+    }
+};
+
+
 
 exports.postPayment = (req: Request, res: Response) => {
     console.log('token:',req.body.token.id);
