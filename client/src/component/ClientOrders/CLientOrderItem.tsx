@@ -7,6 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
 import Button from '@material-ui/core/Button';
+import OrderPayBlock from "./OrderPayBlock";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '100%',
         maxHeight: '100%',
     },
+    payBlock: {
+        marginRight: theme.spacing(2),
+    }
 }));
 
 type ClientOrderItemType = { order: IClientOrder }
@@ -77,24 +81,8 @@ const ClientOrderItem: React.FC<ClientOrderItemType> = (props) => {
                         </Grid>
                     </Grid>
 
-                    <Grid>
-                        <Grid item xs container direction="column" spacing={2} alignItems={'flex-end'}>
-                            <Typography gutterBottom variant="subtitle1">
-                                {`# ${id}`}
-                            </Typography>
-                            <Typography gutterBottom variant="subtitle1">
-                                {`COST: ${cost}`}
-                            </Typography>
-                            <Typography gutterBottom variant="subtitle1">
-                                {`status: ${costStatus}`}
-                            </Typography>
-                            <Button color='inherit'
-                                    component={Link}
-                                    to={`/pay/${id}`}
-                            >
-                                ОПЛАТИТЬ
-                            </Button>
-                        </Grid>
+                    <Grid className={classes.payBlock}>
+                        <OrderPayBlock cost={cost} costStatus={costStatus} orderId={id}/>
                     </Grid>
 
                 </Grid>
