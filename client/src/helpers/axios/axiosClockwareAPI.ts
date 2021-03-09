@@ -98,7 +98,8 @@ export const getAuthServerRequest = async (relativeURL: string): Promise<GetAuth
     }
 };
 
-type PutAuthServerRequestBodyType = IMaster | ICity | IClient | {orderId: number, status: TOrderStatus} | PostAttributes;
+type PutAuthServerRequestBodyType = IMaster | ICity | IClient | { orderId: number, status: TOrderStatus } |
+            { orderId: number, payStatus: number } | PostAttributes;
 export const putAuthServerRequest = async (relativeURL: string, body: PutAuthServerRequestBodyType) => {
     try {
         const { data } = await axios.put(relativeURL, body, { headers: authHeader() });

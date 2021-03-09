@@ -201,3 +201,36 @@ exports.changeStatus = (req: Request, res: Response, next: NextFunction) => {
             }
         });
 };
+
+exports.updatePayStatus = (req: Request, res: Response) => {
+    const id = req.body.orderId;
+    const order = {
+        costStatus: req.body.payStatus
+    };
+
+    console.log('updatePayStatus', id, order);
+
+    Order.update(order, {
+        where: {
+            id: id
+        }
+    })
+        .then((num: number) => {
+            if (num == 1) {
+                res.send({
+                    message: `Order with id=${id} was updated successfully.`
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Order with id=${id}. Maybe Master was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(() => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + id
+            });
+        });
+
+
+};

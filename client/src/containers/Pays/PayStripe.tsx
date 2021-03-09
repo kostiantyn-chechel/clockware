@@ -10,7 +10,7 @@ import {
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import { getStripeClientSecret } from '../../store/actions/payStripeAction';
+import {changeOrderPayStatus, getStripeClientSecret} from '../../store/actions/payStripeAction';
 import { TMashId } from '../../interfaces';
 import IStore from '../../type/store/IStore';
 import { getOrderById } from '../../store/actions/orderAction';
@@ -156,6 +156,7 @@ const PayStripe: React.FC<TMashId> = (props) => {
             }, 1500);
             setProcessing(false);
         } else if (payload.paymentIntent.status === 'succeeded') {
+            dispatch(changeOrderPayStatus(orderId, 1));
             setMessage('Оплата прошла успешно');
             setTimeout(() => {
                 history.push('/client');
