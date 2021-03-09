@@ -9,7 +9,7 @@ import {
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import { getStripeClientSecret, postCardPaymentToken } from '../../store/actions/payStripeAction';
+import { getStripeClientSecret } from '../../store/actions/payStripeAction';
 import { TMashId } from '../../interfaces';
 import IStore from '../../type/store/IStore';
 import { getOrderById } from '../../store/actions/orderAction';
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const PayStrip: React.FC<TMashId> = (props) => {
+const PayStripe: React.FC<TMashId> = (props) => {
     const { match } = props;
     const orderId = match.params.id;
 
@@ -59,6 +59,7 @@ const PayStrip: React.FC<TMashId> = (props) => {
     const dispatch = useDispatch();
     const clientSecret = useSelector(({payStripe}:IStore) => payStripe.clientSecret);
     const order = useSelector(({order}:IStore) => order.order);
+
 
     useEffect(() => {
         dispatch(getStripeClientSecret(orderId));
@@ -98,15 +99,13 @@ const PayStrip: React.FC<TMashId> = (props) => {
 
         setProcessing(true);
 
-        // const cardElement = elements!.getElement(CardElement);
-
         const payload = await stripe!.confirmCardPayment(clientSecret, {
             payment_method: {
                 // @ts-ignore
                 card: elements!.getElement(CardElement),
                 billing_details: {
-                    name: 'test customer Name'
-                    // name: event.target.name.value
+                    // name: 'test customer Name'
+                    name: order.order_user.name,
                 }
             },
         });
@@ -119,35 +118,6 @@ const PayStrip: React.FC<TMashId> = (props) => {
             console.log('Metadata', payload.paymentIntent);
             setProcessing(false);
         }
-
-        // const {error, paymentMethod} = await stripe.createPaymentMethod({
-        //     type: 'card',
-        //     card: cardElement!,
-        // });
-
-        // const result = await stripe!.createToken(card!);
-        // if (result.error) {
-        //     console.log(result.error.message);
-        // } else {
-        //     console.log(result.token);
-        //     dispatch(postCardPaymentToken(orderId,result.token))
-        // }
-
-        // stripe!.confirmCardPayment(clientSecret, {
-        //     payment_method: {
-        //         // @ts-ignore
-        //         card: elements!.getElement(CardElement),
-        //         billing_details: {
-        //             name: 'test Name'
-        //         }
-        //     },
-        // }).then((result) => {
-        //     if (result.error) {
-        //             console.log(`Payment failed ${result.error.message}`)
-        //         } else if (result.paymentIntent.status === 'succeeded') {
-        //             console.log('paymentResult = succeeded');
-        //         }
-        // })
     };
 
     return (
@@ -169,4 +139,4 @@ const PayStrip: React.FC<TMashId> = (props) => {
     );
 };
 
-export default PayStrip;
+export default PayStripe;

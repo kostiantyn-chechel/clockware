@@ -71,9 +71,15 @@ export interface IOrderById {
     photoURL: string,
     cost: number,
     costStatus: number,
-    order_user: string,
-    order_master: string,
-    order_city: string,
+    order_user: {
+        name: string
+    },
+    order_master: {
+        name: string
+    },
+    order_city: {
+        name: string
+    },
 }
 
 export interface IOrderPac {

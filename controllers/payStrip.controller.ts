@@ -24,7 +24,8 @@ exports.getClientSecret = async (req: Request, res: Response) => {
 
     try {
         const paymentIntent = await stripe.paymentIntents.create(options);
-        res.json(paymentIntent);
+        console.log(paymentIntent.client_secret);
+        res.json(paymentIntent.client_secret);
     } catch (err) {
         res.json(err);
     }

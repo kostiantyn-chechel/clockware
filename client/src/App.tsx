@@ -26,7 +26,7 @@ import Orders from "./component/DashBoard/Orders";
 import MasterCabinet from "./containers/MasterCabinet/MasterCabinet";
 import Blog from "./containers/Blog/Blog";
 import BlogAdmin from "./containers/Blog/BlogAdmin";
-import PayStrip from "./containers/Pays/PayStrip";
+import PayStripe from "./containers/Pays/PayStripe";
 
 class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
@@ -80,7 +80,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                         <Route path='/review/:id' component={ Review } />
                         <Route path='/master/:id' component={ ReviewMaster } />
                         <Route path='/cabinet' component={ MasterCabinet } />
-                        <Route path='/pay/:id' component={ PayStrip } />
+                        <Route path='/pay/:id' component={ PayStripe } />
                         <Route path='/*' component={ Booking } />
                     </Switch>
                 }

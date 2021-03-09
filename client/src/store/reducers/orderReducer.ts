@@ -10,9 +10,9 @@ const EMPTY_ORDER: IOrderById = {
     time: '',
     cost: 0,
     costStatus: 0,
-    order_city: '',
-    order_master: '',
-    order_user: '',
+    order_user: {name: ''},
+    order_city: {name: ''},
+    order_master: {name: ''},
 };
 
 const initialState: IOrderInitialStateType = {
