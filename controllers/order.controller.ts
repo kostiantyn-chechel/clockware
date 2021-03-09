@@ -208,8 +208,6 @@ exports.updatePayStatus = (req: Request, res: Response) => {
         costStatus: req.body.payStatus
     };
 
-    console.log('updatePayStatus', id, order);
-
     Order.update(order, {
         where: {
             id: id

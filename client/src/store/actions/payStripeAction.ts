@@ -11,8 +11,3 @@ export const changeOrderPayStatus = (orderId: number, payStatus: number) => {
     return async (dispatch: any) => putAuthServerRequest(`orders/pay`, body)
         .then(response => console.log('response', response));
 };
-
-export const postCardPaymentToken = (orderId: number,token: any) => {
-    return async (dispatch: any) => postAuthServerRequest('pay/stripe', { orderId, token })
-        .then(response => console.log('response', response));
-};
