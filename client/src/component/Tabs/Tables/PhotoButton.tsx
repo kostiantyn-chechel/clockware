@@ -17,22 +17,6 @@ const PhotoButton: React.FC<IPhotoButton> = (props) => {
             </IconButton>
             : null
     )
-
-    // if (photoURL) { //TODO - del
-    //     return (
-    //         <>
-    //             <IconButton color='primary' onClick={() => handleToggle(photoURL)}>
-    //                 <PhotoIcon />
-    //             </IconButton>
-    //         </>
-    //     )
-    // } else {
-    //     return (
-    //         <>
-    //             {null}
-    //         </>
-    //     )
-    // } ////
 };
 
 export default PhotoButton;

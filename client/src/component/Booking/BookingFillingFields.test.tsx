@@ -13,7 +13,7 @@ const mock = {
     cityId: 33,
     name: 'Vasia Vasia',
     email: 'vasia@vasia.com',
-    date: '20-01-2020',
+    date: '20-03-2021',
     time: '15:00',
     size: 1,
     photoURL: '',
@@ -63,6 +63,22 @@ describe('Test <BookingFillingFields>', () => {
         expect(ShallowComponent).toBeDefined();
     });
 
+    describe('Test Button', () => {
+
+        test('Button value after click coll findMaster', () => {
+
+            const node = MountComponent.find("button[type='submit']");
+            expect(node).toBeDefined();
+
+            MountComponent.find("button[type='submit']").simulate("click");
+
+            expect(findMasterMock).toBeCalledTimes(1);
+
+            expect(findMasterMock).toHaveBeenCalledWith(33, "20-03-2021", "15:00", 1);
+        });
+
+    });
+
     test('EmailInput changes value the text after click', () => {
 
         const newEmail = 'new@email.com';
@@ -75,9 +91,23 @@ describe('Test <BookingFillingFields>', () => {
         expect(changeEmailMock).toHaveBeenCalledWith(newEmail);
     });
 
-   test('NameInput changes value the text after click', () => {
+    test('EmailInput enter no email, should exist helper text', () => {
+        const noEmail = 'noemail.com';
+        MountComponent.find('input#email.MuiInputBase-input.MuiOutlinedInput-input').first().simulate("change", {
+            target: { value: noEmail },
+        });
 
-        const newName = 'new@email.com';
+        const  node = MountComponent.find('p#email-helper-text').text();
+
+        expect(node).toBeDefined();
+
+        expect(node).toEqual('Некорректный email');
+
+    });
+
+    test('NameInput changes value the text after click', () => {
+
+        const newName = 'Vasia';
         MountComponent.find('input#firstName.MuiInputBase-input.MuiOutlinedInput-input').first().simulate("change", {
             target: { value: newName },
         });
@@ -86,6 +116,21 @@ describe('Test <BookingFillingFields>', () => {
 
         expect(changeNameMock).toHaveBeenCalledWith(newName);
     });
+
+    test('NameInput enter name length 2, should exist helper text', () => {
+        const noName = 'na';
+        MountComponent.find('input#firstName.MuiInputBase-input.MuiOutlinedInput-input').first().simulate("change", {
+            target: { value: noName },
+        });
+
+        const  node = MountComponent.find('p#firstName-helper-text').text();
+
+        expect(node).toBeDefined();
+
+        expect(node).toEqual('Имя не менее 3 знаков');
+
+    });
+
 
     describe('Test RadioButtonGroup', () => {
 
@@ -104,15 +149,18 @@ describe('Test <BookingFillingFields>', () => {
 
     });
 
-
     describe('Test Button', () => {
 
         test('Button value after click coll findMaster', () => {
+
+            const node = MountComponent.find("button[type='submit']");
+            expect(node).toBeDefined();
+
             MountComponent.find("button[type='submit']").simulate("click");
 
             expect(findMasterMock).toBeCalledTimes(1);
 
-            expect(findMasterMock).toHaveBeenCalledWith(33, "20-01-2020", "15:00", 1);
+            expect(findMasterMock).toHaveBeenCalledWith(33, "20-03-2021", "15:00", 1);
         });
 
     });
