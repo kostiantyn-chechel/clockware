@@ -9,12 +9,15 @@ import thunk from 'redux-thunk';
 
 const mockStore = configureMockStore([thunk]);
 
+const CURRENT_DATE = '20-03-2021';
+const CURRENT_TIME = '15:00';
+
 const mock = {
     cityId: 33,
     name: 'Vasia Vasia',
     email: 'vasia@vasia.com',
-    date: '20-03-2021',
-    time: '15:00',
+    date: CURRENT_DATE,
+    time: CURRENT_TIME,
     size: 1,
     photoURL: '',
     cities: [
@@ -74,7 +77,7 @@ describe('Test <BookingFillingFields>', () => {
 
             expect(findMasterMock).toBeCalledTimes(1);
 
-            expect(findMasterMock).toHaveBeenCalledWith(33, "20-03-2021", "15:00", 1);
+            expect(findMasterMock).toHaveBeenCalledWith(33, CURRENT_DATE, CURRENT_TIME, 1);
         });
 
     });
@@ -139,12 +142,10 @@ describe('Test <BookingFillingFields>', () => {
             MountComponent.find("input[type='radio']").last().simulate("change");
 
             expect(handleSizeChangeMock).toHaveBeenCalledTimes(1);
-            // expect(handleSizeChangeMock).toHaveBeenCalledWith('3'); // ???
 
             MountComponent.find("input[type='radio']").first().simulate("change");
 
             expect(handleSizeChangeMock).toBeCalledTimes(2);
-            // expect(handleSizeChangeMock).toHaveBeenCalledWith('1'); //???
         });
 
     });
@@ -160,7 +161,7 @@ describe('Test <BookingFillingFields>', () => {
 
             expect(findMasterMock).toBeCalledTimes(1);
 
-            expect(findMasterMock).toHaveBeenCalledWith(33, "20-03-2021", "15:00", 1);
+            expect(findMasterMock).toHaveBeenCalledWith(33, CURRENT_DATE, CURRENT_TIME, 1);
         });
 
     });
