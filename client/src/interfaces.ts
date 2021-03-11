@@ -214,6 +214,30 @@ export interface IMasterOrder {
     time: string
 }
 
+export interface IOrderPayStatus {
+    orderId: number
+    payStatus: number
+}
+
+export interface IOrderUserStatus {
+    orderId: number
+    status: TOrderStatus
+}
+
+export interface ISendMasterReview {
+    orderId: number
+    rating: number
+    review: string
+}
+
+export interface IIdToken {
+    idToken: string
+}
+
+export interface IAccessToken {
+    accessToken: string
+}
+
 export type ISortDirection = 'asc' | 'desc';
 export type TBookingShow = 'filling' | 'select' | 'gratitude';
 export type TUserStatus = 'client' | 'admin' | 'master' | 'notAuth';

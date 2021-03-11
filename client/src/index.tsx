@@ -9,12 +9,9 @@ import rootReducer from './store/reducers/rootReducer';
 import thunk from 'redux-thunk';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-// import { initFacebookSdk } from './helpers/init-facebook-sdk';
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__  || compose;
-
-// initFacebookSdk().then(startApp);
 
 const store = createStore(
         rootReducer,
@@ -23,9 +20,7 @@ const store = createStore(
         ),
     );
 
-// function startApp() {
-
-const stripePromise = loadStripe('pk_test_51IQVKzDEV8HqBraVSDKcSiaDjsYVPNNRd5J7pvTStHTM7iHLZaGWyLO1wizYvxsx0kK2IdTzoh8tBO8mIktle0y400B41RVFUg');
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY!);
 
     ReactDOM.render(
             <Provider store={store}>
@@ -37,4 +32,3 @@ const stripePromise = loadStripe('pk_test_51IQVKzDEV8HqBraVSDKcSiaDjsYVPNNRd5J7p
             </Provider>,
         document.getElementById('root')
     );
-// }

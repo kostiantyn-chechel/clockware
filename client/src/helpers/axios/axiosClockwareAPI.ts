@@ -1,18 +1,19 @@
 import axios from 'axios';
 import {
+    IAccessToken,
     IAuthUser,
     ICity,
     IClient,
-    IFilterData,
+    IFilterData, IIdToken,
     IMaster, IMasterOrder,
-    IOrderPac,
+    IOrderPac, IOrderPayStatus, IOrderUserStatus, ISendMasterReview,
     ISendOrder,
     IUser, TOrderStatus,
 } from "../../interfaces";
 import { authHeader } from "../authProcessing";
 import { IReviews } from "../../containers/Review/ReviewMaster";
 import { CityMasterType, IChartDateOrder } from "../../containers/Admin/AdminDashboard";
-import {PostAttributes} from "../../../../models/post.model";
+import { PostAttributes } from "../../../../models/post.model";
 
 let baseURL;
 if (process.env.NODE_ENV === 'development') {
@@ -32,8 +33,7 @@ export const getServerRequest = async (relativeURL: string): Promise<ServerGetRe
     }
 };
 
-type ServerPostRequestBodyType = IAuthUser | ISendOrder | { orderId: number, rating: number, review: string } |
-                                {idToken: string} | {accessToken: string};
+type ServerPostRequestBodyType = IAuthUser | ISendOrder | ISendMasterReview | IIdToken | IAccessToken;
 export type ServerPostResponseType = IUser & {message?: string};
 
 export const postServerRequest = async (
@@ -46,7 +46,7 @@ export const postServerRequest = async (
     }
 };
 
-type PostAuthServerRequestBodyType = IMaster | ICity | IClient | PostAttributes | {orderId: number, token: any};
+type PostAuthServerRequestBodyType = IMaster | ICity | IClient | PostAttributes;
 export const postAuthServerRequest = async (relativeURL: string, body: PostAuthServerRequestBodyType) => {
     try {
         const { data } = await axios.post(relativeURL, body, { headers: authHeader() });
@@ -98,8 +98,8 @@ export const getAuthServerRequest = async (relativeURL: string): Promise<GetAuth
     }
 };
 
-type PutAuthServerRequestBodyType = IMaster | ICity | IClient | { orderId: number, status: TOrderStatus } |
-            { orderId: number, payStatus: number } | PostAttributes;
+type PutAuthServerRequestBodyType = IMaster | ICity | IClient | IOrderUserStatus |
+            IOrderPayStatus | PostAttributes;
 export const putAuthServerRequest = async (relativeURL: string, body: PutAuthServerRequestBodyType) => {
     try {
         const { data } = await axios.put(relativeURL, body, { headers: authHeader() });

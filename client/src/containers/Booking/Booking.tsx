@@ -10,7 +10,6 @@ import BookingFillingFields from '../../component/Booking/BookingFillingFields';
 import { nowTimeString, today } from '../../helpers/dateTime';
 import { ISendOrder } from "../../interfaces";
 import { RootStateType } from "../../store/reducers/rootReducer";
-import {number} from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -23,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Booking: React.FC<PropsFromRedux> = (props) => {
     const classes = useStyles();
-    const [isOrderSend, setIsOrderSend] = useState<boolean>(false);
-    const [order, setOrder] = useState<ISendOrder>({
+
+    const EMPTY_ORDER ={
         size: '1',
         date: today(),
         time: nowTimeString(),
@@ -35,24 +34,16 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
         photoURL: '',
         cost: 10,
         costStatus: 0,
-    });
+    };
+
+    const [isOrderSend, setIsOrderSend] = useState<boolean>(false);
+    const [order, setOrder] = useState<ISendOrder>(EMPTY_ORDER);
 
     /* eslint-disable */
     useEffect(() => {
         if (props.bookingShow === 'filling' && isOrderSend) {
             if (isOrderSend) {
-                setOrder({
-                    size: '1',
-                    date: today(),
-                    time: nowTimeString(),
-                    cityId: 0,
-                    masterId: 0,
-                    clientName: props.userName,
-                    clientEmail: props.userEmail,
-                    photoURL: '',
-                    cost: 10,
-                    costStatus: 0,
-                });
+                setOrder(EMPTY_ORDER);
                 setIsOrderSend(false);
             }
         } else {

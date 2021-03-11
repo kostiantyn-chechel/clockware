@@ -1,4 +1,4 @@
-import {getAuthServerRequest, postAuthServerRequest, putAuthServerRequest} from "../../helpers/axios/axiosClockwareAPI";
+import { getAuthServerRequest, putAuthServerRequest } from "../../helpers/axios/axiosClockwareAPI";
 import { GET_STRIPE_CLIENT_SECRET } from "../actionType/payStripeActionType";
 
 export const getStripeClientSecret = (id: number) => {
@@ -9,5 +9,4 @@ export const getStripeClientSecret = (id: number) => {
 export const changeOrderPayStatus = (orderId: number, payStatus: number) => {
     const body = { orderId: orderId, payStatus: payStatus };
     return async (dispatch: any) => putAuthServerRequest(`orders/pay`, body)
-        .then(response => console.log('response', response));
 };

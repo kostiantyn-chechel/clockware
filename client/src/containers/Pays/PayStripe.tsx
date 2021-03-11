@@ -5,7 +5,6 @@ import {
     CardElement,
     useStripe,
     useElements,
-    PaymentRequestButtonElement,
 } from '@stripe/react-stripe-js';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
@@ -65,6 +64,24 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const OPTIONS = {
+    style: {
+        base: {
+            color: "#424770",
+            letterSpacing: "0.025em",
+            fontFamily: "Source Code Pro, monospace",
+            "::placeholder": {
+                color: "#aab7c4"
+            },
+            fontSize: '16px',
+            fontWeight: '500',
+        },
+        invalid: {
+            color: "#9e2146"
+        },
+    }
+};
+
 const PayStripe: React.FC<TMashId> = (props) => {
     const { match } = props;
     const orderId = match.params.id;
@@ -76,61 +93,17 @@ const PayStripe: React.FC<TMashId> = (props) => {
     const classes = useStyles();
     const stripe = useStripe();
     const elements = useElements();
-    const [paymentRequest, setPaymentRequest] = useState(null);
-    const options = {
-        style: {
-            base: {
-                color: "#424770",
-                letterSpacing: "0.025em",
-                fontFamily: "Source Code Pro, monospace",
-                "::placeholder": {
-                    color: "#aab7c4"
-                },
-                fontSize: '16px',
-                fontWeight: '500',
-            },
-            invalid: {
-                color: "#9e2146"
-            },
-        }
-    };
 
     const dispatch = useDispatch();
     const clientSecret = useSelector(({payStripe}:IStore) => payStripe.clientSecret);
     const order = useSelector(({order}:IStore) => order.order);
 
-
+    /* eslint-disable */
     useEffect(() => {
         dispatch(getStripeClientSecret(orderId));
         dispatch(getOrderById(orderId));
     }, []);
-
-    useEffect(() => {
-        if (stripe) {
-            const pr = stripe.paymentRequest({
-                country: 'US',
-                currency: 'usd',
-                total: {
-                    label: 'Demo total',
-                    amount: 1099,
-                },
-                requestPayerName: true,
-                requestPayerEmail: true,
-            });
-
-            pr.canMakePayment().then(result => {
-                if (result) {
-                    // @ts-ignore
-                    setPaymentRequest(pr);
-                }
-            });
-        }
-    },[stripe]);
-
-    if (paymentRequest) {
-        // @ts-ignore
-        return <PaymentRequestButtonElement options={{paymentRequest}} />
-    }
+    /* eslint-enable */
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -149,7 +122,6 @@ const PayStripe: React.FC<TMashId> = (props) => {
         });
 
         if (payload.error) {
-            console.log(`Payment failed ${payload.error.message}`);
             setMessage('Оплата не прошла. Ошибка!');
             setTimeout(() => {
                 setMessage('');
@@ -174,7 +146,7 @@ const PayStripe: React.FC<TMashId> = (props) => {
             </Typography>
             <div className={classes.imgBlock}>
                 <div className={classes.image}>
-                    <img className={classes.img} alt={'' + {orderId}} src={order.photoURL} />
+                    <img className={classes.img} alt={'' + { orderId }} src={order.photoURL}/>
                 </div>
             </div>
 
@@ -187,13 +159,13 @@ const PayStripe: React.FC<TMashId> = (props) => {
             </Typography>
 
             <div className={classes.rootProgress}>
-                {processing ? <LinearProgress /> : null}
+                {processing && <LinearProgress/>}
             </div>
 
             <form onSubmit={handleSubmit} className={classes.form}>
                 <CardElement
                     className={classes.cardInput}
-                    options={options}
+                    options={OPTIONS}
                 />
                 <Button
                     disabled={!stripe}
@@ -207,9 +179,7 @@ const PayStripe: React.FC<TMashId> = (props) => {
 
             </form>
 
-            <SuccessMsg>
-                {message}
-            </SuccessMsg>
+            <SuccessMsg message={message} />
 
         </Container>
     );

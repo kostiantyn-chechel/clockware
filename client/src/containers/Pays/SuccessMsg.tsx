@@ -11,19 +11,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SuccessMsg: React.FC = ({children}) => {
+interface IProps {
+    message: string
+}
+
+const SuccessMsg: React.FC<IProps> = ({message}: IProps) => {
     const classes = useStyles();
     return (
         <React.Fragment>
-            {children
-                ?
+            {message &&
                 <div className={classes.warningBlock}>
                     <Typography variant="h4" align="center" color="secondary">
-                        {children}
+                        {message}
                     </Typography>
                 </div>
-                :
-                null
             }
         </React.Fragment>
     );
