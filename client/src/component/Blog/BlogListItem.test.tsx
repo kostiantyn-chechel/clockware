@@ -34,20 +34,6 @@ describe('Test BlogListItem component', () => {
         expect(renderer.create(Component).toJSON()).toMatchSnapshot();
     });
 
-    // TODO ???
-    // test('Click button Delete return ID', () => {
-    //     const Component = <BlogListItem
-    //         isEdit={true}
-    //         post={post} handleDelPost={handleDelPostMock} handleEditPost={handleEditPostMock}
-    //     />;
-    //     const MountBlogListItem = mount(Component);
-    //     MountBlogListItem.find('delete').simulate('click');
-    //
-    //     expect(handleDelPostMock).toBeCalledTimes(1);
-    //     expect(handleDelPostMock).toBeCalledWith(post.id);
-    // });
-
-    //TODO ????
     test("BlogListItem enabled Control Panel (Edit and Del button)", () => {
         const Component = <BlogListItem
             isEdit={true}
@@ -56,11 +42,10 @@ describe('Test BlogListItem component', () => {
         const MountBlogListItem = mount(Component);
 
         const BlogListItemComponent = MountBlogListItem.find(CardActions);
-        expect(BlogListItemComponent).toBeDefined(); //TODO ????
+        expect(BlogListItemComponent).toBeDefined();
 
     });
 
-    //TODO ????
     test("BlogListItem disabled Control Panel (Edit and Del button)", () => {
         const Component = <BlogListItem
             isEdit={false}
@@ -68,7 +53,7 @@ describe('Test BlogListItem component', () => {
         />;
         const MountBlogListItem = mount(Component);
 
-        expect(MountBlogListItem.contains(<CardActions />)).toBeDefined(); //TODO ????
+        expect(MountBlogListItem.contains(<CardActions />)).toBeDefined();
 
     });
 

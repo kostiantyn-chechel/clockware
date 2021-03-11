@@ -6,7 +6,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
-import SelectElement from '../SelectElement';
+import SelectElement from '../SelectElement/SelectElement';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { isEmail } from '../../helpers/validation';
@@ -97,7 +97,7 @@ const BookingFillingFields: React.FC<IBookingFillingFields> = (props) => {
         return props.name && props.email && props.cityId
     };
 
-    const   handleFindMaster = (event: React.MouseEvent) => {
+    const handleFindMaster = (event: React.MouseEvent) => {
         event.preventDefault();
         const isValid = isNoEmpty() && !noValidName && !noValidEmail ;
         if (isValid) props.findMaster(props.cityId, props.date, props.time, props.size);

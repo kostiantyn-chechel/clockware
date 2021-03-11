@@ -6,6 +6,9 @@ configure({ adapter: new Adapter() });
 
 import DateTimePickers from './DateTimePickers';
 
+const NEW_DATA = '2021-02-02';
+const EARLY_DATA = '2021-01-02';
+
 describe('Test <DateTimePickers>', () => {
     const handleSelectDateMock = jest.fn();
     const handleSelectTimeMock = jest.fn();
@@ -27,16 +30,31 @@ describe('Test <DateTimePickers>', () => {
 
     test('Changes value after change Data', () => {
         const MountComponent = mount(Component);
-        // const instance = MountComponent.instance();
-        // instance.setChoiceDataTime('2021-02-23');
 
         MountComponent.find('#date-label').first().simulate('change', {
-            target: { value: '2021-02-02' },
+            target: { value: NEW_DATA },
         });
 
         expect(handleSelectDateMock).toHaveBeenCalledTimes(1);
 
-        // expect(handleSelectDateMock).toHaveBeenCalledWith('2021-02-02');
+    });
+
+    describe('Date and time earlier than current', () => {
+
+        test('Error message expected', () => {
+            const MountComponent = mount(Component);
+
+            MountComponent.find('#date-label').first().simulate('change', {
+                target: { value: EARLY_DATA },
+            });
+
+            const node = MountComponent.find('.makeStyles-warningBlock-43');
+
+            expect(node).toBeDefined();
+
+            // expect(node).toHaveLength(1);
+
+        });
     });
 
 });

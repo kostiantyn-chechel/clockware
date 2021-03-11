@@ -5,7 +5,7 @@ import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
 
-import Warning from './Warning';
+import Warning from '../Warning/Warning';
 
 describe('Test Warning component', () => {
     const message = 'Test Warning message';
@@ -20,6 +20,5 @@ describe('Test Warning component', () => {
     test('ToMatchSnapshot warning component', () => {
         expect(renderer.create(Component).toJSON()).toMatchSnapshot();
     });
-
 
 });

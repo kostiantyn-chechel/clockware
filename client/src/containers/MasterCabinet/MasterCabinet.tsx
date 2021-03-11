@@ -41,7 +41,7 @@ const MasterCabinet: React.FC = (props) => {
 
     /* eslint-disable */
     useEffect(() => {
-        setTimeout(() => { dispatch(getMasterOrders(id)) }, 50); //todo !!!
+        setTimeout(() => { dispatch(getMasterOrders(id)) }, 50);
     },[id]);
     /* eslint-enable */
 
