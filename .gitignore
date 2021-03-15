@@ -25,5 +25,7 @@ yarn-error.log*
 /client/src/component/Tabs/helpers/
 /client/src/component/Tabs/Tables/SimpleTables.js
 /777/
+
+clockware-test.json
+client_secret_googleusercontent.com.json
 /client/credentials.json
-/client_secret_googleusercontent.com.json

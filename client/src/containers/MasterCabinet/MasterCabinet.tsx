@@ -9,10 +9,20 @@ import MasterOrdersTable from "../../component/MasterCabinet/MasterOrdersTable";
 import Backdrop from "@material-ui/core/Backdrop";
 import { TOrderStatus } from "../../interfaces";
 import IStore from "../../type/store/IStore";
+import TodayIcon from '@material-ui/icons/Today';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
     orders: {
         width: '100%',
+    },
+    title: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    button: {
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(2),
     },
     text: {
         marginTop: theme.spacing(3),
@@ -26,6 +36,8 @@ const useStyles = makeStyles((theme) => ({
         color: '#fff',
     },
 }));
+
+const calendarURL = process.env.REACT_APP_CALENDAR_URL;
 
 const MasterCabinet: React.FC = (props) => {
     const { push } = useHistory();
@@ -63,7 +75,21 @@ const MasterCabinet: React.FC = (props) => {
             return (
                 <Container component="main" maxWidth="xl">
                     <div className={classes.orders}>
-                        <h1>{`(${id}): ${name} (${login}) `}</h1>
+                        <div className={classes.title}>
+                            <h1>{`(${id}): ${name} (${login}) `}</h1>
+                            <Button
+                                className={classes.button}
+                                color='primary'
+                                variant='contained'
+                                href={calendarURL!}
+                                startIcon={<TodayIcon/>}
+                                target='_blank'
+                            >
+                                Календарь
+                            </Button>
+                        </div>
+
+
                         <MasterOrdersTable
                             orders={orders}
                             handleToggle={handleToggle}
