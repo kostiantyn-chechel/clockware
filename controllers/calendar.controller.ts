@@ -127,8 +127,30 @@ exports.getEvents = (req: Request, res: Response) => {
 
 exports.fillInCalendar = async (req: Request, res: Response) => {
     const orderList = await listOfAllOrder();
-    const eventList = orderList.map((order) => orderToEvent(order));
-    res.send(eventList);
+    const createEvent = async (auth) => {
+
+        // const events = orderList.map((order) => orderToEvent(order));
+        const events = orderToEvent(orderList[5]);
+        console.log('event', events);
+
+        const calendar = google.calendar('v3');
+
+        await calendar.events.insert({
+            auth: auth,
+            calendarId: CALENDAR_ID,
+            resource: events,
+        });
+    };
+
+    try {
+        const auth = await authenticate();
+        await createEvent(auth);
+        res.send('All ok!!!')
+    } catch (e) {
+        console.log('Error!!!!!!: \n ' + e);
+        res.send('Error: \n' + JSON.stringify(e));
+    }
+
 };
 
 exports.test = async (req: Request, res: Response) => {
@@ -200,16 +222,19 @@ const listOfAllOrder = async (): Promise<IOrderForCalendar[]> => {
 };
 
 const orderToEvent = (order: IOrderForCalendar): IEventForCalendar => {
+
     return {
         summary: `Заказ #${order.id}, размер часов: ${sizeByNumber(order.hours)} `,
         location: order.order_city.name,
         description: 'Order discription',
         start: {
-            dateTime: eventDateWithTime(order.date, order.time),
+            // @ts-ignore
+            dateTime: new Date(eventDateWithTime(order.date, order.time)),
             timeZone: 'Europe/Kiev',
         },
         end: {
-            dateTime: eventDateWithTime(order.date, order.time, order.hours),
+            // @ts-ignore
+            dateTime: new Date(eventDateWithTime(order.date, order.time, order.hours)),
             timeZone: 'Europe/Kiev',
         },
         colorId: order.order_master.colorId,
