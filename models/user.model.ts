@@ -31,6 +31,9 @@ module.exports = (sequelize: any, Sequelize: any): UserAttributes => {
             type: Sequelize.STRING,
             allowNull: true
         },
+        colorId: {
+            type: Sequelize.STRING,
+        }
     });
 
     return User;

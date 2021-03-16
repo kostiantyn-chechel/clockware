@@ -1,41 +1,44 @@
 import { Request, Response } from 'express';
+import {IEventForCalendar, IOrderForCalendar} from "../Type/interfaces";
+import {eventDateWithTime} from "../processing/dateTime";
+import {sizeByNumber} from "../client/src/helpers/dateTime";
 const { google } = require('googleapis');
 const fs = require('fs');
 const readline = require('readline');
 const db = require("../models");
+const Order = db.orders;
+const User = db.users;
+const City = db.cities;
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CALENDAR_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
-const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY;
-const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL;
-const GOOGLE_PROJECT_NUMBER = process.env.GOOGLE_PROJECT_NUMBER;
-const GOOGLE_CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID;
-const PROJECT_ID = process.env.PROJECT_ID;
 const TOKEN_PATH = 'token.json';
 
-exports.getCalendar = (req: Request, res: Response) => {
+const CALENDAR_ID = process.env.CALENDAR_ID;
+const CLIENT_EMAIL = process.env.CLIENT_EMAIL;
+const PRIVATE_KEY = process.env.PRIVATE_KEY!.replace(/\\n/g, '\n');
 
-    const jwtClient = new google.auth.JWT(
-        GOOGLE_CLIENT_EMAIL,
-        null,
-        GOOGLE_PRIVATE_KEY,
-        SCOPES
-    );
+const SCOPE_CALENDAR = 'https://www.googleapis.com/auth/calendar';
+const SCOPE_EVENTS = 'https://www.googleapis.com/auth/calendar.events';
+
+exports.getCalendarList = async (req: Request, res: Response) => {
 
     const calendar = google.calendar({
         version: 'v3',
-        project: GOOGLE_PROJECT_NUMBER,
-        auth: jwtClient
+        project: '105094961402969875425',
+        auth: authenticate(),
     });
 
-    calendar.events.list({
-        calendarId: GOOGLE_CALENDAR_ID,
-        timeMin: (new Date()).toISOString(),
-        maxResults: 10,
-        singleEvents: true,
-        orderBy: 'startTime',
+    // const calendar = google.calendar('v3');
+
+    await calendar.events.list({
+        calendarId: CALENDAR_ID,
+        // timeMin: (new Date()).toISOString(),
+        // maxResults: 10,
+        // singleEvents: true,
+        // orderBy: 'startTime',
     }, (error, result) => {
         if (error) {
             res.send(JSON.stringify({ error: error }));
@@ -122,48 +125,24 @@ exports.getEvents = (req: Request, res: Response) => {
 
 };
 
-// const CALENDAR_ID = 'pa22mo11hc5k68j2qpipum8f3c@group.calendar.google.com';
-const CALENDAR_ID = process.env.CALENDAR_ID;
-const CLIENT_EMAIL = process.env.CLIENT_EMAIL;
-const PRIVATE_KEY = process.env.PRIVATE_KEY!.replace(/\\n/g, '\n');
-
-
-const KEYFILE = 'clockware-test.json';
-const SCOPE_CALENDAR = 'https://www.googleapis.com/auth/calendar';
-const SCOPE_EVENTS = 'https://www.googleapis.com/auth/calendar.events';
+exports.fillInCalendar = async (req: Request, res: Response) => {
+    const orderList = await listOfAllOrder();
+    const eventList = orderList.map((order) => orderToEvent(order));
+    res.send(eventList);
+};
 
 exports.test = async (req: Request, res: Response) => {
-    const readPrivateKey = async () => {
-        const content = fs.readFileSync(KEYFILE);
-        // console.log(JSON.parse(content.toString()));
-        return JSON.parse(content.toString());
-    };
-
-    const authenticate = async (key) => {
-        // @ts-ignore
-        console.log('PRIVATE_KEY', PRIVATE_KEY);
-        console.log('key.private_key', key.private_key);
-        const jwtClient = new google.auth.JWT(
-            CLIENT_EMAIL,
-            null,
-            // key.private_key,
-            PRIVATE_KEY,
-            [SCOPE_CALENDAR, SCOPE_EVENTS]
-        );
-        await jwtClient.authorize();
-        return jwtClient;
-    };
 
     const createEvent = async (auth) => {
         const event = {
             'summary': 'Clocware Test',
-            'description': 'Тест2 заказ Clocware',
+            'description': 'Тест777 заказ Clocware',
             'start': {
-                'dateTime': '2021-03-18T15:00:00+02:00',
+                'dateTime': '2021-03-19T10:00:00+02:00',
                 'timeZone': 'Europe/Kiev',
             },
             'end': {
-                'dateTime': '2021-03-18T16:00:00+02:00',
+                'dateTime': '2021-03-19T12:00:00+02:00',
                 'timeZone': 'Europe/Kiev',
             }
         };
@@ -177,8 +156,7 @@ exports.test = async (req: Request, res: Response) => {
     };
 
     try {
-        const key = await readPrivateKey();
-        const auth = await authenticate(key);
+        const auth = await authenticate();
         await createEvent(auth);
         res.send('All ok!!!')
     } catch (e) {
@@ -186,4 +164,54 @@ exports.test = async (req: Request, res: Response) => {
         res.send('Error: \n' + JSON.stringify(e));
     }
 
+};
+
+const authenticate = async () => {
+    // @ts-ignore
+    const jwtClient = new google.auth.JWT(
+        CLIENT_EMAIL,
+        null,
+        PRIVATE_KEY,
+        [SCOPE_CALENDAR, SCOPE_EVENTS]
+    );
+    await jwtClient.authorize();
+    return jwtClient;
+};
+
+const listOfAllOrder = async (): Promise<IOrderForCalendar[]> => {
+    return await Order.findAll({
+        // raw: true,
+        attributes: ['id', 'date', 'time', 'hours', 'photoURL'],
+        include: [{
+            model: City,
+            as: 'order_city',
+            attributes: ['name'],
+        }, {
+            model: User,
+            as: 'order_master',
+            attributes: ['name', 'colorId'],
+        }, {
+            model: User,
+            as: 'order_user',
+            attributes: ['name'],
+        }],
+    });
+
+};
+
+const orderToEvent = (order: IOrderForCalendar): IEventForCalendar => {
+    return {
+        summary: `Заказ #${order.id}, размер часов: ${sizeByNumber(order.hours)} `,
+        location: order.order_city.name,
+        description: 'Order discription',
+        start: {
+            dateTime: eventDateWithTime(order.date, order.time),
+            timeZone: 'Europe/Kiev',
+        },
+        end: {
+            dateTime: eventDateWithTime(order.date, order.time, order.hours),
+            timeZone: 'Europe/Kiev',
+        },
+        colorId: order.order_master.colorId,
+    };
 };

@@ -24,3 +24,36 @@ export interface IUserChangeReg {
     password?: string
     salt?: string
 }
+
+export interface IOrderForCalendar {
+    id: number
+    date: string
+    time: string
+    hours: number
+    photoURL: string
+    order_city: {
+        name: string
+    }
+    order_master: {
+        name: string
+        colorId: string
+    },
+    order_user: {
+        name: string
+    }
+}
+
+export interface IEventForCalendar {
+    summary: string  // Title of the event.
+    colorId: string // https://developers.google.com/calendar/v3/reference/colors
+    location: string
+    description: string //HTML
+    start: {
+        dateTime: string
+        timeZone: string
+    },
+    end: {
+        dateTime: string
+        timeZone: string
+    }
+}
