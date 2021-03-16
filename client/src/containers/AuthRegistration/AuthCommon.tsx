@@ -119,7 +119,7 @@ const AuthCommon: React.FC = (props) => {
                         label="Password"
                         type="password"
                         id="password"
-                        autoComplete="current-password"
+                        autoComplete='password'
                         onChange={handlePassword}
                     />
 

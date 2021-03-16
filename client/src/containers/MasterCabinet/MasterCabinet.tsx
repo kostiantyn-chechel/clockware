@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const calendarURL = process.env.REACT_APP_CALENDAR_URL;
+const calendarURL = `https://calendar.google.com/calendar/?sid=${process.env.REACT_APP_CALENDAR_URL}`;
 
 const MasterCabinet: React.FC = (props) => {
     const { push } = useHistory();
