@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import {IEventForCalendar, IOrderForCalendar} from "../Type/interfaces";
-import {eventDateWithTime} from "../processing/dateTime";
-import {sizeByNumber} from "../client/src/helpers/dateTime";
+import { IOrderForCalendar} from "../Type/interfaces";
+// import {eventDateWithTime} from "../processing/dateTime";
+// import { hoursToWords, sizeByNumber } from "../client/src/helpers/dateTime";
+import { orderToEvent } from '../processing/calendar/googleCalendar';
 const { google } = require('googleapis');
 const fs = require('fs');
 const readline = require('readline');
@@ -127,24 +128,24 @@ exports.getEvents = (req: Request, res: Response) => {
 
 exports.fillInCalendar = async (req: Request, res: Response) => {
     const orderList = await listOfAllOrder();
-    const createEvent = async (auth) => {
+    const events = orderList.map((order) => orderToEvent(order));
+    const calendar = google.calendar('v3');
 
-        // const events = orderList.map((order) => orderToEvent(order));
-        const events = orderToEvent(orderList[5]);
-        console.log('event', events);
+    const createEvent = async (auth, event) => {
 
-        const calendar = google.calendar('v3');
+        // const events = orderToEvent(orderList[6]);
+        console.log('event', event.summary);
 
         await calendar.events.insert({
             auth: auth,
             calendarId: CALENDAR_ID,
-            resource: events,
+            resource: event,
         });
     };
 
     try {
         const auth = await authenticate();
-        await createEvent(auth);
+        await events.forEach(async (event) => await createEvent(auth, event));
         res.send('All ok!!!')
     } catch (e) {
         console.log('Error!!!!!!: \n ' + e);
@@ -202,7 +203,6 @@ const authenticate = async () => {
 
 const listOfAllOrder = async (): Promise<IOrderForCalendar[]> => {
     return await Order.findAll({
-        // raw: true,
         attributes: ['id', 'date', 'time', 'hours', 'photoURL'],
         include: [{
             model: City,
@@ -221,22 +221,29 @@ const listOfAllOrder = async (): Promise<IOrderForCalendar[]> => {
 
 };
 
-const orderToEvent = (order: IOrderForCalendar): IEventForCalendar => {
-
-    return {
-        summary: `Заказ #${order.id}, размер часов: ${sizeByNumber(order.hours)} `,
-        location: order.order_city.name,
-        description: 'Order discription',
-        start: {
-            // @ts-ignore
-            dateTime: new Date(eventDateWithTime(order.date, order.time)),
-            timeZone: 'Europe/Kiev',
-        },
-        end: {
-            // @ts-ignore
-            dateTime: new Date(eventDateWithTime(order.date, order.time, order.hours)),
-            timeZone: 'Europe/Kiev',
-        },
-        colorId: order.order_master.colorId,
-    };
-};
+// const orderToEvent = (order: IOrderForCalendar): IEventForCalendar => {
+//
+//     return {
+//         summary: `Мастер: ${order.order_master.name} Заказ #${order.id}`,
+//         location: order.order_city.name,
+//         description: `
+//             <h1>Заказ #${order.id}</h1>
+//             <h3>Мастер: ${order.order_master.name}</h3>
+//             <h3>Заказчик: ${order.order_user.name}</h3>
+//             <p>Размер часов: ${sizeByNumber(order.hours)}</p>
+//             <p>Время работы: ${hoursToWords('' + order.hours)}</p>
+//             <a href=${order.photoURL} target="_blank">Фото</a>
+//             `,
+//         start: {
+//             // @ts-ignore
+//             dateTime: new Date(eventDateWithTime(order.date, order.time)),
+//             timeZone: 'Europe/Kiev',
+//         },
+//         end: {
+//             // @ts-ignore
+//             dateTime: new Date(eventDateWithTime(order.date, order.time, order.hours)),
+//             timeZone: 'Europe/Kiev',
+//         },
+//         colorId: order.order_master.colorId,
+//     };
+// };
