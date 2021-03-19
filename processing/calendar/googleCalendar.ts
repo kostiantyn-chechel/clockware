@@ -2,7 +2,7 @@ import { IEventForCalendar, IOrderForCalendar } from '../../Type/interfaces';
 import { hoursToWords, sizeByNumber } from '../../client/src/helpers/dateTime';
 import { eventDateWithTime } from '../dateTime';
 const { google } = require('googleapis');
-const db = require("../models");
+const db = require('../../models');
 const Order = db.orders;
 const User = db.users;
 const City = db.cities;
@@ -17,6 +17,7 @@ const SCOPE_EVENTS = 'https://www.googleapis.com/auth/calendar.events';
 
 export const addOrderToCalendar = async (orderId: number) => {
     const order = await orderForCalendarById(orderId);
+    console.log('order', order);
     const event = orderToEvent(order);
     const calendar = google.calendar('v3');
     try {
@@ -44,55 +45,29 @@ const authenticate = async () => {
     return jwtClient;
 };
 
-export const orderToEvent = (order: IOrderForCalendar): IEventForCalendar => (
-    {
-        summary: `Мастер: ${order.order_master.name} Заказ #${order.id}`,
-        location: order.order_city.name,
-        description: `
-            <h1>Заказ #${order.id}</h1>
-            <h3>Мастер: ${order.order_master.name}</h3>
-            <h3>Заказчик: ${order.order_user.name}</h3>
-            <p>Размер часов: ${sizeByNumber(order.hours)}</p>
-            <p>Время работы: ${hoursToWords('' + order.hours)}</p>
-            <a href=${order.photoURL} target="_blank">Фото</a>
-            `,
-        start: {
-            // @ts-ignore
-            dateTime: new Date(eventDateWithTime(order.date, order.time)),
-            timeZone: 'Europe/Kiev',
-        },
-        end: {
-            // @ts-ignore
-            dateTime: new Date(eventDateWithTime(order.date, order.time, order.hours)),
-            timeZone: 'Europe/Kiev',
-        },
-        colorId: order.order_master.colorId,
-    }
-);
-//     return {
-//         summary: `Мастер: ${order.order_master.name} Заказ #${order.id}`,
-//         location: order.order_city.name,
-//         description: `
-//             <h1>Заказ #${order.id}</h1>
-//             <h3>Мастер: ${order.order_master.name}</h3>
-//             <h3>Заказчик: ${order.order_user.name}</h3>
-//             <p>Размер часов: ${sizeByNumber(order.hours)}</p>
-//             <p>Время работы: ${hoursToWords('' + order.hours)}</p>
-//             <a href=${order.photoURL} target="_blank">Фото</a>
-//             `,
-//         start: {
-//             // @ts-ignore
-//             dateTime: new Date(eventDateWithTime(order.date, order.time)),
-//             timeZone: 'Europe/Kiev',
-//         },
-//         end: {
-//             // @ts-ignore
-//             dateTime: new Date(eventDateWithTime(order.date, order.time, order.hours)),
-//             timeZone: 'Europe/Kiev',
-//         },
-//         colorId: order.order_master.colorId,
-//     };
-// };
+export const orderToEvent = (order: IOrderForCalendar): IEventForCalendar => ({
+    summary: `Мастер: ${order.order_master.name} Заказ #${order.id}`,
+    location: order.order_city.name,
+    description: `
+        <h1>Заказ #${order.id}</h1>
+        <h3>Мастер: ${order.order_master.name}</h3>
+        <h3>Заказчик: ${order.order_user.name}</h3>
+        <p>Размер часов: ${sizeByNumber(order.hours)}</p>
+        <p>Время работы: ${hoursToWords('' + order.hours)}</p>
+        <a href=${order.photoURL} target="_blank">Фото</a>
+        `,
+    start: {
+        // @ts-ignore
+        dateTime: new Date(eventDateWithTime(order.date, order.time)),
+        timeZone: 'Europe/Kiev',
+    },
+    end: {
+        // @ts-ignore
+        dateTime: new Date(eventDateWithTime(order.date, order.time, order.hours)),
+        timeZone: 'Europe/Kiev',
+    },
+    colorId: order.order_master.colorId,
+});
 
 export const orderForCalendarById = async (orderId: number): Promise<IOrderForCalendar> => {
     return await Order.findAll({

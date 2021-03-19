@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { IDBUser, IError } from "../Type/interfaces"
+import { addOrderToCalendar } from '../processing/calendar/googleCalendar';
 // const sendEmails = require('../processing/sendEmails'); // <-- send Email(Gmail)
 const mail  = require('../processing/sendGridMail');
 const db = require("../models");
@@ -70,6 +71,9 @@ exports.create = (req: Request, res: Response) => {
                         };
                         // sendEmails(fullOrder); // <-- send Email(Gmail)
                         mail.sendSGEmail(fullOrder); // <-- send Email(SGEmail)
+                        addOrderToCalendar(resOrder.id)
+                            .then(() => console.log('calendar event added!!!'))
+                            .catch((e) => console.log('calendar added error:', e));
                     });
                 res.send(data);
             })
