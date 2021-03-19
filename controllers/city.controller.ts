@@ -5,6 +5,7 @@ const City = db.cities;
 
 exports.create = (req: Request, res: Response) => {
 
+    console.log('body.name',req.body.name);
     const city = {
         name: req.body.name,
     };
