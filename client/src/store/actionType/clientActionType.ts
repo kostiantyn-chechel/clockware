@@ -1,4 +1,4 @@
-import {IClientOrder} from "../../interfaces";
+import { IClientOrder } from "../../interfaces";
 
 export const SET_CLIENT_ORDERS_LIST = 'SET_CLIENT_ORDERS_LIST';
 

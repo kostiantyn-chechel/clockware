@@ -63,6 +63,25 @@ export interface IOrder {
     order_city: OrderCityType,
 }
 
+export interface IOrderById {
+    id: number,
+    date: string,
+    time: string,
+    hours: number,
+    photoURL: string,
+    cost: number,
+    costStatus: number,
+    order_user: {
+        name: string
+    },
+    order_master: {
+        name: string
+    },
+    order_city: {
+        name: string
+    },
+}
+
 export interface IOrderPac {
     count: number,
     rows: IOrder[] | [],
@@ -77,6 +96,8 @@ export interface ISendOrder {
     clientName: string,
     clientEmail: string,
     photoURL: string,
+    cost: number,
+    costStatus: number,
 }
 
 export interface IClientOrder {
@@ -85,6 +106,8 @@ export interface IClientOrder {
     time: string,
     hours: number,
     photoURL: string,
+    cost: number,
+    costStatus: number,
     order_city: {name: string},
     order_master: {name: string},
     review:{
@@ -189,6 +212,30 @@ export interface IMasterOrder {
     }
     photoURL: string
     time: string
+}
+
+export interface IOrderPayStatus {
+    orderId: number
+    payStatus: number
+}
+
+export interface IOrderUserStatus {
+    orderId: number
+    status: TOrderStatus
+}
+
+export interface ISendMasterReview {
+    orderId: number
+    rating: number
+    review: string
+}
+
+export interface IIdToken {
+    idToken: string
+}
+
+export interface IAccessToken {
+    accessToken: string
 }
 
 export type ISortDirection = 'asc' | 'desc';
