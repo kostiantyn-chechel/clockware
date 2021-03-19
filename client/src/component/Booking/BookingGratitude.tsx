@@ -1,6 +1,10 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+<<<<<<< .merge_file_a06852
 import { hoursToWords } from '../helpers/dateTime';
+=======
+import {hoursToWords} from '../../helpers/dateTime';
+>>>>>>> .merge_file_a12808
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
@@ -9,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface IBookingGratitude {
+export interface IBookingGratitude {
     masterName: string,
     date: string,
     time: string,

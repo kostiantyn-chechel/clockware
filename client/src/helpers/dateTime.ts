@@ -52,7 +52,7 @@ export const sizeByNumber = (number: number): string => {
 export const dayToString = (day: string): string => day.slice(0, 10);
 
 export const nowTimePlus = (): string => {
-    const time = new Date();
+    const time = new Date(Date.now());
     if (time.getHours() < 9 ) return `0${time.getHours() +1}:00`;
     if (time.getHours() === 23 ) return '00:00';
     if (time.getHours() === 24 ) return '01:00';

@@ -116,6 +116,28 @@ exports.findFilter = (req: Request, res: Response) => {
     });
 };
 
+exports.getOrderById = async (req: Request, res: Response) => {
+    const orderId = req.params.id;
+    const order = await Order.findOne({
+        where: {id: orderId},
+        attributes: ['date', 'time', 'hours', 'photoURL', 'cost', 'costStatus'],
+        include: [{
+            model: City,
+            as: 'order_city',
+            attributes: ['name'],
+        },{
+            model: User,
+            as: 'order_master',
+            attributes: ['name'],
+        },{
+            model: User,
+            as: 'order_user',
+            attributes: ['name'],
+        }],
+    });
+    res.send(order)
+};
+
 exports.delete = (req: Request, res: Response) => {
     const id = req.params.id;
 
@@ -145,7 +167,7 @@ exports.clientOrders = (req: Request, res: Response) => {
     Order.findAll({
         // raw: true,
         where: {UserId: id},
-        attributes: ['id', 'date', 'time', 'hours', 'photoURL' ],
+        attributes: ['id', 'date', 'time', 'hours', 'photoURL', 'cost', 'costStatus'],
         include: [{
             model: City,
             as: 'order_city',
@@ -178,4 +200,35 @@ exports.changeStatus = (req: Request, res: Response, next: NextFunction) => {
                 });
             }
         });
+};
+
+exports.updatePayStatus = (req: Request, res: Response) => {
+    const id = req.body.orderId;
+    const order = {
+        costStatus: req.body.payStatus
+    };
+
+    Order.update(order, {
+        where: {
+            id: id
+        }
+    })
+        .then((num: number) => {
+            if (num == 1) {
+                res.send({
+                    message: `Order with id=${id} was updated successfully.`
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Order with id=${id}. Maybe Master was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(() => {
+            res.status(500).send({
+                message: "Error updating Order with id=" + id
+            });
+        });
+
+
 };

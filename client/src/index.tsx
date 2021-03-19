@@ -7,12 +7,11 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './store/reducers/rootReducer';
 import thunk from 'redux-thunk';
-// import { initFacebookSdk } from './helpers/init-facebook-sdk';
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__  || compose;
-
-// initFacebookSdk().then(startApp);
 
 const store = createStore(
         rootReducer,
@@ -21,14 +20,15 @@ const store = createStore(
         ),
     );
 
-// function startApp() {
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY!);
 
     ReactDOM.render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <App />
+                    <Elements stripe={stripePromise}>
+                        <App />
+                    </Elements>
                 </BrowserRouter>
             </Provider>,
         document.getElementById('root')
     );
-// }
