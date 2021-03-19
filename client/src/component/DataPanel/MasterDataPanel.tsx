@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import SelectElement from '../SelectElement';
+import SelectElement from '../SelectElement/SelectElement';
 import { ICity, IMaster, TUserStatus } from "../../interfaces";
 import {comparePass, isEmail, isName} from "../../helpers/validation";
-import Warning from "../Warning";
+import Warning from "../Warning/Warning";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 

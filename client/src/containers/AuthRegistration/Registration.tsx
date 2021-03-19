@@ -11,7 +11,7 @@ import { comparePass, isEmail, isName } from "../../helpers/validation";
 import { userRegistrationFetch } from "../../store/actions/authAction";
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import Warning from '../../component/Warning';
+import Warning from '../../component/Warning/Warning';
 import IStore from "../../type/store/IStore";
 
 const useStyles = makeStyles((theme) => ({

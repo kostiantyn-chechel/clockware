@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import DatePickers from "./DatePickers";
 import TimePickers from "./TimePickers";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import Warning from "../Warning";
+import Warning from "../Warning/Warning";
 import { dateToString } from "../../helpers/dateTime";
 
 const useStyles = makeStyles((theme) => ({
