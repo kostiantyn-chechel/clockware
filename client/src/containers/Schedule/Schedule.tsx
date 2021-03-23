@@ -1,45 +1,61 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from "react-redux";
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import EventShowMore from '../../component/Calendar/EventShowMore';
+import IStore from '../../type/store/IStore';
+import { ICalendarEvents } from '../../interfaces';
+import Button from '@material-ui/core/Button';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import { Link } from 'react-router-dom';
+import Container from '@material-ui/core/Container';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const localizer = momentLocalizer(moment);
 
-export type TEvent = {
-    title: string
-    start: Date,
-    end: Date,
-    allDay?: boolean
-    resource?: any,
-}
-
-const myEventsList = [
-    {
-        id: 1,
-        title: 'TEST',
-        start: new Date(2021, 2,22, 12),
-        end: new Date(2021, 2,22, 14),
-        tooltip: 'tooltip',
-        popup: 'popup',
-        lalala: 'lalala',
-    },{
-        id: 2,
-        title: '555555555',
-        start: new Date(2021, 2,21, 12),
-        end: new Date(2021, 2,21, 14),
-    },{
-        id: 3,
-        title: '7777777777',
-        start: new Date(2021, 2,22, 10),
-        end: new Date(2021, 2,22, 11),
+const useStyles = makeStyles((theme) => ({
+    orders: {
+        width: '100%',
     },
-];
+    title: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    button: {
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(2),
+    },
+    calendar: {
+        display: 'flex',
+        justifyContent: 'center',
+    }
+}));
 
 const Schedule: React.FC = (props) => {
+    const classes = useStyles();
+
+    const [orders, setOrders] = useState<ICalendarEvents[]>([]);
+
+    const orderList = useSelector(({calendar}: IStore) => calendar.masterOrders);
+    const id = useSelector(({auth}: IStore) => auth.user.id);
+    const name = useSelector(({auth}: IStore) => auth.user.name);
+    const login = useSelector(({auth}: IStore) => auth.user.login);
+
+    useEffect(() => {
+        const orders = orderList.map(order => {
+            return {
+                ...order,
+                start: new Date(order.start),
+                end: new Date(order.end),
+            }
+        });
+        setOrders(orders);
+    }, [orderList]);
+
 
     const [showMore, setShowMore] = useState(false);
-    const [selectEvent, setSelectEvent] = useState<TEvent>();
+    const [selectEvent, setSelectEvent] = useState<ICalendarEvents>();
 
     const closeShowMore = () => {
         setShowMore(false)
@@ -47,30 +63,48 @@ const Schedule: React.FC = (props) => {
 
     const openShowMore = (event) => {
         setSelectEvent(event);
-        console.log('openShowMore', event);
-
         setShowMore(true);
     };
 
 
     return (
-        <div>
-            <Calendar
-                localizer={localizer}
-                events={myEventsList}
-                startAccessor="start"
-                endAccessor="end"
-                style={{ height: '100%' }}
-                step={60}
-                onSelectEvent={openShowMore}
-                defaultView={Views.WEEK}
-            />
-            {showMore && <EventShowMore
-                open={showMore}
-                event={selectEvent as TEvent}
-                closeShowMore={closeShowMore}
-            />}
-        </div>
+        <Container component="main" maxWidth="xl">
+            <div className={classes.orders}>
+                <div className={classes.title}>
+                    <h1>{`(${id}): ${name} (${login}) `}</h1>
+                    <Button
+                        className={classes.button}
+                        color='primary'
+                        variant='contained'
+                        startIcon={<AssignmentIcon/>}
+                        component={Link}
+                        to='/cabinet'
+                    >
+                        Кабинет
+                    </Button>
+                </div>
+
+
+                <div className={classes.calendar}>
+                    <Calendar
+                        localizer={localizer}
+                        events={orders}
+                        startAccessor="start"
+                        endAccessor="end"
+                        step={60}
+                        onSelectEvent={openShowMore}
+                        defaultView={Views.WEEK}
+                        style={{ height: 600, width: '100%' }}
+                    />
+                    {showMore && <EventShowMore
+                        open={showMore}
+                        event={selectEvent!}
+                        closeShowMore={closeShowMore}
+                    />}
+                </div>
+
+            </div>
+        </Container>
     );
 };
 

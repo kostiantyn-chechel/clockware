@@ -11,6 +11,7 @@ import { TOrderStatus } from "../../interfaces";
 import IStore from "../../type/store/IStore";
 import TodayIcon from '@material-ui/icons/Today';
 import Button from '@material-ui/core/Button';
+import { getCalendarMasterOrders } from '../../store/actions/calendarAction';
 
 const useStyles = makeStyles((theme) => ({
     orders: {
@@ -52,6 +53,7 @@ const MasterCabinet: React.FC = (props) => {
     /* eslint-disable */
     useEffect(() => {
         setTimeout(() => { dispatch(getMasterOrders(id)) }, 50); //todo !!!
+        dispatch(getCalendarMasterOrders(id));
     },[id]);
     /* eslint-enable */
 

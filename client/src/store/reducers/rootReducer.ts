@@ -7,6 +7,7 @@ import appReducer from "./appReducer";
 import masterReducer from "./masterReduser";
 import payStripeReducer from './payStripeReducer';
 import orderReducer from './orderReducer';
+import calendarReducer from './calendarReducer';
 
 const rootReducer = combineReducers({
     app: appReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     master: masterReducer,
     payStripe: payStripeReducer,
     order: orderReducer,
+    calendar: calendarReducer,
 });
 
 export default rootReducer;
