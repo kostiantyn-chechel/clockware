@@ -2,6 +2,7 @@ import {CityTableType} from "./component/Tabs/CitiesTab";
 import {ClientTableType} from "./component/Tabs/ClientsTab";
 import {MasterTableType} from "./component/Tabs/MastersTab";
 import {IRegistrationMaster} from "./component/DataPanel/MasterDataPanel";
+import { eventDateWithTime } from '../../processing/dateTime';
 
 
 export interface IUser {
@@ -236,6 +237,16 @@ export interface IIdToken {
 
 export interface IAccessToken {
     accessToken: string
+}
+
+export interface ICalendarEvents {
+    title: string
+    start: Date
+    end: Date
+    status: TOrderStatus
+    clientName: string
+    clientEmail: string
+    photoURL: string
 }
 
 export type ISortDirection = 'asc' | 'desc';
