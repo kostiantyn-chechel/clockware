@@ -246,7 +246,7 @@ export interface ICalendarEvents {
     status: TOrderStatus
     clientName: string
     clientEmail: string
-    photoURL: string
+    photoURL?: string
 }
 
 export type ISortDirection = 'asc' | 'desc';
