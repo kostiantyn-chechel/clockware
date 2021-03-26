@@ -27,6 +27,7 @@ import MasterCabinet from "./containers/MasterCabinet/MasterCabinet";
 import Blog from "./containers/Blog/Blog";
 import BlogAdmin from "./containers/Blog/BlogAdmin";
 import PayStripe from "./containers/Pays/PayStripe";
+import Schedule from './containers/Schedule/Schedule';
 
 class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
@@ -78,6 +79,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                         <Route path='/dashboard/blog' component={ BlogAdmin } />
                         <Route path='/client' component={ ClientCabinet } />
                         <Route path='/review/:id' component={ Review } />
+                        <Route path='/master/schedule' component={ Schedule } />
                         <Route path='/master/:id' component={ ReviewMaster } />
                         <Route path='/cabinet' component={ MasterCabinet } />
                         <Route path='/pay/:id' component={ PayStripe } />

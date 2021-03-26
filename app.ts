@@ -25,6 +25,7 @@ const reviewRouter = require('./routes/reviews.router');
 const adminRouter = require('./routes/admin.router');
 const postRouter = require('./routes/post.router');
 const payRouter = require('./routes/pay.router');
+const calendarRouter = require('./routes/calendar.routes');
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use('/rev', reviewRouter);
 app.use('/adm', adminRouter);
 app.use('/post', postRouter);
 app.use('/pay', payRouter);
+app.use('/calendar', calendarRouter);
 
 app.get('/zzz', (req: Request, res: Response) => {
     res.send(JSON.stringify('ZZZ'))
