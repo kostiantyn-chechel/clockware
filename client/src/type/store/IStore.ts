@@ -3,6 +3,7 @@ import IClientInitialState from './IClient';
 import IMasterInitialState from "./IMaster";
 import IPayStripInitialState from './IStripePay';
 import IOrderInitialStateType from './IOrder';
+import ICalendarInitialState from './ICalendar';
 
 export default interface IStore {
     auth: IAuthInitialState,
@@ -10,4 +11,5 @@ export default interface IStore {
     master: IMasterInitialState,
     payStripe: IPayStripInitialState,
     order: IOrderInitialStateType,
+    calendar: ICalendarInitialState,
 }
