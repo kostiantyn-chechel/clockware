@@ -66,7 +66,6 @@ const Schedule: React.FC = (props) => {
         setShowMore(true);
     };
 
-
     return (
         <Container component="main" maxWidth="xl">
             <div className={classes.orders}>
@@ -93,6 +92,7 @@ const Schedule: React.FC = (props) => {
                         endAccessor="end"
                         step={60}
                         onSelectEvent={openShowMore}
+                        // @ts-ignore
                         defaultView={Views.WEEK}
                         style={{ height: 600, width: '100%' }}
                     />

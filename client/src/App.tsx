@@ -28,6 +28,7 @@ import Blog from "./containers/Blog/Blog";
 import BlogAdmin from "./containers/Blog/BlogAdmin";
 import PayStripe from "./containers/Pays/PayStripe";
 import Schedule from './containers/Schedule/Schedule';
+import CalendarAdd from './containers/CalendarAdd/CalendarAdd';
 
 class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
@@ -82,6 +83,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                         <Route path='/master/schedule' component={ Schedule } />
                         <Route path='/master/:id' component={ ReviewMaster } />
                         <Route path='/cabinet' component={ MasterCabinet } />
+                        <Route path='/calendar' component={ CalendarAdd } />
                         <Route path='/pay/:id' component={ PayStripe } />
                         <Route path='/*' component={ Booking } />
                     </Switch>

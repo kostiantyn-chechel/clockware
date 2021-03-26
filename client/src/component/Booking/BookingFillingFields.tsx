@@ -13,6 +13,8 @@ import { isEmail } from '../../helpers/validation';
 import UploadPhoto from '../UploadPhoto';
 import {ICity} from "../../interfaces";
 import DateTimePickers from "../DateTimePickers/DateTimePickers";
+import { Link } from 'react-router-dom';
+import TodayIcon from '@material-ui/icons/Today';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -38,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
     },
     label: {
         margin: theme.spacing(1, 0, 0, 2),
+    },
+    button: {
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(2),
     },
 }));
 
@@ -185,6 +191,16 @@ const BookingFillingFields: React.FC<IBookingFillingFields> = (props) => {
                             onChange={props.handleSelectCity}
                             noValidCity={noValidCity}
                         />
+                        <Button
+                            className={classes.button}
+                            color='primary'
+                            variant='contained'
+                            startIcon={<TodayIcon/>}
+                            component={Link}
+                            to='/calendar'
+                        >
+                            Календарь
+                        </Button>
                     </Grid>
 
                     <DateTimePickers
