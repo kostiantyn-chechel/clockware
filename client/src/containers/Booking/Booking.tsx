@@ -10,6 +10,7 @@ import BookingFillingFields from '../../component/Booking/BookingFillingFields';
 import { nowTimeString, today } from '../../helpers/dateTime';
 import { ISendOrder } from "../../interfaces";
 import { RootStateType } from "../../store/reducers/rootReducer";
+import { setOrderDataForCalendar } from '../../store/actions/calendarAction';
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -151,6 +152,7 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
                         cityId={order.cityId}
 
                         findMaster={props.findMaster}
+                        setOrderDataForCalendar={props.setOrderDataForCalendar}
 
                         cities={props.cities}
                     />
@@ -178,6 +180,8 @@ const mapStateToProps = (state:RootStateType) => {
 const mapDispatchToProps = (dispatch: any) => {
     return {
         findMaster: (cityId: number, date: string, time: string, size: number) => dispatch(findMaster(cityId, date, time, size)),
+        setOrderDataForCalendar: (cityId: number, name: string, email: string, size: string, photoURL: string) =>
+            dispatch(setOrderDataForCalendar(cityId, name, email,size, photoURL)),
         sendOrder: (order: ISendOrder)  => dispatch(sendOrder(order)),
         emptyBooking: () => dispatch(setBookingShow("filling")),
     }

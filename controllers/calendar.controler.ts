@@ -1,9 +1,32 @@
 import { Request, Response } from 'express';
 import { eventDateWithTime } from '../processing/dateTime';
+import { masterToCalendar } from '../processing/masterRating';
 const db = require("../models");
 const Order = db.orders;
 const User = db.users;
+const Review = db.reviews;
 
+exports.masterList = async (req: Request, res: Response) => {
+    const cityId = req.params.cityId;
+    const masters = await User.findAll({
+        where: {
+            status: 'master',
+            cityId: cityId,
+        },
+        include: [{
+            model: Review,
+            attributes:['rating']
+        }],
+        attributes: ['id', 'name'],
+    });
+
+    try {
+        res.send(masterToCalendar(masters));
+    } catch (e) {
+        res.status(500).send({ message: "Could not find Masters" });
+    }
+
+};
 
 exports.masterOrders = async (req: Request, res: Response) => {
     const orders =  await Order.findAll({

@@ -13,7 +13,7 @@ import { isEmail } from '../../helpers/validation';
 import UploadPhoto from '../UploadPhoto';
 import {ICity} from "../../interfaces";
 import DateTimePickers from "../DateTimePickers/DateTimePickers";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import TodayIcon from '@material-ui/icons/Today';
 
 const useStyles = makeStyles((theme) => ({
@@ -57,6 +57,7 @@ interface IBookingFillingFields {
     photoURL: string,
     cities: ICity[],
     findMaster(cityId: number, date: string, time: string, size: number): void,
+    setOrderDataForCalendar(cityId: number, name: string, email: string, size: string, photoURL: string),
     changeName(name: string): void,
     changeEmail(email: string): void,
     handleSizeChange(event: React.ChangeEvent<{ value: string; }>): void,
@@ -71,6 +72,8 @@ const BookingFillingFields: React.FC<IBookingFillingFields> = (props) => {
     const [noValidName, setNoValidName] = useState(false);
     const [noValidEmail, setNoValidEmail] = useState(false);
     const [noValidCity, setNoValidCity] = useState(false);
+
+    const { push } = useHistory();
 
     useEffect(() => {
         if (props.cityId) setNoValidCity(false)
@@ -107,7 +110,16 @@ const BookingFillingFields: React.FC<IBookingFillingFields> = (props) => {
         event.preventDefault();
         const isValid = isNoEmpty() && !noValidName && !noValidEmail ;
         if (isValid) props.findMaster(props.cityId, props.date, props.time, props.size);
+    };
 
+    const   handleCalendarAddOrder = (event: React.MouseEvent) => {
+        event.preventDefault();
+        const isValid = isNoEmpty() && !noValidName && !noValidEmail ;
+        if (isValid) {
+            console.log('is OK');
+            props.setOrderDataForCalendar(props.cityId, props.name, props.email, String(props.size), props.photoURL);
+            push('/calendar');
+        }
     };
 
     return (
@@ -191,17 +203,21 @@ const BookingFillingFields: React.FC<IBookingFillingFields> = (props) => {
                             onChange={props.handleSelectCity}
                             noValidCity={noValidCity}
                         />
-                        <Button
-                            className={classes.button}
-                            color='primary'
-                            variant='contained'
-                            startIcon={<TodayIcon/>}
-                            component={Link}
-                            to='/calendar'
-                        >
-                            Календарь
-                        </Button>
+                        <Grid className={classes.time}>
+                            <Button
+                                className={classes.button}
+                                color='primary'
+                                variant='contained'
+                                startIcon={<TodayIcon/>}
+                                onClick={handleCalendarAddOrder}
+                                component={Link}
+                                to='/calendar'
+                            >
+                                Календарь
+                            </Button>
+                        </Grid>
                     </Grid>
+
 
                     <DateTimePickers
                         handleSelectDate={props.handleSelectDate}

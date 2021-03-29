@@ -249,6 +249,12 @@ export interface ICalendarEvents {
     photoURL: string
 }
 
+export interface ICalendarMaster {
+    id: number,
+    name: string,
+    rating: number,
+}
+
 export type ISortDirection = 'asc' | 'desc';
 export type TBookingShow = 'filling' | 'select' | 'gratitude';
 export type TUserStatus = 'client' | 'admin' | 'master' | 'notAuth';

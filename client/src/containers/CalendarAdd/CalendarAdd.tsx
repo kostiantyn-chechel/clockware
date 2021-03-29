@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import Container from '@material-ui/core/Container';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
+import CalendarMasterList from './CalendarMasterList';
+import { getCalendarMasterList } from '../../store/actions/calendarAction';
+import IStore from '../../type/store/IStore';
+import { ICalendarMaster } from '../../interfaces';
 
 const localizer = momentLocalizer(moment);
 
@@ -52,26 +57,47 @@ const orders = [
 
 const CalendarAdd: React.FC = (props) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
+    // const order = useSelector(({calendar}:IStore) => calendar.order);
+    const {order, masterList} = useSelector(({calendar}:IStore) => calendar);
+
+    const [selectMasterId, setSelectMasterId] = useState(masterMaxRetingId(masterList));
+
+
+    useEffect(() => {
+        console.log('order', order);
+    },[order]);
+
+    useEffect(() => {
+        console.log('order22', order);
+        dispatch(getCalendarMasterList(order.cityId))
+    },[]);
+
+    const handleSelectMaster = (event: React.ChangeEvent<HTMLInputElement>, value: string) => {
+        event.preventDefault();
+        console.log(value);
+        // setOrder({...order, masterId: +value})
+    };
 
     return (
         <Container component="main" maxWidth="xl">
 
-            Calendar
-            <div>
-                выбор мастера
-            </div>
+
+            <CalendarMasterList
+                masterList={masterList}
+                handleSelectMaster={handleSelectMaster}
+            />
 
             <div className={classes.calendar}>
-                CALENDAR
                 <Calendar
+                    selectable
                     localizer={localizer}
                     events={orders}
                     startAccessor="start"
                     endAccessor="end"
                     step={60}
-                    // onSelectEvent={openShowMore}
-                    // defaultView={Views.WEEK}
+                    onSelectSlot={event => console.log(event)}
                     defaultView={'week'}
                     style={{ height: 600, width: '100%' }}
                 />
@@ -81,3 +107,19 @@ const CalendarAdd: React.FC = (props) => {
 };
 
 export default CalendarAdd;
+
+const masterMaxRetingId = (masterList: ICalendarMaster[]): number => {
+    let maxId = 0;
+    let maxRating = 0;
+
+    masterList.forEach((master) => {
+        if (master.rating > maxRating) {
+            maxId = master.id;
+            maxRating = master.rating;
+            console.log(maxId, maxRating);
+        }
+    });
+
+    return maxId
+
+};
