@@ -7,8 +7,12 @@ import moment from 'moment';
 import CalendarMasterList from './CalendarMasterList';
 import { getCalendarMasterList, getCalendarMasterOrders } from '../../store/actions/calendarAction';
 import IStore from '../../type/store/IStore';
-import { ICalendarEvents, ICalendarMaster } from '../../interfaces';
+import { ICalendarEvents, ICalendarMaster, ISendOrder } from '../../interfaces';
 import { orderTimeCheck } from '../../helpers/calendar';
+import { orderCostBySize } from '../../helpers/orderCost';
+import { dateToString, hoursToString } from '../../helpers/dateTime';
+import { sendOrder } from '../../store/actions/bookingAction';
+import CalendarWarningDialog from '../../component/Calendar/CalendarWarningDialog';
 
 const localizer = momentLocalizer(moment);
 
@@ -38,8 +42,10 @@ const CalendarAdd: React.FC = (props) => {
     const {order, masterList, masterOrders} = useSelector(({calendar}:IStore) => calendar);
 
     const [orders, setOrders] = useState<ICalendarEvents[]>([]);
-    const [selectMasterId, setSelectMasterId] = useState(masterMaxRetingId(masterList));
+    const [selectMasterId, setSelectMasterId] = useState(masterMaxRatingId(masterList));
+    const [showWarning, setShowWarning] = useState(false);
 
+    const closeWarningDialog = () => setShowWarning(false);
 
     useEffect(() => {
         console.log('orders', masterOrders);
@@ -55,7 +61,7 @@ const CalendarAdd: React.FC = (props) => {
 
     useEffect(() => {
         if (masterList.length) {
-            setSelectMasterId(masterMaxRetingId(masterList))
+            setSelectMasterId(masterMaxRatingId(masterList))
         }
     },[masterList]);
 
@@ -76,21 +82,22 @@ const CalendarAdd: React.FC = (props) => {
     };
 
     const handleChooseTime = (event) => {
-        // console.log('action', event.action);
-        // console.log('start', event.start);
-        // console.log('end', event.end);
-        // console.log('size', order);
-        // console.log('size', order.size);
-        // console.log('masterId', selectMasterId);
-        const aaa = orderTimeCheck(event.start, order.size, masterOrders);
-        console.log('aaa', aaa);
-        if (aaa) {
-            console.log('YES')
-        } else {
-            console.log('NOT')
-        }
 
-        // console.log(orderTimeCheck(event.start, order.size, masterOrders));
+        if (orderTimeCheck(event.start, order.size, masterOrders)) {
+            const newOrder: ISendOrder = {
+                ...order,
+                cost: orderCostBySize(order.size),
+                date: dateToString(event.start),
+                time: hoursToString(event.start),
+                masterId: selectMasterId,
+            };
+            // console.log('newOrder', newOrder);
+            dispatch(sendOrder(newOrder))
+
+        } else {
+            // console.log('NOT')
+            setShowWarning(true);
+        }
 
     };
 
@@ -98,7 +105,7 @@ const CalendarAdd: React.FC = (props) => {
       if (selectMasterId) return (
           <CalendarMasterList
               masterList={masterList}
-              defaultMasterId={masterMaxRetingId(masterList)}
+              defaultMasterId={masterMaxRatingId(masterList)}
               handleSelectMaster={handleSelectMaster}
           />
       )
@@ -122,13 +129,14 @@ const CalendarAdd: React.FC = (props) => {
                     style={{ height: 600, width: '100%' }}
                 />
             </div>
+            <CalendarWarningDialog open={showWarning} closeWarningDialog={closeWarningDialog}/>
         </Container>
     );
 };
 
 export default CalendarAdd;
 
-const masterMaxRetingId = (masterList: ICalendarMaster[]): number => {
+const masterMaxRatingId = (masterList: ICalendarMaster[]): number => {
     let maxId = 0;
     let maxRating = 0;
 

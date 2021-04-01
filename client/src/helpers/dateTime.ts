@@ -61,6 +61,15 @@ export const nowTimePlus = (): string => {
     return `${time.getHours() +1}:00`;
 };
 
+export const hoursToString = (date: Date) => {
+    const hours = date.getHours();
+    if (hours < 10) {
+        return `0${hours}:00`
+    } else {
+        return `${hours}:00`
+    }
+};
+
 export const checkingDeadline1 = (date: string, time: string, hours: number) => {
     const rightNow = new Date();
     const orderDate = new Date(date);

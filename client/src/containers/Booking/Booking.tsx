@@ -86,6 +86,7 @@ const Booking: React.FC<PropsFromRedux> = (props) => {
     };
 
     const handleSendOrder = () => {
+        console.log('order', order);
         props.sendOrder(order);
         setIsOrderSend(true);
     };
