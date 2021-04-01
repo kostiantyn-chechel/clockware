@@ -45,4 +45,3 @@ export const sendCalendarOrder = (order: ISendOrder) => {
             dispatch({ type: SET_NEW_CALENDAR_ORDER, payload: order });
         })
 };
-

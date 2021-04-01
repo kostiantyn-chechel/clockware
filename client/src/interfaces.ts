@@ -2,6 +2,7 @@ import {CityTableType} from "./component/Tabs/CitiesTab";
 import {ClientTableType} from "./component/Tabs/ClientsTab";
 import {MasterTableType} from "./component/Tabs/MastersTab";
 import {IRegistrationMaster} from "./component/DataPanel/MasterDataPanel";
+import { eventDateWithTime } from '../../processing/dateTime';
 
 export interface IUser {
     id: number
@@ -244,7 +245,7 @@ export interface ICalendarEvents {
     status: TOrderStatus
     clientName: string
     clientEmail: string
-    photoURL: string
+    photoURL?: string
 }
 
 export interface ICalendarMaster {

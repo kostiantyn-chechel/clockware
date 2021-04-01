@@ -47,7 +47,7 @@ exports.masterOrders = async (req: Request, res: Response) => {
                 return {
                     title: `#${order.id} ${order.order_user.name}`,
                     start: eventDateWithTime(order.date, order.time),
-                    end: eventDateWithTime(order.date,order.time, order.hours),
+                    end: eventDateWithTime(order.date, order.time, order.hours),
                     status: order.orderStatus,
                     clientName: order.order_user.name,
                     clientEmail: order.order_user.login,
