@@ -2,8 +2,6 @@ import {CityTableType} from "./component/Tabs/CitiesTab";
 import {ClientTableType} from "./component/Tabs/ClientsTab";
 import {MasterTableType} from "./component/Tabs/MastersTab";
 import {IRegistrationMaster} from "./component/DataPanel/MasterDataPanel";
-import { eventDateWithTime } from '../../processing/dateTime';
-
 
 export interface IUser {
     id: number
@@ -253,6 +251,14 @@ export interface ICalendarMaster {
     id: number,
     name: string,
     rating: number,
+}
+
+export interface INewCalendarOrder {
+    masterName: string
+    date: string
+    time: string
+    size: string
+    email: string
 }
 
 export type ISortDirection = 'asc' | 'desc';

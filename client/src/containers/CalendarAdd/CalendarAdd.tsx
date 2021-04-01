@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import CalendarMasterList from './CalendarMasterList';
-import { getCalendarMasterList, getCalendarMasterOrders } from '../../store/actions/calendarAction';
+import { getCalendarMasterList, getCalendarMasterOrders, sendCalendarOrder } from '../../store/actions/calendarAction';
 import IStore from '../../type/store/IStore';
 import { ICalendarEvents, ICalendarMaster, ISendOrder } from '../../interfaces';
 import { orderTimeCheck } from '../../helpers/calendar';
 import { orderCostBySize } from '../../helpers/orderCost';
 import { dateToString, hoursToString } from '../../helpers/dateTime';
-import { sendOrder } from '../../store/actions/bookingAction';
 import CalendarWarningDialog from '../../component/Calendar/CalendarWarningDialog';
 
 const localizer = momentLocalizer(moment);
@@ -38,6 +38,8 @@ const useStyles = makeStyles((theme) => ({
 const CalendarAdd: React.FC = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+
+    const { push } = useHistory();
 
     const {order, masterList, masterOrders} = useSelector(({calendar}:IStore) => calendar);
 
@@ -91,11 +93,9 @@ const CalendarAdd: React.FC = (props) => {
                 time: hoursToString(event.start),
                 masterId: selectMasterId,
             };
-            // console.log('newOrder', newOrder);
-            dispatch(sendOrder(newOrder))
-
+            dispatch(sendCalendarOrder(newOrder));
+            push('/book/gratitude')
         } else {
-            // console.log('NOT')
             setShowWarning(true);
         }
 

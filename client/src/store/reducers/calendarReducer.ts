@@ -1,7 +1,7 @@
 import ICalendarInitialState from '../../type/store/ICalendar';
 import { CalendarActionTypes } from '../actionType/calendarActionTupe';
 
-const EMPTY_ORDER ={
+const EMPTY_ORDER = {
     size: '1',
     date: '',
     time: '',
@@ -14,10 +14,19 @@ const EMPTY_ORDER ={
     costStatus: 0,
 };
 
+const NEW_EMPTY_ORDER = {
+    masterName: '',
+    date: '',
+    time: '',
+    size: '',
+    email: '',
+};
+
 const initialState: ICalendarInitialState = {
     order: EMPTY_ORDER,
     masterOrders: [],
     masterList: [],
+    newOrder: NEW_EMPTY_ORDER,
 };
 
 const calendarReducer = (state = initialState, action: CalendarActionTypes): ICalendarInitialState => {
@@ -45,6 +54,11 @@ const calendarReducer = (state = initialState, action: CalendarActionTypes): ICa
                     clientEmail:action.payload.email,
                     photoURL: action.payload.photoURL,
                 }
+            };
+        case 'SET_NEW_CALENDAR_ORDER':
+            return {
+                ...state,
+                newOrder: action.payload,
             };
 
         default:

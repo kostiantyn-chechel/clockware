@@ -4,6 +4,7 @@ import {
 } from '../actionType/bookingActionType';
 import { IMaster, ISendOrder, TBookingShow } from "../../interfaces";
 import { getServerRequest, postServerRequest } from "../../helpers/axios/axiosClockwareAPI";
+import { SET_NEW_CALENDAR_ORDER } from '../actionType/calendarActionTupe';
 
 export const findMaster = (cityId: number, date: string, time: string, size: number) => {
     const URL= `/masters/find?cityId=${cityId}&date=${date}&time=${time}&size=${size}`;
@@ -17,7 +18,8 @@ export const setBookingShow = (payload: TBookingShow) => ({ type: SET_BOOKING_SH
 
 export const sendOrder = (order: ISendOrder) => {
     return async (dispatch: any) => postServerRequest('/orders', order)
-        .then(() => {
+        .then((order) => {
+            dispatch({ type: SET_NEW_CALENDAR_ORDER, payload: order });
             dispatch(setBookingShow('gratitude'));
         })
 };

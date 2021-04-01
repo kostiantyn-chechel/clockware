@@ -92,8 +92,7 @@ const Schedule: React.FC = (props) => {
                         endAccessor="end"
                         step={60}
                         onSelectEvent={openShowMore}
-                        // @ts-ignore
-                        defaultView={Views.WEEK}
+                        defaultView={'week'}
                         style={{ height: 600, width: '100%' }}
                     />
                     {showMore && <EventShowMore

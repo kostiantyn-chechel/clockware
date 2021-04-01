@@ -1,5 +1,17 @@
-import { getAuthServerRequest, getServerRequest } from '../../helpers/axios/axiosClockwareAPI';
-import { GET_MASTER_LIST, GET_MASTER_ORDERS_ARR, SET_CALENDAR_ORDER } from '../actionType/calendarActionTupe';
+import {
+    getAuthServerRequest,
+    getServerRequest,
+    postOrderRequest,
+    postServerRequest
+} from '../../helpers/axios/axiosClockwareAPI';
+import {
+    GET_MASTER_LIST,
+    GET_MASTER_ORDERS_ARR,
+    SET_CALENDAR_ORDER,
+    SET_NEW_CALENDAR_ORDER
+} from '../actionType/calendarActionTupe';
+import { ISendOrder } from '../../interfaces';
+import { setBookingShow } from './bookingAction';
 
 export const getCalendarMasterOrders = (id: number) => {
   return async (dispatch: any) =>
@@ -25,5 +37,12 @@ export const setOrderDataForCalendar = (cityId: number, name: string, email: str
                 photoURL,
             } })
     }
+};
+
+export const sendCalendarOrder = (order: ISendOrder) => {
+    return async (dispatch: any) => postOrderRequest('/orders', order)
+        .then((order) => {
+            dispatch({ type: SET_NEW_CALENDAR_ORDER, payload: order });
+        })
 };
 
