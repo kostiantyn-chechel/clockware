@@ -1,4 +1,4 @@
-import React from 'react';
+import React  from 'react';
 import { ICalendarMaster } from '../../interfaces';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Grid from '@material-ui/core/Grid';
@@ -8,8 +8,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-
 const useStyles = makeStyles((theme) => ({
+    paper: {
+        marginTop: theme.spacing(2),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
     masters: {
         width: '100%',
         display: 'flex',
@@ -29,13 +34,14 @@ const useStyles = makeStyles((theme) => ({
 
 interface IProps {
     masterList: ICalendarMaster[]
+    defaultMasterId: number
     handleSelectMaster(event: React.ChangeEvent<HTMLInputElement>, value: string): void,
 }
 
-const CalendarMasterList: React.FC<IProps> = ({masterList, handleSelectMaster}:IProps) => {
+const CalendarMasterList: React.FC<IProps> = ({masterList, handleSelectMaster, defaultMasterId}:IProps) => {
     const classes = useStyles();
 
-    console.log('masterList', masterList);
+    console.log('defaultMasterId_0',defaultMasterId);
 
     const itemList = () => {
         return masterList.map((master, index) => {
@@ -71,13 +77,16 @@ const CalendarMasterList: React.FC<IProps> = ({masterList, handleSelectMaster}:I
 
 
     return (
-        <RadioGroup row
-                    aria-label="masters"
-                    name="masters"
-                    onChange={handleSelectMaster}
+        <RadioGroup
+            className={classes.paper}
+            row
+            aria-label="masters"
+            name="masters"
+            onChange={handleSelectMaster}
         >
             {itemList()}
         </RadioGroup>
+
     );
 };
 
