@@ -24,6 +24,8 @@ const EventShowMore: React.FC<IProp> = ({ open, event, closeShowMore }: IProp) =
         }
     };
 
+    // const photo
+
     return (
         <Dialog
             open={open}
@@ -39,7 +41,7 @@ const EventShowMore: React.FC<IProp> = ({ open, event, closeShowMore }: IProp) =
                 <DialogContentText>
                     {orderStatusRU(event.status)}
                 </DialogContentText>
-                <img src={event.photoURL} width='100' height='100'/>
+                {event.photoURL && <img src={event.photoURL} width='100' height='100' alt=''/>}
             </DialogContent>
             <DialogActions>
                 <Button onClick={closeShowMore} color="primary">
