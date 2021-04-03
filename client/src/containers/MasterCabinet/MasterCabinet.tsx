@@ -52,7 +52,7 @@ const MasterCabinet: React.FC = (props) => {
 
     /* eslint-disable */
     useEffect(() => {
-        setTimeout(() => { dispatch(getMasterOrders(id)) }, 50); //todo !!!
+        dispatch(getMasterOrders(id));
         dispatch(getCalendarMasterOrders(id));
     },[id]);
     /* eslint-enable */
