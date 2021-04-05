@@ -39,14 +39,14 @@ export const userRegistrationChange = (userChangeRegInfo: IChangeRegUser) => {
         .catch(err => console.log(err.message))
 };
 
-export const setUser = (response: ServerPostResponseType, dispatch: any) => {
+export const setUser = async (response: ServerPostResponseType, dispatch: any) => {
     if (response.token) {
         const user = {
             ...response,
             tokenTime: getTokenTime(),
         };
-        dispatch(setAuthUser(user));
-        saveUserToLocalStorage(user);
+        await saveUserToLocalStorage(user);
+        await dispatch(setAuthUser(user));
     } else {
         if(response.message) {
             dispatch(authUserMessage(response.message));

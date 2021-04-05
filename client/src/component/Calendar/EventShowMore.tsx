@@ -39,10 +39,7 @@ const EventShowMore: React.FC<IProp> = ({ open, event, closeShowMore }: IProp) =
                 <DialogContentText>
                     {orderStatusRU(event.status)}
                 </DialogContentText>
-                {/*eslint-disable*/}
-                <img src={event.photoURL} width='100' height='100'/>
-                {/*eslint-enable*/}
-
+                {event.photoURL && <img src={event.photoURL} width='100' height='100' alt=''/>}
             </DialogContent>
             <DialogActions>
                 <Button onClick={closeShowMore} color="primary">
