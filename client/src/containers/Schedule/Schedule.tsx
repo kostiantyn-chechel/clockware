@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
@@ -58,14 +58,14 @@ const Schedule: React.FC = (props) => {
     const [showMore, setShowMore] = useState(false);
     const [selectEvent, setSelectEvent] = useState<ICalendarEvents>();
 
-    const closeShowMore = () => {
+    const closeShowMore = useCallback(() => {
         setShowMore(false)
-    };
+    },[]);
 
-    const openShowMore = (event) => {
+    const openShowMore = useCallback((event) => {
         setSelectEvent(event);
         setShowMore(true);
-    };
+    },[]);
 
     return (
         <Container component="main" maxWidth="xl">
