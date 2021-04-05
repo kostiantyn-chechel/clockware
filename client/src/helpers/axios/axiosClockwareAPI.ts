@@ -5,7 +5,7 @@ import {
     ICity,
     IClient,
     IFilterData, IIdToken,
-    IMaster, IMasterOrder,
+    IMaster, IMasterOrder, INewCalendarOrder,
     IOrderPac, IOrderPayStatus, IOrderUserStatus, ISendMasterReview,
     ISendOrder,
     IUser, TOrderStatus,
@@ -33,11 +33,20 @@ export const getServerRequest = async (relativeURL: string): Promise<ServerGetRe
     }
 };
 
-type ServerPostRequestBodyType = IAuthUser | ISendOrder | ISendMasterReview | IIdToken | IAccessToken;
-export type ServerPostResponseType = IUser & {message?: string};
+type ServerPostRequestBodyType = IAuthUser | ISendOrder | ISendMasterReview | IIdToken | IAccessToken ;
+export type ServerPostResponseType = IUser & { message?: string };
 
 export const postServerRequest = async (
     relativeURL: string, body: ServerPostRequestBodyType): Promise<ServerPostResponseType> => {
+    try {
+        const {data} = await axios.post(relativeURL, body);
+        return data;
+    } catch (err) {
+        throw new Error(err);
+    }
+};
+
+export const postOrderRequest = async (relativeURL: string, body: ISendOrder): Promise<INewCalendarOrder> => {
     try {
         const {data} = await axios.post(relativeURL, body);
         return data;

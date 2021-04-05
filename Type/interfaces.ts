@@ -24,3 +24,19 @@ export interface IUserChangeReg {
     password?: string
     salt?: string
 }
+
+export interface IMasterToCalendar {
+    id: number
+    name: string
+    rating: number
+}
+
+export interface IMasterResToCalendar {
+    id: number
+    name: string
+    reviews: IRating[]
+}
+
+export interface IRating {
+    rating: number
+}
