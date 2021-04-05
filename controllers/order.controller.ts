@@ -70,8 +70,16 @@ exports.create = (req: Request, res: Response) => {
                         };
                         // sendEmails(fullOrder); // <-- send Email(Gmail)
                         mail.sendSGEmail(fullOrder); // <-- send Email(SGEmail)
+
+                        const newOrder = {
+                            masterName: resOrder.order_master.dataValues.name,
+                            date: resOrder.date,
+                            time: resOrder.time,
+                            size: resOrder.hours,
+                            email: resOrder.order_user.dataValues.login,
+                        };
+                        res.send(newOrder)
                     });
-                res.send(data);
             })
             .catch((err: IError) => {
                 res.status(500).send({

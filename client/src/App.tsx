@@ -28,6 +28,8 @@ import Blog from "./containers/Blog/Blog";
 import BlogAdmin from "./containers/Blog/BlogAdmin";
 import PayStripe from "./containers/Pays/PayStripe";
 import Schedule from './containers/Schedule/Schedule';
+import CalendarAdd from './containers/CalendarAdd/CalendarAdd';
+import BookingCalendarGratitude from './component/Booking/BookingCalendarGratitude';
 
 class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
 
@@ -71,6 +73,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                         <Route path='/reg' component={ Registration } />
                         <Route path='/admin' component={ AdminDashboard } />
                         <Route path='/blog' component={ Blog } />
+                        <Route path='/book/gratitude' component={ BookingCalendarGratitude } />
                         <Route path='/dashboard' exact={true} component={ AdminDashboard } />
                         <Route path='/dashboard/masters' component={ Masters } />
                         <Route path='/dashboard/cities' component={ Cities } />
@@ -82,6 +85,7 @@ class App extends Component<PropsFromRedux & MapStateType & MapDispatchType> {
                         <Route path='/master/schedule' component={ Schedule } />
                         <Route path='/master/:id' component={ ReviewMaster } />
                         <Route path='/cabinet' component={ MasterCabinet } />
+                        <Route path='/calendar' component={ CalendarAdd } />
                         <Route path='/pay/:id' component={ PayStripe } />
                         <Route path='/*' component={ Booking } />
                     </Switch>
